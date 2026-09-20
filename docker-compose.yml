@@ -1,0 +1,38 @@
+version: '3.8'
+
+services:
+  # Contenedor 1: Proxy Inverso y Servidor Web (Nginx)
+  web:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./src:/var/www/html
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on:
+      - app
+
+  # Contenedor 2: App Server (PHP-FPM)
+  app:
+    build:
+      context: .
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./src:/var/www/html
+    depends_on:
+      - db
+
+  # Contenedor 3: Base de Datos (MySQL)
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_DATABASE: siget_sf
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_PASSWORD: root
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:
