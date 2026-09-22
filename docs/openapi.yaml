@@ -1,0 +1,20 @@
+openapi: 3.0.3
+info:
+  title: SIGET API
+  version: 1.0.0
+  description: API para gestión de torneos, equipos, partidos y resultados.
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /tournaments:
+    get:
+      summary: Listado de torneos
+      responses:
+        '200':
+          description: OK
+  /matches:
+    get:
+      summary: Listado de partidos
+      responses:
+        '200':
+          description: OK
