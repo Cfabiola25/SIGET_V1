@@ -13,8 +13,10 @@ return new class extends Migration
             $table->foreignId('tournament_id')->constrained()->cascadeOnDelete();
             $table->foreignId('home_team_id')->constrained('teams')->cascadeOnDelete();
             $table->foreignId('away_team_id')->constrained('teams')->cascadeOnDelete();
-            $table->dateTime('played_at');
-            $table->string('status')->default('scheduled');
+            $table->dateTime('match_date');
+            $table->unsignedSmallInteger('home_score')->default(0);
+            $table->unsignedSmallInteger('away_score')->default(0);
+            $table->enum('status', ['scheduled', 'played', 'suspended'])->default('scheduled');
             $table->timestamps();
         });
     }

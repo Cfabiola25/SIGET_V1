@@ -10,9 +10,11 @@ return new class extends Migration
     {
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('tournament_id')->constrained()->cascadeOnDelete();
+            $table->foreignId('captain_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
-            $table->string('short_name')->nullable();
-            $table->string('country')->nullable();
+            $table->string('logo_path')->nullable();
+            $table->enum('status', ['pending', 'approved'])->default('pending');
             $table->timestamps();
         });
     }

@@ -10,9 +10,12 @@ return new class extends Migration
     {
         Schema::create('tournaments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->constrained('users')->cascadeOnDelete();
             $table->string('name');
-            $table->string('season');
-            $table->string('status')->default('draft');
+            $table->string('sport_type');
+            $table->date('start_date');
+            $table->date('end_date');
+            $table->enum('status', ['pending', 'active', 'completed'])->default('pending');
             $table->timestamps();
         });
     }

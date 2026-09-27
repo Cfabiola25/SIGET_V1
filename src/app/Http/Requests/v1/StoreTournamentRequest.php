@@ -15,8 +15,10 @@ class StoreTournamentRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
-            'season' => ['required', 'string', 'max:50'],
-            'status' => ['sometimes', 'string', 'max:50'],
+            'sport_type' => ['required', 'string', 'max:100'],
+            'start_date' => ['required', 'date'],
+            'end_date' => ['required', 'date', 'after_or_equal:start_date'],
+            'status' => ['sometimes', 'in:pending,active,completed'],
         ];
     }
 }

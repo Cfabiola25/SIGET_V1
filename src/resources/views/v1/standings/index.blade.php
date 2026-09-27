@@ -3,6 +3,6 @@
 @section('title', 'Clasificación')
 
 @section('content')
-    <h1>Clasificación</h1>
-    <p>Tabla de posiciones actualizada.</p>
+    <div><p class="text-xs font-bold uppercase tracking-[0.2em] text-siget-coral">Temporada</p><h1 class="siget-display mt-2 text-5xl">Clasificación</h1></div>
+    <x-card class="mt-8 overflow-hidden p-0"><div class="overflow-x-auto"><table class="w-full min-w-[42rem] text-left text-sm"><thead class="bg-slate-950/80 text-xs uppercase tracking-wider text-slate-400"><tr><th class="px-5 py-4">#</th><th class="px-5 py-4">Equipo</th><th class="px-5 py-4">PJ</th><th class="px-5 py-4">G</th><th class="px-5 py-4">E</th><th class="px-5 py-4">P</th><th class="px-5 py-4">DG</th><th class="px-5 py-4">PTS</th></tr></thead><tbody class="divide-y divide-slate-800/60">@forelse ($standings as $standing)<tr class="transition-colors hover:bg-slate-800/40"><td class="px-5 py-4 font-mono font-bold text-emerald-400">{{ $loop->iteration }}</td><td class="px-5 py-4 font-semibold">{{ $standing->team->name }}<small class="ml-2 font-normal text-slate-400">{{ $standing->tournament->name }}</small></td><td class="px-5 py-4">{{ $standing->matches_played }}</td><td class="px-5 py-4">{{ $standing->wins }}</td><td class="px-5 py-4">{{ $standing->draws }}</td><td class="px-5 py-4">{{ $standing->losses }}</td><td class="px-5 py-4">{{ $standing->goals_for - $standing->goals_against }}</td><td class="px-5 py-4 font-mono text-lg font-extrabold text-white">{{ $standing->points }}</td></tr>@empty<tr><td class="px-5 py-8 text-slate-400" colspan="8">Todavía no hay posiciones calculadas.</td></tr>@endforelse</tbody></table></div></x-card>
 @endsection

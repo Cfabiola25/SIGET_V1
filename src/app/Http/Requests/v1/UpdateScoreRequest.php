@@ -14,9 +14,9 @@ class UpdateScoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'match_id' => ['required', 'integer'],
             'home_score' => ['required', 'integer', 'min:0'],
             'away_score' => ['required', 'integer', 'min:0'],
+            'status' => ['sometimes', 'in:scheduled,played,suspended'],
         ];
     }
 }
