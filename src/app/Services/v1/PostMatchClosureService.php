@@ -119,6 +119,11 @@ class PostMatchClosureService
                 $this->standingService->recalculate($tournament);
             }
 
+            // 5. Avance automático del ganador en brackets de eliminación directa (Playoffs)
+            if ($match->next_match_id) {
+                $match->advanceWinnerToNextMatch();
+            }
+
             return [
                 'success' => true,
                 'message' => 'Acta oficial cerrada, firmada y bloqueada exitosamente. Se aplicaron las reglas disciplinarias y se actualizó la tabla de posiciones.',

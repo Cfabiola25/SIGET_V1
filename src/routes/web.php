@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\v1\AdminController;
 use App\Http\Controllers\v1\AuthController;
+use App\Http\Controllers\v1\BracketController;
 use App\Http\Controllers\v1\DashboardController;
 use App\Http\Controllers\v1\DisciplinaryController;
+use App\Http\Controllers\v1\FixtureGeneratorController;
 use App\Http\Controllers\v1\MatchController;
 use App\Http\Controllers\v1\MatchDayController;
 use App\Http\Controllers\v1\MatchLineupController;
@@ -96,6 +98,12 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     // Tribunal de Penas y Disciplina Deportiva (Fase 4)
     Route::get('/tournaments/{tournament}/disciplinary', [DisciplinaryController::class, 'index'])->name('tournaments.disciplinary');
     Route::post('/tournaments/{tournament}/disciplinary/{sanction}/pardon', [DisciplinaryController::class, 'pardon'])->name('tournaments.disciplinary.pardon');
+
+    // Generador de Fixtures y Fase de Brackets (Fase 5)
+    Route::get('/tournaments/{tournament}/fixtures/generate', [FixtureGeneratorController::class, 'show'])->name('tournaments.fixtures.generate');
+    Route::post('/tournaments/{tournament}/fixtures/generate', [FixtureGeneratorController::class, 'generate'])->name('tournaments.fixtures.generate.submit');
+    Route::get('/tournaments/{tournament}/brackets', [BracketController::class, 'index'])->name('tournaments.brackets');
+    Route::post('/tournaments/{tournament}/brackets/transition', [BracketController::class, 'generateBrackets'])->name('tournaments.brackets.generate');
 
     Route::get('/matches/live', [MatchController::class, 'live'])->name('matches.live');
     Route::resource('matches', MatchController::class);

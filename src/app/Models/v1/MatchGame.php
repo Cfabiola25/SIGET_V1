@@ -21,6 +21,12 @@ class MatchGame extends Model
 
     protected $fillable = [
         'tournament_id',
+        'round_number',
+        'stage',
+        'bracket_position',
+        'next_match_id',
+        'next_match_slot',
+        'group_name',
         'home_team_id',
         'away_team_id',
         'venue_id',
@@ -45,6 +51,7 @@ class MatchGame extends Model
             'match_date' => 'datetime',
             'timer_started_at' => 'datetime',
             'locked_at' => 'datetime',
+            'round_number' => 'integer',
             'home_score' => 'integer',
             'away_score' => 'integer',
             'elapsed_seconds' => 'integer',
@@ -144,5 +151,59 @@ class MatchGame extends Model
         $roles = $this->signatures()->pluck('signer_role')->all();
 
         return in_array('referee', $roles) && in_array('home_coach', $roles) && in_array('away_coach', $roles);
+    }
+
+    public function nextMatch(): BelongsTo
+    {
+        return $this->belongsTo(self::class, 'next_match_id');
+    }
+
+    public function previousMatches(): HasMany
+    {
+        return $this->hasMany(self::class, 'next_match_id');
+    }
+
+    public function isPlayoff(): bool
+    {
+        return $this->stage !== 'regular';
+    }
+
+    public function getWinnerTeam(): ?Team
+    {
+        if ($this->home_score > $this->away_score) {
+            return $this->homeTeam;
+        }
+
+        if ($this->away_score > $this->home_score) {
+            return $this->awayTeam;
+        }
+
+        // En caso de empate en eliminación directa, verificar si hay notas de penales o ganador definido
+        return null;
+    }
+
+    public function advanceWinnerToNextMatch(): ?self
+    {
+        if (! $this->next_match_id || ! $this->next_match_slot) {
+            return null;
+        }
+
+        $winner = $this->getWinnerTeam();
+        if (! $winner) {
+            return null;
+        }
+
+        $next = $this->nextMatch;
+        if (! $next) {
+            return null;
+        }
+
+        if ($this->next_match_slot === 'home') {
+            $next->update(['home_team_id' => $winner->id]);
+        } elseif ($this->next_match_slot === 'away') {
+            $next->update(['away_team_id' => $winner->id]);
+        }
+
+        return $next->fresh();
     }
 }

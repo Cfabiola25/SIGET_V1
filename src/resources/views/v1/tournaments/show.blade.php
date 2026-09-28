@@ -27,7 +27,13 @@
                     <a href="{{ route('tournaments.edit', $tournament) }}" class="rounded-xl border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-bold text-slate-200 hover:bg-slate-700 transition">
                         Editar Torneo
                     </a>
+                    <a href="{{ route('tournaments.fixtures.generate', $tournament) }}" class="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-bold text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1.5">
+                        🗓️ Generar Fixture
+                    </a>
                 @endif
+                <a href="{{ route('tournaments.brackets', $tournament) }}" class="rounded-xl border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-sm font-bold text-cyan-300 hover:bg-cyan-500/20 transition flex items-center gap-1.5">
+                    🏆 Brackets
+                </a>
                 <a href="{{ route('tournaments.disciplinary', $tournament) }}" class="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2 text-sm font-bold text-rose-300 hover:bg-rose-500/20 transition flex items-center gap-1.5">
                     ⚖️ Tribunal Disciplinario
                 </a>
