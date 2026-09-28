@@ -16,8 +16,10 @@
             <div class="hidden items-center gap-7 text-sm font-medium md:flex">
                 <a class="{{ request()->is('/') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ url('/') }}">Inicio</a>
                 <a class="{{ request()->routeIs('tournaments.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('tournaments.index') }}">Torneos</a>
+                <a class="{{ request()->routeIs('teams.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('teams.index') }}">Equipos</a>
                 <a class="{{ request()->routeIs('matches.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('matches.index') }}">Partidos</a>
-                @auth <a class="{{ request()->routeIs('dashboard') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('dashboard') }}">Panel</a> @endauth
+                <a class="{{ request()->routeIs('venues.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('venues.index') }}">Sedes</a>
+                @auth <a class="{{ request()->routeIs('dashboard') || request()->routeIs('*.dashboard') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('dashboard') }}">Panel</a> @endauth
             </div>
             <div class="flex items-center gap-3">
                 @auth

@@ -1,4 +1,4 @@
-# Instalación y configuración de SIGET-SF con Docker, WSL 2 y Laravel 13
+# Instalación y configuración de SIGET con Docker, WSL 2 y Laravel 13
 
 ## 1. Instalación de Componentes y Configuración de WSL 2
 
@@ -25,8 +25,8 @@ wsl --install
 Se creó el directorio raíz del proyecto y las subcarpetas necesarias para separar el código fuente (`src`) de los servicios de infraestructura (`docker/nginx` y `docker/php`):
 
 ```dos
-mkdir siget-sf
-cd siget-sf
+mkdir siget
+cd siget
 mkdir src
 mkdir docker
 mkdir docker\nginx
@@ -36,7 +36,7 @@ mkdir docker\php
 La estructura inicial quedó organizada de la siguiente manera:
 
 ```text
-siget-sf/
+siget/
 ├── src/
 └── docker/
     ├── nginx/
@@ -72,7 +72,7 @@ Se establecieron las reglas de configuración y enrutamiento de **Nginx**, permi
 La estructura de configuración quedó organizada así:
 
 ```text
-siget-sf/
+siget/
 ├── docker-compose.yml
 ├── docker/
 │   ├── nginx/
@@ -181,7 +181,7 @@ Al finalizar la configuración, la infraestructura del proyecto quedó organizad
 ### Estructura final
 
 ```text
-siget-sf/
+siget/
 ├── docker-compose.yml
 ├── docker/
 │   ├── nginx/
@@ -207,7 +207,7 @@ siget-sf/
 | Etapa | Comando |
 |---|---|
 | Activar WSL | `wsl --install` |
-| Crear proyecto | `mkdir siget-sf` |
+| Crear proyecto | `mkdir siget` |
 | Construir contenedores | `docker-compose up -d --build` |
 | Instalar Laravel | `docker-compose exec app composer create-project --prefer-dist laravel/laravel .` |
 | Corregir permisos | `docker-compose exec app chmod -R 777 storage bootstrap/cache` |

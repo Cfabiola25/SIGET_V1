@@ -4,11 +4,12 @@ namespace App\Models\v1;
 
 use App\Models\User;
 use Database\Factories\TournamentFactory;
+use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Tournament extends Model
 {
@@ -52,5 +53,24 @@ class Tournament extends Model
     public function standings(): HasMany
     {
         return $this->hasMany(Standings::class);
+    }
+
+    public function rules(): HasOne
+    {
+        return $this->hasOne(TournamentRule::class);
+    }
+
+    public function sanctions(): HasMany
+    {
+        return $this->hasMany(DisciplinarySanction::class);
+    }
+
+    protected static function booted(): void
+    {
+        static::created(function (Tournament $tournament): void {
+            if (! $tournament->rules()->exists()) {
+                $tournament->rules()->create(TournamentRule::defaultRulesForFootball($tournament->id));
+            }
+        });
     }
 }

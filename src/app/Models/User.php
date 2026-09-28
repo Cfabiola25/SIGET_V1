@@ -10,14 +10,16 @@ use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 
-#[Fillable(['name', 'email', 'password', 'role'])]
+#[Fillable(['name', 'email', 'password', 'role', 'is_active'])]
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    protected $attributes = ['is_active' => true];
+
     /** @use HasFactory<UserFactory> */
     use HasFactory, Notifiable;
 
@@ -43,7 +45,12 @@ class User extends Authenticatable
 
     public function isCaptain(): bool
     {
-        return $this->role === 'captain';
+        return in_array($this->role, ['captain', 'coach'], true);
+    }
+
+    public function isCoach(): bool
+    {
+        return in_array($this->role, ['captain', 'coach'], true);
     }
 
     public function isPlayer(): bool
@@ -54,6 +61,11 @@ class User extends Authenticatable
     public function captainedTeams(): HasMany
     {
         return $this->hasMany(Team::class, 'captain_id');
+    }
+
+    public function managedTeams(): HasMany
+    {
+        return $this->captainedTeams();
     }
 
     public function playerProfiles(): HasMany
@@ -71,6 +83,7 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_active' => 'boolean',
         ];
     }
 }

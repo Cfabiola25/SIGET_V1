@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\v1\Team;
+use App\Models\v1\TeamInvitation;
 use App\Models\v1\Tournament;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class TeamController extends Controller
 
     public function create(): View
     {
-        abort_unless(auth()->user()?->role === 'captain', 403);
+        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin', 'captain'], true), 403);
 
         $query = Tournament::whereIn('status', ['pending', 'active']);
 
@@ -37,21 +38,61 @@ class TeamController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        abort_unless(in_array($request->user()->role, ['admin', 'captain'], true), 403);
+        abort_unless(in_array($request->user()->role, ['super_admin', 'admin', 'captain'], true), 403);
 
         $data = $request->validate([
             'tournament_id' => ['required', 'exists:tournaments,id'],
             'name' => ['required', 'string', 'max:255'],
             'logo_path' => ['nullable', 'string', 'max:255'],
+            'captain_id' => ['nullable', 'exists:users,id'],
+            'coach_name' => ['nullable', 'string', 'max:255'],
+            'coach_email' => ['nullable', 'email', 'max:255'],
+            'coach_phone' => ['nullable', 'string', 'max:20'],
         ]);
 
         $tournament = Tournament::findOrFail($data['tournament_id']);
         if ($request->user()->isAdmin()) {
             abort_unless($tournament->admin_id === $request->user()->id, 403);
-            abort_unless(isset($data['captain_id']), 422);
-            $team = Team::create($data);
+            $team = Team::create([
+                'tournament_id' => $data['tournament_id'],
+                'name' => $data['name'],
+                'logo_path' => $data['logo_path'] ?? null,
+                'captain_id' => $data['captain_id'] ?? null,
+                'status' => 'approved',
+            ]);
+        } elseif ($request->user()->isSuperAdmin()) {
+            $team = Team::create([
+                'tournament_id' => $data['tournament_id'],
+                'name' => $data['name'],
+                'logo_path' => $data['logo_path'] ?? null,
+                'captain_id' => $data['captain_id'] ?? null,
+                'status' => 'approved',
+            ]);
         } else {
-            $team = $request->user()->captainedTeams()->create($data);
+            $team = $request->user()->captainedTeams()->create([
+                'tournament_id' => $data['tournament_id'],
+                'name' => $data['name'],
+                'logo_path' => $data['logo_path'] ?? null,
+                'status' => 'pending',
+            ]);
+        }
+
+        if (! $team->captain_id && in_array($request->user()->role, ['super_admin', 'admin'], true)) {
+            $invitation = TeamInvitation::createForTeam(
+                team: $team,
+                invitedBy: $request->user(),
+                recipientName: $data['coach_name'] ?? null,
+                recipientEmail: $data['coach_email'] ?? null,
+                recipientPhone: $data['coach_phone'] ?? null,
+            );
+
+            return redirect()->route('teams.show', $team)->with('invitation_created', [
+                'token' => $invitation->token,
+                'claim_url' => $invitation->getClaimUrl(),
+                'whatsapp_url' => $invitation->getWhatsAppShareUrl(),
+                'recipient_name' => $invitation->recipient_name,
+                'recipient_phone' => $invitation->recipient_phone,
+            ]);
         }
 
         return redirect()->route('teams.show', $team);

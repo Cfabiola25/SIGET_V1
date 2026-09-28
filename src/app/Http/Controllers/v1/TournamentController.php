@@ -4,17 +4,27 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\StoreTournamentRequest;
+use App\Models\v1\Sport;
 use App\Models\v1\Tournament;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 class TournamentController extends Controller
 {
-    public function index(): View
+    public function index(Request $request): View
     {
         $user = request()->user();
         abort_unless($user && in_array($user->role, ['super_admin', 'admin'], true), 403);
+
+        $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'sport_type' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', Rule::in(['pending', 'active', 'completed'])],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+        ]);
 
         $query = Tournament::with('admin')->latest();
 
@@ -22,7 +32,18 @@ class TournamentController extends Controller
             $query->where('admin_id', $user->id);
         }
 
-        return view('v1.tournaments.index', ['tournaments' => $query->get()]);
+        $query
+            ->when($filters['search'] ?? null, fn ($query, $search) => $query->where('name', 'like', "%{$search}%"))
+            ->when($filters['sport_type'] ?? null, fn ($query, $sport) => $query->where('sport_type', $sport))
+            ->when($filters['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
+            ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('start_date', '>=', $date))
+            ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('end_date', '<=', $date));
+
+        return view('v1.tournaments.index', [
+            'tournaments' => $query->paginate(12)->withQueryString(),
+            'sports' => Sport::orderBy('name')->get(),
+            'filters' => $filters,
+        ]);
     }
 
     public function create(): View
@@ -54,7 +75,10 @@ class TournamentController extends Controller
     {
         $this->authorizeOrganizer($tournament);
 
-        return view('v1.tournaments.edit', compact('tournament'));
+        return view('v1.tournaments.edit', [
+            'tournament' => $tournament,
+            'sports' => Sport::orderBy('name')->get(),
+        ]);
     }
 
     public function update(StoreTournamentRequest $request, Tournament $tournament): RedirectResponse

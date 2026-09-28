@@ -19,8 +19,10 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./src:/var/www/html
+      - laravel_views:/var/www/html/storage/framework/views
     depends_on:
       - db
+    command: sh -c "chown -R www-data:www-data /var/www/html/storage/framework/views && exec php-fpm"
 
   # Contenedor 3: Base de Datos (MySQL)
   db:
@@ -36,3 +38,4 @@ services:
 
 volumes:
   db_data:
+  laravel_views:
