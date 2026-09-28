@@ -19,7 +19,11 @@ class PublicController extends Controller
         $tournament = Tournament::with(['teams', 'matches.homeTeam', 'matches.awayTeam', 'standings.team'])
             ->whereIn('status', ['pending', 'active'])
             ->latest()
-            ->firstOrFail();
+            ->first();
+
+        if (! $tournament) {
+            return redirect()->route('tournaments.index')->with('status', 'No hay torneos activos disponibles en este momento.');
+        }
 
         return view('v1.public.tournament', compact('tournament'));
     }
