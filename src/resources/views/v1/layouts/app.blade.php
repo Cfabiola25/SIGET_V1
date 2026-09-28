@@ -18,7 +18,11 @@
                 <a class="{{ request()->routeIs('tournaments.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('tournaments.index') }}">Torneos</a>
                 <a class="{{ request()->routeIs('teams.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('teams.index') }}">Equipos</a>
                 <a class="{{ request()->routeIs('matches.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('matches.index') }}">Partidos</a>
+                <a class="{{ request()->routeIs('scouting.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('scouting.index') }}">Scouting</a>
                 <a class="{{ request()->routeIs('venues.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('venues.index') }}">Sedes</a>
+                @if(auth()->user()?->isSuperAdmin() || auth()->user()?->isAdmin())
+                    <a class="{{ request()->routeIs('referees.*') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('referees.evaluations.index') }}">Arbitraje</a>
+                @endif
                 @auth <a class="{{ request()->routeIs('dashboard') || request()->routeIs('*.dashboard') ? 'border-emerald-500 text-emerald-400' : 'border-transparent text-slate-400 hover:text-slate-200' }} border-b-2 px-1 py-2 transition" href="{{ route('dashboard') }}">Panel</a> @endauth
             </div>
             <div class="flex items-center gap-3">

@@ -76,6 +76,11 @@
                     <span>📜</span> Acta Oficial Digital
                 </a>
 
+                <!-- Generador de Assets para Redes Sociales -->
+                <a href="{{ route('matches.social_card.preview', $match) }}" class="inline-flex items-center gap-1.5 rounded-xl border border-cyan-500/50 bg-cyan-500/10 px-3.5 py-2 text-xs font-bold text-cyan-300 hover:bg-cyan-500/20 transition">
+                    <span>📱</span> Social Media Engine
+                </a>
+
                 @auth
                     @if (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()))
                         @if (! $match->isLocked())
@@ -125,6 +130,70 @@
     @if (session('status'))
         <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm font-semibold text-emerald-400">
             {{ session('status') }}
+        </div>
+    @endif
+
+    <!-- MVP Oficial del Partido -->
+    @if($match->mvpPlayer)
+        <div class="relative overflow-hidden rounded-3xl border border-amber-500/40 bg-gradient-to-r from-amber-950/40 via-slate-900 to-slate-900/90 p-6 shadow-2xl backdrop-blur-xl">
+            <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+                <div class="flex items-center gap-4">
+                    <div class="grid size-16 place-items-center rounded-2xl bg-gradient-to-br from-amber-400 to-yellow-600 text-3xl font-black text-slate-950 shadow-lg shadow-amber-500/20">
+                        🏆
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2">
+                            <span class="rounded-full bg-amber-500/20 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-amber-400 border border-amber-500/40">
+                                OFICIAL MVP OF THE MATCH
+                            </span>
+                            <span class="text-xs text-slate-400">Elegido por votación popular & rendimiento</span>
+                        </div>
+                        <h2 class="text-xl font-black text-white sm:text-2xl mt-1">{{ $match->mvpPlayer->name }}</h2>
+                        <p class="text-xs text-amber-300 font-semibold">{{ $match->mvpPlayer->team?->name }} • Calificación Algorítmica: {{ number_format($match->mvpPlayer->profile?->performance_rating ?? 9.5, 1) }} ★</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <a href="{{ route('matches.social_card.preview', [$match, 'type' => 'mvp', 'format' => 'story']) }}" class="rounded-xl border border-amber-500/50 bg-amber-500/10 px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition">
+                        📱 Ver Tarjeta MVP de Oro
+                    </a>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    <!-- IA Match Reporter: Crónica Deportiva Oficial -->
+    @if($match->chronicle_body)
+        <div class="relative overflow-hidden rounded-3xl border border-slate-800 bg-slate-900/80 p-6 md:p-8 shadow-xl backdrop-blur-xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-2">
+                    <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/10 px-3 py-1 text-xs font-bold text-emerald-400 border border-emerald-500/20">
+                        <span class="size-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                        IA MATCH REPORTER
+                    </span>
+                    <span class="text-xs text-slate-400">Crónica Periodística Oficial</span>
+                </div>
+                <span class="text-xs font-mono text-slate-500">
+                    {{ $match->chronicle_generated_at ? $match->chronicle_generated_at->diffForHumans() : 'Publicado' }}
+                </span>
+            </div>
+
+            <div class="mt-5 space-y-4">
+                <h3 class="text-xl font-black text-white md:text-2xl tracking-tight leading-snug">
+                    {{ $match->chronicle_title }}
+                </h3>
+                <div class="space-y-3 text-sm text-slate-300 leading-relaxed font-sans">
+                    @foreach(explode("\n\n", $match->chronicle_body) as $paragraph)
+                        @if(trim($paragraph))
+                            <p>{{ trim($paragraph) }}</p>
+                        @endif
+                    @endforeach
+                </div>
+            </div>
+
+            <div class="mt-6 pt-4 border-t border-slate-800/80 flex items-center justify-between text-xs text-slate-500">
+                <span>Redactado y verificado automáticamente por el motor narrativo SIGET.</span>
+                <span class="font-bold text-slate-400">SIGET Sports Newsroom</span>
+            </div>
         </div>
     @endif
 
@@ -258,5 +327,109 @@
             @endif
         </div>
     </div>
+
+    <!-- Evaluación Arbitral Post-Partido (DTs) -->
+    @if($match->referee && ($match->status === 'played' || $match->isLocked()))
+        @php
+            $user = auth()->user();
+            $canEvaluate = $user && (
+                $user->isSuperAdmin() ||
+                $user->isAdmin() ||
+                ($user->isCoach() && ($match->homeTeam?->coach_id === $user->id || $match->awayTeam?->coach_id === $user->id))
+            );
+            $userTeamId = null;
+            if ($user?->isCoach()) {
+                $userTeamId = $match->homeTeam?->coach_id === $user->id ? $match->home_team_id : $match->away_team_id;
+            } elseif ($user?->isSuperAdmin() || $user?->isAdmin()) {
+                $userTeamId = $match->home_team_id;
+            }
+            $existingEvaluation = $userTeamId ? $match->refereeEvaluations()->where('team_id', $userTeamId)->first() : null;
+        @endphp
+
+        <div class="rounded-3xl border border-slate-800 bg-slate-900/60 p-6 md:p-8 backdrop-blur-xl">
+            <div class="flex items-center justify-between border-b border-slate-800 pb-4">
+                <div class="flex items-center gap-3">
+                    <span class="grid size-9 place-items-center rounded-xl bg-amber-500/10 text-amber-400 font-bold border border-amber-500/20">
+                        ⚖
+                    </span>
+                    <div>
+                        <h3 class="text-base font-bold text-white">Evaluación Arbitral Oficial</h3>
+                        <p class="text-xs text-slate-400">Árbitro Designado: <strong class="text-slate-200">{{ $match->referee->name }}</strong> (Rating histórico: {{ number_format($match->referee->rating_average, 2) }} ★)</p>
+                    </div>
+                </div>
+            </div>
+
+            @if($existingEvaluation)
+                <div class="mt-4 rounded-2xl bg-slate-950 p-4 border border-slate-800 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-bold text-emerald-400">✅ Tu club ya ha evaluado a este colegiado</span>
+                        <p class="text-xs text-slate-400 mt-1">Calificación general: {{ $existingEvaluation->score_overall }} / 5 ★ • Reglas: {{ $existingEvaluation->score_rule_enforcement }}/5 • Imparcialidad: {{ $existingEvaluation->score_fairness }}/5</p>
+                        @if($existingEvaluation->comments)
+                            <p class="text-xs italic text-slate-500 mt-1">"{{ $existingEvaluation->comments }}"</p>
+                        @endif
+                    </div>
+                    <span class="text-xs text-slate-500">{{ $existingEvaluation->created_at->format('d/m/Y') }}</span>
+                </div>
+            @elseif($canEvaluate)
+                <form method="POST" action="{{ route('matches.referee.evaluate', $match) }}" class="mt-5 space-y-4">
+                    @csrf
+                    <input type="hidden" name="team_id" value="{{ $userTeamId }}">
+
+                    <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Desempeño General</label>
+                            <select name="score_overall" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-xs font-bold text-amber-400 focus:border-emerald-500 focus:outline-none">
+                                <option value="5">5 ★★★★★ (Excelente)</option>
+                                <option value="4">4 ★★★★ (Bueno)</option>
+                                <option value="3">3 ★★★ (Regular)</option>
+                                <option value="2">2 ★★ (Deficiente)</option>
+                                <option value="1">1 ★ (Inaceptable)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Aplicación del Reglamento</label>
+                            <select name="score_rule_enforcement" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-emerald-500 focus:outline-none">
+                                <option value="5">5/5 - Rigor perfecto</option>
+                                <option value="4">4/5 - Adecuado</option>
+                                <option value="3">3/5 - Dudas en faltas</option>
+                                <option value="2">2/5 - Permisivo</option>
+                                <option value="1">1/5 - Descontrol total</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Imparcialidad y Criterio</label>
+                            <select name="score_fairness" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-emerald-500 focus:outline-none">
+                                <option value="5">5/5 - Totalmente neutral</option>
+                                <option value="4">4/5 - Buen criterio</option>
+                                <option value="3">3/5 - Criterio dispar</option>
+                                <option value="2">2/5 - Sesgo evidente</option>
+                                <option value="1">1/5 - Perjudicial</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-400 mb-1">Puntualidad y Presentación</label>
+                            <select name="score_punctuality" class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3 py-2 text-xs text-slate-200 focus:border-emerald-500 focus:outline-none">
+                                <option value="5">5/5 - Impecable</option>
+                                <option value="4">4/5 - A tiempo</option>
+                                <option value="3">3/5 - Justo al inicio</option>
+                                <option value="2">2/5 - Retraso leve</option>
+                                <option value="1">1/5 - Retraso grave</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <textarea name="comments" rows="2" placeholder="Observaciones técnicas para el comité de arbitraje (opcional)..." class="w-full rounded-xl border border-slate-800 bg-slate-950 px-3.5 py-2 text-xs text-slate-200 focus:border-emerald-500 focus:outline-none"></textarea>
+                    </div>
+
+                    <button type="submit" class="rounded-xl bg-gradient-to-r from-emerald-500 to-teal-400 px-5 py-2 text-xs font-bold text-slate-950 shadow-md shadow-emerald-500/10 hover:from-emerald-400 transition">
+                        Enviar Calificación Arbitral Oficial
+                    </button>
+                </form>
+            @else
+                <p class="mt-4 text-xs text-slate-500">Inicia sesión como Director Técnico de uno de los clubes participantes para calificar el arbitraje de este encuentro.</p>
+            @endif
+        </div>
+    @endif
 </div>
 @endsection

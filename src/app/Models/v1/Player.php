@@ -57,6 +57,31 @@ class Player extends Model
         return $this->hasMany(MatchEvent::class);
     }
 
+    public function mvpVotes(): HasMany
+    {
+        return $this->hasMany(MatchMvpVote::class, 'player_id');
+    }
+
+    public function mvpMatches(): HasMany
+    {
+        return $this->hasMany(MatchGame::class, 'mvp_player_id');
+    }
+
+    public function isFreeAgent(): bool
+    {
+        return (bool) ($this->profile?->is_free_agent || is_null($this->team_id));
+    }
+
+    public function scopeFreeAgents($query)
+    {
+        return $query->where(function ($q) {
+            $q->whereNull('team_id')
+                ->orWhereHas('profile', function ($pq) {
+                    $pq->where('is_free_agent', true);
+                });
+        });
+    }
+
     public function hasActiveSanctionInTournament(?int $tournamentId = null): bool
     {
         $query = $this->sanctions()->where('status', 'active');

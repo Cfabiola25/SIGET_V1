@@ -43,6 +43,10 @@ class MatchGame extends Model
         'timer_started_at',
         'elapsed_seconds',
         'is_timer_running',
+        'mvp_player_id',
+        'chronicle_title',
+        'chronicle_body',
+        'chronicle_generated_at',
     ];
 
     protected function casts(): array
@@ -51,6 +55,7 @@ class MatchGame extends Model
             'match_date' => 'datetime',
             'timer_started_at' => 'datetime',
             'locked_at' => 'datetime',
+            'chronicle_generated_at' => 'datetime',
             'round_number' => 'integer',
             'home_score' => 'integer',
             'away_score' => 'integer',
@@ -63,6 +68,21 @@ class MatchGame extends Model
     public function referee(): BelongsTo
     {
         return $this->belongsTo(Referee::class);
+    }
+
+    public function mvpPlayer(): BelongsTo
+    {
+        return $this->belongsTo(Player::class, 'mvp_player_id');
+    }
+
+    public function mvpVotes(): HasMany
+    {
+        return $this->hasMany(MatchMvpVote::class, 'match_id');
+    }
+
+    public function refereeEvaluations(): HasMany
+    {
+        return $this->hasMany(RefereeEvaluation::class, 'match_id');
     }
 
     public function events(): HasMany

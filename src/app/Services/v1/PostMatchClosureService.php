@@ -12,8 +12,13 @@ use Illuminate\Support\Facades\DB;
 class PostMatchClosureService
 {
     public function __construct(
-        protected StandingService $standingService
-    ) {}
+        protected StandingService $standingService,
+        protected ?MatchMvpService $mvpService = null,
+        protected ?SportsChronicleService $chronicleService = null
+    ) {
+        $this->mvpService = $mvpService ?? app(MatchMvpService::class);
+        $this->chronicleService = $chronicleService ?? app(SportsChronicleService::class);
+    }
 
     /**
      * Cierra oficialmente el partido:
@@ -124,10 +129,27 @@ class PostMatchClosureService
                 $match->advanceWinnerToNextMatch();
             }
 
+            // 6. Coronación de MVP Oficial (cruce de votación de fans + estadísticas del partido)
+            if (! $match->mvp_player_id) {
+                $this->mvpService->crownOfficialMvp($match);
+            }
+
+            // 7. IA Match Reporter: Generación automática de crónica deportiva periodística
+            if (! $match->chronicle_body) {
+                $this->chronicleService->generateAndSave($match);
+            }
+
+            // 8. Actualización de estadísticas del árbitro
+            if ($match->referee) {
+                $match->referee->recalculateRatingAverage();
+            }
+
             return [
                 'success' => true,
-                'message' => 'Acta oficial cerrada, firmada y bloqueada exitosamente. Se aplicaron las reglas disciplinarias y se actualizó la tabla de posiciones.',
+                'message' => 'Acta oficial cerrada, firmada y bloqueada exitosamente. Se coronó al MVP, se generó la crónica periodística con IA y se actualizó la tabla de posiciones.',
                 'sanctions_created' => $sanctionsCreated,
+                'mvp_player_id' => $match->mvp_player_id,
+                'chronicle_title' => $match->chronicle_title,
             ];
         });
     }

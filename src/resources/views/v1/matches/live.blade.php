@@ -97,9 +97,48 @@
                                 @endif
                             </div>
                         @empty
-                            <p class="py-3 text-center text-xs text-slate-500">Esperando el pitazo inicial...</p>
-                        @endforelse
+                <!-- Votación Pública del MVP en Vivo (Fan Engagement) -->
+                <div class="border-t border-slate-800/80 pt-4 space-y-3 bg-slate-950/40 -mx-6 -mb-6 p-6 rounded-b-3xl">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center gap-2">
+                            <span class="grid size-6 place-items-center rounded-lg bg-amber-500/10 text-amber-400 text-xs font-black border border-amber-500/20">★</span>
+                            <h3 class="text-xs font-black uppercase tracking-wider text-amber-400">Votación Popular: MVP del Partido</h3>
+                        </div>
+                        <span class="text-[11px] text-slate-500">Tiempo Real</span>
                     </div>
+
+                    @if($match->mvpPlayer)
+                        <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 flex items-center justify-between text-xs">
+                            <span class="text-amber-300 font-bold">🏆 MVP Oficial Coronado: <strong>{{ $match->mvpPlayer->name }}</strong> ({{ $match->mvpPlayer->team?->name }})</span>
+                            <a href="{{ route('matches.social_card.preview', [$match, 'type' => 'mvp']) }}" class="text-[11px] font-bold text-amber-400 hover:underline">Ver Tarjeta de Oro →</a>
+                        </div>
+                    @else
+                        <!-- Formulario de Voto -->
+                        <form onsubmit="handleMvpVote(event, {{ $match->id }})" class="flex flex-col sm:flex-row gap-2 items-center">
+                            @csrf
+                            <select id="mvp-select-{{ $match->id }}" required class="flex-1 w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-200 focus:border-amber-500 focus:outline-none">
+                                <option value="">-- Elige al Mejor Jugador de la Cancha --</option>
+                                <optgroup label="{{ $match->homeTeam->name }} (Local)">
+                                    @foreach($match->homeTeam->players as $p)
+                                        <option value="{{ $p->id }}">{{ $p->name }} (#{{ $p->jersey_number ?? '-' }})</option>
+                                    @endforeach
+                                </optgroup>
+                                <optgroup label="{{ $match->awayTeam->name }} (Visitante)">
+                                    @foreach($match->awayTeam->players as $p)
+                                        <option value="{{ $p->id }}">{{ $p->name }} (#{{ $p->jersey_number ?? '-' }})</option>
+                                    @endforeach
+                                </optgroup>
+                            </select>
+                            <button type="submit" class="w-full sm:w-auto rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 px-4 py-2 text-xs font-black text-slate-950 shadow-md shadow-amber-500/10 hover:from-amber-400 transition">
+                                Votar MVP
+                            </button>
+                        </form>
+
+                        <!-- Ranking en Vivo de Votos -->
+                        <div id="mvp-stats-{{ $match->id }}" class="space-y-1.5 pt-1">
+                            <!-- Inyectado dinámicamente -->
+                        </div>
+                    @endif
                 </div>
             </div>
         @endforeach
@@ -165,6 +204,33 @@
                         });
                         container.innerHTML = html;
                     }
+                    // Sincronizar estadísticas de MVP en vivo
+                    try {
+                        const mvpRes = await fetch(`/matches/${matchId}/mvp/live-stats`, {
+                            headers: { 'Accept': 'application/json' }
+                        });
+                        if (mvpRes.ok) {
+                            const mvpData = await mvpRes.json();
+                            const statsContainer = document.getElementById(`mvp-stats-${matchId}`);
+                            if (statsContainer && mvpData.stats && mvpData.stats.length > 0) {
+                                let statsHtml = '<div class="text-[11px] font-bold text-slate-400 mb-1">Tendencia de votación:</div>';
+                                mvpData.stats.slice(0, 3).forEach(s => {
+                                    statsHtml += `
+                                        <div class="space-y-0.5">
+                                            <div class="flex justify-between text-[11px]">
+                                                <span class="text-white font-semibold">${s.player_name} (${s.team_name})</span>
+                                                <span class="text-amber-400 font-bold">${s.percentage}% (${s.votes_count} votos)</span>
+                                            </div>
+                                            <div class="w-full bg-slate-900 rounded-full h-1.5 overflow-hidden">
+                                                <div class="bg-gradient-to-r from-amber-500 to-yellow-400 h-1.5 rounded-full transition-all duration-500" style="width: ${s.percentage}%"></div>
+                                            </div>
+                                        </div>
+                                    `;
+                                });
+                                statsContainer.innerHTML = statsHtml;
+                            }
+                        }
+                    } catch (mvpErr) {}
                 } catch (err) {
                     console.warn('Error al sincronizar partido en vivo:', err);
                 }
@@ -173,5 +239,34 @@
 
         setInterval(syncLiveMatches, 3000);
     @endif
+
+    async function handleMvpVote(e, matchId) {
+        e.preventDefault();
+        const select = document.getElementById(`mvp-select-${matchId}`);
+        const playerId = select ? select.value : null;
+        if (!playerId) return;
+
+        try {
+            const res = await fetch(`/matches/${matchId}/mvp/vote`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('input[name="_token"]')?.value || '',
+                },
+                body: JSON.stringify({ player_id: playerId })
+            });
+
+            const data = await res.json();
+            if (data.success) {
+                alert(data.message);
+                syncLiveMatches();
+            } else {
+                alert(data.message || 'No se pudo registrar el voto.');
+            }
+        } catch (err) {
+            alert('Error de conexión al emitir voto.');
+        }
+    }
 </script>
 @endsection

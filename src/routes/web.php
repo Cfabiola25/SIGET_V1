@@ -9,12 +9,16 @@ use App\Http\Controllers\v1\FixtureGeneratorController;
 use App\Http\Controllers\v1\MatchController;
 use App\Http\Controllers\v1\MatchDayController;
 use App\Http\Controllers\v1\MatchLineupController;
+use App\Http\Controllers\v1\MatchMvpController;
 use App\Http\Controllers\v1\PlayerController;
 use App\Http\Controllers\v1\PlayerProfileController;
 use App\Http\Controllers\v1\PostMatchController;
 use App\Http\Controllers\v1\PublicController;
 use App\Http\Controllers\v1\RefereeController;
+use App\Http\Controllers\v1\RefereeEvaluationController;
 use App\Http\Controllers\v1\RefereeQrController;
+use App\Http\Controllers\v1\ScoutingController;
+use App\Http\Controllers\v1\SocialMediaCardController;
 use App\Http\Controllers\v1\StandingsController;
 use App\Http\Controllers\v1\StatisticsController;
 use App\Http\Controllers\v1\SuperAdminController;
@@ -33,6 +37,19 @@ Route::post('/teams/invitations/{token}/claim', [TeamInvitationController::class
 Route::get('/players/{player}/cromo', [PlayerProfileController::class, 'showCromo'])->name('players.cromo');
 Route::get('/players/{player}/carnet', [PlayerProfileController::class, 'showCarnet'])->name('players.carnet');
 Route::get('/matches/{match}/live-feed', [MatchDayController::class, 'liveFeed'])->name('matches.live.feed');
+
+// Social Media Engine & Fan Engagement (Público)
+Route::get('/matches/{match}/social-card', [SocialMediaCardController::class, 'preview'])->name('matches.social_card.preview');
+Route::get('/matches/{match}/social-card/download', [SocialMediaCardController::class, 'download'])->name('matches.social_card.download');
+Route::get('/matches/{match}/social-card/raw', [SocialMediaCardController::class, 'rawSvg'])->name('matches.social_card.raw');
+
+// Votación MVP en Vivo
+Route::post('/matches/{match}/mvp/vote', [MatchMvpController::class, 'vote'])->name('matches.mvp.vote');
+Route::get('/matches/{match}/mvp/live-stats', [MatchMvpController::class, 'liveStats'])->name('matches.mvp.stats');
+
+// Scouting & Radar de Talentos (Público para consulta)
+Route::get('/scouting', [ScoutingController::class, 'index'])->name('scouting.index');
+Route::get('/scouting/{player}', [ScoutingController::class, 'show'])->name('scouting.show');
 
 Route::middleware('guest')->group(function (): void {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -104,6 +121,20 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::post('/tournaments/{tournament}/fixtures/generate', [FixtureGeneratorController::class, 'generate'])->name('tournaments.fixtures.generate.submit');
     Route::get('/tournaments/{tournament}/brackets', [BracketController::class, 'index'])->name('tournaments.brackets');
     Route::post('/tournaments/{tournament}/brackets/transition', [BracketController::class, 'generateBrackets'])->name('tournaments.brackets.generate');
+
+    // MVP Oficial y Coronación
+    Route::post('/matches/{match}/mvp/crown', [MatchMvpController::class, 'crown'])->name('matches.mvp.crown');
+
+    // Scouting y Reclutamiento de Jugadores (DT / Admin)
+    Route::post('/scouting/{player}/recruit', [ScoutingController::class, 'recruit'])->name('scouting.recruit');
+    Route::post('/scouting/{player}/release', [ScoutingController::class, 'release'])->name('scouting.release');
+
+    // Profesionalización del Arbitraje: Evaluaciones Post-Partido, Asignación Algorítmica y Conflictos
+    Route::get('/referees/evaluations', [RefereeEvaluationController::class, 'index'])->name('referees.evaluations.index');
+    Route::post('/matches/{match}/referee/evaluate', [RefereeEvaluationController::class, 'evaluate'])->name('matches.referee.evaluate');
+    Route::post('/matches/{match}/referee/auto-assign', [RefereeEvaluationController::class, 'autoAssignMatch'])->name('matches.referee.auto_assign');
+    Route::post('/tournaments/referees/bulk-assign', [RefereeEvaluationController::class, 'bulkAssignRound'])->name('tournaments.referees.bulk_assign');
+    Route::post('/referees/conflicts', [RefereeEvaluationController::class, 'registerConflict'])->name('referees.conflicts.store');
 
     Route::get('/matches/live', [MatchController::class, 'live'])->name('matches.live');
     Route::resource('matches', MatchController::class);
