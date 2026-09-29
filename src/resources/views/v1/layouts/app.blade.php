@@ -67,7 +67,7 @@
                 </h1>
                 <p class="text-xs text-slate-400 font-medium truncate mt-0.5">
                     @auth
-                        {{ auth()->user()->role === 'super_admin' ? 'Super Administrator' : (auth()->user()->role === 'admin' ? 'Tournament Director' : ucfirst(auth()->user()->role)) }}
+                        {{ auth()->user()->role === 'super_admin' ? 'Super Administrator' : (auth()->user()->role === 'admin' ? 'Tournament Director' : (auth()->user()->role === 'referee' ? 'Árbitro Oficial' : ucfirst(auth()->user()->role))) }}
                     @else
                         Tournament Director
                     @endauth
@@ -86,12 +86,29 @@
         <!-- Sidebar Navigation Menu Items -->
         <div class="flex-1 overflow-y-auto sidebar-scroll px-3.5 py-2 space-y-1">
             
+            <!-- Link to Public Portal -->
+            <a href="{{ url('/') }}" 
+               class="flex items-center gap-3 px-3 py-2 rounded-lg text-xs font-bold transition-all duration-150 text-emerald-400 hover:text-white bg-emerald-950/40 border border-emerald-500/30 hover:bg-emerald-900/50 mb-2">
+                <svg class="size-4 shrink-0 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                <span>Ver Portal Público</span>
+                <span class="ml-auto text-[10px] bg-emerald-500/20 text-emerald-300 px-1.5 py-0.5 rounded">Web</span>
+            </a>
+
             <!-- Dashboard -->
             <a href="{{ route('dashboard') }}" 
                class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('dashboard') || request()->routeIs('admin.dashboard') || request()->routeIs('super-admin.dashboard') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
                 <span>Dashboard</span>
             </a>
+
+            @if(auth()->user()?->isReferee())
+                <!-- Mis Asignaciones Arbitrales -->
+                <a href="{{ route('referees.portal') }}" 
+                   class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-semibold transition-colors duration-150 {{ request()->routeIs('referees.portal') ? 'bg-[#057a55] text-white font-bold shadow-sm' : 'text-emerald-400 hover:text-white hover:bg-[#223147]/70' }}">
+                    <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"/></svg>
+                    <span>Mis Asignaciones</span>
+                </a>
+            @endif
 
             <!-- Tournaments -->
             <div class="space-y-0.5">
@@ -211,6 +228,12 @@
                 
                 @yield('header_search')
 
+                <!-- Button to Public Portal -->
+                <a href="{{ url('/') }}" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100 transition shadow-2xs">
+                    <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+                    <span>Portal Público</span>
+                </a>
+
                 <!-- Notification Bell -->
                 <a href="{{ route('auditing.index') }}" class="relative p-2 text-slate-500 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-colors cursor-pointer" title="Auditorías y Notificaciones">
                     <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
@@ -242,6 +265,15 @@
                             @endauth
                         </span>
                     </div>
+
+                    @auth
+                        <form action="{{ route('logout') }}" method="POST" class="inline ml-1">
+                            @csrf
+                            <button type="submit" class="p-1.5 text-slate-400 hover:text-rose-600 hover:bg-rose-50 rounded-lg transition" title="Cerrar Sesión">
+                                <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
+                            </button>
+                        </form>
+                    @endauth
                 </div>
             </div>
         </header>
