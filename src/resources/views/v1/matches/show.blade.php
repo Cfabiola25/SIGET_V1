@@ -76,10 +76,6 @@
                     <span>📜</span> Acta Oficial Digital
                 </a>
 
-                <!-- Generador de Assets para Redes Sociales -->
-                <a href="{{ route('matches.social_card.preview', $match) }}" class="inline-flex items-center gap-1.5 rounded-xl border border-cyan-500/50 bg-cyan-500/10 px-3.5 py-2 text-xs font-bold text-cyan-300 hover:bg-cyan-500/20 transition">
-                    <span>📱</span> Social Media Engine
-                </a>
 
                 @auth
                     @if (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()))
@@ -151,11 +147,6 @@
                         <h2 class="text-xl font-black text-white sm:text-2xl mt-1">{{ $match->mvpPlayer->name }}</h2>
                         <p class="text-xs text-amber-300 font-semibold">{{ $match->mvpPlayer->team?->name }} • Calificación Algorítmica: {{ number_format($match->mvpPlayer->profile?->performance_rating ?? 9.5, 1) }} ★</p>
                     </div>
-                </div>
-                <div class="flex items-center gap-2">
-                    <a href="{{ route('matches.social_card.preview', [$match, 'type' => 'mvp', 'format' => 'story']) }}" class="rounded-xl border border-amber-500/50 bg-amber-500/10 px-4 py-2.5 text-xs font-bold text-amber-300 hover:bg-amber-500/20 transition">
-                        📱 Ver Tarjeta MVP de Oro
-                    </a>
                 </div>
             </div>
         </div>

@@ -110,7 +110,6 @@
                     @if($match->mvpPlayer)
                         <div class="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 flex items-center justify-between text-xs">
                             <span class="text-amber-300 font-bold">🏆 MVP Oficial Coronado: <strong>{{ $match->mvpPlayer->name }}</strong> ({{ $match->mvpPlayer->team?->name }})</span>
-                            <a href="{{ route('matches.social_card.preview', [$match, 'type' => 'mvp']) }}" class="text-[11px] font-bold text-amber-400 hover:underline">Ver Tarjeta de Oro →</a>
                         </div>
                     @else
                         <!-- Formulario de Voto -->

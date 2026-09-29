@@ -18,7 +18,6 @@ use App\Http\Controllers\v1\RefereeController;
 use App\Http\Controllers\v1\RefereeEvaluationController;
 use App\Http\Controllers\v1\RefereeQrController;
 use App\Http\Controllers\v1\ScoutingController;
-use App\Http\Controllers\v1\SocialMediaCardController;
 use App\Http\Controllers\v1\StandingsController;
 use App\Http\Controllers\v1\StatisticsController;
 use App\Http\Controllers\v1\SuperAdminController;
@@ -38,14 +37,16 @@ Route::get('/players/{player}/cromo', [PlayerProfileController::class, 'showCrom
 Route::get('/players/{player}/carnet', [PlayerProfileController::class, 'showCarnet'])->name('players.carnet');
 Route::get('/matches/{match}/live-feed', [MatchDayController::class, 'liveFeed'])->name('matches.live.feed');
 
-// Social Media Engine & Fan Engagement (Público)
-Route::get('/matches/{match}/social-card', [SocialMediaCardController::class, 'preview'])->name('matches.social_card.preview');
-Route::get('/matches/{match}/social-card/download', [SocialMediaCardController::class, 'download'])->name('matches.social_card.download');
-Route::get('/matches/{match}/social-card/raw', [SocialMediaCardController::class, 'rawSvg'])->name('matches.social_card.raw');
-
 // Votación MVP en Vivo
 Route::post('/matches/{match}/mvp/vote', [MatchMvpController::class, 'vote'])->name('matches.mvp.vote');
 Route::get('/matches/{match}/mvp/live-stats', [MatchMvpController::class, 'liveStats'])->name('matches.mvp.stats');
+
+// Vistas Públicas de la Competencia (Aficionados, Prensa y Visitantes)
+Route::get('/standings', [StandingsController::class, 'index'])->name('standings.index');
+Route::get('/matches', [MatchController::class, 'index'])->name('matches.index');
+Route::get('/matches/{match}', [MatchController::class, 'show'])->name('matches.show');
+Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
+Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
 
 // Scouting & Radar de Talentos (Público para consulta)
 Route::get('/scouting', [ScoutingController::class, 'index'])->name('scouting.index');
@@ -76,7 +77,7 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::get('/tournaments/{tournament}/rules', [TournamentRuleController::class, 'edit'])->name('tournaments.rules.edit');
     Route::put('/tournaments/{tournament}/rules', [TournamentRuleController::class, 'update'])->name('tournaments.rules.update');
     Route::resource('venues', VenueController::class);
-    Route::resource('teams', TeamController::class);
+    Route::resource('teams', TeamController::class)->except(['index', 'show']);
     Route::post('/teams/{team}/invitations', [TeamInvitationController::class, 'store'])->name('teams.invitations.store');
 
     // Portal del Director Técnico (DT)
@@ -137,9 +138,8 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::post('/referees/conflicts', [RefereeEvaluationController::class, 'registerConflict'])->name('referees.conflicts.store');
 
     Route::get('/matches/live', [MatchController::class, 'live'])->name('matches.live');
-    Route::resource('matches', MatchController::class);
+    Route::resource('matches', MatchController::class)->except(['index', 'show']);
     Route::get('/players', [PlayerController::class, 'index'])->name('players.index');
-    Route::get('/standings', [StandingsController::class, 'index'])->name('standings.index');
     Route::get('/statistics', [StatisticsController::class, 'show'])->name('statistics.show');
     Route::get('/referees', [RefereeController::class, 'index'])->name('referees.index');
 });
