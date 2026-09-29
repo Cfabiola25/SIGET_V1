@@ -66,7 +66,19 @@ class MatchMvpController extends Controller
      */
     public function liveStats(MatchGame $match): JsonResponse
     {
+        $match->loadMissing(['homeTeam.players.profile', 'awayTeam.players.profile', 'mvpPlayer.profile']);
         $stats = $this->mvpService->getLiveVoteStats($match);
+
+        $homePlayers = $match->homeTeam?->players ?? collect();
+        $awayPlayers = $match->awayTeam?->players ?? collect();
+
+        $lineupPlayers = $homePlayers->merge($awayPlayers)->map(fn ($p) => [
+            'id' => $p->id,
+            'name' => $p->name,
+            'jersey_number' => $p->jersey_number,
+            'team_name' => $p->team_id === $match->home_team_id ? $match->homeTeam?->name : $match->awayTeam?->name,
+            'position' => $p->profile?->position_label ?? 'Jugador',
+        ])->values();
 
         return response()->json([
             'match_id' => $match->id,
@@ -77,6 +89,9 @@ class MatchMvpController extends Controller
                 'team' => $match->mvpPlayer->team?->name,
                 'rating' => $match->mvpPlayer->profile?->performance_rating,
             ] : null,
+            'total_votes' => $stats->sum('votes_count'),
+            'breakdown' => $stats,
+            'lineup_players' => $lineupPlayers,
             'stats' => $stats,
         ]);
     }
