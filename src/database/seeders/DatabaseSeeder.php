@@ -10,15 +10,6 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
-        // Único usuario inicial: Super Administrador de SIGET
-        User::firstOrCreate(
-            ['email' => 'superadmin@siget.com'],
-            [
-                'name' => 'Super Admin SIGET',
-                'password' => Hash::make('password'),
-                'role' => 'super_admin',
-                'is_active' => true,
-            ]
-        );
+        $this->call(TournamentCompleteSeeder::class);
     }
 }
