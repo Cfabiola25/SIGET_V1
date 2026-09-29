@@ -58,6 +58,16 @@ class User extends Authenticatable
         return $this->role === 'player';
     }
 
+    public function isReferee(): bool
+    {
+        return $this->role === 'referee';
+    }
+
+    public function refereeProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    {
+        return $this->hasOne(\App\Models\v1\Referee::class);
+    }
+
     public function captainedTeams(): HasMany
     {
         return $this->hasMany(Team::class, 'captain_id');

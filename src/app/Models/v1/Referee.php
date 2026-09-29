@@ -11,12 +11,18 @@ class Referee extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'name',
         'license_number',
         'is_active',
         'rating_average',
         'total_matches_officiated',
     ];
+
+    public function user(): \Illuminate\Database\Eloquent\Relations\BelongsTo
+    {
+        return $this->belongsTo(\App\Models\User::class);
+    }
 
     protected function casts(): array
     {

@@ -124,35 +124,53 @@ class TournamentCompleteSeeder extends Seeder
             ]
         );
 
+        $userRoldan = User::updateOrCreate(
+            ['email' => 'wilmar.roldan@siget.com'],
+            ['name' => 'Wilmar Roldán', 'password' => Hash::make('password'), 'role' => 'referee', 'is_active' => true]
+        );
         $refereeRoldan = Referee::firstOrCreate(
             ['license_number' => 'FIFA-COL-001'],
             [
+                'user_id' => $userRoldan->id,
                 'name' => 'Wilmar Roldán',
                 'is_active' => true,
                 'rating_average' => 4.85,
                 'total_matches_officiated' => 14,
             ]
         );
+        $refereeRoldan->update(['user_id' => $userRoldan->id]);
 
+        $userRojas = User::updateOrCreate(
+            ['email' => 'andres.rojas@siget.com'],
+            ['name' => 'Andrés Rojas', 'password' => Hash::make('password'), 'role' => 'referee', 'is_active' => true]
+        );
         $refereeRojas = Referee::firstOrCreate(
             ['license_number' => 'COL-042'],
             [
+                'user_id' => $userRojas->id,
                 'name' => 'Andrés Rojas',
                 'is_active' => true,
                 'rating_average' => 4.60,
                 'total_matches_officiated' => 9,
             ]
         );
+        $refereeRojas->update(['user_id' => $userRojas->id]);
 
+        $userDaza = User::updateOrCreate(
+            ['email' => 'maria.daza@siget.com'],
+            ['name' => 'María Victoria Daza', 'password' => Hash::make('password'), 'role' => 'referee', 'is_active' => true]
+        );
         $refereeDaza = Referee::firstOrCreate(
             ['license_number' => 'FIFA-COL-003'],
             [
+                'user_id' => $userDaza->id,
                 'name' => 'María Victoria Daza',
                 'is_active' => true,
                 'rating_average' => 4.90,
                 'total_matches_officiated' => 11,
             ]
         );
+        $refereeDaza->update(['user_id' => $userDaza->id]);
 
         // -------------------------------------------------------------
         // 5. 4 DIRECTORES TÉCNICOS Y SUS RESPECTIVOS EQUIPOS

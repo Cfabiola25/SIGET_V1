@@ -17,6 +17,7 @@ use App\Http\Controllers\v1\PostMatchController;
 use App\Http\Controllers\v1\PublicController;
 use App\Http\Controllers\v1\RefereeController;
 use App\Http\Controllers\v1\RefereeEvaluationController;
+use App\Http\Controllers\v1\RefereePortalController;
 use App\Http\Controllers\v1\RefereeQrController;
 use App\Http\Controllers\v1\ScoutingController;
 use App\Http\Controllers\v1\StandingsController;
@@ -138,6 +139,7 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::post('/scouting/{player}/release', [ScoutingController::class, 'release'])->name('scouting.release');
 
     // Profesionalización del Arbitraje: Evaluaciones Post-Partido, Asignación Algorítmica y Conflictos
+    Route::get('/referee/portal', [RefereePortalController::class, 'index'])->name('referees.portal');
     Route::get('/referees/evaluations', [RefereeEvaluationController::class, 'index'])->name('referees.evaluations.index');
     Route::post('/matches/{match}/referee/evaluate', [RefereeEvaluationController::class, 'evaluate'])->name('matches.referee.evaluate');
     Route::post('/matches/{match}/referee/auto-assign', [RefereeEvaluationController::class, 'autoAssignMatch'])->name('matches.referee.auto_assign');

@@ -13,6 +13,10 @@ class DashboardController extends Controller
     {
         $user = $request->user();
 
+        if ($user->isReferee()) {
+            return redirect()->route('referees.portal');
+        }
+
         $data = match ($user->role) {
             'admin' => ['tournamentsCount' => Tournament::count(), 'teamsCount' => Team::count()],
             'organizer' => ['tournaments' => $user->tournaments()->latest()->get()],
