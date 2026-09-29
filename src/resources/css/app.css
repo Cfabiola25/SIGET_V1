@@ -4,45 +4,51 @@
 @source '../../storage/framework/views/*.php';
 
 @theme {
-    --font-sans: 'Instrument Sans', 'Avenir Next', ui-sans-serif, sans-serif;
-    --font-display: 'Instrument Sans', 'Avenir Next', ui-sans-serif, sans-serif;
-    --color-siget-primary: #10B981;
-    --color-siget-ink: #F8FAFC;
-    --color-siget-paper: #0F172A;
-    --color-siget-coral: #22C55E;
-    --color-siget-sun: #FBBF24;
-    --color-siget-mint: #052E22;
-    --color-siget-muted: #94A3B8;
+    --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
+    --color-siget-primary: #057a55;
+    --color-siget-sidebar: #182232;
+    --color-siget-bg: #f4f6fa;
+    --color-siget-card: #ffffff;
+    --color-siget-text: #1e293b;
+    --color-siget-muted: #64748b;
+    --color-siget-border: #e2e8f0;
 }
 
 @layer base {
     body {
-        background: #090d16;
-        color: #f8fafc;
-        font-family: 'Instrument Sans', 'Avenir Next', ui-sans-serif, sans-serif;
+        background-color: #f4f6fa;
+        color: #1e293b;
+        font-family: var(--font-sans);
+        -webkit-font-smoothing: antialiased;
     }
 
     input:not([type='checkbox']):not([type='radio']),
     select,
     textarea {
-        border: 1px solid #1e293b;
+        border: 1px solid #cbd5e1;
         border-radius: 0.5rem;
-        background-color: rgba(9, 13, 22, 0.7);
-        color: #f8fafc;
+        background-color: #ffffff;
+        color: #1e293b;
+        transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    input:not([type='checkbox']):not([type='radio']):focus,
+    select:focus,
+    textarea:focus {
+        outline: none;
+        border-color: #057a55;
+        box-shadow: 0 0 0 3px rgba(5, 122, 85, 0.15);
     }
 
     input::placeholder,
     textarea::placeholder {
-        color: #64748b;
-    }
-
-    option {
-        background-color: #0f172a;
-        color: #f8fafc;
+        color: #94a3b8;
     }
 
     thead {
-        background-color: rgba(9, 13, 22, 0.8);
+        background-color: #edf2f9;
+        color: #475569;
     }
 
     tbody tr {
@@ -51,31 +57,86 @@
 }
 
 @layer components {
-    .siget-shell {
-        background: radial-gradient(ellipse at 12% 0%, rgba(16, 185, 129, 0.09), transparent 34rem), #090d16;
+    .siget-sidebar {
+        background-color: #182232;
+        color: #94a3b8;
     }
 
-    .siget-grid {
-        background-image: linear-gradient(rgba(148, 163, 184, 0.06) 1px, transparent 1px), linear-gradient(90deg, rgba(148, 163, 184, 0.06) 1px, transparent 1px);
-        background-size: 28px 28px;
+    .siget-card {
+        background-color: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 0.875rem;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 1px 2px -1px rgba(0, 0, 0, 0.04);
     }
 
-    .siget-display {
-        font-family: 'Instrument Sans', 'Avenir Next', ui-sans-serif, sans-serif;
+    .siget-badge-active {
+        background-color: #d1fae5;
+        color: #065f46;
         font-weight: 700;
-        letter-spacing: -0.025em;
+        font-size: 0.6875rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
     }
 
-    .siget-rise {
-        animation: rise-in .6s ease both;
+    .siget-badge-danger {
+        background-color: #fee2e2;
+        color: #991b1b;
+        font-weight: 700;
+        font-size: 0.6875rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
     }
 
-    .siget-delay-1 { animation-delay: .08s; }
-    .siget-delay-2 { animation-delay: .16s; }
-    .siget-delay-3 { animation-delay: .24s; }
-}
+    .siget-badge-warning {
+        background-color: #fef3c7;
+        color: #92400e;
+        font-weight: 700;
+        font-size: 0.6875rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
 
-@keyframes rise-in {
-    from { opacity: 0; transform: translateY(12px); }
-    to { opacity: 1; transform: translateY(0); }
+    .siget-badge-info {
+        background-color: #e0f2fe;
+        color: #0369a1;
+        font-weight: 700;
+        font-size: 0.6875rem;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    .siget-btn-primary {
+        background-color: #057a55;
+        color: #ffffff;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.15s ease, transform 0.1s ease;
+    }
+
+    .siget-btn-primary:hover {
+        background-color: #046c4b;
+    }
+
+    .siget-btn-secondary {
+        background-color: #ffffff;
+        color: #334155;
+        border: 1px solid #cbd5e1;
+        font-weight: 600;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        transition: background-color 0.15s ease;
+    }
+
+    .siget-btn-secondary:hover {
+        background-color: #f8fafc;
+    }
 }

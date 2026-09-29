@@ -1,172 +1,173 @@
 @extends('v1.layouts.app')
 
 @section('title', $tournament->name)
+@section('header_title', $tournament->name)
+
+@section('header_badge')
+<span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+    {{ $tournament->status }}
+</span>
+@endsection
 
 @section('content')
-<div class="space-y-8">
-    <div class="rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-900/90 to-emerald-950/40 p-6 md:p-8 backdrop-blur-xl">
-        <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+<div class="space-y-6">
+
+    <!-- Tournament Overview Header Card -->
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6 md:p-8">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div>
-                <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-400">
-                    <a href="{{ route('tournaments.index') }}" class="hover:underline">← Torneos</a>
+                <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-emerald-800">
+                    <a href="{{ route('tournaments.index') }}" class="hover:underline">&larr; Tournaments</a>
                     <span>•</span>
-                    <span>{{ ucfirst($tournament->status) }}</span>
+                    <span>{{ $tournament->sport_type }}</span>
                 </div>
-                <h1 class="mt-1 text-2xl font-black text-white md:text-3xl">{{ $tournament->name }}</h1>
-                <p class="mt-1 text-sm text-slate-400">
-                    Fútbol • Del {{ $tournament->start_date?->format('d/m/Y') }} al {{ $tournament->end_date?->format('d/m/Y') }}
-                    @if ($tournament->admin) • Admin: <span class="text-slate-200">{{ $tournament->admin->name }}</span> @endif
+                <h2 class="mt-1.5 text-2xl md:text-3xl font-black text-slate-900 tracking-tight">{{ $tournament->name }}</h2>
+                <p class="mt-1.5 text-xs md:text-sm text-slate-500">
+                    Dates: {{ $tournament->start_date?->format('d M Y') }} — {{ $tournament->end_date?->format('d M Y') }}
+                    @if ($tournament->admin) • Tournament Director: <strong class="text-slate-700 font-semibold">{{ $tournament->admin->name }}</strong> @endif
                 </p>
             </div>
 
-            <div class="flex flex-wrap items-center gap-3">
-                @if (auth()->check() && (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $tournament->admin_id === auth()->id())))
-                    <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2 text-sm font-bold text-amber-400 hover:bg-amber-500/20 transition">
-                        ⚙️ Reglas de Competición
-                    </a>
-                    <a href="{{ route('tournaments.edit', $tournament) }}" class="rounded-xl border border-slate-700 bg-slate-800 px-4 py-2 text-sm font-bold text-slate-200 hover:bg-slate-700 transition">
-                        Editar Torneo
-                    </a>
-                    <a href="{{ route('tournaments.fixtures.generate', $tournament) }}" class="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-sm font-bold text-emerald-400 hover:bg-emerald-500/20 transition flex items-center gap-1.5">
-                        🗓️ Generar Fixture
-                    </a>
-                @endif
-                <a href="{{ route('tournaments.brackets', $tournament) }}" class="rounded-xl border border-cyan-500/40 bg-cyan-500/10 px-4 py-2 text-sm font-bold text-cyan-300 hover:bg-cyan-500/20 transition flex items-center gap-1.5">
-                    🏆 Brackets
+            <!-- Quick Action Buttons -->
+            <div class="flex flex-wrap items-center gap-2.5">
+                <a href="{{ route('matches.schedule') }}" class="px-4 py-2 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs font-bold shadow-xs transition flex items-center gap-1.5">
+                    <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Schedule Matches</span>
                 </a>
-                <a href="{{ route('tournaments.disciplinary', $tournament) }}" class="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2 text-sm font-bold text-rose-300 hover:bg-rose-500/20 transition flex items-center gap-1.5">
-                    ⚖️ Tribunal Disciplinario
+                <a href="{{ route('tournaments.brackets', $tournament) }}" class="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 shadow-2xs transition flex items-center gap-1.5">
+                    <span>🏆 Brackets</span>
                 </a>
-                <a href="{{ route('standings.index', ['tournament' => $tournament->id]) }}" class="rounded-xl bg-emerald-500 px-4 py-2 text-sm font-bold text-slate-950 hover:bg-emerald-400 transition shadow-md">
-                    📊 Ver Tabla
+                <a href="{{ route('tournaments.disciplinary', $tournament) }}" class="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 shadow-2xs transition flex items-center gap-1.5">
+                    <span>⚖️ Disciplinary</span>
+                </a>
+                <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 shadow-2xs transition flex items-center gap-1.5">
+                    <span>⚙️ Rules</span>
+                </a>
+                <a href="{{ route('standings.index', ['tournament' => $tournament->id]) }}" class="px-4 py-2 rounded-lg bg-sky-100 text-sky-900 text-xs font-bold hover:bg-sky-200 transition">
+                    Leaderboard
                 </a>
             </div>
         </div>
     </div>
 
-    @if (session('status'))
-        <div class="rounded-xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm font-semibold text-emerald-400">
-            {{ session('status') }}
-        </div>
-    @endif
-
-    <!-- Resumen de Reglas de Juego Activas -->
+    <!-- Active Tournament Rules Widget -->
     @if ($tournament->rules)
         @php $r = $tournament->rules; @endphp
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm">
-            <div class="flex items-center justify-between border-b border-slate-800 pb-3">
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
                 <div class="flex items-center gap-2">
                     <span class="text-lg">⚖️</span>
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-white">Reglamento Técnico del Torneo</h2>
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Tournament Technical Regulations</h3>
                 </div>
-                @if (auth()->check() && (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $tournament->admin_id === auth()->id())))
-                    <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="text-xs font-semibold text-emerald-400 hover:underline">
-                        Modificar Reglas →
-                    </a>
-                @endif
+                <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 transition">
+                    Edit Rules &rarr;
+                </a>
             </div>
 
-            <div class="mt-4 grid gap-4 sm:grid-cols-2 lg:grid-cols-4 text-xs">
-                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-                    <span class="text-slate-400">Suspensión Amarillas</span>
-                    <div class="mt-1 text-base font-bold text-amber-400">{{ $r->yellow_card_limit_for_suspension }} tarjetas</div>
-                    <span class="text-[11px] text-slate-500">= 1 partido de inhabilitación</span>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+                <div class="rounded-xl border border-slate-200 p-4 bg-slate-50/50">
+                    <span class="text-slate-500 font-medium">Yellow Card Limit</span>
+                    <div class="mt-1 text-lg font-bold text-amber-700">{{ $r->yellow_card_limit_for_suspension }} cards</div>
+                    <span class="text-[11px] text-slate-400">= 1 match suspension</span>
                 </div>
 
-                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-                    <span class="text-slate-400">Criterio de Desempate</span>
-                    <div class="mt-1 text-base font-bold text-emerald-400">{{ ucwords(str_replace('_', ' ', $r->tiebreaker_rule)) }}</div>
-                    <span class="text-[11px] text-slate-500">Jerarquía oficial en tabla</span>
+                <div class="rounded-xl border border-slate-200 p-4 bg-slate-50/50">
+                    <span class="text-slate-500 font-medium">Points System</span>
+                    <div class="mt-1 text-lg font-bold text-emerald-800">{{ $r->points_for_win }}W / {{ $r->points_for_draw }}D / {{ $r->points_for_loss }}L</div>
+                    <span class="text-[11px] text-slate-400">Standard classification</span>
                 </div>
 
-                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-                    <span class="text-slate-400">Tiempo de Juego</span>
-                    <div class="mt-1 text-base font-bold text-white">{{ $r->match_duration_minutes }} minutos</div>
-                    <span class="text-[11px] text-slate-500">Duración reglamentaria</span>
+                <div class="rounded-xl border border-slate-200 p-4 bg-slate-50/50">
+                    <span class="text-slate-500 font-medium">Match Duration</span>
+                    <div class="mt-1 text-lg font-bold text-slate-900">{{ $r->match_duration_minutes }} minutes</div>
+                    <span class="text-[11px] text-slate-400">Regular regulation time</span>
                 </div>
 
-                <div class="rounded-xl border border-slate-800 bg-slate-950/60 p-3.5">
-                    <span class="text-slate-400">Sustituciones Máximas</span>
-                    <div class="mt-1 text-base font-bold text-blue-400">{{ $r->max_substitutions }} cambios</div>
-                    <span class="text-[11px] text-slate-500">Por equipo en cada partido</span>
+                <div class="rounded-xl border border-slate-200 p-4 bg-slate-50/50">
+                    <span class="text-slate-500 font-medium">Max Substitutions</span>
+                    <div class="mt-1 text-lg font-bold text-sky-800">{{ $r->max_substitutions }} subs</div>
+                    <span class="text-[11px] text-slate-400">Per squad per game</span>
                 </div>
             </div>
         </div>
     @endif
 
-    <div class="grid gap-8 lg:grid-cols-2">
-        <!-- Equipos Inscritos -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm">
-            <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold text-white">Equipos Participantes ({{ $tournament->teams->count() }})</h2>
-                @if (auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true))
-                    <a href="{{ route('teams.create') }}" class="text-xs font-semibold text-emerald-400 hover:underline">
-                        + Registrar Equipo
-                    </a>
-                @endif
-            </div>
-
-            @if ($tournament->teams->isEmpty())
-                <p class="mt-4 text-sm text-slate-400">No hay equipos registrados en este torneo aún.</p>
-            @else
-                <div class="mt-4 divide-y divide-slate-800">
-                    @foreach ($tournament->teams as $team)
-                        <div class="flex items-center justify-between py-3">
-                            <div>
-                                <a href="{{ route('teams.show', $team) }}" class="font-bold text-white hover:text-emerald-400 transition">
-                                    {{ $team->name }}
-                                </a>
-                                <p class="text-xs text-slate-400">
-                                    DT / Capitán: {{ $team->captain?->name ?? 'Pendiente de asignar (Magic Link)' }}
-                                </p>
-                            </div>
-                            <a href="{{ route('teams.show', $team) }}" class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-200 hover:bg-slate-700">
-                                Ver Equipo
-                            </a>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
-
-        <!-- Partidos del Torneo -->
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm">
-            <div class="flex items-center justify-between">
-                <h2 class="text-lg font-bold text-white">Fixture y Calendario ({{ $tournament->matches->count() }})</h2>
-                <a href="{{ route('matches.index', ['search' => $tournament->name]) }}" class="text-xs font-semibold text-emerald-400 hover:underline">
-                    Ver todos los partidos →
+    <!-- Split Grid: Registered Teams & Fixtures -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        
+        <!-- Teams in Tournament -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="text-base font-bold text-slate-900">Registered Teams ({{ $tournament->teams->count() }})</h3>
+                <a href="{{ route('teams.index') }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                    Manage Teams &rarr;
                 </a>
             </div>
 
-            @if ($tournament->matches->isEmpty())
-                <p class="mt-4 text-sm text-slate-400">Aún no se han programado partidos para este torneo.</p>
-            @else
-                <div class="mt-4 divide-y divide-slate-800">
-                    @foreach ($tournament->matches->take(6) as $match)
-                        <div class="flex items-center justify-between py-3">
+            <div class="mt-3 divide-y divide-slate-100">
+                @forelse ($tournament->teams as $team)
+                    <div class="flex items-center justify-between py-3">
+                        <div class="flex items-center gap-3">
+                            <div class="size-8 rounded-lg bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center border border-emerald-200">
+                                {{ strtoupper(substr($team->name, 0, 2)) }}
+                            </div>
                             <div>
-                                <div class="font-bold text-white">
-                                    {{ $match->homeTeam->name }}
-                                    @if ($match->status === 'played')
-                                        <span class="text-emerald-400">({{ $match->home_score }} - {{ $match->away_score }})</span>
-                                    @else
-                                        <span class="text-slate-500">vs</span>
-                                    @endif
-                                    {{ $match->awayTeam->name }}
-                                </div>
-                                <p class="text-xs text-slate-400">
-                                    {{ $match->match_date->format('d/m/Y H:i') }}
-                                    @if ($match->venue) • 📍 {{ $match->venue->name }} @endif
+                                <a href="{{ route('teams.show', $team) }}" class="font-bold text-sm text-slate-900 hover:text-emerald-700 transition">
+                                    {{ $team->name }}
+                                </a>
+                                <p class="text-xs text-slate-500">
+                                    Coach: {{ $team->coach_name }}
                                 </p>
                             </div>
-                            <a href="{{ route('matches.show', $match) }}" class="rounded-lg border border-slate-700 bg-slate-800 px-3 py-1 text-xs font-semibold text-slate-200 hover:bg-slate-700">
-                                Ver
-                            </a>
                         </div>
-                    @endforeach
-                </div>
-            @endif
+                        <a href="{{ route('teams.show', $team) }}" class="px-3 py-1 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition">
+                            View Team
+                        </a>
+                    </div>
+                @empty
+                    <p class="py-6 text-xs text-slate-500 text-center">No teams registered yet.</p>
+                @endforelse
+            </div>
         </div>
+
+        <!-- Matches & Fixtures -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+                <h3 class="text-base font-bold text-slate-900">Matches & Schedule ({{ $tournament->matches->count() }})</h3>
+                <a href="{{ route('matches.schedule') }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                    Calendar View &rarr;
+                </a>
+            </div>
+
+            <div class="mt-3 divide-y divide-slate-100">
+                @forelse ($tournament->matches->take(6) as $match)
+                    <div class="flex items-center justify-between py-3">
+                        <div>
+                            <div class="text-sm font-bold text-slate-900">
+                                {{ $match->homeTeam->name }}
+                                @if ($match->status === 'played')
+                                    <span class="text-emerald-700 font-black">({{ $match->home_score }} - {{ $match->away_score }})</span>
+                                @else
+                                    <span class="text-slate-400 font-normal">vs</span>
+                                @endif
+                                {{ $match->awayTeam->name }}
+                            </div>
+                            <p class="text-xs text-slate-500 mt-0.5">
+                                {{ $match->match_date->format('d M Y · H:i') }}
+                                @if ($match->venue) • 📍 {{ $match->venue->name }} @endif
+                            </p>
+                        </div>
+                        <a href="{{ route('matches.show', $match) }}" class="px-3 py-1 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition">
+                            Details
+                        </a>
+                    </div>
+                @empty
+                    <p class="py-6 text-xs text-slate-500 text-center">No matches scheduled yet.</p>
+                @endforelse
+            </div>
+        </div>
+
     </div>
+
 </div>
 @endsection

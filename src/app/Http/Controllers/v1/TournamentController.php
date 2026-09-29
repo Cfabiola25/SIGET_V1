@@ -48,18 +48,57 @@ class TournamentController extends Controller
 
     public function create(): View
     {
-        abort_unless(auth()->user()?->isSuperAdmin(), 403);
+        $user = auth()->user();
+        abort_unless($user && ($user->isSuperAdmin() || $user->isAdmin()), 403);
 
-        return view('v1.tournaments.create');
+        $sports = Sport::orderBy('name')->get();
+
+        return view('v1.tournaments.create', [
+            'sports' => $sports,
+        ]);
     }
 
-    public function store(StoreTournamentRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        abort_unless($request->user()->isSuperAdmin(), 403);
+        $user = $request->user();
+        abort_unless($user && ($user->isSuperAdmin() || $user->isAdmin()), 403);
 
-        $tournament = $request->user()->createdTournaments()->create($request->validated());
+        $data = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'sport_type' => ['required', 'string'],
+            'season' => ['nullable', 'string', 'max:20'],
+            'start_date' => ['nullable', 'date'],
+            'end_date' => ['nullable', 'date'],
+            'points_win' => ['nullable', 'integer'],
+            'points_draw' => ['nullable', 'integer'],
+            'points_loss' => ['nullable', 'integer'],
+            'bonus_goals' => ['nullable', 'boolean'],
+        ]);
 
-        return redirect()->route('tournaments.show', $tournament);
+        $tournament = Tournament::create([
+            'name' => $data['name'],
+            'sport_type' => $data['sport_type'],
+            'start_date' => $data['start_date'] ?? now(),
+            'end_date' => $data['end_date'] ?? now()->addMonths(3),
+            'status' => 'active',
+            'admin_id' => $user->isAdmin() ? $user->id : null,
+            'super_admin_id' => $user->isSuperAdmin() ? $user->id : null,
+        ]);
+
+        // Save Tournament Points Rules
+        \App\Models\v1\TournamentRule::create([
+            'tournament_id' => $tournament->id,
+            'points_for_win' => (int)($data['points_win'] ?? 3),
+            'points_for_draw' => (int)($data['points_draw'] ?? 1),
+            'points_for_loss' => (int)($data['points_loss'] ?? 0),
+            'yellow_card_limit_for_suspension' => 2,
+            'direct_red_suspension_matches' => 1,
+            'match_duration_minutes' => 90,
+            'max_substitutions' => 5,
+        ]);
+
+        return redirect()->route('tournaments.show', $tournament)
+            ->with('status', 'Torneo y fases configurados exitosamente.');
     }
 
     public function show(Tournament $tournament): View

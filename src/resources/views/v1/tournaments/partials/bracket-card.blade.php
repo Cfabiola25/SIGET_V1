@@ -3,19 +3,19 @@
     $awayWinner = $match->away_score > $match->home_score && $match->status === 'played';
 @endphp
 
-<div class="relative overflow-hidden rounded-2xl border {{ !empty($isFinal) ? 'border-amber-500/50 bg-slate-950' : 'border-slate-800 bg-slate-900/90' }} p-4 shadow-lg backdrop-blur-sm transition hover:border-slate-700 space-y-3">
+<div class="relative overflow-hidden rounded-2xl border {{ !empty($isFinal) ? 'border-amber-400 bg-amber-50/20' : 'border-slate-200/90 bg-white' }} p-4 shadow-2xs transition hover:shadow-xs space-y-3">
     <!-- Header of Match Card -->
-    <div class="flex items-center justify-between text-[11px] text-slate-400 border-b border-slate-800/80 pb-2">
-        <span class="font-mono font-bold px-2 py-0.5 rounded {{ !empty($isFinal) ? 'bg-amber-500/20 text-amber-300' : 'bg-slate-800 text-slate-300' }}">
+    <div class="flex items-center justify-between text-[11px] text-slate-500 border-b border-slate-100 pb-2">
+        <span class="font-bold px-2 py-0.5 rounded {{ !empty($isFinal) ? 'bg-amber-100 text-amber-900' : 'bg-slate-100 text-slate-700' }}">
             {{ $match->bracket_position ?? strtoupper($match->stage) }}
         </span>
-        <div class="flex items-center gap-1.5 font-mono">
+        <div class="flex items-center gap-1.5 font-medium">
             @if ($match->isLocked())
-                <span class="text-emerald-400 font-bold">Acta Cerrada</span>
+                <span class="text-emerald-800 font-bold">Acta Cerrada</span>
             @elseif ($match->status === 'played')
-                <span class="text-slate-300">Finalizado</span>
+                <span class="text-slate-600">Finalizado</span>
             @elseif ($match->is_timer_running)
-                <span class="text-emerald-400 animate-pulse font-bold">EN VIVO {{ $match->formatted_clock }}</span>
+                <span class="text-emerald-700 animate-pulse font-bold">EN VIVO {{ $match->formatted_clock }}</span>
             @else
                 <span>{{ $match->match_date->format('d/m H:i') }}</span>
             @endif
@@ -25,46 +25,44 @@
     <!-- Teams and Scores Box -->
     <div class="space-y-1.5 text-xs font-semibold">
         <!-- Home Team -->
-        <div class="flex items-center justify-between p-2 rounded-xl {{ $homeWinner ? 'bg-emerald-500/10 border border-emerald-500/30 text-white' : 'bg-slate-950/60 text-slate-300' }}">
+        <div class="flex items-center justify-between p-2 rounded-xl {{ $homeWinner ? 'bg-emerald-50 border border-emerald-200 text-slate-900 font-black' : 'bg-slate-50 text-slate-700' }}">
             <div class="flex items-center gap-2 min-w-0">
-                <span class="size-2 rounded-full {{ $homeWinner ? 'bg-emerald-400 shadow-md shadow-emerald-400' : 'bg-slate-700' }}"></span>
-                <span class="truncate font-bold {{ $homeWinner ? 'text-emerald-300' : '' }}">
+                <span class="size-2 rounded-full {{ $homeWinner ? 'bg-emerald-600' : 'bg-slate-300' }}"></span>
+                <span class="truncate {{ $homeWinner ? 'text-emerald-900' : '' }}">
                     {{ $match->homeTeam?->name ?? 'Por definir (TBD)' }}
                 </span>
             </div>
-            <span class="font-mono text-sm font-black {{ $homeWinner ? 'text-emerald-400' : 'text-slate-400' }}">
+            <span class="text-sm font-black {{ $homeWinner ? 'text-emerald-800' : 'text-slate-400' }}">
                 {{ $match->status === 'played' || $match->is_timer_running ? $match->home_score : '-' }}
             </span>
         </div>
 
         <!-- Away Team -->
-        <div class="flex items-center justify-between p-2 rounded-xl {{ $awayWinner ? 'bg-emerald-500/10 border border-emerald-500/30 text-white' : 'bg-slate-950/60 text-slate-300' }}">
+        <div class="flex items-center justify-between p-2 rounded-xl {{ $awayWinner ? 'bg-emerald-50 border border-emerald-200 text-slate-900 font-black' : 'bg-slate-50 text-slate-700' }}">
             <div class="flex items-center gap-2 min-w-0">
-                <span class="size-2 rounded-full {{ $awayWinner ? 'bg-emerald-400 shadow-md shadow-emerald-400' : 'bg-slate-700' }}"></span>
-                <span class="truncate font-bold {{ $awayWinner ? 'text-emerald-300' : '' }}">
+                <span class="size-2 rounded-full {{ $awayWinner ? 'bg-emerald-600' : 'bg-slate-300' }}"></span>
+                <span class="truncate {{ $awayWinner ? 'text-emerald-900' : '' }}">
                     {{ $match->awayTeam?->name ?? 'Por definir (TBD)' }}
                 </span>
             </div>
-            <span class="font-mono text-sm font-black {{ $awayWinner ? 'text-emerald-400' : 'text-slate-400' }}">
+            <span class="text-sm font-black {{ $awayWinner ? 'text-emerald-800' : 'text-slate-400' }}">
                 {{ $match->status === 'played' || $match->is_timer_running ? $match->away_score : '-' }}
             </span>
         </div>
     </div>
 
     <!-- Footer Actions and Progresion Note -->
-    <div class="pt-2 border-t border-slate-800/80 flex items-center justify-between text-[11px]">
+    <div class="pt-2 border-t border-slate-100 flex items-center justify-between text-[11px]">
         @if ($match->nextMatch)
-            <span class="text-slate-500 truncate" title="El ganador clasifica a {{ $match->nextMatch->bracket_position ?? 'Siguiente Ronda' }}">
-                &rarr; Avanza a <strong class="text-slate-300">{{ $match->nextMatch->bracket_position ?? 'Siguiente' }}</strong>
+            <span class="text-slate-400 truncate">
+                &rarr; Avanza a <strong class="text-slate-700">{{ $match->nextMatch->bracket_position ?? 'Siguiente' }}</strong>
             </span>
         @else
-            <span class="text-amber-400 font-bold">&star; Campeón de Torneo</span>
+            <span class="text-amber-700 font-bold">🏆 Campeón</span>
         @endif
 
-        <div class="flex items-center gap-2">
-            <a href="{{ route('matches.show', $match) }}" class="font-bold text-emerald-400 hover:underline">
-                Ver Partido &rarr;
-            </a>
-        </div>
+        <a href="{{ route('matches.show', $match) }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-900">
+            Ver &rarr;
+        </a>
     </div>
 </div>

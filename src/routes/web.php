@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\v1\AdminController;
+use App\Http\Controllers\v1\AuditController;
 use App\Http\Controllers\v1\AuthController;
 use App\Http\Controllers\v1\BracketController;
 use App\Http\Controllers\v1\DashboardController;
@@ -74,11 +75,17 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     })->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
     Route::resource('tournaments', TournamentController::class)->except(['create', 'store']);
+    Route::get('/tournaments/create', [TournamentController::class, 'create'])->name('tournaments.create');
+    Route::post('/tournaments', [TournamentController::class, 'store'])->name('tournaments.store');
     Route::get('/tournaments/{tournament}/rules', [TournamentRuleController::class, 'edit'])->name('tournaments.rules.edit');
     Route::put('/tournaments/{tournament}/rules', [TournamentRuleController::class, 'update'])->name('tournaments.rules.update');
     Route::resource('venues', VenueController::class);
     Route::resource('teams', TeamController::class)->except(['index', 'show']);
     Route::post('/teams/{team}/invitations', [TeamInvitationController::class, 'store'])->name('teams.invitations.store');
+
+    // Match Scheduler & Programador Interactivo
+    Route::get('/matches/schedule', [MatchController::class, 'schedule'])->name('matches.schedule');
+    Route::post('/matches/schedule', [MatchController::class, 'storeSchedule'])->name('matches.schedule.store');
 
     // Portal del Director Técnico (DT)
     Route::prefix('dt/teams/{team}')->name('dt.')->group(function (): void {
@@ -139,9 +146,20 @@ Route::middleware(['auth', 'active'])->group(function (): void {
 
     Route::get('/matches/live', [MatchController::class, 'live'])->name('matches.live');
     Route::resource('matches', MatchController::class)->except(['index', 'show']);
+    
+    // Players Management
     Route::get('/players', [PlayerController::class, 'index'])->name('players.index');
+    Route::get('/players/export', [PlayerController::class, 'exportCsv'])->name('players.export');
+    Route::post('/players', [PlayerController::class, 'store'])->name('players.store');
+    Route::delete('/players/{player}', [PlayerController::class, 'destroy'])->name('players.destroy');
+
+    // Auditing Shortcuts
+    Route::get('/auditing', [AuditController::class, 'index'])->name('auditing.index');
+
     Route::get('/statistics', [StatisticsController::class, 'show'])->name('statistics.show');
     Route::get('/referees', [RefereeController::class, 'index'])->name('referees.index');
+    Route::post('/referees', [RefereeController::class, 'store'])->name('referees.store');
+    Route::delete('/referees/{referee}', [RefereeController::class, 'destroy'])->name('referees.destroy');
 });
 
 Route::prefix('super-admin')->name('super-admin.')->middleware(['auth', 'active', 'role:super_admin'])->group(function (): void {

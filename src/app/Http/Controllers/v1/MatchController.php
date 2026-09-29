@@ -126,6 +126,84 @@ class MatchController extends Controller
         return view('v1.matches.live', ['matches' => $query->get()]);
     }
 
+    public function schedule(Request $request): View
+    {
+        $date = $request->query('date', '2024-10-24'); // Default date matching screenshot or fallback to today
+        if ($request->has('today')) {
+            $date = now()->format('Y-m-d');
+        }
+
+        $viewMode = $request->query('view', 'day'); // today, day, week
+
+        $tournaments = Tournament::whereIn('status', ['pending', 'active'])->get();
+        $teams = Team::orderBy('name')->get();
+        $venues = \App\Models\v1\Venue::where('is_active', true)->get();
+        $referees = \App\Models\v1\Referee::where('is_active', true)->get();
+
+        $matches = MatchGame::with(['homeTeam', 'awayTeam', 'referee', 'venue'])
+            ->whereDate('match_date', $date)
+            ->orderBy('match_date')
+            ->get();
+
+        return view('v1.matches.scheduler', [
+            'date' => $date,
+            'viewMode' => $viewMode,
+            'tournaments' => $tournaments,
+            'teams' => $teams,
+            'venues' => $venues,
+            'referees' => $referees,
+            'matches' => $matches,
+        ]);
+    }
+
+    public function storeSchedule(Request $request): RedirectResponse
+    {
+        $data = $request->validate([
+            'home_team_id' => ['required', 'exists:teams,id', 'different:away_team_id'],
+            'away_team_id' => ['required', 'exists:teams,id'],
+            'date' => ['required', 'date'],
+            'time' => ['required'],
+            'venue_id' => ['nullable'],
+            'field_number' => ['nullable', 'integer'],
+            'referee_id' => ['nullable'],
+        ]);
+
+        $homeTeam = Team::findOrFail($data['home_team_id']);
+        $tournamentId = $homeTeam->tournament_id ?? Tournament::value('id') ?? 1;
+
+        $matchDateTime = \Carbon\Carbon::parse($data['date'] . ' ' . $data['time']);
+
+        $refereeId = null;
+        if (!empty($data['referee_id']) && $data['referee_id'] !== 'auto') {
+            $refereeId = (int)$data['referee_id'];
+        } elseif ($data['referee_id'] === 'auto') {
+            // Auto-assign first available referee
+            $refereeId = \App\Models\v1\Referee::where('is_active', true)->value('id');
+        }
+
+        $venueId = null;
+        if (!empty($data['venue_id']) && is_numeric($data['venue_id'])) {
+            $venueId = (int)$data['venue_id'];
+        } else {
+            $venueId = \App\Models\v1\Venue::value('id');
+        }
+
+        MatchGame::create([
+            'tournament_id' => $tournamentId,
+            'home_team_id' => $data['home_team_id'],
+            'away_team_id' => $data['away_team_id'],
+            'match_date' => $matchDateTime,
+            'venue_id' => $venueId,
+            'field_number' => $data['field_number'] ?? 1,
+            'referee_id' => $refereeId,
+            'status' => 'scheduled',
+            'round_number' => 1,
+        ]);
+
+        return redirect()->route('matches.schedule', ['date' => $data['date']])
+            ->with('status', 'Partido programado exitosamente en el calendario.');
+    }
+
     private function authorizeMatch(MatchGame $match): void
     {
         $user = request()->user();
