@@ -58,7 +58,7 @@
                 </div>
                 <div class="flex items-center gap-3">
                     <div class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
-                        ⭐
+                        <svg class="size-3.5" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
                     </div>
                     <div>
                         <div class="text-xs font-bold text-white">Voto Fan MVP</div>
@@ -182,8 +182,7 @@
                             <div class="mt-4 pt-3 border-t border-white/[0.06]">
                                 <button type="button" 
                                         onclick="openMatchLiveModal({{ $match->id }}, '{{ addslashes($match->homeTeam->name) }}', '{{ addslashes($match->awayTeam->name) }}', {{ $match->home_score }}, {{ $match->away_score }}, '{{ $match->status }}', '{{ $match->formatted_clock }}')"
-                                        class="w-full rounded-xl bg-slate-800/80 hover:bg-emerald-500 text-slate-200 hover:text-slate-950 px-3 py-2 text-xs font-bold transition flex items-center justify-center gap-2 border border-white/[0.06] hover:border-emerald-400 shadow-md">
-                                    <svg class="size-3.5 text-amber-400 group-hover:text-slate-950 transition" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                        class="w-full rounded-xl bg-slate-800/80 hover:bg-emerald-500 text-slate-200 hover:text-slate-950 px-3 py-2 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-white/[0.06] hover:border-emerald-400 shadow-md">
                                     <span>Votar MVP / Ver En Vivo</span>
                                 </button>
                             </div>
@@ -401,9 +400,9 @@
 
             <!-- Votación de Aficionados: MVP -->
             <div class="rounded-2xl border border-amber-500/30 bg-amber-500/[0.08] p-5 mb-6">
-                <div class="flex items-center gap-2.5 mb-2">
-                    <span class="text-2xl">⭐</span>
-                    <h4 class="font-display font-extrabold text-white text-base">Votación en Vivo: Jugador Más Valioso (MVP)</h4>
+                <div class="flex items-center gap-2 mb-2">
+                    <svg class="size-3.5 text-amber-400 shrink-0" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                    <h4 class="font-display font-extrabold text-white text-sm">Votación en Vivo: Jugador Más Valioso (MVP)</h4>
                 </div>
                 <p class="text-xs text-amber-200/80 mb-4 leading-relaxed">
                     Como aficionado, ¡vota por la figura del encuentro! Los votos de la fanaticada se contabilizan en tiempo real para la entrega del trofeo oficial.
@@ -528,7 +527,7 @@
                     feedback.innerHTML = `
                         <div class="text-xs uppercase font-black text-amber-400">🏆 MVP Oficial Coronado</div>
                         <div class="text-base font-extrabold text-white mt-0.5">${data.official_mvp.name}</div>
-                        <div class="text-[11px] text-amber-200/90">${data.official_mvp.team} · Calificación: ${data.official_mvp.rating || '9.0'} ⭐</div>
+                        <div class="text-[11px] text-amber-200/90">${data.official_mvp.team} · Calificación: ${data.official_mvp.rating || '9.0'} / 10</div>
                     `;
                 } else {
                     voteForm.classList.remove('hidden');
