@@ -51,7 +51,7 @@
             <!-- Resumen de Métricas Rápidas del Torneo -->
             <div class="mt-12 pt-6 border-t border-white/15 grid grid-cols-2 sm:grid-cols-4 gap-4 max-w-3xl mx-auto text-center">
                 <div class="p-2">
-                    <div class="text-xl sm:text-2xl font-black text-white font-mono">{{ $tournament?->teams->count() ?? 0 }}</div>
+                    <div class="text-xl sm:text-2xl font-black text-white font-mono">{{ $teams->count() }}</div>
                     <div class="text-[11px] text-slate-300 uppercase tracking-wider font-semibold">Equipos Inscritos</div>
                 </div>
                 <div class="p-2">
@@ -472,7 +472,7 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-400">Equipos:</span>
-                            <span class="font-bold text-slate-800">{{ $tournament?->teams->count() ?? 0 }} participantes</span>
+                            <span class="font-bold text-slate-800">{{ $teams->count() }} participantes</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-400">Sede Principal:</span>
