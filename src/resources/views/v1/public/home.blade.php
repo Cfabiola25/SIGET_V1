@@ -1,201 +1,284 @@
 @extends('v1.layouts.app')
 
-@section('title', 'El Torneo en Tus Manos')
+@section('title', 'El Torneo en Tus Manos | SIGET-SF')
 
 @section('content')
-    <!-- 1. HERO BANNER PRINCIPAL (Fiel a la referencia) -->
-    <div class="relative overflow-hidden rounded-3xl mb-12 shadow-2xl border border-slate-800/80">
-        <!-- Imagen de Fondo del Estadio -->
-        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 scale-100 hover:scale-105"
+    <!-- 1. HERO BANNER PRINCIPAL: ULTRA-PREMIUM CINEMATIC DESIGN -->
+    <div class="relative overflow-hidden rounded-3xl mb-12 border border-white/[0.08] shadow-2xl bg-slate-950 group">
+        <!-- Imagen de Fondo del Estadio con Zoom Suave y Parallax -->
+        <div class="absolute inset-0 bg-cover bg-center transition-transform duration-1000 ease-out group-hover:scale-105 opacity-60"
              style="background-image: url('{{ asset('images/stadium_hero.jpg') }}');"></div>
-        <!-- Gradiente de superposición para legibilidad premium -->
-        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/65 to-slate-900/40"></div>
+        
+        <!-- Multi-Capa de Gradientes Ambientales (Obsidian + Emerald Glow) -->
+        <div class="absolute inset-0 bg-gradient-to-t from-[#070a13] via-[#070a13]/70 to-transparent"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#070a13]/90 via-transparent to-[#070a13]/90"></div>
+        <div class="absolute -top-24 left-1/2 -translate-x-1/2 size-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
 
-        <div class="relative z-10 px-6 py-20 sm:px-12 sm:py-28 lg:py-32 max-w-4xl mx-auto text-center">
-            <span class="inline-flex items-center gap-2 rounded-full bg-emerald-500/10 border border-emerald-500/30 px-3.5 py-1 text-xs font-bold uppercase tracking-widest text-emerald-400 mb-6 backdrop-blur-md">
-                ⚽ {{ $tournament?->name ?? 'Copa Élite SIGET 2026' }}
-            </span>
-            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.08] drop-shadow-md">
-                El Torneo en Tus Manos
+        <div class="relative z-10 px-6 py-20 sm:px-12 sm:py-24 lg:py-28 max-w-4xl mx-auto text-center">
+            <!-- Badge de Torneo Oficial con Efecto Neón -->
+            <div class="inline-flex items-center gap-2.5 rounded-full glass-pill px-4 py-1.5 text-xs font-bold uppercase tracking-widest text-emerald-300 mb-6 border border-emerald-500/30 shadow-lg shadow-emerald-500/10">
+                <span class="flex size-2 rounded-full bg-emerald-400 animate-ping"></span>
+                <span>🏆 {{ $tournament?->name ?? 'Copa Élite SIGET-SF 2026' }}</span>
+                <span class="text-white/20">|</span>
+                <span class="text-slate-400 font-normal lowercase">fase regular</span>
+            </div>
+
+            <!-- Título Monumental -->
+            <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-black text-white tracking-tight leading-[1.05] drop-shadow-2xl">
+                El Torneo en <span class="bg-gradient-to-r from-emerald-400 via-teal-300 to-cyan-400 bg-clip-text text-transparent">Tus Manos</span>
             </h1>
-            <p class="mt-5 text-base sm:text-xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed drop-shadow">
-                Sigue cada partido, analiza las estadísticas y mantente al día con la acción en vivo. La plataforma oficial de gestión de torneos <span class="font-bold text-white">SIGET-SF</span>.
+
+            <!-- Subtítulo Pulcro -->
+            <p class="mt-6 text-base sm:text-xl text-slate-300 max-w-2xl mx-auto font-normal leading-relaxed">
+                Sigue cada partido, analiza las estadísticas en tiempo real y vota por el MVP de la jornada. La plataforma oficial de gestión deportiva <span class="font-bold text-white tracking-wide">SIGET-SF</span>.
             </p>
-            <div class="mt-8 flex flex-wrap justify-center gap-4">
-                <a href="#partidos-section" class="inline-flex items-center gap-2 rounded-full bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-extrabold px-8 py-3.5 text-sm uppercase tracking-wider shadow-lg shadow-emerald-500/30 transition transform hover:-translate-y-0.5">
-                    VER CALENDARIO
-                    <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
+
+            <!-- Botones de Acción Principal -->
+            <div class="mt-8 flex flex-wrap justify-center items-center gap-4">
+                <a href="#partidos-section" class="inline-flex items-center gap-2.5 rounded-full bg-gradient-to-r from-emerald-500 via-emerald-400 to-teal-400 px-8 py-3.5 text-xs font-black uppercase tracking-wider text-slate-950 shadow-xl shadow-emerald-500/30 transition transform hover:-translate-y-0.5 hover:shadow-emerald-500/50 active:translate-y-0 group/btn">
+                    <span>VER CALENDARIO</span>
+                    <svg class="size-4 transition-transform group-hover/btn:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </a>
-                <a href="{{ route('standings.index') }}" class="inline-flex items-center gap-2 rounded-full bg-slate-900/80 hover:bg-slate-800 text-white font-bold px-7 py-3.5 text-sm border border-slate-700/80 backdrop-blur-md transition">
-                    Ver Clasificación
+                <a href="{{ route('standings.index') }}" class="inline-flex items-center gap-2 rounded-full glass-card px-7 py-3.5 text-xs font-bold tracking-wider text-slate-200 hover:text-white hover:border-emerald-500/40 transition transform hover:-translate-y-0.5">
+                    <svg class="size-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 10h18M3 14h18M3 18h18M3 6h18"/></svg>
+                    <span>Ver Clasificación</span>
                 </a>
+            </div>
+
+            <!-- Micro-Highlights Bar -->
+            <div class="mt-12 pt-8 border-t border-white/[0.08] grid grid-cols-3 gap-4 max-w-2xl mx-auto text-left">
+                <div class="flex items-center gap-3">
+                    <div class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400">
+                        ⚡
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">En Vivo</div>
+                        <div class="text-[11px] text-slate-400">Marcador en directo</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/20 text-amber-400">
+                        ⭐
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Voto Fan MVP</div>
+                        <div class="text-[11px] text-slate-400">Elige a la figura</div>
+                    </div>
+                </div>
+                <div class="flex items-center gap-3">
+                    <div class="flex size-9 shrink-0 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/20 text-cyan-400">
+                        🤖
+                    </div>
+                    <div>
+                        <div class="text-xs font-bold text-white">Crónicas IA</div>
+                        <div class="text-[11px] text-slate-400">Análisis automático</div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- 2. CONTENIDO PRINCIPAL: DOS COLUMNAS (PARTIDOS/NOTICIAS A LA IZQUIERDA Y TABLA A LA DERECHA) -->
+    <!-- 2. CONTENIDO PRINCIPAL: DOS COLUMNAS -->
     <div id="partidos-section" class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
         
         <!-- COLUMNA IZQUIERDA: Partidos de Hoy & Noticias -->
         <div class="lg:col-span-8 space-y-12">
             
-            <!-- SECCIÓN: Partidos de Hoy -->
+            <!-- SECCIÓN: Partidos de Hoy / Jornada -->
             <div>
-                <div class="flex items-center justify-between mb-5">
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-emerald-400 text-2xl">⚽</span>
-                        <h2 class="text-2xl font-bold text-white tracking-tight">Partidos de Hoy</h2>
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="flex size-9 items-center justify-center rounded-xl bg-emerald-500/10 border border-emerald-500/25 text-emerald-400 shadow-sm">
+                            <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="font-display text-2xl font-extrabold text-white tracking-tight">Partidos de Hoy</h2>
+                            <p class="text-xs text-slate-400">Encuentros programados y en desarrollo de la jornada</p>
+                        </div>
                     </div>
-                    <a href="{{ route('matches.index') }}" class="text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition flex items-center gap-1">
-                        Ver todos <span aria-hidden="true">→</span>
+                    <a href="{{ route('matches.index') }}" class="group inline-flex items-center gap-1.5 text-xs font-bold text-emerald-400 hover:text-emerald-300 transition">
+                        <span>Ver todos</span>
+                        <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
                     </a>
                 </div>
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     @forelse($featuredMatches->take(4) as $match)
-                        <div class="group relative rounded-2xl border border-slate-800/90 bg-slate-900/70 p-5 shadow-lg shadow-black/20 hover:border-emerald-500/40 hover:bg-slate-900 transition backdrop-blur-md">
+                        <div class="glass-card glass-card-hover rounded-2xl p-5 flex flex-col justify-between group">
                             <!-- Barra superior de la tarjeta -->
-                            <div class="flex items-center justify-between text-xs text-slate-400 mb-4 pb-2 border-b border-slate-800/50">
-                                <span class="rounded-md bg-slate-800 px-2 py-0.5 font-bold uppercase tracking-wider text-slate-300">
+                            <div class="flex items-center justify-between text-xs pb-3 mb-3 border-b border-white/[0.06]">
+                                <span class="rounded-lg bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 text-[11px] font-black uppercase tracking-wider text-emerald-300">
                                     Jornada {{ $match->round_number }}
                                 </span>
-                                <span class="flex items-center gap-1.5 font-medium text-slate-400">
-                                    <svg class="size-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                                    {{ $match->match_date->format('H:i') }}
-                                </span>
+                                <div class="flex items-center gap-2 text-slate-400 text-xs">
+                                    <span class="flex items-center gap-1">
+                                        <svg class="size-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                                        {{ $match->match_date->format('H:i') }}
+                                    </span>
+                                </div>
                             </div>
 
                             <!-- Centro: Equipos y Marcador -->
-                            <div class="flex items-center justify-between gap-3 text-center my-2">
-                                <!-- Equipo Local -->
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="size-14 rounded-full bg-slate-800 border-2 border-slate-700/80 flex items-center justify-center shadow-md group-hover:border-emerald-500/50 transition">
-                                        <span class="font-extrabold text-base text-emerald-400">
+                            <div class="grid grid-cols-7 items-center gap-2 my-2">
+                                <!-- Equipo Local (cols 3) -->
+                                <div class="col-span-3 flex flex-col items-center text-center">
+                                    <div class="relative size-14 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 flex items-center justify-center shadow-lg group-hover:border-emerald-500/50 transition">
+                                        <span class="font-display font-black text-lg text-emerald-400">
                                             {{ strtoupper(substr($match->homeTeam->name, 0, 2)) }}
                                         </span>
                                     </div>
-                                    <span class="mt-2 text-xs font-bold text-slate-200 line-clamp-1 max-w-[100px]">
+                                    <span class="mt-2 text-xs font-bold text-slate-200 line-clamp-1 max-w-[110px]" title="{{ $match->homeTeam->name }}">
                                         {{ $match->homeTeam->name }}
                                     </span>
+                                    <span class="text-[10px] text-slate-500 uppercase font-semibold">Local</span>
                                 </div>
 
-                                <!-- Marcador & Estado -->
-                                <div class="px-2 flex flex-col items-center shrink-0">
+                                <!-- Marcador & Estado Central (col 1) -->
+                                <div class="col-span-1 flex flex-col items-center justify-center">
                                     @if($match->status === 'played')
-                                        <div class="text-3xl font-black text-white font-mono tracking-tight">
-                                            {{ $match->home_score }} - {{ $match->away_score }}
+                                        <div class="flex items-center gap-1 font-mono text-2xl font-black text-white tracking-tight">
+                                            <span>{{ $match->home_score }}</span>
+                                            <span class="text-slate-600">-</span>
+                                            <span>{{ $match->away_score }}</span>
                                         </div>
-                                        <span class="mt-1 inline-block text-[11px] font-black uppercase tracking-wider text-slate-400">
+                                        <span class="mt-1 inline-block rounded-md bg-slate-800/80 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-slate-400 border border-slate-700/60">
                                             FINAL
                                         </span>
                                     @elseif($match->status === 'live' || $match->is_timer_running)
-                                        <div class="text-3xl font-black text-emerald-400 font-mono tracking-tight animate-pulse">
-                                            {{ $match->home_score }} - {{ $match->away_score }}
+                                        <div class="flex items-center gap-1 font-mono text-2xl font-black text-emerald-400 tracking-tight animate-pulse">
+                                            <span>{{ $match->home_score }}</span>
+                                            <span class="text-emerald-600">-</span>
+                                            <span>{{ $match->away_score }}</span>
                                         </div>
-                                        <span class="mt-1 inline-flex items-center gap-1.5 text-[11px] font-black uppercase tracking-wider text-emerald-400">
-                                            <span class="size-2 rounded-full bg-emerald-400 animate-ping"></span> EN VIVO
+                                        <span class="mt-1 inline-flex items-center gap-1 rounded-md bg-emerald-500/20 px-2 py-0.5 text-[9px] font-black uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
+                                            <span class="size-1.5 rounded-full bg-emerald-400 animate-ping"></span>
+                                            VIVO
                                         </span>
                                     @else
-                                        <div class="text-2xl font-bold text-slate-400 font-mono">
+                                        <div class="font-mono text-base font-bold text-slate-500">
                                             VS
                                         </div>
-                                        <span class="mt-1 inline-block text-[10px] font-bold uppercase tracking-wider text-slate-500">
-                                            PROGRAMADO
+                                        <span class="mt-1 inline-block text-[9px] font-bold uppercase tracking-wider text-slate-500">
+                                            FIXTURE
                                         </span>
                                     @endif
                                 </div>
 
-                                <!-- Equipo Visitante -->
-                                <div class="flex-1 flex flex-col items-center">
-                                    <div class="size-14 rounded-full bg-slate-800 border-2 border-slate-700/80 flex items-center justify-center shadow-md group-hover:border-emerald-500/50 transition">
-                                        <span class="font-extrabold text-base text-cyan-400">
+                                <!-- Equipo Visitante (cols 3) -->
+                                <div class="col-span-3 flex flex-col items-center text-center">
+                                    <div class="relative size-14 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 flex items-center justify-center shadow-lg group-hover:border-cyan-500/50 transition">
+                                        <span class="font-display font-black text-lg text-cyan-400">
                                             {{ strtoupper(substr($match->awayTeam->name, 0, 2)) }}
                                         </span>
                                     </div>
-                                    <span class="mt-2 text-xs font-bold text-slate-200 line-clamp-1 max-w-[100px]">
+                                    <span class="mt-2 text-xs font-bold text-slate-200 line-clamp-1 max-w-[110px]" title="{{ $match->awayTeam->name }}">
                                         {{ $match->awayTeam->name }}
                                     </span>
+                                    <span class="text-[10px] text-slate-500 uppercase font-semibold">Visita</span>
                                 </div>
                             </div>
 
-                            <!-- Botones Interactivos: En Vivo / Votar MVP -->
-                            <div class="mt-5 pt-3 border-t border-slate-800/60 flex items-center justify-between gap-2">
+                            <!-- Botón Interactivo: Modal En Vivo y Voto MVP -->
+                            <div class="mt-4 pt-3 border-t border-white/[0.06]">
                                 <button type="button" 
                                         onclick="openMatchLiveModal({{ $match->id }}, '{{ addslashes($match->homeTeam->name) }}', '{{ addslashes($match->awayTeam->name) }}', {{ $match->home_score }}, {{ $match->away_score }}, '{{ $match->status }}', '{{ $match->formatted_clock }}')"
-                                        class="w-full rounded-lg bg-slate-800 hover:bg-emerald-600 text-slate-200 hover:text-white px-3 py-2 text-xs font-bold transition flex items-center justify-center gap-1.5 shadow">
-                                    <svg class="size-3.5 text-amber-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-                                    Votar MVP / En Vivo
+                                        class="w-full rounded-xl bg-slate-800/80 hover:bg-emerald-500 text-slate-200 hover:text-slate-950 px-3 py-2 text-xs font-bold transition flex items-center justify-center gap-2 border border-white/[0.06] hover:border-emerald-400 shadow-md">
+                                    <svg class="size-3.5 text-amber-400 group-hover:text-slate-950 transition" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+                                    <span>Votar MVP / Ver En Vivo</span>
                                 </button>
                             </div>
                         </div>
                     @empty
-                        <div class="col-span-2 rounded-2xl border border-slate-800 bg-slate-900/40 p-8 text-center text-slate-400">
+                        <div class="col-span-2 glass-card rounded-2xl p-10 text-center text-slate-400">
+                            <span class="text-3xl mb-2 block">⚽</span>
                             No hay encuentros programados en esta jornada.
                         </div>
                     @endforelse
                 </div>
             </div>
 
-            <!-- SECCIÓN: Noticias / Crónicas Destacadas (Fiel a la referencia) -->
+            <!-- SECCIÓN: Noticias / Crónicas Destacadas -->
             <div>
-                <div class="flex items-center gap-2.5 mb-5">
-                    <span class="text-emerald-400 text-2xl">📰</span>
-                    <h2 class="text-2xl font-bold text-white tracking-tight">Noticias</h2>
+                <div class="flex items-center gap-3 mb-6">
+                    <div class="flex size-9 items-center justify-center rounded-xl bg-amber-500/10 border border-amber-500/25 text-amber-400 shadow-sm">
+                        <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                    </div>
+                    <div>
+                        <h2 class="font-display text-2xl font-extrabold text-white tracking-tight">Noticias & Crónicas</h2>
+                        <p class="text-xs text-slate-400">Resúmenes oficiales generados con inteligencia artificial</p>
+                    </div>
                 </div>
 
                 @php
                     $latestChronicle = $chronicles->first();
                 @endphp
 
-                <div class="overflow-hidden rounded-2xl border border-slate-800/90 bg-slate-900/70 p-5 shadow-xl shadow-black/20 flex flex-col md:flex-row gap-6 items-center backdrop-blur-md">
-                    <div class="w-full md:w-5/12 shrink-0 overflow-hidden rounded-xl h-52 md:h-44 relative group">
-                        <img src="{{ asset('images/soccer_news.jpg') }}" alt="Crónica del Partido" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
-                        <span class="absolute top-2.5 left-2.5 bg-slate-950/80 backdrop-blur-md px-2.5 py-1 rounded text-[10px] font-black uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
-                            SIGET-SF
+                <div class="glass-card glass-card-hover rounded-2xl p-5 overflow-hidden flex flex-col md:flex-row gap-6 items-center group">
+                    <div class="w-full md:w-5/12 shrink-0 overflow-hidden rounded-xl h-56 md:h-48 relative">
+                        <img src="{{ asset('images/soccer_news.jpg') }}" alt="Crónica del Partido" class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-700">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent"></div>
+                        <span class="absolute top-3 left-3 glass-pill px-2.5 py-1 rounded-md text-[10px] font-black uppercase tracking-wider text-emerald-400 border border-emerald-500/30">
+                            SIGET-SF OFICIAL
                         </span>
                     </div>
-                    <div class="flex-1 space-y-2.5">
-                        <span class="text-xs font-black uppercase tracking-widest text-emerald-400">
-                            ACTUALIDAD
-                        </span>
-                        <h3 class="text-xl font-extrabold text-white leading-snug">
+                    <div class="flex-1 space-y-3">
+                        <div class="flex items-center gap-2 text-[11px] font-black uppercase tracking-widest text-emerald-400">
+                            <span class="size-1.5 rounded-full bg-emerald-400"></span>
+                            <span>ACTUALIDAD DE LA COMPETICIÓN</span>
+                        </div>
+                        <h3 class="font-display text-xl font-extrabold text-white leading-snug group-hover:text-emerald-300 transition">
                             {{ $latestChronicle?->chronicle_title ?? 'Resultados sorpresivos en la jornada de fin de semana' }}
                         </h3>
-                        <p class="text-sm text-slate-300 line-clamp-3 leading-relaxed">
-                            {{ $latestChronicle?->chronicle_body ?? 'Los equipos considerados favoritos tropezaron en sus respectivos encuentros, dejando la tabla de posiciones más apretada que nunca...' }}
+                        <p class="text-xs text-slate-300 leading-relaxed line-clamp-3">
+                            {{ $latestChronicle?->chronicle_body ?? 'Los equipos considerados favoritos tropezaron en sus respectivos encuentros, dejando la tabla de posiciones más apretada que nunca. Los directores técnicos ajustan sus tácticas de cara a las próximas fechas decisivas.' }}
                         </p>
-                        @if($latestChronicle)
-                            <div class="pt-1 flex items-center gap-3 text-xs text-slate-400 font-medium">
-                                <span>📅 {{ $latestChronicle->match_date->format('d M, Y') }}</span>
-                                <span>·</span>
-                                <span class="text-emerald-400 font-semibold">Crónica Oficial IA</span>
-                            </div>
-                        @endif
+                        <div class="pt-2 flex items-center gap-4 text-xs text-slate-400 font-medium border-t border-white/[0.06]">
+                            <span class="flex items-center gap-1.5">
+                                <svg class="size-3.5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                {{ $latestChronicle ? $latestChronicle->match_date->format('d M, Y') : now()->format('d M, Y') }}
+                            </span>
+                            <span class="text-slate-600">·</span>
+                            <span class="text-emerald-400 font-semibold flex items-center gap-1">
+                                <svg class="size-3.5 text-emerald-400" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+                                Acta Oficial Verificada
+                            </span>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- SECCIÓN: Equipos de la Competencia -->
             <div>
-                <div class="flex items-center justify-between mb-5">
-                    <div class="flex items-center gap-2.5">
-                        <span class="text-emerald-400 text-2xl">🛡️</span>
-                        <h2 class="text-2xl font-bold text-white tracking-tight">Equipos en Competencia</h2>
+                <div class="flex items-center justify-between mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="flex size-9 items-center justify-center rounded-xl bg-cyan-500/10 border border-cyan-500/25 text-cyan-400 shadow-sm">
+                            <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
+                        </div>
+                        <div>
+                            <h2 class="font-display text-2xl font-extrabold text-white tracking-tight">Equipos en Competencia</h2>
+                            <p class="text-xs text-slate-400">Directores técnicos y plantillas activas</p>
+                        </div>
                     </div>
-                    <a href="{{ route('teams.index') }}" class="text-sm font-semibold text-emerald-400 hover:text-emerald-300 transition">
-                        Ver planteles completos →
+                    <a href="{{ route('teams.index') }}" class="group inline-flex items-center gap-1.5 text-xs font-bold text-cyan-400 hover:text-cyan-300 transition">
+                        <span>Ver planteles completos</span>
+                        <span class="transition-transform group-hover:translate-x-1" aria-hidden="true">→</span>
                     </a>
                 </div>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     @foreach($teams as $team)
-                        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-4 text-center hover:border-emerald-500/40 transition backdrop-blur-md">
-                            <div class="size-14 rounded-full bg-slate-800 border-2 border-slate-700 mx-auto flex items-center justify-center font-black text-lg text-emerald-400 mb-3 shadow">
-                                {{ strtoupper(substr($team->name, 0, 2)) }}
+                        <div class="glass-card glass-card-hover rounded-2xl p-4 text-center flex flex-col justify-between group">
+                            <div>
+                                <div class="size-16 rounded-2xl bg-gradient-to-br from-slate-800 to-slate-900 border border-white/10 mx-auto flex items-center justify-center font-display font-black text-xl text-emerald-400 mb-3 shadow-lg group-hover:scale-105 transition transform">
+                                    {{ strtoupper(substr($team->name, 0, 2)) }}
+                                </div>
+                                <h4 class="font-display font-extrabold text-white text-sm line-clamp-1 group-hover:text-emerald-300 transition">{{ $team->name }}</h4>
+                                <div class="mt-1.5 inline-flex items-center gap-1 rounded-full bg-slate-800/80 px-2.5 py-0.5 text-[10px] text-slate-300 font-semibold border border-slate-700/60">
+                                    <span>👔 DT:</span>
+                                    <span class="text-slate-100 truncate max-w-[100px]">{{ $team->coach_name }}</span>
+                                </div>
                             </div>
-                            <h4 class="font-extrabold text-white text-sm line-clamp-1">{{ $team->name }}</h4>
-                            <p class="text-xs text-slate-400 mt-1 font-medium">DT: {{ $team->coach_name }}</p>
-                            <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+                            <div class="mt-4 pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs text-slate-400 font-medium">
                                 <span>{{ $team->players->count() }} Jugadores</span>
                                 <a href="{{ route('teams.show', $team) }}" class="text-emerald-400 font-bold hover:underline">Ficha →</a>
                             </div>
@@ -206,40 +289,55 @@
 
         </div>
 
-        <!-- COLUMNA DERECHA: Tabla de Posiciones (Idéntica a la imagen de referencia) -->
+        <!-- COLUMNA DERECHA: Tabla de Posiciones Sticky -->
         <div class="lg:col-span-4">
-            <div class="rounded-2xl border border-slate-800 bg-slate-900/70 shadow-2xl overflow-hidden backdrop-blur-md sticky top-20">
+            <div class="glass-card rounded-3xl overflow-hidden shadow-2xl sticky top-24 border border-white/[0.08]">
                 
                 <!-- Encabezado de la Tabla -->
-                <div class="p-5 border-b border-slate-800/90 flex items-center justify-between bg-slate-900/90">
-                    <div class="flex items-center gap-2.5">
-                        <svg class="size-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M4 6h16M4 10h16M4 14h16M4 18h16"/></svg>
-                        <h3 class="text-lg font-extrabold text-white tracking-tight">Tabla de Posiciones</h3>
+                <div class="p-5 border-b border-white/[0.06] flex items-center justify-between bg-slate-950/40">
+                    <div class="flex items-center gap-3">
+                        <div class="flex size-8 items-center justify-center rounded-lg bg-emerald-500/10 border border-emerald-500/30 text-emerald-400">
+                            <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M3 10h18M3 14h18M3 18h18M3 6h18"/></svg>
+                        </div>
+                        <h3 class="font-display text-lg font-black text-white tracking-tight">Tabla de Posiciones</h3>
                     </div>
+                    <span class="rounded-full bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-wider text-emerald-400">
+                        En Vivo
+                    </span>
                 </div>
 
                 <!-- Cuerpo de la Tabla -->
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
-                        <thead class="bg-slate-950/60 text-[11px] uppercase tracking-wider text-slate-400 border-b border-slate-800">
+                        <thead class="bg-slate-950/70 text-[11px] uppercase tracking-wider text-slate-400 border-b border-white/[0.06]">
                             <tr>
-                                <th class="py-3 px-4 w-8 font-semibold">#</th>
-                                <th class="py-3 px-2 font-semibold">Equipo</th>
-                                <th class="py-3 px-3 text-center font-semibold">PJ</th>
-                                <th class="py-3 px-3 text-center font-semibold">DG</th>
+                                <th class="py-3 px-4 w-8 font-bold">#</th>
+                                <th class="py-3 px-2 font-bold">Equipo</th>
+                                <th class="py-3 px-3 text-center font-bold">PJ</th>
+                                <th class="py-3 px-3 text-center font-bold">DG</th>
                                 <th class="py-3 px-4 text-center font-black text-emerald-400">PTS</th>
                             </tr>
                         </thead>
-                        <tbody class="divide-y divide-slate-800/60 font-medium">
+                        <tbody class="divide-y divide-white/[0.04] font-medium">
                             @forelse($standings as $index => $standing)
-                                <tr class="hover:bg-slate-800/40 transition">
-                                    <td class="py-3.5 px-4 font-bold text-slate-400">{{ $index + 1 }}</td>
+                                <tr class="hover:bg-white/[0.03] transition {{ $index < 2 ? 'bg-emerald-500/[0.02]' : '' }}">
+                                    <td class="py-3.5 px-4 font-bold text-xs">
+                                        @if($index === 0)
+                                            <span class="flex size-5 items-center justify-center rounded-full bg-amber-400 text-slate-950 font-black text-[10px] shadow-sm">1</span>
+                                        @elseif($index === 1)
+                                            <span class="flex size-5 items-center justify-center rounded-full bg-slate-300 text-slate-950 font-black text-[10px] shadow-sm">2</span>
+                                        @elseif($index === 2)
+                                            <span class="flex size-5 items-center justify-center rounded-full bg-amber-700 text-white font-black text-[10px] shadow-sm">3</span>
+                                        @else
+                                            <span class="text-slate-500">{{ $index + 1 }}</span>
+                                        @endif
+                                    </td>
                                     <td class="py-3.5 px-2">
                                         <div class="flex items-center gap-2.5">
-                                            <span class="size-7 rounded-full bg-slate-800 border border-slate-700 flex items-center justify-center text-xs font-black text-emerald-400 shrink-0">
+                                            <span class="size-7 rounded-lg bg-slate-800 border border-white/10 flex items-center justify-center text-[10px] font-black text-emerald-400 shrink-0">
                                                 {{ strtoupper(substr($standing->team->name, 0, 2)) }}
                                             </span>
-                                            <span class="font-bold text-slate-100 truncate max-w-[130px] sm:max-w-none">
+                                            <span class="font-bold text-slate-100 truncate max-w-[120px] text-xs">
                                                 {{ $standing->team->name }}
                                             </span>
                                         </div>
@@ -250,16 +348,18 @@
                                     @php
                                         $dg = $standing->goals_for - $standing->goals_against;
                                     @endphp
-                                    <td class="py-3.5 px-3 text-center font-mono text-xs {{ $dg >= 0 ? 'text-slate-300' : 'text-rose-400 font-bold' }}">
+                                    <td class="py-3.5 px-3 text-center font-mono text-xs {{ $dg > 0 ? 'text-emerald-400 font-bold' : ($dg < 0 ? 'text-rose-400 font-bold' : 'text-slate-400') }}">
                                         {{ $dg > 0 ? '+'.$dg : $dg }}
                                     </td>
-                                    <td class="py-3.5 px-4 text-center font-black font-mono text-emerald-400 text-base">
-                                        {{ $standing->points }}
+                                    <td class="py-3.5 px-4 text-center font-black font-mono text-emerald-400 text-sm">
+                                        <span class="inline-block rounded-md bg-emerald-500/10 px-2 py-0.5 border border-emerald-500/20">
+                                            {{ $standing->points }}
+                                        </span>
                                     </td>
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="5" class="py-6 text-center text-slate-500">Sin datos de clasificación.</td>
+                                    <td colspan="5" class="py-8 text-center text-slate-500 text-xs">Sin datos de clasificación disponibles.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -267,9 +367,10 @@
                 </div>
 
                 <!-- Footer de la Tabla -->
-                <div class="p-4 border-t border-slate-800 text-center bg-slate-950/40">
-                    <a href="{{ route('standings.index') }}" class="text-xs font-extrabold uppercase tracking-widest text-emerald-400 hover:text-emerald-300 transition block py-1">
-                        VER TABLA COMPLETA
+                <div class="p-4 border-t border-white/[0.06] text-center bg-slate-950/50">
+                    <a href="{{ route('standings.index') }}" class="group inline-flex items-center gap-1.5 text-xs font-black uppercase tracking-wider text-emerald-400 hover:text-emerald-300 transition py-1">
+                        <span>VER TABLA COMPLETA</span>
+                        <span class="transition-transform group-hover:translate-x-1">→</span>
                     </a>
                 </div>
             </div>
@@ -278,44 +379,44 @@
     </div>
 
     <!-- 3. MODAL INTERACTIVO: EN VIVO & VOTACIÓN MVP DE FANÁTICOS -->
-    <div id="liveMatchModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/80 backdrop-blur-md flex items-center justify-center p-4">
-        <div class="relative w-full max-w-2xl rounded-3xl border border-slate-700 bg-slate-900 p-6 sm:p-8 shadow-2xl shadow-emerald-950/40 animate-in fade-in zoom-in-95 duration-200">
+    <div id="liveMatchModal" class="fixed inset-0 z-50 hidden overflow-y-auto bg-slate-950/85 backdrop-blur-xl flex items-center justify-center p-4">
+        <div class="relative w-full max-w-2xl rounded-3xl glass-card p-6 sm:p-8 shadow-2xl shadow-emerald-950/50 border border-white/10 animate-in fade-in zoom-in-95 duration-200">
             <!-- Botón Cerrar -->
-            <button onclick="closeMatchLiveModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-full hover:bg-slate-800 transition">
+            <button onclick="closeMatchLiveModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white p-2 rounded-xl hover:bg-white/[0.06] transition">
                 <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"/></svg>
             </button>
 
             <!-- Título y Estado -->
             <div class="text-center mb-6">
-                <span id="modalMatchStatus" class="inline-block rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3 py-1 text-xs font-bold uppercase tracking-wider mb-2">
+                <span id="modalMatchStatus" class="inline-block rounded-full bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 px-3.5 py-1 text-xs font-black uppercase tracking-wider mb-3">
                     En Vivo
                 </span>
-                <div class="flex items-center justify-center gap-4 text-xl sm:text-2xl font-black text-white">
+                <div class="flex items-center justify-center gap-4 text-xl sm:text-2xl font-display font-black text-white">
                     <span id="modalHomeTeam" class="text-emerald-400">Local</span>
-                    <span id="modalScore" class="bg-slate-950 border border-slate-800 px-4 py-1.5 rounded-xl font-mono text-3xl">0 - 0</span>
+                    <span id="modalScore" class="bg-slate-950 border border-white/10 px-5 py-2 rounded-2xl font-mono text-3xl sm:text-4xl text-white shadow-inner">0 - 0</span>
                     <span id="modalAwayTeam" class="text-cyan-400">Visitante</span>
                 </div>
                 <p id="modalClock" class="mt-2 text-xs font-mono text-slate-400">Cronómetro Oficial: 00:00</p>
             </div>
 
             <!-- Votación de Aficionados: MVP -->
-            <div class="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-5 mb-6">
-                <div class="flex items-center gap-2 mb-2">
-                    <span class="text-xl">⭐</span>
-                    <h4 class="font-extrabold text-white text-base">Votación en Vivo: Jugador Más Valioso (MVP)</h4>
+            <div class="rounded-2xl border border-amber-500/30 bg-amber-500/[0.08] p-5 mb-6">
+                <div class="flex items-center gap-2.5 mb-2">
+                    <span class="text-2xl">⭐</span>
+                    <h4 class="font-display font-extrabold text-white text-base">Votación en Vivo: Jugador Más Valioso (MVP)</h4>
                 </div>
-                <p class="text-xs text-amber-200/80 mb-4">
-                    Como aficionado, ¡elige a la figura de la cancha! Tu voto influye en la calificación oficial de rendimiento del jugador.
+                <p class="text-xs text-amber-200/80 mb-4 leading-relaxed">
+                    Como aficionado, ¡vota por la figura del encuentro! Los votos de la fanaticada se contabilizan en tiempo real para la entrega del trofeo oficial.
                 </p>
 
                 <form id="mvpVoteForm" onsubmit="submitMvpVote(event)" class="space-y-3">
                     @csrf
                     <input type="hidden" id="modalMatchId" name="match_id">
-                    <div class="flex flex-col sm:flex-row gap-2">
-                        <select id="mvpPlayerSelect" name="player_id" required class="flex-1 rounded-xl border border-slate-700 bg-slate-950 px-3.5 py-2.5 text-sm text-white focus:border-amber-500 focus:outline-none">
+                    <div class="flex flex-col sm:flex-row gap-2.5">
+                        <select id="mvpPlayerSelect" name="player_id" required class="flex-1 rounded-xl border border-white/10 bg-slate-950 px-4 py-3 text-xs text-white focus:border-amber-400 focus:outline-none">
                             <option value="">Selecciona el jugador que merece el MVP...</option>
                         </select>
-                        <button type="submit" id="btnSubmitMvp" class="rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black px-6 py-2.5 text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/20">
+                        <button type="submit" id="btnSubmitMvp" class="rounded-xl bg-gradient-to-r from-amber-400 to-amber-500 hover:from-amber-300 hover:to-amber-400 text-slate-950 font-black px-6 py-3 text-xs uppercase tracking-wider transition shadow-lg shadow-amber-500/25 active:scale-95">
                             Votar MVP
                         </button>
                     </div>
@@ -324,22 +425,22 @@
                 <div id="mvpVoteFeedback" class="mt-3 hidden rounded-xl p-3 text-xs font-bold text-center"></div>
 
                 <!-- Desglose de votos en vivo -->
-                <div id="mvpLiveStatsContainer" class="mt-4 pt-3 border-t border-amber-500/20">
+                <div id="mvpLiveStatsContainer" class="mt-5 pt-3 border-t border-amber-500/20">
                     <div class="flex justify-between text-xs text-amber-300 font-bold mb-2">
-                        <span>Votos de la Afición</span>
-                        <span id="mvpTotalVotes">0 votos registrados</span>
+                        <span>Votos Registrados en Tiempo Real</span>
+                        <span id="mvpTotalVotes" class="font-mono">0 votos</span>
                     </div>
                     <div id="mvpBreakdownList" class="space-y-2"></div>
                 </div>
             </div>
 
             <!-- Timeline de Eventos Minuto a Minuto -->
-            <div class="border-t border-slate-800 pt-5">
+            <div class="border-t border-white/[0.06] pt-5">
                 <h5 class="text-xs font-black uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
                     <span>⏱️</span> Bitácora Minuto a Minuto del Partido
                 </h5>
                 <div id="modalEventsList" class="space-y-2 max-h-48 overflow-y-auto pr-1 text-sm text-slate-300">
-                    <p class="text-xs text-slate-500 italic">Cargando eventos...</p>
+                    <p class="text-xs text-slate-500 italic">Cargando eventos en tiempo real...</p>
                 </div>
             </div>
         </div>
@@ -361,7 +462,6 @@
             document.getElementById('mvpVoteFeedback').classList.add('hidden');
             document.getElementById('liveMatchModal').classList.remove('hidden');
 
-            // Cargar datos en vivo del partido y jugadores
             loadMatchLiveFeed(matchId);
             loadMvpLiveStats(matchId);
         }
@@ -383,7 +483,7 @@
                 const eventsContainer = document.getElementById('modalEventsList');
                 if (data.events && data.events.length > 0) {
                     eventsContainer.innerHTML = data.events.map(e => `
-                        <div class="flex items-center gap-3 bg-slate-950/60 p-2.5 rounded-xl border border-slate-800">
+                        <div class="flex items-center gap-3 bg-slate-950/60 p-2.5 rounded-xl border border-white/[0.06]">
                             <span class="font-mono text-xs font-black text-emerald-400 w-12">${e.formatted_time}</span>
                             <span class="text-base">${e.icon}</span>
                             <div class="flex-1">
@@ -442,15 +542,15 @@
                         <div>
                             <div class="flex justify-between text-[11px] text-slate-300 font-semibold mb-1">
                                 <span>${item.player_name}</span>
-                                <span class="text-amber-400">${item.percentage}% (${item.votes})</span>
+                                <span class="text-amber-400 font-mono">${item.percentage}% (${item.votes})</span>
                             </div>
                             <div class="w-full bg-slate-950 rounded-full h-1.5 overflow-hidden">
-                                <div class="bg-amber-400 h-full rounded-full transition-all duration-500" style="width: ${item.percentage}%"></div>
+                                <div class="bg-gradient-to-r from-amber-400 to-amber-300 h-full rounded-full transition-all duration-500" style="width: ${item.percentage}%"></div>
                             </div>
                         </div>
                     `).join('');
                 } else {
-                    breakdown.innerHTML = '<p class="text-xs text-slate-500 italic">Sé el primero en votar por el MVP.</p>';
+                    breakdown.innerHTML = '<p class="text-xs text-slate-500 italic">Sé el primero en votar por el MVP de este partido.</p>';
                 }
             } catch (err) {
                 console.error("Error cargando estadísticas MVP:", err);
