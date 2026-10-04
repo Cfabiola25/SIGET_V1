@@ -5,7 +5,7 @@
 @section('content')
     <div class="flex flex-col justify-between gap-6 border-b border-siget-ink/10 pb-8 sm:flex-row sm:items-end">
         <div><p class="text-xs font-bold uppercase tracking-[0.2em] text-siget-coral">Torneo en vivo</p><h1 class="siget-display mt-2 text-5xl leading-none">{{ $tournament->name }}</h1><p class="mt-4 text-siget-muted">{{ $tournament->sport_type }} · {{ $tournament->teams->count() }} equipos</p></div>
-        <span class="w-fit rounded-full bg-siget-mint px-4 py-2 text-sm font-bold uppercase tracking-wider">{{ $tournament->status }}</span>
+        <span class="w-fit rounded-full bg-siget-mint px-4 py-2 text-sm font-bold uppercase tracking-wider">{{ $tournament->status === 'active' ? 'ACTIVO' : ($tournament->status === 'completed' ? 'FINALIZADO' : 'PENDIENTE') }}</span>
     </div>
     <div class="mt-8 grid gap-6 lg:grid-cols-[1.2fr_.8fr]">
         <x-card title="Fixture" eyebrow="Calendario">

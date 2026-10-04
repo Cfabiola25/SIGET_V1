@@ -15,7 +15,9 @@
                     <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#057a55]">
                         <a href="{{ route('tournaments.show', $team->tournament) }}" class="hover:underline">← {{ $team->tournament->name }}</a>
                         <span class="text-slate-300">•</span>
-                        <span class="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">{{ strtoupper($team->status) }}</span>
+                        <span class="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">
+                            {{ $team->status === 'active' || $team->status === 'approved' ? 'ACTIVO' : ($team->status === 'completed' ? 'FINALIZADO' : 'PENDIENTE') }}
+                        </span>
                     </div>
                     <h1 class="mt-1 text-2xl font-bold text-slate-900 md:text-3xl">{{ $team->name }}</h1>
                     <p class="text-xs text-slate-500 mt-1">

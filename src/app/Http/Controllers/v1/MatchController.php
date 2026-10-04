@@ -21,6 +21,76 @@ class MatchController extends Controller
         $filters = $request->validate([
             'search' => ['nullable', 'string', 'max:100'],
             'sport_type' => ['nullable', 'string', 'max:100'],
+            'status' => ['nullable', Rule::in(['scheduled', 'live', 'played', 'suspended'])],
+            'date_from' => ['nullable', 'date'],
+            'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
+        ]);
+
+        $tournamentsQuery = Tournament::whereIn('status', ['active', 'pending', 'completed'])->orderBy('name');
+        if (! empty($filters['sport_type'])) {
+            $tournamentsQuery->where('sport_type', $filters['sport_type']);
+        }
+        $tournaments = $tournamentsQuery->get();
+        $selectedTournamentId = $request->query('tournament_id');
+
+        $query = MatchGame::with(['tournament', 'homeTeam', 'awayTeam', 'venue', 'referee'])->orderBy('match_date');
+
+        if ($selectedTournamentId) {
+            $query->where('tournament_id', $selectedTournamentId);
+        }
+
+
+        $query
+            ->when($filters['search'] ?? null, function ($query, $search): void {
+                $query->where(function ($query) use ($search): void {
+                    $query->whereHas('tournament', fn ($tournaments) => $tournaments->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('homeTeam', fn ($teams) => $teams->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('awayTeam', fn ($teams) => $teams->where('name', 'like', "%{$search}%"));
+                });
+            })
+            ->when($filters['sport_type'] ?? null, fn ($query, $sport) => $query->whereHas('tournament', fn ($tournaments) => $tournaments->where('sport_type', $sport)))
+            ->when($filters['status'] ?? null, function ($query, $status): void {
+                if ($status === 'live') {
+                    $query->where(function ($q) {
+                        $q->where('is_timer_running', true)
+                          ->orWhere('status', 'live');
+                    });
+                } else {
+                    $query->where('status', $status);
+                }
+            })
+            ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('match_date', '>=', $date))
+            ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('match_date', '<=', $date));
+
+        // Conteos para píldoras rápidas
+        $baseCountQuery = MatchGame::query();
+        if ($selectedTournamentId) {
+            $baseCountQuery->where('tournament_id', $selectedTournamentId);
+        }
+        $totalMatchesCount = (clone $baseCountQuery)->count();
+        $liveMatchesCount = (clone $baseCountQuery)->where(fn($q) => $q->where('is_timer_running', true)->orWhere('status', 'live'))->count();
+        $scheduledMatchesCount = (clone $baseCountQuery)->where('status', 'scheduled')->count();
+        $playedMatchesCount = (clone $baseCountQuery)->where('status', 'played')->count();
+
+        return view('v1.public.matches.index', [
+            'matches' => $query->paginate(12)->withQueryString(),
+            'tournaments' => $tournaments,
+            'selectedTournamentId' => $selectedTournamentId,
+            'filters' => $filters,
+            'totalMatchesCount' => $totalMatchesCount,
+            'liveMatchesCount' => $liveMatchesCount,
+            'scheduledMatchesCount' => $scheduledMatchesCount,
+            'playedMatchesCount' => $playedMatchesCount,
+        ]);
+    }
+
+    public function adminIndex(Request $request): View
+    {
+        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin', 'captain', 'coach', 'referee'], true), 403);
+
+        $filters = $request->validate([
+            'search' => ['nullable', 'string', 'max:100'],
+            'sport_type' => ['nullable', 'string', 'max:100'],
             'status' => ['nullable', Rule::in(['scheduled', 'played', 'suspended'])],
             'date_from' => ['nullable', 'date'],
             'date_to' => ['nullable', 'date', 'after_or_equal:date_from'],
@@ -52,6 +122,27 @@ class MatchController extends Controller
         ]);
     }
 
+    public function show(MatchGame $match): View
+    {
+        $user = request()->user();
+        if ($user && $user->isAdmin()) {
+            $this->authorizeMatch($match);
+        }
+
+        $match->load([
+            'tournament',
+            'homeTeam.players',
+            'awayTeam.players',
+            'venue',
+            'referee',
+            'events.player.team',
+            'mvpPlayer.team',
+            'mvpVotes.player',
+        ]);
+
+        return view('v1.public.matches.show', compact('match'));
+    }
+
     public function create(): View
     {
         abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
@@ -74,7 +165,7 @@ class MatchController extends Controller
         return redirect()->route('matches.show', $match);
     }
 
-    public function show(MatchGame $match): View
+    public function adminShow(MatchGame $match): View
     {
         $this->authorizeMatch($match);
 
@@ -204,9 +295,24 @@ class MatchController extends Controller
             ->with('status', 'Partido programado exitosamente en el calendario.');
     }
 
+    public function contingencySheet(MatchGame $match): View
+    {
+        $match->load([
+            'tournament.rules',
+            'homeTeam.players.profile',
+            'awayTeam.players.profile',
+            'lineups.player.profile',
+            'venue',
+            'referee',
+        ]);
+
+        return view('v1.matches.contingency-sheet', compact('match'));
+    }
+
     private function authorizeMatch(MatchGame $match): void
     {
         $user = request()->user();
         abort_unless($user && ($user->isSuperAdmin() || ($user->isAdmin() && $match->tournament->admin_id === $user->id)), 403);
     }
 }
+

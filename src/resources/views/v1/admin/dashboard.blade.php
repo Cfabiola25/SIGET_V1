@@ -1,11 +1,11 @@
 @extends('v1.layouts.app')
 
-@section('title', 'Overview')
-@section('header_title', 'Overview')
+@section('title', 'Panel de Control')
+@section('header_title', 'Panel de Control')
 
 @section('header_badge')
 <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700">
-    <span>Season 2024</span>
+    <span>Temporada 2024</span>
     <svg class="size-3 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
 </div>
 @endsection
@@ -16,10 +16,10 @@
     <!-- 4 KPI Stat Cards Row -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
         
-        <!-- Total Teams -->
+        <!-- Total Equipos -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">TOTAL TEAMS</span>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">TOTAL EQUIPOS</span>
                 <div class="size-9 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center">
                     <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
                 </div>
@@ -30,15 +30,15 @@
                 </div>
                 <div class="mt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
                     <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                    <span>+12 from last season</span>
+                    <span>+12 desde la temporada anterior</span>
                 </div>
             </div>
         </div>
 
-        <!-- Active Players -->
+        <!-- Jugadores Activos -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">ACTIVE PLAYERS</span>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">JUGADORES ACTIVOS</span>
                 <div class="size-9 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center">
                     <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
                 </div>
@@ -49,7 +49,7 @@
                 </div>
                 <div class="mt-2 text-xs font-semibold text-emerald-700 flex items-center gap-1">
                     <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-                    <span>+5% engagement</span>
+                    <span>+5% de actividad</span>
                 </div>
             </div>
         </div>
@@ -57,7 +57,7 @@
         <!-- Upcoming Matches -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">UPCOMING MATCHES</span>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">PRÓXIMOS PARTIDOS</span>
                 <div class="size-9 rounded-xl bg-teal-50 text-teal-600 flex items-center justify-center">
                     <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                 </div>
@@ -67,7 +67,7 @@
                     {{ $upcomingMatchesCount }}
                 </div>
                 <div class="mt-2 text-xs font-semibold text-slate-500">
-                    Next 48 hours
+                    Próximas 48 horas
                 </div>
             </div>
         </div>
@@ -75,7 +75,7 @@
         <!-- Pending Results -->
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs flex flex-col justify-between">
             <div class="flex items-center justify-between">
-                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">PENDING RESULTS</span>
+                <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">RESULTADOS PENDIENTES</span>
                 <div class="size-9 rounded-xl bg-rose-50 text-rose-600 flex items-center justify-center">
                     <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                 </div>
@@ -86,11 +86,41 @@
                 </div>
                 <div class="mt-2 text-xs font-semibold text-rose-600 flex items-center gap-1">
                     <span>⚠</span>
-                    <span>Requires validation</span>
+                    <span>Requiere validación</span>
                 </div>
             </div>
         </div>
 
+    </div>
+
+    <!-- Mis Torneos Asignados -->
+    <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5">
+        <div class="flex items-center justify-between pb-4 border-b border-slate-100">
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
+                <span>🏆</span>
+                <span>Mis Torneos Asignados</span>
+            </h3>
+            <span class="text-xs text-slate-400 font-mono">{{ $tournaments->count() }} torneos</span>
+        </div>
+        <div class="mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            @forelse($tournaments as $t)
+                <div class="p-4 rounded-xl border border-slate-200 hover:border-emerald-500 transition bg-slate-50/50 flex flex-col justify-between">
+                    <div>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+                            {{ $t->sport_type }}
+                        </span>
+                        <h4 class="font-display font-bold text-slate-900 mt-2 text-sm">{{ $t->name }}</h4>
+                        <p class="text-xs text-slate-500 mt-1">{{ $t->teams_count }} equipos • {{ $t->matches_count }} partidos</p>
+                    </div>
+                    <div class="mt-3 pt-3 border-t border-slate-200/60 flex items-center justify-between">
+                        <span class="text-xs font-semibold text-slate-600">{{ ucfirst($t->status) }}</span>
+                        <a href="{{ route('tournaments.show', $t) }}" class="text-xs font-bold text-emerald-700 hover:underline">Gestionar &rarr;</a>
+                    </div>
+                </div>
+            @empty
+                <p class="text-xs text-slate-400 italic col-span-full">No tienes torneos asignados actualmente.</p>
+            @endforelse
+        </div>
     </div>
 
     <!-- Main Content Split (Recent Activity + Right Widgets) -->
@@ -102,10 +132,10 @@
             <!-- Header -->
             <div class="p-5 md:px-6 md:py-4.5 border-b border-slate-100 flex items-center justify-between">
                 <h2 class="text-lg font-bold text-slate-900">
-                    Recent Activity
+                    Actividad Reciente
                 </h2>
                 <a href="{{ route('matches.index') }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 transition">
-                    View All
+                    Ver Todos
                 </a>
             </div>
 
@@ -114,10 +144,10 @@
                 <table class="w-full text-left text-sm border-collapse">
                     <thead>
                         <tr class="bg-[#edf2f9] text-slate-700 text-xs font-semibold">
-                            <th class="py-3 px-5">Match</th>
-                            <th class="py-3 px-5 text-center">Result</th>
-                            <th class="py-3 px-5">Referee</th>
-                            <th class="py-3 px-5 text-center">Status</th>
+                            <th class="py-3 px-5">Partido</th>
+                            <th class="py-3 px-5 text-center">Resultado</th>
+                            <th class="py-3 px-5">Árbitro</th>
+                            <th class="py-3 px-5 text-center">Estado</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
@@ -140,15 +170,15 @@
                                     <td class="py-4 px-5 text-center">
                                         @if ($m->status === 'played')
                                             <span class="inline-block bg-[#057a55] text-white text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                                Final
+                                                Finalizado
                                             </span>
                                         @elseif ($m->status === 'in_progress')
                                             <span class="inline-block bg-sky-100 text-sky-800 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                                In Progress
+                                                En Juego
                                             </span>
                                         @else
                                             <span class="inline-block bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                                Upcoming
+                                                Programado
                                             </span>
                                         @endif
                                     </td>
@@ -168,7 +198,7 @@
                                 </td>
                                 <td class="py-4 px-5 text-center">
                                     <span class="inline-block bg-[#057a55] text-white text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                        Final
+                                        Finalizado
                                     </span>
                                 </td>
                             </tr>
@@ -184,7 +214,7 @@
                                 </td>
                                 <td class="py-4 px-5 text-center">
                                     <span class="inline-block bg-sky-100 text-sky-800 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                        In Progress
+                                        En Juego
                                     </span>
                                 </td>
                             </tr>
@@ -200,7 +230,7 @@
                                 </td>
                                 <td class="py-4 px-5 text-center">
                                     <span class="inline-block bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                        Upcoming
+                                        Programado
                                     </span>
                                 </td>
                             </tr>
@@ -218,23 +248,23 @@
             <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5">
                 <div class="flex items-center gap-2 text-rose-600 mb-4">
                     <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z"/></svg>
-                    <h3 class="text-base font-bold text-slate-900">Urgent Tasks</h3>
+                    <h3 class="text-base font-bold text-slate-900">Tareas Urgentes</h3>
                 </div>
 
                 <div class="rounded-xl border border-slate-200 p-4 space-y-3 bg-slate-50/50">
-                    <h4 class="text-sm font-bold text-slate-900">Matchday Closure</h4>
+                    <h4 class="text-sm font-bold text-slate-900">Cierre de Jornada</h4>
                     <p class="text-xs text-slate-600 leading-relaxed">
-                        Review {{ $pendingResultsCount }} pending results from Weekend League.
+                        Revisar {{ $pendingResultsCount }} resultados pendientes del fin de semana.
                     </p>
                     <a href="{{ route('matches.index') }}" class="block w-full py-2.5 px-4 bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs font-bold rounded-lg transition text-center shadow-xs">
-                        Review Results
+                        Revisar Resultados
                     </a>
                 </div>
             </div>
 
             <!-- Tournament Progress Card -->
             <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5 text-center flex flex-col items-center">
-                <h3 class="text-base font-bold text-slate-900 w-full text-left mb-6">Tournament Progress</h3>
+                <h3 class="text-base font-bold text-slate-900 w-full text-left mb-6">Progreso del Torneo</h3>
                 
                 <!-- Circular Radial Gauge -->
                 <div class="relative size-36 flex items-center justify-center">
@@ -252,7 +282,7 @@
                 </div>
 
                 <p class="mt-4 text-xs text-slate-500 font-medium">
-                    Group Stage nearing completion.
+                    Fase de grupos próxima a finalizar.
                 </p>
             </div>
 

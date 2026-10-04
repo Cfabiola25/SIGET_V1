@@ -31,7 +31,26 @@ class ScoutingController extends Controller
 
         $freeAgents = $this->scoutingService->getFreeAgents($filters, 12);
 
-        // Equipos disponibles para fichaje si el usuario es DT o Admin
+        return view('v1.public.scouting.index', [
+            'freeAgents' => $freeAgents,
+            'filters' => $filters,
+        ]);
+    }
+
+    public function adminIndex(Request $request): View
+    {
+        abort_unless(auth()->check(), 403);
+
+        $filters = $request->validate([
+            'position' => ['nullable', 'string', 'in:goalkeeper,defender,midfielder,forward'],
+            'preferred_foot' => ['nullable', 'string', 'in:right,left,ambidextrous'],
+            'min_rating' => ['nullable', 'numeric', 'min:1', 'max:10'],
+            'search' => ['nullable', 'string', 'max:100'],
+            'sort_by' => ['nullable', 'string', 'in:rating_desc,rating_asc,mvp_desc,name_asc'],
+        ]);
+
+        $freeAgents = $this->scoutingService->getFreeAgents($filters, 12);
+
         $user = auth()->user();
         $availableTeams = collect();
         if ($user) {
@@ -50,10 +69,26 @@ class ScoutingController extends Controller
     }
 
     /**
-     * Ficha técnica y radar de talentos individual del jugador.
+     * Ficha técnica y radar de talentos individual del jugador (Público).
      */
     public function show(Player $player): View
     {
+        $player->load(['profile', 'team', 'events', 'sanctions']);
+        $metrics = $this->scoutingService->getRadarMetrics($player);
+
+        return view('v1.public.scouting.show', [
+            'player' => $player,
+            'metrics' => $metrics,
+        ]);
+    }
+
+    /**
+     * Ficha técnica con opciones de reclutamiento (Admin / DT).
+     */
+    public function adminShow(Player $player): View
+    {
+        abort_unless(auth()->check(), 403);
+
         $player->load(['profile', 'team', 'events', 'sanctions']);
         $metrics = $this->scoutingService->getRadarMetrics($player);
 

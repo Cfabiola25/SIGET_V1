@@ -22,7 +22,7 @@
                             {{ $referee->license_number ?? 'Colegiado Oficial' }}
                         </span>
                     </div>
-                    <p class="text-xs sm:text-sm text-slate-300 mt-1">Cuerpo Arbitral Oficial &bull; Plataforma SIGET-SF</p>
+                    <p class="text-xs sm:text-sm text-slate-300 mt-1">Cuerpo Arbitral Oficial &bull; Plataforma SIGET</p>
                     <div class="flex items-center gap-4 mt-3 text-xs text-slate-300">
                         <span class="flex items-center gap-1.5">
                             <span class="text-amber-400">⭐</span>

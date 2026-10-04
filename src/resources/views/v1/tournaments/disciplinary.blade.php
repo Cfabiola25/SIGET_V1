@@ -124,10 +124,10 @@
         @endif
     </div>
 
-    <!-- Cards Leaderboards Grid -->
+    <!-- Cuadrícula de Clasificación de Tarjetas -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
         
-        <!-- Yellow Cards Ranking -->
+        <!-- Clasificación de Tarjetas Amarillas -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
                 <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
@@ -158,7 +158,7 @@
             @endif
         </div>
 
-        <!-- Red Cards Ranking -->
+        <!-- Clasificación de Tarjetas Rojas -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
                 <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">

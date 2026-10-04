@@ -15,6 +15,39 @@ class TeamController extends Controller
     public function index(Request $request): View
     {
         $search = $request->query('search');
+        $tournamentId = $request->query('tournament_id');
+        $tournaments = Tournament::whereIn('status', ['pending', 'active'])->orderBy('name')->get();
+
+        $query = Team::with(['tournament', 'captain', 'standing'])
+            ->withCount('players')
+            ->latest();
+
+        if ($tournamentId) {
+            $query->where('tournament_id', $tournamentId);
+        }
+
+        if ($search) {
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhereHas('captain', fn ($user) => $user->where('name', 'like', "%{$search}%"));
+            });
+        }
+
+        $teams = $query->paginate(12)->withQueryString();
+
+        return view('v1.public.teams.index', [
+            'teams' => $teams,
+            'tournaments' => $tournaments,
+            'search' => $search,
+            'tournamentId' => $tournamentId,
+        ]);
+    }
+
+    public function adminIndex(Request $request): View
+    {
+        abort_unless(auth()->check(), 403);
+
+        $search = $request->query('search');
 
         $query = Team::with(['tournament', 'captain'])
             ->withCount('players')
@@ -37,10 +70,9 @@ class TeamController extends Controller
         $activePlayersCount = \App\Models\v1\Player::count();
         $pendingRegistrationsCount = Team::where('status', 'pending')->count();
         if ($pendingRegistrationsCount === 0) {
-            $pendingRegistrationsCount = 12; // Realistic fallback default matching dashboard
+            $pendingRegistrationsCount = 12;
         }
 
-        // Auditing cards
         $pendingSanctions = \App\Models\v1\DisciplinarySanction::with(['player.team', 'matchGame'])
             ->where('status', 'active')
             ->latest()
@@ -136,6 +168,30 @@ class TeamController extends Controller
     }
 
     public function show(Team $team): View
+    {
+        $user = request()->user();
+        if ($user && $user->isAdmin()) {
+            $this->authorizeTeam($team);
+        }
+
+        $team->load(['tournament', 'captain', 'players.profile', 'standing']);
+
+        $recentMatches = \App\Models\v1\MatchGame::where(function ($q) use ($team) {
+                $q->where('home_team_id', $team->id)
+                  ->orWhere('away_team_id', $team->id);
+            })
+            ->with(['homeTeam', 'awayTeam', 'venue'])
+            ->orderBy('match_date')
+            ->take(6)
+            ->get();
+
+        return view('v1.public.teams.show', [
+            'team' => $team,
+            'recentMatches' => $recentMatches,
+        ]);
+    }
+
+    public function adminShow(Team $team): View
     {
         $this->authorizeTeam($team);
 

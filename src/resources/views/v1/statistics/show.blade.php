@@ -1,19 +1,19 @@
 @extends('v1.layouts.app')
 
-@section('title', 'Tournament Statistics')
+@section('title', 'Estadísticas del Torneo')
 
 @section('content')
 <div class="space-y-6">
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Tournament Statistics</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Performance analytics, top goal scorers, and disciplinary indicators.</p>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Estadísticas del Torneo</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Análisis de rendimiento, tabla de goleadores e indicadores disciplinarios.</p>
         </div>
         <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
                 <span class="size-1.5 rounded-full bg-emerald-600"></span>
-                Official IFAB Feed
+                Registro Oficial IFAB
             </span>
         </div>
     </div>
@@ -21,27 +21,27 @@
     <!-- 4 KPI Stat Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Total Goals</span>
+            <span class="text-xs font-semibold text-slate-500">Goles Totales</span>
             <div class="text-3xl font-extrabold text-slate-900 mt-2">{{ $totalGoals }}</div>
-            <span class="inline-flex items-center text-[11px] text-emerald-700 font-medium mt-1">{{ $goalsPerMatch }} goals / match</span>
+            <span class="inline-flex items-center text-[11px] text-emerald-700 font-medium mt-1">{{ $goalsPerMatch }} goles / partido</span>
         </div>
 
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Matches Played</span>
+            <span class="text-xs font-semibold text-slate-500">Partidos Jugados</span>
             <div class="text-3xl font-extrabold text-slate-900 mt-2">{{ $totalMatches }}</div>
-            <span class="inline-flex items-center text-[11px] text-slate-500 font-medium mt-1">Official fixtures</span>
+            <span class="inline-flex items-center text-[11px] text-slate-500 font-medium mt-1">Partidos oficiales</span>
         </div>
 
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Yellow Cards</span>
+            <span class="text-xs font-semibold text-slate-500">Tarjetas Amarillas</span>
             <div class="text-3xl font-extrabold text-amber-600 mt-2">{{ $totalYellowCards }}</div>
-            <span class="inline-flex items-center text-[11px] text-slate-500 font-medium mt-1">Disciplinary warnings</span>
+            <span class="inline-flex items-center text-[11px] text-slate-500 font-medium mt-1">Amonestaciones disciplinarias</span>
         </div>
 
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Red Cards</span>
+            <span class="text-xs font-semibold text-slate-500">Tarjetas Rojas</span>
             <div class="text-3xl font-extrabold text-rose-600 mt-2">{{ $totalRedCards }}</div>
-            <span class="inline-flex items-center text-[11px] text-rose-600 font-medium mt-1">Expulsions & suspensions</span>
+            <span class="inline-flex items-center text-[11px] text-rose-600 font-medium mt-1">Expulsiones y suspensiones</span>
         </div>
     </div>
 
@@ -55,8 +55,8 @@
                         ⚽
                     </span>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-900">Top Goalscorers (Goleadores)</h3>
-                        <p class="text-[11px] text-slate-400">Official Golden Boot leaderboard</p>
+                        <h3 class="text-sm font-bold text-slate-900">Tabla de Goleadores</h3>
+                        <p class="text-[11px] text-slate-400">Clasificación oficial de máximos artilleros</p>
                     </div>
                 </div>
             </div>
@@ -95,8 +95,8 @@
                         🟨
                     </span>
                     <div>
-                        <h3 class="text-sm font-bold text-slate-900">Disciplinary Sanctions</h3>
-                        <p class="text-[11px] text-slate-400">Most penalized players</p>
+                        <h3 class="text-sm font-bold text-slate-900">Sanciones Disciplinarias</h3>
+                        <p class="text-[11px] text-slate-400">Jugadores con mayor amonestación</p>
                     </div>
                 </div>
             </div>

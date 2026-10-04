@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 
 @section('title', 'Llaves de Eliminación Directa: ' . $tournament->name)
-@section('header_title', 'Playoff Brackets')
+@section('header_title', 'Llaves de Eliminación Directa')
 
 @section('content')
 <div class="space-y-6">

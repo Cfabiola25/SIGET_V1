@@ -69,8 +69,9 @@ class Tournament extends Model
     {
         static::created(function (Tournament $tournament): void {
             if (! $tournament->rules()->exists()) {
-                $tournament->rules()->create(TournamentRule::defaultRulesForFootball($tournament->id));
+                $tournament->rules()->create(TournamentRule::rulesForModality($tournament->sport_type, $tournament->id));
             }
         });
     }
+
 }

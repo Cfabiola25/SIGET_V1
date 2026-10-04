@@ -73,12 +73,14 @@ class PlayerProfile extends Model
     public function getPositionLabelAttribute(): string
     {
         return match ($this->position) {
-            'goalkeeper' => 'Portero',
-            'defender' => 'Defensa',
-            'forward' => 'Delantero',
-            default => 'Mediocampista',
+            'goalkeeper', 'arquero' => 'Portero / Arquero',
+            'defender', 'cierre' => 'Defensa / Cierre',
+            'forward', 'pivot' => 'Delantero / Pívot',
+            'ala', 'lateral' => 'Ala / Lateral',
+            default => 'Mediocampista / Volante',
         };
     }
+
 
     public function getPreferredFootLabelAttribute(): string
     {

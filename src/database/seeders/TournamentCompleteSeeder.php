@@ -42,9 +42,18 @@ class TournamentCompleteSeeder extends Seeder
             ]
         );
 
-        $sportFutbol = Sport::firstOrCreate(['name' => 'Fútbol']);
-        Sport::firstOrCreate(['name' => 'Fútbol 8']);
-        Sport::firstOrCreate(['name' => 'Futsal']);
+        $sportFutbol11 = Sport::firstOrCreate(['name' => 'Fútbol 11']);
+        $sportFutbol8 = Sport::firstOrCreate(['name' => 'Fútbol 8 (Canchas sintéticas)']);
+        $sportFutbol5 = Sport::firstOrCreate(['name' => 'Fútbol 5 (Canchas sintéticas)']);
+        $sportMicrofutbol = Sport::firstOrCreate(['name' => 'Fútbol de Salón (Microfútbol)']);
+
+        // Limpiar cualquier deporte previo ajeno al fútbol
+        Sport::whereNotIn('name', [
+            'Fútbol 11',
+            'Fútbol 8 (Canchas sintéticas)',
+            'Fútbol 5 (Canchas sintéticas)',
+            'Fútbol de Salón (Microfútbol)',
+        ])->delete();
 
         $this->command?->info("✓ Super Admin asegurado: {$superAdmin->email}");
 
@@ -69,12 +78,13 @@ class TournamentCompleteSeeder extends Seeder
             [
                 'super_admin_id' => $superAdmin->id,
                 'admin_id' => $admin->id,
-                'sport_type' => $sportFutbol->name,
+                'sport_type' => $sportFutbol11->name,
                 'start_date' => now()->subDays(7)->toDateString(),
                 'end_date' => now()->addMonths(2)->toDateString(),
                 'status' => 'active',
             ]
         );
+
 
         if ($tournament->rules) {
             $tournament->rules->update([

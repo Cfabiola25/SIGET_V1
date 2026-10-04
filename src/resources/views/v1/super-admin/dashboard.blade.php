@@ -6,11 +6,11 @@
 <div class="space-y-6">
     <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Super Admin Dashboard</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Panel de Super Administrador</h1>
             <p class="text-xs text-slate-500 mt-0.5">Control de plataforma SaaS, asignación de administradores y catálogo de disciplinas.</p>
         </div>
         <span class="rounded-full border border-emerald-200 bg-emerald-50 px-3 py-1 text-xs font-bold uppercase tracking-wider text-emerald-800">
-            {{ auth()->user()->role }}
+            {{ auth()->user()->role === 'super_admin' ? 'Super Administrador' : ucfirst(auth()->user()->role) }}
         </span>
     </div>
 
@@ -122,7 +122,7 @@
                             <tr class="hover:bg-slate-50/60 transition">
                                 <td class="py-3.5 px-5 font-bold text-slate-900">
                                     {{ $tournament->name }}
-                                    <span class="mt-0.5 block text-[11px] font-normal text-slate-400">{{ $tournament->start_date->format('d/m/Y') }} &bull; {{ $tournament->status }}</span>
+                                    <span class="mt-0.5 block text-[11px] font-normal text-slate-400">{{ $tournament->start_date->format('d/m/Y') }} &bull; {{ $tournament->status === 'active' ? 'Activo' : ($tournament->status === 'completed' ? 'Finalizado' : 'Pendiente') }}</span>
                                 </td>
                                 <td class="py-3.5 px-4 text-slate-500">{{ $tournament->sport_type }}</td>
                                 <td class="py-3.5 px-4 text-slate-600 font-semibold">{{ $tournament->admin?->name ?? 'Sin asignar' }}</td>
@@ -188,19 +188,20 @@
         </div>
     </div>
 
-    <!-- Catálogo de deportes -->
+    <!-- Catálogo de modalidades de fútbol -->
     <section class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs">
         <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
             <div>
-                <h2 class="text-sm font-bold text-slate-900">Disciplinas & Deportes Habilitados</h2>
-                <p class="text-xs text-slate-500">Catálogo general para creación de torneos</p>
+                <h2 class="text-sm font-bold text-slate-900">Modalidades Oficiales de Fútbol</h2>
+                <p class="text-xs text-slate-500">Catálogo oficial: Fútbol 11, Fútbol 8 (Sintética), Fútbol 5 (Sintética) y Microfútbol</p>
             </div>
             <form class="flex w-full gap-2 sm:max-w-md" method="POST" action="{{ route('super-admin.sports.store') }}">
                 @csrf 
-                <input class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="name" placeholder="Nuevo deporte (ej: Baloncesto)" maxlength="100" required>
+                <input class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="name" placeholder="Nueva modalidad de fútbol (ej: Fútbol 7)" maxlength="100" required>
                 <button class="rounded-lg bg-[#057a55] px-4 py-2 text-xs font-semibold text-white hover:bg-[#046c4b] shadow-2xs" type="submit">Agregar</button>
             </form>
         </div>
+
         <ul class="mt-4 divide-y divide-slate-100 text-xs">
             @forelse ($sports as $sport)
                 <li class="flex items-center justify-between py-2.5">

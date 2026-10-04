@@ -19,8 +19,9 @@
                 <a href="{{ $venue->navigation_url }}" target="_blank" rel="noopener noreferrer"
                    class="inline-flex items-center gap-2 rounded-lg bg-[#057a55] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#046c4b]">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
-                    <span>Abrir en Google Maps</span>
+                    <span>Abrir en Google Maps / Waze</span>
                 </a>
+
             @endif
             @if (auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true))
                 <form method="POST" action="{{ route('venues.destroy', $venue) }}" onsubmit="return confirm('¿Eliminar esta sede?');">

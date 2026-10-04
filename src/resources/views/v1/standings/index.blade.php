@@ -1,18 +1,18 @@
 @extends('v1.layouts.app')
 
-@section('title', 'League Standings')
+@section('title', 'Tabla de Posiciones')
 
 @section('content')
 <div class="space-y-6">
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">League Standings</h1>
-            <p class="text-xs text-slate-500 mt-0.5">Official tournament points table, goal differential, and qualification brackets.</p>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Tabla de Posiciones</h1>
+            <p class="text-xs text-slate-500 mt-0.5">Tabla oficial de puntuación, diferencia de goles y clasificación del torneo.</p>
         </div>
         <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
                 <span class="size-1.5 rounded-full bg-emerald-600"></span>
-                Calculated In Real-Time
+                Cálculo en Tiempo Real
             </span>
         </div>
     </div>
@@ -21,13 +21,13 @@
     <div class="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
             <div>
-                <h3 class="text-sm font-bold text-slate-900">Official Table</h3>
-                <p class="text-[11px] text-slate-400">PTS: Win (3), Draw (1), Loss (0)</p>
+                <h3 class="text-sm font-bold text-slate-900">Tabla Oficial</h3>
+                <p class="text-[11px] text-slate-400">PTS: Victoria (3), Empate (1), Derrota (0)</p>
             </div>
             <div class="flex items-center gap-4 text-xs">
                 <div class="flex items-center gap-1.5 text-emerald-700">
                     <span class="size-2 rounded-full bg-emerald-500"></span>
-                    <span class="font-medium text-[11px]">Playoffs Zone (Top 4)</span>
+                    <span class="font-medium text-[11px]">Zona de Clasificación / Playoffs (Top 4)</span>
                 </div>
             </div>
         </div>
@@ -37,14 +37,14 @@
                 <thead>
                     <tr class="bg-slate-50/75 text-slate-600 font-semibold text-[11px] uppercase tracking-wider border-b border-slate-200/80">
                         <th class="py-3 px-5 text-center w-12">#</th>
-                        <th class="py-3 px-5">Team / Club</th>
-                        <th class="py-3 px-4 text-center">MP</th>
-                        <th class="py-3 px-4 text-center">W</th>
-                        <th class="py-3 px-4 text-center">D</th>
-                        <th class="py-3 px-4 text-center">L</th>
-                        <th class="py-3 px-4 text-center">GF</th>
-                        <th class="py-3 px-4 text-center">GA</th>
-                        <th class="py-3 px-4 text-center">GD</th>
+                        <th class="py-3 px-5">Equipo / Club</th>
+                        <th class="py-3 px-4 text-center" title="Partidos Jugados">PJ</th>
+                        <th class="py-3 px-4 text-center" title="Partidos Ganados">PG</th>
+                        <th class="py-3 px-4 text-center" title="Partidos Empatados">PE</th>
+                        <th class="py-3 px-4 text-center" title="Partidos Perdidos">PP</th>
+                        <th class="py-3 px-4 text-center" title="Goles a Favor">GF</th>
+                        <th class="py-3 px-4 text-center" title="Goles en Contra">GC</th>
+                        <th class="py-3 px-4 text-center" title="Diferencia de Goles">DG</th>
                         <th class="py-3 px-5 text-center font-bold">PTS</th>
                     </tr>
                 </thead>

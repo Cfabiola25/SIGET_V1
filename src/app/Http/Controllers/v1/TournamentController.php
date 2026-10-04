@@ -85,17 +85,13 @@ class TournamentController extends Controller
             'super_admin_id' => $user->isSuperAdmin() ? $user->id : null,
         ]);
 
-        // Save Tournament Points Rules
-        \App\Models\v1\TournamentRule::create([
-            'tournament_id' => $tournament->id,
-            'points_for_win' => (int)($data['points_win'] ?? 3),
-            'points_for_draw' => (int)($data['points_draw'] ?? 1),
-            'points_for_loss' => (int)($data['points_loss'] ?? 0),
-            'yellow_card_limit_for_suspension' => 2,
-            'direct_red_suspension_matches' => 1,
-            'match_duration_minutes' => 90,
-            'max_substitutions' => 5,
-        ]);
+        // Reglas de competición automáticas según modalidad de fútbol
+        $ruleData = \App\Models\v1\TournamentRule::rulesForModality($data['sport_type'], $tournament->id);
+        if (isset($data['points_win'])) $ruleData['points_for_win'] = (int) $data['points_win'];
+        if (isset($data['points_draw'])) $ruleData['points_for_draw'] = (int) $data['points_draw'];
+        if (isset($data['points_loss'])) $ruleData['points_for_loss'] = (int) $data['points_loss'];
+        \App\Models\v1\TournamentRule::create($ruleData);
+
 
         return redirect()->route('tournaments.show', $tournament)
             ->with('status', 'Torneo y fases configurados exitosamente.');

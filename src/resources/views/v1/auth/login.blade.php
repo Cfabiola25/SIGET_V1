@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión | SIGET-SF Admin</title>
+    <title>Iniciar Sesión | SIGET Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-[#f4f6fa] text-slate-900 font-sans antialiased">
@@ -18,16 +18,16 @@
                     </span>
                     <div>
                         <div class="text-lg font-black tracking-tight text-white flex items-center gap-1.5">
-                            SIGET-SF
+                            SIGET
                             <span class="size-1.5 rounded-full bg-emerald-400"></span>
                         </div>
-                        <p class="text-[11px] font-medium text-slate-400">Tournament Management Suite</p>
+                        <p class="text-[11px] font-medium text-slate-400">Suite de Gestión de Torneos</p>
                     </div>
                 </div>
 
                 <div class="mt-20 space-y-6">
                     <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#057a55]/20 text-emerald-400 border border-[#057a55]/40">
-                        Official Backoffice
+                        Panel Administrativo Oficial
                     </span>
                     <h1 class="text-3xl font-extrabold tracking-tight text-white leading-tight">
                         Gestión Formal & Ejecutiva de Torneos.
@@ -54,7 +54,7 @@
             </div>
 
             <div class="text-xs text-slate-400 pt-8 border-t border-slate-700/60 flex items-center justify-between">
-                <span>SIGET-SF Enterprise &bull; 2026</span>
+                <span>SIGET Empresarial &bull; 2026</span>
                 <span class="font-mono text-emerald-400">v2.4 Pro</span>
             </div>
         </section>
@@ -66,8 +66,8 @@
                 <div class="flex items-center gap-3 mb-8 lg:hidden">
                     <span class="grid size-9 place-items-center rounded-xl bg-[#057a55] text-sm font-extrabold text-white">S</span>
                     <div>
-                        <span class="text-base font-black text-slate-900">SIGET-SF</span>
-                        <p class="text-[10px] text-slate-500">Tournament Director</p>
+                        <span class="text-base font-black text-slate-900">SIGET</span>
+                        <p class="text-[10px] text-slate-500">Director de Torneo</p>
                     </div>
                 </div>
 

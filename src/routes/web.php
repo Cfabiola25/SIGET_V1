@@ -54,6 +54,14 @@ Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show')
 Route::get('/scouting', [ScoutingController::class, 'index'])->name('scouting.index');
 Route::get('/scouting/{player}', [ScoutingController::class, 'show'])->name('scouting.show');
 
+// Widgets Embebibles y API Pública para Clubes Afiliados (Fase 7)
+Route::get('/embed/tournaments/{tournament}/standings', [\App\Http\Controllers\v1\WidgetController::class, 'embedStandings'])->name('widgets.standings');
+Route::get('/embed/tournaments/{tournament}/fixture', [\App\Http\Controllers\v1\WidgetController::class, 'embedFixture'])->name('widgets.fixture');
+Route::get('/api/v1/tournaments/{tournament}/standings', [\App\Http\Controllers\v1\WidgetController::class, 'apiStandings'])->name('api.standings');
+
+// Planilla Oficial Federativa de Contingencia (Imprimible Pre-partido)
+Route::get('/matches/{match}/contingency-sheet', [MatchController::class, 'contingencySheet'])->name('matches.contingency_sheet');
+
 Route::middleware('guest')->group(function (): void {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');
@@ -83,6 +91,15 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::resource('venues', VenueController::class);
     Route::resource('teams', TeamController::class)->except(['index', 'show']);
     Route::post('/teams/{team}/invitations', [TeamInvitationController::class, 'store'])->name('teams.invitations.store');
+
+    // Gestión Administrativa Interna (Panel Backoffice Separado)
+    Route::get('/admin/matches', [MatchController::class, 'adminIndex'])->name('admin.matches.index');
+    Route::get('/admin/matches/{match}', [MatchController::class, 'adminShow'])->name('admin.matches.show');
+    Route::get('/admin/teams', [TeamController::class, 'adminIndex'])->name('admin.teams.index');
+    Route::get('/admin/teams/{team}', [TeamController::class, 'adminShow'])->name('admin.teams.show');
+    Route::get('/admin/standings', [StandingsController::class, 'adminIndex'])->name('admin.standings.index');
+    Route::get('/admin/scouting', [ScoutingController::class, 'adminIndex'])->name('admin.scouting.index');
+    Route::get('/admin/scouting/{player}', [ScoutingController::class, 'adminShow'])->name('admin.scouting.show');
 
     // Match Scheduler & Programador Interactivo
     Route::get('/matches/schedule', [MatchController::class, 'schedule'])->name('matches.schedule');
@@ -115,6 +132,7 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     Route::get('/matches/{match}/console', [MatchDayController::class, 'console'])->name('matches.console');
     Route::post('/matches/{match}/timer', [MatchDayController::class, 'updateTimer'])->name('matches.timer.update');
     Route::post('/matches/{match}/events', [MatchDayController::class, 'recordEvent'])->name('matches.events.store');
+    Route::post('/matches/{match}/events/sync-batch', [MatchDayController::class, 'syncBatch'])->name('matches.events.sync_batch');
 
     // Cierre Post-Partido, Firmas Digitales y Acta Oficial (Fase 4)
     Route::get('/matches/{match}/closure', [PostMatchController::class, 'showClosure'])->name('matches.closure');

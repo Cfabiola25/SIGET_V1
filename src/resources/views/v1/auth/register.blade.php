@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Cuenta | SIGET-SF Admin</title>
+    <title>Crear Cuenta | SIGET Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body class="min-h-screen bg-[#f4f6fa] text-slate-900 font-sans antialiased">
@@ -18,10 +18,10 @@
                     </span>
                     <div>
                         <div class="text-lg font-black tracking-tight text-white flex items-center gap-1.5">
-                            SIGET-SF
+                            SIGET
                             <span class="size-1.5 rounded-full bg-emerald-400"></span>
                         </div>
-                        <p class="text-[11px] font-medium text-slate-400">Tournament Management Suite</p>
+                        <p class="text-[11px] font-medium text-slate-400">Suite de Gestión de Torneos</p>
                     </div>
                 </div>
 
@@ -39,7 +39,7 @@
             </div>
 
             <div class="text-xs text-slate-400 pt-8 border-t border-slate-700/60 flex items-center justify-between">
-                <span>SIGET-SF Enterprise &bull; 2026</span>
+                <span>SIGET Empresarial &bull; 2026</span>
                 <span class="font-mono text-emerald-400">v2.4 Pro</span>
             </div>
         </section>

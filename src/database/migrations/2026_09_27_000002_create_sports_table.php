@@ -15,13 +15,21 @@ return new class extends Migration
             $table->timestamps();
         });
 
-        foreach (['Futbol', 'Baloncesto', 'Voleibol', 'Beisbol', 'Tenis'] as $name) {
+        $footballModalities = [
+            'Fútbol 11',
+            'Fútbol 8 (Canchas sintéticas)',
+            'Fútbol 5 (Canchas sintéticas)',
+            'Fútbol de Salón (Microfútbol)',
+        ];
+
+        foreach ($footballModalities as $name) {
             DB::table('sports')->insert([
                 'name' => $name,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);
         }
+
 
         $existingSports = DB::table('tournaments')->distinct()->pluck('sport_type');
 

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'SIGET-SF') | Portal Oficial de Torneos</title>
+    <title>@yield('title', 'SIGET') | Portal Oficial de Torneos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -23,7 +23,7 @@
 </head>
 <body class="min-h-full bg-[#f4f6fa] text-slate-800 antialiased flex flex-col selection:bg-emerald-500 selection:text-white">
 
-    <!-- BARRA SUPERIOR PÚBLICA (CRISP WHITE CON IDENTIDAD SIGET-SF) -->
+    <!-- BARRA SUPERIOR PÚBLICA (CRISP WHITE CON IDENTIDAD SIGET) -->
     <header class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200/80 shadow-xs">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-16 sm:h-20">
@@ -35,7 +35,7 @@
                             S
                         </span>
                         <span class="font-display text-xl sm:text-2xl font-black tracking-tight text-[#057a55]">
-                            SIGET<span class="text-slate-900">-SF</span>
+                            SIGET
                         </span>
                     </a>
 
@@ -43,19 +43,19 @@
                     <nav class="hidden md:flex items-center gap-1 sm:gap-2">
                         <a href="{{ url('/') }}" 
                            class="px-3.5 py-2 text-sm font-bold transition rounded-lg relative {{ request()->is('/') ? 'text-[#057a55] after:absolute after:bottom-0 after:left-3.5 after:right-3.5 after:h-0.5 after:bg-[#057a55]' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
-                            Home
+                            Inicio
                         </a>
                         <a href="{{ route('standings.index') }}" 
                            class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('standings.*') ? 'text-[#057a55] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
-                            Standings
+                            Posiciones
                         </a>
                         <a href="{{ route('matches.index') }}" 
                            class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('matches.*') ? 'text-[#057a55] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
-                            Calendar
+                            Partidos
                         </a>
                         <a href="{{ url('/#seccion-estadisticas') }}" 
                            class="px-3.5 py-2 text-sm font-semibold text-slate-600 hover:text-slate-900 hover:bg-slate-100/70 rounded-lg transition">
-                            Stats
+                            Estadísticas
                         </a>
                         <a href="{{ route('teams.index') }}" 
                            class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('teams.*') ? 'text-[#057a55] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
@@ -103,7 +103,7 @@
                         <!-- Usuario Visitante: Botón Login llamativo y limpio como en la maqueta -->
                         <a href="{{ route('login') }}" 
                            class="inline-flex items-center justify-center bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 px-5 sm:px-6 rounded-full shadow-xs transition-all duration-150 transform hover:-translate-y-0.5">
-                            Login
+                            Iniciar Sesión
                         </a>
                     @endauth
 
@@ -119,10 +119,10 @@
 
         <!-- Menú Móvil Desplegable -->
         <div id="mobile-public-nav" class="hidden md:hidden border-t border-slate-200/80 bg-white px-4 py-3 space-y-1 shadow-lg">
-            <a href="{{ url('/') }}" class="block px-3 py-2 text-sm font-bold text-[#057a55] rounded-lg bg-emerald-50">Home</a>
-            <a href="{{ route('standings.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Standings</a>
-            <a href="{{ route('matches.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Calendar</a>
-            <a href="{{ url('/#seccion-estadisticas') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Stats</a>
+            <a href="{{ url('/') }}" class="block px-3 py-2 text-sm font-bold text-[#057a55] rounded-lg bg-emerald-50">Inicio</a>
+            <a href="{{ route('standings.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Posiciones</a>
+            <a href="{{ route('matches.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Partidos</a>
+            <a href="{{ url('/#seccion-estadisticas') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Estadísticas</a>
             <a href="{{ route('teams.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Equipos</a>
             <a href="{{ route('scouting.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Scouting</a>
             @guest
@@ -169,19 +169,19 @@
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
             <!-- Brand -->
             <div class="flex items-center gap-2 font-display font-black text-base text-[#057a55]">
-                <span>SIGET-SF</span>
+                <span>SIGET</span>
             </div>
 
             <!-- Copyright -->
             <div class="text-slate-600 text-center">
-                &copy; {{ date('Y') }} SIGET-SF Tournament Management. All rights reserved.
+                &copy; {{ date('Y') }} SIGET - Gestión de Torneos. Todos los derechos reservados.
             </div>
 
             <!-- Links -->
             <div class="flex items-center gap-5 text-slate-600 font-medium">
-                <a href="#" class="hover:text-slate-900 hover:underline">Privacy Policy</a>
-                <a href="#" class="hover:text-slate-900 hover:underline">Terms of Service</a>
-                <a href="#" class="hover:text-slate-900 hover:underline">Contact Us</a>
+                <a href="#" class="hover:text-slate-900 hover:underline">Política de Privacidad</a>
+                <a href="#" class="hover:text-slate-900 hover:underline">Términos de Servicio</a>
+                <a href="#" class="hover:text-slate-900 hover:underline">Contacto</a>
             </div>
         </div>
     </footer>
@@ -205,7 +205,7 @@
                                 <p class="text-xs text-slate-500">{{ $t->sport_type }} · {{ $t->teams_count }} Equipos · {{ $t->matches_count }} Partidos</p>
                             </div>
                             <span class="text-xs font-bold px-2.5 py-1 rounded-full uppercase {{ $t->status === 'active' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700' }}">
-                                {{ $t->status }}
+                                {{ $t->status === 'active' ? 'Activo' : ($t->status === 'completed' ? 'Finalizado' : 'Pendiente') }}
                             </span>
                         </a>
                     @endforeach

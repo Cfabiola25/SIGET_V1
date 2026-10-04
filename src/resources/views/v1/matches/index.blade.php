@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 
 @section('title', 'Partidos & Calendario')
-@section('header_title', 'Matches Management')
+@section('header_title', 'Gestión de Partidos')
 
 @section('content')
 <div class="space-y-6">
@@ -10,17 +10,17 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">
-                Competition Matches & Results
+                Partidos y Resultados de Competición
             </h2>
             <p class="text-xs md:text-sm text-slate-500 mt-1">
-                Official fixtures, live scoring console, results validation and referee reports.
+                Calendario oficial, consola de marcador en vivo, validación de resultados y actas arbitrales.
             </p>
         </div>
 
         <div class="flex items-center gap-2.5">
             <a href="{{ route('matches.schedule') }}" class="px-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs md:text-sm font-semibold hover:bg-slate-50 shadow-2xs transition flex items-center gap-1.5">
                 <svg class="size-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                <span>Scheduler View</span>
+                <span>Vista Calendario</span>
             </a>
             <a href="{{ route('matches.live') }}" class="px-4 py-2.5 rounded-lg bg-rose-50 border border-rose-200 text-rose-700 text-xs md:text-sm font-bold hover:bg-rose-100 transition flex items-center gap-1.5">
                 <span class="size-2 rounded-full bg-rose-500 animate-pulse"></span>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="mt-1">
                             @if ($match->status === 'played')
-                                <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Final</span>
+                                <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Finalizado</span>
                             @elseif ($match->status === 'in_progress')
                                 <span class="inline-block bg-sky-100 text-sky-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">En Juego</span>
                             @else

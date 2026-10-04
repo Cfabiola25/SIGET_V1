@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 
 @section('title', 'Generador de Fixtures: ' . $tournament->name)
-@section('header_title', 'Fixture Generator')
+@section('header_title', 'Generador de Calendario')
 
 @section('content')
 <div class="max-w-4xl mx-auto space-y-6">

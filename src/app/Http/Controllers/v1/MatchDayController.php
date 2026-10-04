@@ -196,15 +196,102 @@ class MatchDayController extends Controller
         ]);
     }
 
+    /**
+     * Sincronización en Ráfaga (Burst Sync) para la Consola Offline-First.
+     * Recibe los eventos acumulados en IndexedDB cuando se restablece la conexión.
+     */
+    public function syncBatch(Request $request, MatchGame $match): JsonResponse
+    {
+        $this->authorizeRefereeOrAdmin($match);
+        abort_if($match->isLocked(), 403, 'El partido ha sido cerrado e inmutabilizado.');
+
+        $validated = $request->validate([
+            'events' => ['required', 'array'],
+            'events.*.client_uuid' => ['required', 'string'],
+            'events.*.team_id' => ['required', 'exists:teams,id'],
+            'events.*.event_type' => ['required', 'in:goal,yellow_card,red_card,substitution,injury'],
+            'events.*.player_id' => ['nullable', 'exists:players,id'],
+            'events.*.sub_in_player_id' => ['nullable', 'exists:players,id'],
+            'events.*.minute' => ['nullable', 'integer', 'min:0', 'max:130'],
+            'events.*.second' => ['nullable', 'integer', 'min:0', 'max:59'],
+            'events.*.period' => ['nullable', 'string'],
+            'events.*.notes' => ['nullable', 'string', 'max:255'],
+            'timer_state' => ['nullable', 'array'],
+        ]);
+
+        return \Illuminate\Support\Facades\DB::transaction(function () use ($validated, $match): JsonResponse {
+            $createdEvents = [];
+
+            foreach ($validated['events'] as $eventData) {
+                // Deduplicación idempotente: si ya se registró este client_uuid en notes o DB, saltar
+                $uuid = $eventData['client_uuid'];
+                $alreadyExists = MatchEvent::where('match_id', $match->id)
+                    ->where('notes', 'like', "%[uuid:{$uuid}]%")
+                    ->exists();
+
+                if ($alreadyExists) {
+                    continue;
+                }
+
+                if ($eventData['event_type'] === 'goal') {
+                    if ($eventData['team_id'] == $match->home_team_id) {
+                        $match->increment('home_score');
+                    } else {
+                        $match->increment('away_score');
+                    }
+                }
+
+                $eventNotes = trim(($eventData['notes'] ?? '')." [uuid:{$uuid}]");
+
+                $event = MatchEvent::create([
+                    'match_id' => $match->id,
+                    'team_id' => $eventData['team_id'],
+                    'player_id' => $eventData['player_id'] ?? null,
+                    'sub_in_player_id' => $eventData['sub_in_player_id'] ?? null,
+                    'event_type' => $eventData['event_type'],
+                    'period' => $eventData['period'] ?? ($match->current_period === 'second_half' ? '2H' : '1H'),
+                    'minute' => $eventData['minute'] ?? 0,
+                    'second' => $eventData['second'] ?? 0,
+                    'notes' => $eventNotes,
+                ]);
+
+                $createdEvents[] = $event;
+                event(new MatchEventOccurred($match->fresh(), $event));
+            }
+
+            if (! empty($validated['timer_state'])) {
+                $timer = $validated['timer_state'];
+                $match->update([
+                    'elapsed_seconds' => $timer['elapsed_seconds'] ?? $match->elapsed_seconds,
+                    'current_period' => $timer['current_period'] ?? $match->current_period,
+                    'is_timer_running' => $timer['is_timer_running'] ?? $match->is_timer_running,
+                ]);
+            }
+
+            $match->refresh();
+
+            return response()->json([
+                'success' => true,
+                'synced_count' => count($createdEvents),
+                'home_score' => $match->home_score,
+                'away_score' => $match->away_score,
+                'status' => $match->status,
+                'message' => 'Eventos offline sincronizados en ráfaga exitosamente.',
+            ]);
+        });
+    }
+
     private function authorizeRefereeOrAdmin(MatchGame $match): void
     {
         $user = request()->user();
         abort_unless(
             $user && (
                 $user->isSuperAdmin() ||
+                $user->isReferee() ||
                 ($user->isAdmin() && $match->tournament->admin_id === $user->id)
             ),
             403
         );
     }
 }
+

@@ -29,7 +29,7 @@
             <div class="flex items-center gap-2 min-w-0">
                 <span class="size-2 rounded-full {{ $homeWinner ? 'bg-emerald-600' : 'bg-slate-300' }}"></span>
                 <span class="truncate {{ $homeWinner ? 'text-emerald-900' : '' }}">
-                    {{ $match->homeTeam?->name ?? 'Por definir (TBD)' }}
+                    {{ $match->homeTeam?->name ?? 'Por definir' }}
                 </span>
             </div>
             <span class="text-sm font-black {{ $homeWinner ? 'text-emerald-800' : 'text-slate-400' }}">
@@ -42,7 +42,7 @@
             <div class="flex items-center gap-2 min-w-0">
                 <span class="size-2 rounded-full {{ $awayWinner ? 'bg-emerald-600' : 'bg-slate-300' }}"></span>
                 <span class="truncate {{ $awayWinner ? 'text-emerald-900' : '' }}">
-                    {{ $match->awayTeam?->name ?? 'Por definir (TBD)' }}
+                    {{ $match->awayTeam?->name ?? 'Por definir' }}
                 </span>
             </div>
             <span class="text-sm font-black {{ $awayWinner ? 'text-emerald-800' : 'text-slate-400' }}">

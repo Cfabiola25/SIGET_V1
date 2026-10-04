@@ -11,7 +11,7 @@
                 <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Volver a Consola Arbitral
             </a>
-            <h1 class="text-2xl font-bold text-slate-900 tracking-tight mt-1">Cierre de Encuentro y Firma Tripartita</h1>
+            <h1 class="text-2xl font-bold text-slate-900 tracking-tight mt-1">Cierre de Partido y Firma de Acta Digital</h1>
             <p class="text-xs text-slate-500">Validación y certificación reglamentaria (Árbitro, DT Local, DT Visitante) conforme a IFAB / FIFA.</p>
         </div>
         <div class="flex items-center gap-2">

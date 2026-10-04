@@ -19,7 +19,7 @@
             <!-- Badge de Torneo Oficial -->
             <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-300 mb-5 border border-emerald-500/30">
                 <span class="size-2 rounded-full bg-emerald-400 animate-ping"></span>
-                <span>🏆 {{ $tournament?->name ?? 'Copa Élite SIGET-SF 2026' }}</span>
+                <span>🏆 {{ $tournament?->name ?? 'Copa Élite SIGET 2026' }}</span>
                 <span class="text-white/40">|</span>
                 <span class="text-slate-300 font-medium capitalize">{{ $tournament?->status ?? 'En Curso' }}</span>
             </div>
@@ -31,7 +31,7 @@
 
             <!-- Subtítulo Pulcro -->
             <p class="mt-4 sm:mt-6 text-sm sm:text-lg lg:text-xl text-slate-200 max-w-2xl mx-auto font-normal leading-relaxed drop-shadow">
-                Sigue cada partido, analiza las estadísticas y mantente al día con la acción en vivo. La plataforma oficial de gestión de torneos <span class="font-bold text-white">SIGET-SF</span>.
+                Sigue cada partido, analiza las estadísticas y mantente al día con la acción en vivo. La plataforma oficial de gestión de torneos <span class="font-bold text-white">SIGET</span>.
             </p>
 
             <!-- Botón de Acción Principal (Pill Verde como en la maqueta) -->
@@ -97,10 +97,17 @@
                 @forelse($allTournaments as $t)
                     @php
                         $isSelected = $tournament && $tournament->id === $t->id;
+                        $sportIcon = match(true) {
+                            str_contains($t->sport_type, 'Salón') || str_contains($t->sport_type, 'Micro') => '👟',
+                            str_contains($t->sport_type, '8') => '🏟️',
+                            str_contains($t->sport_type, '5') => '🥅',
+                            default => '⚽',
+                        };
                     @endphp
                     <a href="{{ url('/?tournament_id=' . $t->id) }}" 
                        class="shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border text-xs font-medium transition-all {{ $isSelected ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm font-bold' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300' }}">
-                        <span class="text-base">{{ $t->sport_type === 'Baloncesto' ? '🏀' : ($t->sport_type === 'Voleibol' ? '🏐' : '⚽') }}</span>
+                        <span class="text-base">{{ $sportIcon }}</span>
+
                         <div class="text-left">
                             <div class="leading-tight font-bold {{ $isSelected ? 'text-white' : 'text-slate-900' }}">{{ $t->name }}</div>
                             <div class="text-[10px] {{ $isSelected ? 'text-emerald-100' : 'text-slate-500' }}">
@@ -261,7 +268,7 @@
                             <div class="pt-2 flex items-center gap-4 text-xs text-slate-400 font-medium border-t border-slate-100">
                                 <span>{{ $latestChronicle && $latestChronicle->match_date ? $latestChronicle->match_date->format('d M, Y') : date('d M, Y') }}</span>
                                 <span>&bull;</span>
-                                <span class="text-emerald-700 font-semibold">Oficial SIGET-SF</span>
+                                <span class="text-emerald-700 font-semibold">Oficial SIGET</span>
                             </div>
                         </div>
                     </div>

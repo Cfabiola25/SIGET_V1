@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 
 @section('title', 'Reglamento de Competición - ' . $tournament->name)
-@section('header_title', 'Competition Rules & Settings')
+@section('header_title', 'Reglamento y Configuración de Competición')
 
 @section('content')
 <div class="mx-auto max-w-4xl space-y-6">
@@ -123,7 +123,7 @@
                 <div class="size-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-sm">⏱️</div>
                 <div>
                     <h3 class="text-base font-bold text-slate-900">Parámetros de Partido & Alineaciones</h3>
-                    <p class="text-xs text-slate-400">Límites reglamentarios y control de tiempos en Match Day.</p>
+                    <p class="text-xs text-slate-400">Límites reglamentarios y control de tiempos en el día de partido.</p>
                 </div>
             </div>
 

@@ -88,4 +88,9 @@ class Team extends Model
     {
         return $this->hasMany(Standings::class);
     }
+
+    public function standing(): HasOne
+    {
+        return $this->hasOne(Standings::class)->latestOfMany();
+    }
 }

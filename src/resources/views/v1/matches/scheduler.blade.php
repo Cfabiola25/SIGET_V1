@@ -1,14 +1,14 @@
 @extends('v1.layouts.app')
 
-@section('title', 'Match Scheduler')
-@section('header_title', 'Match Scheduler')
+@section('title', 'Programación de Partidos')
+@section('header_title', 'Programación de Partidos')
 
 @section('header_search')
 <div class="relative w-64 md:w-80 hidden sm:block">
     <svg class="size-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
     </svg>
-    <input type="text" placeholder="Search matches, teams..." 
+    <input type="text" placeholder="Buscar partidos, equipos..." 
            class="w-full pl-9 pr-4 py-2 text-xs md:text-sm bg-slate-50 border border-slate-200 rounded-full focus:bg-white focus:outline-none focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-600 transition">
 </div>
 @endsection
@@ -43,15 +43,15 @@
         <div class="flex items-center rounded-xl bg-slate-100 p-1 text-xs font-semibold text-slate-600">
             <a href="{{ route('matches.schedule', ['date' => now()->format('Y-m-d'), 'view' => 'today']) }}" 
                class="px-4 py-1.5 rounded-lg transition {{ $viewMode === 'today' || $date === now()->format('Y-m-d') ? 'bg-sky-100 text-sky-800 font-bold shadow-2xs' : 'hover:text-slate-900' }}">
-                Today
+                Hoy
             </a>
             <a href="{{ route('matches.schedule', ['date' => $date, 'view' => 'day']) }}" 
                class="px-4 py-1.5 rounded-lg transition {{ $viewMode === 'day' && $date !== now()->format('Y-m-d') ? 'bg-white text-slate-900 font-bold shadow-2xs' : 'hover:text-slate-900' }}">
-                Day
+                Día
             </a>
             <a href="{{ route('matches.schedule', ['date' => $date, 'view' => 'week']) }}" 
                class="px-4 py-1.5 rounded-lg transition {{ $viewMode === 'week' ? 'bg-white text-slate-900 font-bold shadow-2xs' : 'hover:text-slate-900' }}">
-                Week
+                Semana
             </a>
         </div>
     </div>
@@ -64,9 +64,9 @@
             
             <!-- Table Timeline Header -->
             <div class="grid grid-cols-12 bg-[#edf2f9] border-b border-slate-200 text-xs font-semibold text-slate-700 py-3.5 px-4">
-                <div class="col-span-2">Time</div>
-                <div class="col-span-5">Pitch 1 (Main Stadium)</div>
-                <div class="col-span-5">Pitch 2 (Cancha Turf)</div>
+                <div class="col-span-2">Hora</div>
+                <div class="col-span-5">Cancha 1 (Estadio Principal)</div>
+                <div class="col-span-5">Cancha 2 (Cancha Sintética)</div>
             </div>
 
             <!-- Time Slots -->
@@ -108,7 +108,7 @@
                                     </div>
                                     <div class="mt-2 flex items-center gap-1.5 text-[11px] text-emerald-100 font-medium">
                                         <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                                        <span>Ref: {{ $matchP1->referee?->name ?? 'J. Smith' }}</span>
+                                        <span>Árb: {{ $matchP1->referee?->name ?? 'J. Smith' }}</span>
                                     </div>
                                 </div>
                             @elseif ($slot === '09:00' && $matches->isEmpty())
@@ -120,7 +120,7 @@
                                     </div>
                                     <div class="mt-2 flex items-center gap-1.5 text-[11px] text-emerald-100 font-medium">
                                         <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                                        <span>Ref: J. Smith</span>
+                                        <span>Árb: J. Smith</span>
                                     </div>
                                 </div>
                             @endif
@@ -140,10 +140,10 @@
                                     </div>
                                     <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-600 font-medium">
                                         @if ($matchP2->referee)
-                                            <span class="text-emerald-700">Ref: {{ $matchP2->referee->name }}</span>
+                                            <span class="text-emerald-700">Árb: {{ $matchP2->referee->name }}</span>
                                         @else
                                             <span class="text-amber-700 flex items-center gap-1 font-semibold">
-                                                <span>⚠</span> No Ref Assigned
+                                                <span>⚠</span> Sin Árbitro Asignado
                                             </span>
                                         @endif
                                     </div>
@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-600 font-medium">
                                         <span class="text-amber-700 flex items-center gap-1 font-semibold">
-                                            <span>⚠</span> No Ref Assigned
+                                            <span>⚠</span> Sin Árbitro Asignado
                                         </span>
                                     </div>
                                 </div>
@@ -179,7 +179,7 @@
                     +
                 </div>
                 <h3 class="text-lg font-bold text-slate-900 leading-tight">
-                    Schedule New<br>Match
+                    Programar Nuevo<br>Partido
                 </h3>
             </div>
 
@@ -190,9 +190,9 @@
                 <!-- Teams Row -->
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Home Team</label>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Equipo Local</label>
                         <select name="home_team_id" required class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                            <option value="">Select Team...</option>
+                            <option value="">Seleccionar Equipo...</option>
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}">{{ $team->name }}</option>
                             @endforeach
@@ -200,9 +200,9 @@
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Away Team</label>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Equipo Visitante</label>
                         <select name="away_team_id" required class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                            <option value="">Select Team...</option>
+                            <option value="">Seleccionar Equipo...</option>
                             @foreach ($teams as $team)
                                 <option value="{{ $team->id }}">{{ $team->name }}</option>
                             @endforeach
@@ -213,13 +213,13 @@
                 <!-- Date & Time Row -->
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Date</label>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Fecha</label>
                         <input type="date" name="date" value="{{ $date }}" required 
                                class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
                     </div>
 
                     <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Time</label>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1">Hora</label>
                         <input type="time" name="time" value="09:00" required 
                                class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
                     </div>
@@ -227,19 +227,19 @@
 
                 <!-- Venue / Pitch -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Venue / Pitch</label>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Sede / Cancha</label>
                     <select name="field_number" class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                        <option value="1">Pitch 1 (Main Stadium)</option>
-                        <option value="2">Pitch 2 (Cancha Sintética Turf)</option>
-                        <option value="3">Pitch 3 (Cancha Alterna)</option>
+                        <option value="1">Cancha 1 (Estadio Principal)</option>
+                        <option value="2">Cancha 2 (Cancha Sintética)</option>
+                        <option value="3">Cancha 3 (Cancha Alterna)</option>
                     </select>
                 </div>
 
                 <!-- Referee -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Referee</label>
+                    <label class="block text-xs font-semibold text-slate-600 mb-1">Árbitro</label>
                     <select name="referee_id" class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                        <option value="auto">Auto-Assign</option>
+                        <option value="auto">Asignación Automática</option>
                         @foreach ($referees as $referee)
                             <option value="{{ $referee->id }}">{{ $referee->name }} (Nivel {{ $referee->certification_level }})</option>
                         @endforeach
@@ -249,10 +249,10 @@
                 <!-- Actions: Cancel & Schedule -->
                 <div class="grid grid-cols-2 gap-3 pt-3">
                     <button type="reset" class="w-full py-2.5 px-4 bg-sky-100 hover:bg-sky-200 text-sky-900 text-sm font-semibold rounded-lg transition text-center cursor-pointer">
-                        Cancel
+                        Cancelar
                     </button>
                     <button type="submit" class="w-full py-2.5 px-4 bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-sm font-semibold rounded-lg shadow-xs transition text-center cursor-pointer">
-                        Schedule
+                        Programar
                     </button>
                 </div>
             </form>

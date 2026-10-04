@@ -140,7 +140,7 @@ class SigetFeatureTest extends TestCase
         $this->actingAs($superAdmin)
             ->post(route('super-admin.tournaments.store'), [
                 'name' => 'Torneo asignado',
-                'sport_type' => 'Futbol',
+                'sport_type' => 'Fútbol 11',
                 'start_date' => now()->addDay()->toDateString(),
                 'end_date' => now()->addWeek()->toDateString(),
                 'admin_id' => $admin->id,
@@ -274,7 +274,7 @@ class SigetFeatureTest extends TestCase
         $matchDate = now()->addDays(12)->setTime(15, 0);
         $tournament = Tournament::factory()->create([
             'name' => 'Copa Horizonte',
-            'sport_type' => 'Futbol',
+            'sport_type' => 'Fútbol 11',
             'status' => 'active',
             'start_date' => $startDate,
             'end_date' => $endDate,
@@ -283,7 +283,7 @@ class SigetFeatureTest extends TestCase
         ]);
         $otherTournament = Tournament::factory()->create([
             'name' => 'Liga Alterna',
-            'sport_type' => 'Baloncesto',
+            'sport_type' => 'Fútbol de Salón (Microfútbol)',
             'status' => 'pending',
             'start_date' => $startDate,
             'end_date' => $endDate,
@@ -302,7 +302,7 @@ class SigetFeatureTest extends TestCase
         $this->actingAs($superAdmin)
             ->get(route('tournaments.index', [
                 'search' => 'Copa Horizonte',
-                'sport_type' => 'Futbol',
+                'sport_type' => 'Fútbol 11',
                 'status' => 'active',
                 'date_from' => $startDate,
                 'date_to' => $endDate,
@@ -315,7 +315,7 @@ class SigetFeatureTest extends TestCase
 
         $this->get(route('matches.index', [
             'search' => 'Copa Horizonte',
-            'sport_type' => 'Futbol',
+            'sport_type' => 'Fútbol 11',
             'status' => 'scheduled',
             'date_from' => $matchDate->toDateString(),
             'date_to' => $matchDate->toDateString(),
@@ -331,7 +331,7 @@ class SigetFeatureTest extends TestCase
     {
         $superAdmin = User::factory()->create(['role' => 'super_admin']);
         $tournamentAdmin = User::factory()->create(['role' => 'admin']);
-        $sport = Sport::create(['name' => 'Rugby']);
+        $sport = Sport::create(['name' => 'Fútbol Playa']);
         $tournament = Tournament::factory()->create([
             'sport_type' => $sport->name,
             'super_admin_id' => $superAdmin->id,
@@ -343,14 +343,14 @@ class SigetFeatureTest extends TestCase
             ->assertSessionHasErrors('sport');
         $this->assertModelExists($sport);
 
-        $unusedSport = Sport::create(['name' => 'Badminton']);
+        $unusedSport = Sport::create(['name' => 'Fútbol Tenis']);
         $this->delete(route('super-admin.sports.destroy', $unusedSport))
             ->assertRedirectToRoute('super-admin.dashboard');
         $this->assertDatabaseMissing('sports', ['id' => $unusedSport->id]);
 
-        $this->post(route('super-admin.sports.store'), ['name' => 'Natacion'])
+        $this->post(route('super-admin.sports.store'), ['name' => 'Fútbol 7'])
             ->assertRedirectToRoute('super-admin.dashboard');
-        $this->assertDatabaseHas('sports', ['name' => 'Natacion']);
+        $this->assertDatabaseHas('sports', ['name' => 'Fútbol 7']);
         $this->assertModelExists($tournament);
     }
 }

@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 
-@section('title', 'Player Management')
-@section('header_title', 'Player Management')
+@section('title', 'Gestión de Jugadores')
+@section('header_title', 'Gestión de Jugadores')
 
 @section('content')
 <div class="space-y-6">
@@ -10,25 +10,25 @@
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
             <h2 class="text-xl md:text-2xl font-black text-slate-900 tracking-tight">
-                Player Management
+                Gestión de Jugadores
             </h2>
             <p class="text-xs md:text-sm text-slate-500 mt-1">
-                Manage all registered players across active teams.
+                Administra todos los jugadores inscritos en los equipos activos.
             </p>
         </div>
 
         <div class="flex items-center gap-3">
-            <!-- Export CSV -->
+            <!-- Exportar CSV -->
             <a href="{{ route('players.export', request()->query()) }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs md:text-sm font-semibold hover:bg-slate-50 shadow-2xs transition">
                 <svg class="size-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/></svg>
-                <span>Export CSV</span>
+                <span>Exportar CSV</span>
             </a>
 
-            <!-- Add New Player Button -->
+            <!-- Botón Agregar Nuevo Jugador -->
             <button type="button" onclick="document.getElementById('add-player-modal').showModal()" 
                     class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs md:text-sm font-bold shadow-xs transition cursor-pointer">
                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
-                <span>Add New Player</span>
+                <span>Agregar Jugador</span>
             </button>
         </div>
     </div>
@@ -39,34 +39,34 @@
             
             <!-- Search Input -->
             <div class="lg:col-span-4">
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Search Players</label>
+                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Buscar Jugadores</label>
                 <div class="relative">
                     <svg class="size-4 absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
-                    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Search by name or ID..." 
+                    <input type="text" name="search" value="{{ $search ?? '' }}" placeholder="Buscar por nombre o ID..." 
                            class="w-full pl-9 pr-3 py-2 text-xs md:text-sm bg-white border border-slate-300 rounded-lg focus:border-emerald-600 transition">
                 </div>
             </div>
 
-            <!-- Filter by Team -->
+            <!-- Filtrar por Equipo -->
             <div class="lg:col-span-3">
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Filter by Team</label>
+                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Filtrar por Equipo</label>
                 <select name="team_id" class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                    <option value="">All Teams</option>
+                    <option value="">Todos los Equipos</option>
                     @foreach ($teams as $t)
                         <option value="{{ $t->id }}" @selected(($teamId ?? '') == $t->id)>{{ $t->name }}</option>
                     @endforeach
                 </select>
             </div>
 
-            <!-- Filter by Position -->
+            <!-- Filtrar por Posición -->
             <div class="lg:col-span-3">
-                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Filter by Position</label>
+                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Filtrar por Posición</label>
                 <select name="position" class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                    <option value="">All Positions</option>
-                    <option value="FW" @selected(($position ?? '') === 'FW')>Forward (FW)</option>
-                    <option value="MF" @selected(($position ?? '') === 'MF')>Midfielder (MF)</option>
-                    <option value="DF" @selected(($position ?? '') === 'DF')>Defender (DF)</option>
-                    <option value="GK" @selected(($position ?? '') === 'GK')>Goalkeeper (GK)</option>
+                    <option value="">Todas las Posiciones</option>
+                    <option value="FW" @selected(($position ?? '') === 'FW')>Delantero (DEL)</option>
+                    <option value="MF" @selected(($position ?? '') === 'MF')>Mediocampista (MED)</option>
+                    <option value="DF" @selected(($position ?? '') === 'DF')>Defensa (DEF)</option>
+                    <option value="GK" @selected(($position ?? '') === 'GK')>Portero (POR)</option>
                 </select>
             </div>
 
@@ -74,7 +74,7 @@
             <div class="lg:col-span-2 flex items-center gap-2">
                 <button type="submit" class="w-full py-2 px-3 bg-sky-100 hover:bg-sky-200 text-sky-900 text-xs md:text-sm font-bold rounded-lg transition flex items-center justify-center gap-2 cursor-pointer shadow-2xs">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"/></svg>
-                    <span>Apply Filters</span>
+                    <span>Aplicar Filtros</span>
                 </button>
                 @if ($search || $teamId || $position)
                     <a href="{{ route('players.index') }}" class="p-2 text-slate-400 hover:text-slate-700" title="Limpiar">
@@ -92,12 +92,12 @@
             <table class="w-full text-left text-sm border-collapse">
                 <thead>
                     <tr class="bg-[#edf2f9] text-slate-700 text-xs font-semibold">
-                        <th class="py-3.5 px-6">PLAYER NAME</th>
-                        <th class="py-3.5 px-6">TEAM</th>
-                        <th class="py-3.5 px-6 text-center">NUMBER</th>
-                        <th class="py-3.5 px-6 text-center">POSITION</th>
-                        <th class="py-3.5 px-6 text-center">STATUS</th>
-                        <th class="py-3.5 px-6 text-right">ACTIONS</th>
+                        <th class="py-3.5 px-6">JUGADOR</th>
+                        <th class="py-3.5 px-6">EQUIPO</th>
+                        <th class="py-3.5 px-6 text-center">DORSAL</th>
+                        <th class="py-3.5 px-6 text-center">POSICIÓN</th>
+                        <th class="py-3.5 px-6 text-center">ESTADO</th>
+                        <th class="py-3.5 px-6 text-right">ACCIONES</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100">
@@ -105,6 +105,13 @@
                         @php
                             $playerIdCode = 'PLY-' . str_pad($player->id, 3, '0', STR_PAD_LEFT);
                             $pos = $player->profile?->position ?? 'FW';
+                            $posLabel = match($pos) {
+                                'FW' => 'DEL',
+                                'MF' => 'MED',
+                                'DF' => 'DEF',
+                                'GK' => 'POR',
+                                default => $pos
+                            };
                             $isSuspended = $player->sanctions->isNotEmpty();
                         @endphp
                         <tr class="hover:bg-slate-50/80 transition-colors">
@@ -124,7 +131,7 @@
 
                             <!-- Team -->
                             <td class="py-3.5 px-6 text-slate-600 font-medium">
-                                {{ $player->team?->name ?? 'Free Agent' }}
+                                {{ $player->team?->name ?? 'Agente Libre' }}
                             </td>
 
                             <!-- Number -->
@@ -135,7 +142,7 @@
                             <!-- Position -->
                             <td class="py-3.5 px-6 text-center">
                                 <span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">
-                                    {{ $pos }}
+                                    {{ $posLabel }}
                                 </span>
                             </td>
 
@@ -143,11 +150,11 @@
                             <td class="py-3.5 px-6 text-center">
                                 @if ($isSuspended)
                                     <span class="inline-block bg-[#fee2e2] text-[#991b1b] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                                        SUSPENDED
+                                        SUSPENDIDO
                                     </span>
                                 @else
                                     <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
-                                        ACTIVE
+                                        ACTIVO
                                     </span>
                                 @endif
                             </td>
@@ -170,7 +177,7 @@
 
                         </tr>
                     @empty
-                        <!-- Demo Mock Rows matching Screenshot 5 -->
+                        <!-- Demo Mock Rows -->
                         <tr class="hover:bg-slate-50/80 transition-colors">
                             <td class="py-3.5 px-6 font-semibold text-slate-900">
                                 <div class="flex items-center gap-3.5">
@@ -181,10 +188,10 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="py-3.5 px-6 text-slate-600 font-medium">SF Lions</td>
+                            <td class="py-3.5 px-6 text-slate-600 font-medium">Lions FC</td>
                             <td class="py-3.5 px-6 text-center font-bold text-slate-800">10</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">FW</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVE</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">DEL</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVO</span></td>
                             <td class="py-3.5 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3 text-slate-400">
                                     <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
@@ -204,8 +211,8 @@
                             </td>
                             <td class="py-3.5 px-6 text-slate-600 font-medium">Bay Area FC</td>
                             <td class="py-3.5 px-6 text-center font-bold text-slate-800">4</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">DF</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVE</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">DEF</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVO</span></td>
                             <td class="py-3.5 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3 text-slate-400">
                                     <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
@@ -225,8 +232,8 @@
                             </td>
                             <td class="py-3.5 px-6 text-slate-600 font-medium">Golden Gate United</td>
                             <td class="py-3.5 px-6 text-center font-bold text-slate-800">1</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">GK</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#fee2e2] text-[#991b1b] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">SUSPENDED</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">POR</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#fee2e2] text-[#991b1b] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">SUSPENDIDO</span></td>
                             <td class="py-3.5 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3 text-slate-400">
                                     <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
@@ -244,10 +251,10 @@
                                     </div>
                                 </div>
                             </td>
-                            <td class="py-3.5 px-6 text-slate-600 font-medium">SF Lions</td>
+                            <td class="py-3.5 px-6 text-slate-600 font-medium">Lions FC</td>
                             <td class="py-3.5 px-6 text-center font-bold text-slate-800">8</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">MF</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVE</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">MED</span></td>
+                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVO</span></td>
                             <td class="py-3.5 px-6 text-right">
                                 <div class="flex items-center justify-end gap-3 text-slate-400">
                                     <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
@@ -264,9 +271,9 @@
         <div class="p-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
             <div>
                 @if($players instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                    Showing {{ $players->firstItem() ?? 1 }} to {{ $players->lastItem() ?? 4 }} of {{ $players->total() }} players
+                    Mostrando {{ $players->firstItem() ?? 1 }} a {{ $players->lastItem() ?? 4 }} de {{ $players->total() }} jugadores
                 @else
-                    Showing 1 to 4 of 128 players
+                    Mostrando 1 a 4 de 128 jugadores
                 @endif
             </div>
 
@@ -290,7 +297,7 @@
 
 </div>
 
-<!-- Modal: Add New Player -->
+<!-- Modal: Registrar Nuevo Jugador -->
 <x-modal id="add-player-modal" title="Registrar Nuevo Jugador">
     <form method="POST" action="{{ route('players.store') }}" class="space-y-4">
         @csrf
@@ -319,10 +326,10 @@
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Posición de Juego</label>
                 <select name="position" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                    <option value="FW">Delantero (FW)</option>
-                    <option value="MF">Mediocampista (MF)</option>
-                    <option value="DF">Defensa (DF)</option>
-                    <option value="GK">Portero (GK)</option>
+                    <option value="FW">Delantero (DEL)</option>
+                    <option value="MF">Mediocampista (MED)</option>
+                    <option value="DF">Defensa (DEF)</option>
+                    <option value="GK">Portero (POR)</option>
                 </select>
             </div>
             <div>

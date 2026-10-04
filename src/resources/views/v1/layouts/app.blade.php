@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@yield('title', 'SIGET-SF') | Gestión Deportiva y Torneos</title>
+    <title>@yield('title', 'SIGET') | Gestión Deportiva y Torneos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -37,8 +37,8 @@
                 S
             </div>
             <div>
-                <div class="text-sm font-bold leading-none">SIGET-SF</div>
-                <div class="text-[10px] text-slate-400">Tournament Director</div>
+                <div class="text-sm font-bold leading-none">SIGET</div>
+                <div class="text-[10px] text-slate-400">Director de Torneo</div>
             </div>
         </div>
         <button type="button" onclick="document.getElementById('siget-sidebar').classList.toggle('-translate-x-full')" class="p-2 text-slate-300 hover:text-white focus:outline-none">
@@ -63,13 +63,13 @@
             </div>
             <div class="flex flex-col min-w-0">
                 <h1 class="text-[15px] font-bold text-white tracking-tight truncate leading-tight">
-                    SIGET-SF Admin
+                    SIGET Admin
                 </h1>
                 <p class="text-xs text-slate-400 font-medium truncate mt-0.5">
                     @auth
-                        {{ auth()->user()->role === 'super_admin' ? 'Super Administrator' : (auth()->user()->role === 'admin' ? 'Tournament Director' : (auth()->user()->role === 'referee' ? 'Árbitro Oficial' : ucfirst(auth()->user()->role))) }}
+                        {{ auth()->user()->role === 'super_admin' ? 'Super Administrador' : (auth()->user()->role === 'admin' ? 'Director de Torneo' : (auth()->user()->role === 'referee' ? 'Árbitro Oficial' : ucfirst(auth()->user()->role))) }}
                     @else
-                        Tournament Director
+                        Director de Torneo
                     @endauth
                 </p>
             </div>
@@ -79,7 +79,7 @@
         <div class="px-5 pt-5 pb-3">
             <a href="{{ route('tournaments.create') }}" class="w-full flex items-center justify-center gap-2 bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-sm font-semibold py-2.5 px-4 rounded-lg shadow-sm transition-all duration-150 transform active:scale-[0.99] group">
                 <svg class="size-4 group-hover:rotate-90 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
-                <span>New Tournament</span>
+                <span>Nuevo Torneo</span>
             </a>
         </div>
 
@@ -98,7 +98,7 @@
             <a href="{{ route('dashboard') }}" 
                class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('dashboard') || request()->routeIs('admin.dashboard') || request()->routeIs('super-admin.dashboard') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
-                <span>Dashboard</span>
+                <span>Panel Principal</span>
             </a>
 
             @if(auth()->user()?->isReferee())
@@ -111,12 +111,19 @@
             @endif
 
             <!-- Tournaments -->
+            <a href="{{ route('tournaments.index') }}" 
+               class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('tournaments.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
+                <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
+                <span>Torneos</span>
+            </a>
+
+            <!-- Matches (Admin) -->
             <div class="space-y-0.5">
-                <a href="{{ route('tournaments.index') }}" 
-                   class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('tournaments.index') || request()->routeIs('tournaments.show') || request()->routeIs('tournaments.create') || request()->routeIs('tournaments.edit') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
+                <a href="{{ route('admin.matches.index') }}" 
+                   class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('admin.matches.*') || request()->routeIs('matches.create') || request()->routeIs('matches.edit') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                     <div class="flex items-center gap-3.5">
-                        <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/></svg>
-                        <span>Tournaments</span>
+                        <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span>Gestión de Partidos</span>
                     </div>
                 </a>
 
@@ -125,37 +132,37 @@
                     <a href="{{ route('matches.schedule') }}" 
                        class="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium transition-colors duration-150 {{ request()->routeIs('matches.schedule') ? 'bg-[#057a55] text-white font-bold shadow-xs' : 'text-slate-400 hover:text-slate-200 hover:bg-[#223147]/50' }}">
                         <svg class="size-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-                        <span>Schedule Matches</span>
+                        <span>Programar Partidos</span>
                     </a>
                 </div>
             </div>
 
-            <!-- Teams -->
-            <a href="{{ route('teams.index') }}" 
-               class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('teams.*') && !request()->routeIs('teams.invitations.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
+            <!-- Teams (Admin) -->
+            <a href="{{ route('admin.teams.index') }}" 
+               class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('admin.teams.*') || request()->routeIs('teams.create') || request()->routeIs('teams.edit') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/></svg>
-                <span>Teams</span>
+                <span>Equipos</span>
             </a>
 
             <!-- Players -->
             <a href="{{ route('players.index') }}" 
                class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('players.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
-                <span>Players</span>
+                <span>Jugadores</span>
             </a>
 
             <!-- Referees -->
             <a href="{{ route('referees.index') }}" 
                class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('referees.index') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                <span>Referees</span>
+                <span>Árbitros</span>
             </a>
 
             <!-- Venues -->
             <a href="{{ route('venues.index') }}" 
                class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('venues.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                <span>Venues</span>
+                <span>Sedes</span>
             </a>
 
             <!-- Auditing -->
@@ -163,25 +170,32 @@
                class="flex items-center justify-between px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('auditing.*') || request()->routeIs('referees.evaluations.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <div class="flex items-center gap-3.5">
                     <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-                    <span>Auditing</span>
+                    <span>Auditoría</span>
                 </div>
                 <span class="rounded-full bg-rose-600/90 text-white text-[10px] font-black px-2 py-0.5 leading-none">
                     3
                 </span>
             </a>
 
-            <!-- Standings -->
-            <a href="{{ route('standings.index') }}" 
-               class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('standings.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
+            <!-- Standings (Admin) -->
+            <a href="{{ route('admin.standings.index') }}" 
+               class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('admin.standings.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
-                <span>Standings</span>
+                <span>Posiciones</span>
+            </a>
+
+            <!-- Scouting (Admin) -->
+            <a href="{{ route('admin.scouting.index') }}" 
+               class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('admin.scouting.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
+                <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                <span>Scouting y Fichajes</span>
             </a>
 
             <!-- Settings -->
             <a href="{{ route('tournaments.rules.edit', 1) }}" 
                class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('tournaments.rules.*') ? 'bg-[#057a55] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#223147]/70' }}">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-                <span>Settings</span>
+                <span>Configuración</span>
             </a>
         </div>
 
@@ -189,7 +203,7 @@
         <div class="p-3.5 border-t border-[#223147]/80 space-y-1">
             <button type="button" onclick="document.getElementById('support-modal').showModal()" class="w-full flex items-center gap-3.5 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-white hover:bg-[#223147]/60 transition-colors">
                 <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-                <span>Support</span>
+                <span>Soporte</span>
             </button>
 
             @auth
@@ -197,13 +211,13 @@
                     @csrf
                     <button type="submit" class="w-full flex items-center gap-3.5 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-rose-400 hover:bg-[#223147]/60 transition-colors cursor-pointer">
                         <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"/></svg>
-                        <span>Logout</span>
+                        <span>Cerrar Sesión</span>
                     </button>
                 </form>
             @else
                 <a href="{{ route('login') }}" class="w-full flex items-center gap-3.5 px-3 py-2 rounded-lg text-sm text-slate-400 hover:text-emerald-400 hover:bg-[#223147]/60 transition-colors">
                     <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"/></svg>
-                    <span>Login</span>
+                    <span>Iniciar Sesión</span>
                 </a>
             @endauth
         </div>
@@ -218,7 +232,7 @@
             <!-- Left: Dynamic View Title -->
             <div class="flex items-center gap-3">
                 <h1 class="text-xl md:text-2xl font-bold text-slate-900 tracking-tight">
-                    @yield('header_title', View::yieldContent('title', 'Overview'))
+                    @yield('header_title', View::yieldContent('title', 'Panel Principal'))
                 </h1>
                 @yield('header_badge')
             </div>
@@ -254,14 +268,14 @@
                             @auth
                                 {{ auth()->user()->name }}
                             @else
-                                Admin User
+                                Usuario Administrador
                             @endauth
                         </span>
                         <span class="text-[10px] text-slate-400 font-medium">
                             @auth
                                 {{ ucfirst(auth()->user()->role) }}
                             @else
-                                Tournament Director
+                                Director de Torneo
                             @endauth
                         </span>
                     </div>
@@ -307,7 +321,7 @@
         <!-- Subtle Footer -->
         <footer class="mt-auto border-t border-slate-200/80 bg-white py-4 px-6 text-xs text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-3">
             <div>
-                <strong class="font-bold text-slate-700">SIGET-SF</strong> · Sistema Integral de Gestión Deportiva de Torneos
+                <strong class="font-bold text-slate-700">SIGET</strong> · Sistema Integral de Gestión Deportiva de Torneos
             </div>
             <div class="flex items-center gap-4 text-slate-400">
                 <span>Versión 2.4 Formal</span>
@@ -320,7 +334,7 @@
     </div>
 
     <!-- Support Modal -->
-    <x-modal id="support-modal" title="Centro de Soporte y Ayuda SIGET-SF">
+    <x-modal id="support-modal" title="Centro de Soporte y Ayuda SIGET">
         <div class="space-y-4 text-sm text-slate-600">
             <p>
                 Bienvenido al soporte técnico para directores y comités de torneos. Si requieres asistencia con la programación de partidos, actas arbitrales o configuración de llaves, contáctanos:
@@ -330,7 +344,7 @@
                     <span class="text-lg">📧</span>
                     <div>
                         <div class="font-bold text-slate-800">Correo Electrónico</div>
-                        <div class="text-xs text-slate-500">soporte@siget-sf.com</div>
+                        <div class="text-xs text-slate-500">soporte@siget.com</div>
                     </div>
                 </div>
                 <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-3">

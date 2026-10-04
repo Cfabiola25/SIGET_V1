@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 
-@section('title', 'Overview')
-@section('header_title', 'Overview')
+@section('title', 'Panel Principal')
+@section('header_title', 'Panel Principal')
 
 @section('header_badge')
 <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-slate-100 border border-slate-200 text-xs font-semibold text-slate-700">
@@ -19,11 +19,11 @@
                 Hola, {{ auth()->user()->name }}
             </h2>
             <p class="text-sm text-slate-500 mt-1">
-                Bienvenido al centro de operaciones deportivas de SIGET-SF.
+                Bienvenido al centro de operaciones deportivas de SIGET.
             </p>
         </div>
         <span class="self-start sm:self-auto rounded-full bg-emerald-100 text-emerald-800 text-xs font-bold px-3 py-1 uppercase tracking-wider">
-            {{ auth()->user()->role }}
+            {{ auth()->user()->role === 'super_admin' ? 'Super Administrador' : (auth()->user()->role === 'admin' ? 'Director de Torneo' : (auth()->user()->role === 'referee' ? 'Árbitro Oficial' : (auth()->user()->role === 'captain' ? 'Director Técnico' : ucfirst(auth()->user()->role)))) }}
         </span>
     </div>
 

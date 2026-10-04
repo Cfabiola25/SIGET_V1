@@ -8,7 +8,7 @@
         <div>
             <div class="flex items-center gap-2">
                 <span class="inline-flex size-3 rounded-full bg-rose-500 animate-ping"></span>
-                <span class="text-xs font-black uppercase tracking-widest text-rose-400">EN VIVO • LIVE SCORING</span>
+                <span class="text-xs font-black uppercase tracking-widest text-rose-400">EN VIVO • MARCADOR EN TIEMPO REAL</span>
             </div>
             <h1 class="mt-1 text-2xl font-black text-white md:text-3xl">Centro de Partidos en Directo</h1>
             <p class="text-sm text-slate-400">Actualización de marcadores, tiempos y eventos de partido al instante sin recargar la página.</p>
