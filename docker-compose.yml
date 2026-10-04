@@ -19,6 +19,7 @@ services:
       dockerfile: docker/php/Dockerfile
     volumes:
       - ./src:/var/www/html
+      - ./docker/php/conf.d/performance.ini:/usr/local/etc/php/conf.d/99-performance.ini:ro
       - laravel_views:/var/www/html/storage/framework/views
     depends_on:
       - db

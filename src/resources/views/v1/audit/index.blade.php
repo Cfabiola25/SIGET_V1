@@ -1,6 +1,6 @@
 @extends('v1.layouts.app')
 
-@section('title', 'Auditing - Referee Submissions Review')
+@section('title', 'Auditoría - Revisión de Actas Arbitrales')
 
 @section('content')
 <div class="space-y-6">
@@ -8,12 +8,12 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <div class="flex items-center gap-2.5">
-                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Auditing</h1>
+                <h1 class="text-2xl font-bold text-slate-900 tracking-tight">Auditoría</h1>
                 <span class="rounded-full bg-rose-600 text-white text-[11px] font-black px-2.5 py-0.5 shadow-xs">
-                    {{ $stats['total_pending'] }} PENDING
+                    {{ $stats['total_pending'] }} PENDIENTES
                 </span>
             </div>
-            <p class="text-xs text-slate-500 mt-1">Referee Submissions Review, Disciplinary Audits & System Activity Trail.</p>
+            <p class="text-xs text-slate-500 mt-1">Revisión de actas arbitrales, auditorías disciplinarias e historial del sistema.</p>
         </div>
         <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-50 border border-emerald-200 px-3 py-1 text-xs font-semibold text-emerald-800">
@@ -33,27 +33,27 @@
     <!-- 4 KPI Summary Cards -->
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Pending Reviews</span>
+            <span class="text-xs font-semibold text-slate-500">Revisiones Pendientes</span>
             <div class="text-3xl font-extrabold text-rose-600 mt-2">{{ $stats['total_pending'] }}</div>
-            <span class="inline-flex items-center text-[11px] text-rose-600 font-medium mt-1">Requires official intervention</span>
+            <span class="inline-flex items-center text-[11px] text-rose-600 font-medium mt-1">Requiere intervención oficial</span>
         </div>
 
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Disputed Scores</span>
+            <span class="text-xs font-semibold text-slate-500">Resultados en Disputa</span>
             <div class="text-3xl font-extrabold text-slate-900 mt-2">{{ $stats['disputed_count'] }}</div>
-            <span class="inline-flex items-center text-[11px] text-amber-600 font-medium mt-1">Goal timing dispute</span>
+            <span class="inline-flex items-center text-[11px] text-amber-600 font-medium mt-1">Disputa de minuto de gol</span>
         </div>
 
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Red Card Sanctions</span>
+            <span class="text-xs font-semibold text-slate-500">Sanciones por Tarjeta Roja</span>
             <div class="text-3xl font-extrabold text-slate-900 mt-2">{{ $stats['red_cards_pending'] }}</div>
-            <span class="inline-flex items-center text-[11px] text-slate-500 font-medium mt-1">Mandatory suspension</span>
+            <span class="inline-flex items-center text-[11px] text-slate-500 font-medium mt-1">Suspensión obligatoria</span>
         </div>
 
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
-            <span class="text-xs font-semibold text-slate-500">Resolved Today</span>
+            <span class="text-xs font-semibold text-slate-500">Resueltos Hoy</span>
             <div class="text-3xl font-extrabold text-slate-900 mt-2">{{ $stats['resolved_today'] }}</div>
-            <span class="inline-flex items-center text-[11px] text-emerald-700 font-medium mt-1">Cleared by tournament director</span>
+            <span class="inline-flex items-center text-[11px] text-emerald-700 font-medium mt-1">Aprobado por el director de torneo</span>
         </div>
     </div>
 
@@ -61,7 +61,7 @@
     <div class="space-y-4">
         <h2 class="text-sm font-bold text-slate-900 flex items-center gap-2">
             <svg class="size-4 text-[#057a55]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
-            Pending Referee Submissions Review
+            Revisión de Actas Arbitrales Pendientes
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -70,8 +70,8 @@
                     <div>
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 pb-3">
                             <div>
-                                <span class="text-sm font-bold text-slate-900">Match #{{ $audit['match_id'] }}</span>
-                                <p class="text-[11px] text-slate-400 font-medium">Submitted by <strong class="text-slate-600">{{ $audit['referee'] }}</strong></p>
+                                <span class="text-sm font-bold text-slate-900">Partido #{{ $audit['match_id'] }}</span>
+                                <p class="text-[11px] text-slate-400 font-medium">Enviado por <strong class="text-slate-600">{{ $audit['referee'] }}</strong></p>
                             </div>
                             <span class="inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded border
                                 {{ $audit['badge_color'] === 'rose' ? 'border-rose-300 text-rose-700 bg-rose-50' : ($audit['badge_color'] === 'amber' ? 'border-amber-300 text-amber-700 bg-amber-50' : 'border-slate-300 text-slate-700 bg-slate-50') }}">
@@ -106,11 +106,11 @@
     <div class="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
         <div class="p-5 border-b border-slate-100 flex items-center justify-between">
             <div>
-                <h3 class="text-sm font-bold text-slate-900">System Activity & Audit Trail</h3>
-                <p class="text-xs text-slate-500">Immutable trace of changes, disciplinary pardons, and score modifications.</p>
+                <h3 class="text-sm font-bold text-slate-900">Historial de Actividad y Auditoría del Sistema</h3>
+                <p class="text-xs text-slate-500">Trazabilidad inmutable de cambios, resoluciones disciplinarias y modificaciones de marcador.</p>
             </div>
             <span class="rounded-full bg-slate-100 px-2.5 py-0.5 text-[11px] font-semibold text-slate-600">
-                Live Audit Logs
+                Registros de Auditoría en Vivo
             </span>
         </div>
 
@@ -118,41 +118,41 @@
             <table class="w-full text-left text-xs border-collapse">
                 <thead>
                     <tr class="bg-slate-50/75 text-slate-600 font-semibold text-[11px] uppercase tracking-wider border-b border-slate-200/80">
-                        <th class="py-3 px-5">Timestamp</th>
-                        <th class="py-3 px-5">Operator / Role</th>
-                        <th class="py-3 px-5">Action</th>
-                        <th class="py-3 px-5">Target Entity</th>
-                        <th class="py-3 px-5">Details</th>
+                        <th class="py-3 px-5">Fecha y Hora</th>
+                        <th class="py-3 px-5">Operador / Rol</th>
+                        <th class="py-3 px-5">Acción</th>
+                        <th class="py-3 px-5">Entidad Afectada</th>
+                        <th class="py-3 px-5">Detalles</th>
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-slate-700">
                     <tr class="hover:bg-slate-50/60 transition">
                         <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subMinutes(12)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Tournament Director</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">MATCH_SCHEDULED</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">MatchGame #109</td>
-                        <td class="py-3 px-5 text-slate-500">Scheduled on Pitch 1 (Main Stadium) at 10:00</td>
+                        <td class="py-3 px-5 font-bold text-slate-900">Director de Torneo</td>
+                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">PARTIDO_PROGRAMADO</span></td>
+                        <td class="py-3 px-5 font-medium text-slate-800">Partido #109</td>
+                        <td class="py-3 px-5 text-slate-500">Programado en Cancha 1 (Estadio Principal) a las 10:00</td>
                     </tr>
                     <tr class="hover:bg-slate-50/60 transition">
                         <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subMinutes(34)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Admin User</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200">PLAYER_CREATED</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">Player PLY-042</td>
-                        <td class="py-3 px-5 text-slate-500">New registration assigned to SF Lions</td>
+                        <td class="py-3 px-5 font-bold text-slate-900">Usuario Administrador</td>
+                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200">JUGADOR_CREADO</span></td>
+                        <td class="py-3 px-5 font-medium text-slate-800">Jugador JUG-042</td>
+                        <td class="py-3 px-5 text-slate-500">Nueva inscripción asignada a Lions</td>
                     </tr>
                     <tr class="hover:bg-slate-50/60 transition">
                         <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subHours(2)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Ref. Thomas</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">ACTA_CLOSED</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">MatchGame #842</td>
-                        <td class="py-3 px-5 text-slate-500">Tripartite signatures stored. Final score 2-1</td>
+                        <td class="py-3 px-5 font-bold text-slate-900">Árb. Thomas</td>
+                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">ACTA_CERRADA</span></td>
+                        <td class="py-3 px-5 font-medium text-slate-800">Partido #842</td>
+                        <td class="py-3 px-5 text-slate-500">Firmas tripartitas almacenadas. Marcador final 2-1</td>
                     </tr>
                     <tr class="hover:bg-slate-50/60 transition">
                         <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subHours(4)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Disciplinary Committee</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-800 border border-rose-200">SANCTION_ISSUED</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">Player #9 (Valley Heights)</td>
-                        <td class="py-3 px-5 text-slate-500">1 Match suspension for direct red card</td>
+                        <td class="py-3 px-5 font-bold text-slate-900">Comité Disciplinario</td>
+                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-800 border border-rose-200">SANCIÓN_EMITIDA</span></td>
+                        <td class="py-3 px-5 font-medium text-slate-800">Jugador #9 (Valley Heights)</td>
+                        <td class="py-3 px-5 text-slate-500">1 partido de suspensión por tarjeta roja directa</td>
                     </tr>
                 </tbody>
             </table>
