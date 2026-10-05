@@ -46,13 +46,13 @@ Route::get('/matches/{match}/mvp/live-stats', [MatchMvpController::class, 'liveS
 // Vistas Públicas de la Competencia (Aficionados, Prensa y Visitantes)
 Route::get('/standings', [StandingsController::class, 'index'])->name('standings.index');
 Route::get('/matches', [MatchController::class, 'index'])->name('matches.index');
-Route::get('/matches/{match}', [MatchController::class, 'show'])->name('matches.show');
+Route::get('/matches/{match}', [MatchController::class, 'show'])->name('matches.show')->whereNumber('match');
 Route::get('/teams', [TeamController::class, 'index'])->name('teams.index');
-Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show');
+Route::get('/teams/{team}', [TeamController::class, 'show'])->name('teams.show')->whereNumber('team');
 
 // Scouting & Radar de Talentos (Público para consulta)
 Route::get('/scouting', [ScoutingController::class, 'index'])->name('scouting.index');
-Route::get('/scouting/{player}', [ScoutingController::class, 'show'])->name('scouting.show');
+Route::get('/scouting/{player}', [ScoutingController::class, 'show'])->name('scouting.show')->whereNumber('player');
 
 // Widgets Embebibles y API Pública para Clubes Afiliados (Fase 7)
 Route::get('/embed/tournaments/{tournament}/standings', [\App\Http\Controllers\v1\WidgetController::class, 'embedStandings'])->name('widgets.standings');
@@ -76,6 +76,7 @@ Route::middleware(['auth', 'active'])->group(function (): void {
         return match ($user->role) {
             'super_admin' => redirect()->route('super-admin.dashboard'),
             'admin' => redirect()->route('admin.dashboard'),
+            'referee' => redirect()->route('referees.portal'),
             'captain', 'coach' => ($team = $user->managedTeams()->first())
                 ? redirect()->route('dt.dashboard', $team)
                 : app(DashboardController::class)->index(request()),
@@ -83,9 +84,9 @@ Route::middleware(['auth', 'active'])->group(function (): void {
         };
     })->name('dashboard');
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
-    Route::resource('tournaments', TournamentController::class)->except(['create', 'store']);
     Route::get('/tournaments/create', [TournamentController::class, 'create'])->name('tournaments.create');
     Route::post('/tournaments', [TournamentController::class, 'store'])->name('tournaments.store');
+    Route::resource('tournaments', TournamentController::class)->except(['create', 'store']);
     Route::get('/tournaments/{tournament}/rules', [TournamentRuleController::class, 'edit'])->name('tournaments.rules.edit');
     Route::put('/tournaments/{tournament}/rules', [TournamentRuleController::class, 'update'])->name('tournaments.rules.update');
     Route::resource('venues', VenueController::class);
@@ -111,6 +112,7 @@ Route::middleware(['auth', 'active'])->group(function (): void {
         Route::get('/roster', [TeamPortalController::class, 'roster'])->name('roster');
         Route::post('/players', [TeamPortalController::class, 'storePlayer'])->name('players.store');
         Route::post('/roster/import', [TeamPortalController::class, 'importRoster'])->name('roster.import');
+        Route::post('/players/{player}/release', [TeamPortalController::class, 'releasePlayer'])->name('players.release');
         Route::delete('/players/{player}', [TeamPortalController::class, 'destroyPlayer'])->name('players.destroy');
     });
 
@@ -152,7 +154,11 @@ Route::middleware(['auth', 'active'])->group(function (): void {
     // MVP Oficial y Coronación
     Route::post('/matches/{match}/mvp/crown', [MatchMvpController::class, 'crown'])->name('matches.mvp.crown');
 
-    // Scouting y Reclutamiento de Jugadores (DT / Admin)
+    // Scouting, Contacto y Solicitudes de Fichaje de Jugadores
+    Route::get('/scouting-requests', [ScoutingController::class, 'recruitmentRequests'])->name('scouting.requests.index');
+    Route::post('/scouting/{player}/request-recruitment', [ScoutingController::class, 'requestRecruitment'])->name('scouting.recruit.request');
+    Route::post('/scouting/requests/{recruitmentRequest}/accept', [ScoutingController::class, 'acceptRecruitment'])->name('scouting.requests.accept');
+    Route::post('/scouting/requests/{recruitmentRequest}/reject', [ScoutingController::class, 'rejectRecruitment'])->name('scouting.requests.reject');
     Route::post('/scouting/{player}/recruit', [ScoutingController::class, 'recruit'])->name('scouting.recruit');
     Route::post('/scouting/{player}/release', [ScoutingController::class, 'release'])->name('scouting.release');
 

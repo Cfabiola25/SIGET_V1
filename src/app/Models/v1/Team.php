@@ -93,4 +93,9 @@ class Team extends Model
     {
         return $this->hasOne(Standings::class)->latestOfMany();
     }
+
+    public function recruitmentRequests(): HasMany
+    {
+        return $this->hasMany(PlayerRecruitmentRequest::class);
+    }
 }

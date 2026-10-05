@@ -54,9 +54,12 @@ class ScoutingController extends Controller
         $user = auth()->user();
         $availableTeams = collect();
         if ($user) {
-            if ($user->isSuperAdmin() || $user->isAdmin()) {
+            if ($user->isSuperAdmin()) {
                 $availableTeams = Team::orderBy('name')->get();
-            } elseif ($user->isCoach()) {
+            } elseif ($user->isAdmin()) {
+                $adminTournamentIds = $user->managedTournaments()->pluck('id');
+                $availableTeams = Team::whereIn('tournament_id', $adminTournamentIds)->orderBy('name')->get();
+            } elseif ($user->isCoach() || $user->isCaptain()) {
                 $availableTeams = $user->managedTeams()->get();
             }
         }
@@ -95,9 +98,12 @@ class ScoutingController extends Controller
         $user = auth()->user();
         $availableTeams = collect();
         if ($user) {
-            if ($user->isSuperAdmin() || $user->isAdmin()) {
+            if ($user->isSuperAdmin()) {
                 $availableTeams = Team::orderBy('name')->get();
-            } elseif ($user->isCoach()) {
+            } elseif ($user->isAdmin()) {
+                $adminTournamentIds = $user->managedTournaments()->pluck('id');
+                $availableTeams = Team::whereIn('tournament_id', $adminTournamentIds)->orderBy('name')->get();
+            } elseif ($user->isCoach() || $user->isCaptain()) {
                 $availableTeams = $user->managedTeams()->get();
             }
         }
@@ -110,7 +116,141 @@ class ScoutingController extends Controller
     }
 
     /**
-     * Recluta formalmente a un agente libre para un equipo.
+     * Envía una propuesta y solicitud formal de fichaje a un agente libre.
+     */
+    public function requestRecruitment(Request $request, Player $player): RedirectResponse
+    {
+        $validated = $request->validate([
+            'team_id' => ['required', 'integer', 'exists:teams,id'],
+            'proposed_jersey_number' => ['nullable', 'integer', 'min:1', 'max:99'],
+            'contact_phone' => ['nullable', 'string', 'max:30'],
+            'contact_email' => ['nullable', 'email', 'max:150'],
+            'message' => ['required', 'string', 'max:1000'],
+        ]);
+
+        $user = auth()->user();
+        $team = Team::findOrFail($validated['team_id']);
+
+        abort_unless(
+            $user && ($user->isSuperAdmin() || $user->isAdmin() || $team->isManagedBy($user)),
+            403,
+            'No tienes autorización para solicitar fichajes a nombre de este club.'
+        );
+
+        abort_unless($player->isFreeAgent(), 422, 'El jugador no se encuentra disponible como agente libre.');
+
+        \App\Models\v1\PlayerRecruitmentRequest::create([
+            'player_id' => $player->id,
+            'team_id' => $team->id,
+            'requested_by_user_id' => $user->id,
+            'proposed_jersey_number' => $validated['proposed_jersey_number'] ?? null,
+            'contact_phone' => $validated['contact_phone'] ?? null,
+            'contact_email' => $validated['contact_email'] ?? null,
+            'message' => $validated['message'],
+            'status' => 'pending',
+        ]);
+
+        return redirect()->route('scouting.requests.index')->with(
+            'status',
+            "Solicitud de fichaje y propuesta enviada exitosamente para {$player->name}. Se encuentra pendiente de aceptación antes de incorporarse al plantel."
+        );
+    }
+
+    /**
+     * Muestra las solicitudes de fichaje recibidas y enviadas.
+     */
+    public function recruitmentRequests(Request $request): View
+    {
+        abort_unless(auth()->check(), 403);
+        $user = auth()->user();
+
+        $query = \App\Models\v1\PlayerRecruitmentRequest::with(['player.profile', 'team.tournament', 'requester'])
+            ->latest();
+
+        if ($user->isCoach() || $user->isCaptain()) {
+            $managedTeamIds = $user->managedTeams()->pluck('id');
+            $query->whereIn('team_id', $managedTeamIds);
+        } elseif ($user->isAdmin()) {
+            $tournamentIds = $user->managedTournaments()->pluck('id');
+            $query->whereHas('team', fn ($q) => $q->whereIn('tournament_id', $tournamentIds));
+        }
+
+        $requests = $query->paginate(15);
+
+        return view('v1.scouting.requests', compact('requests'));
+    }
+
+    /**
+     * Acepta formalmente la solicitud de fichaje e incorpora al jugador al equipo.
+     */
+    public function acceptRecruitment(\App\Models\v1\PlayerRecruitmentRequest $recruitmentRequest): RedirectResponse
+    {
+        $user = auth()->user();
+        abort_unless(
+            $user && ($user->isSuperAdmin() || $user->isAdmin() || $recruitmentRequest->player->user_id === $user->id),
+            403,
+            'Solo el administrador de la federación o el propio jugador pueden aceptar esta propuesta de fichaje.'
+        );
+
+        abort_unless($recruitmentRequest->isPending(), 422, 'Esta solicitud ya ha sido procesada.');
+
+        try {
+            $player = $recruitmentRequest->player;
+            $team = $recruitmentRequest->team;
+
+            $this->scoutingService->recruitPlayer($player, $team, $recruitmentRequest->proposed_jersey_number);
+
+            $recruitmentRequest->update([
+                'status' => 'accepted',
+                'responded_at' => now(),
+                'notes' => 'Propuesta aceptada formalmente.',
+            ]);
+
+            // Rechazar cualquier otra solicitud pendiente para este jugador
+            \App\Models\v1\PlayerRecruitmentRequest::where('player_id', $player->id)
+                ->where('id', '!=', $recruitmentRequest->id)
+                ->where('status', 'pending')
+                ->update([
+                    'status' => 'rejected',
+                    'responded_at' => now(),
+                    'notes' => "El jugador aceptó incorporarse oficialmente al club {$team->name}.",
+                ]);
+
+            return redirect()->route('scouting.requests.index')->with(
+                'status',
+                "¡Fichaje oficializado! {$player->name} se ha incorporado exitosamente al plantel de {$team->name}."
+            );
+        } catch (\InvalidArgumentException $e) {
+            return back()->withErrors(['scouting' => $e->getMessage()]);
+        }
+    }
+
+    /**
+     * Rechaza una solicitud de fichaje.
+     */
+    public function rejectRecruitment(Request $request, \App\Models\v1\PlayerRecruitmentRequest $recruitmentRequest): RedirectResponse
+    {
+        $user = auth()->user();
+        abort_unless(
+            $user && ($user->isSuperAdmin() || $user->isAdmin() || $recruitmentRequest->player->user_id === $user->id),
+            403,
+            'No tienes autorización para declinar esta solicitud.'
+        );
+
+        $recruitmentRequest->update([
+            'status' => 'rejected',
+            'responded_at' => now(),
+            'notes' => $request->input('notes', 'Propuesta declinada por la administración / jugador.'),
+        ]);
+
+        return redirect()->route('scouting.requests.index')->with(
+            'status',
+            "La solicitud de fichaje para {$recruitmentRequest->player->name} ha sido declinada."
+        );
+    }
+
+    /**
+     * Recluta formalmente a un agente libre para un equipo (Administración directa Super Admin / Admin).
      */
     public function recruit(Request $request, Player $player): RedirectResponse
     {
@@ -122,11 +262,11 @@ class ScoutingController extends Controller
         $user = auth()->user();
         $team = Team::findOrFail($validated['team_id']);
 
-        // Autorización: Debe ser DT de ese equipo o Admin/SuperAdmin
+        // Autorización: Super Admin, Admin, o DT que gestiona este club
         abort_unless(
             $user && ($user->isSuperAdmin() || $user->isAdmin() || $team->isManagedBy($user)),
             403,
-            'No tienes autorización para reclutar jugadores en este club.'
+            'No tienes autorización para fichar a nombre de este club.'
         );
 
         try {

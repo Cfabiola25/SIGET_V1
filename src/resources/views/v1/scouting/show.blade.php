@@ -152,45 +152,175 @@
                 </div>
             </div>
 
-            <!-- Scouting Notes -->
-            <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs">
-                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Notas de Scouting & Perfil</h3>
-                <p class="mt-2 text-xs text-slate-600 leading-relaxed">
+            <!-- Contact Info & Scouting Notes -->
+            <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs space-y-4">
+                <div class="flex items-center justify-between">
+                    <h3 class="text-xs font-bold uppercase tracking-wider text-slate-700">Notas de Scouting & Perfil</h3>
+                    @if($player->isFreeAgent())
+                        <span class="inline-flex items-center gap-1 rounded-full bg-cyan-50 px-2.5 py-0.5 text-[11px] font-bold text-cyan-800 border border-cyan-200">
+                            <span class="size-1.5 rounded-full bg-cyan-600 animate-pulse"></span>
+                            Bolsa de Talentos
+                        </span>
+                    @endif
+                </div>
+                <p class="text-xs text-slate-600 leading-relaxed">
                     {{ $player->profile?->scouting_notes ?? 'Jugador con perfil versátil y disciplina táctica comprobada. Ha demostrado regularidad en las convocatorias y capacidad de adaptación en distintas zonas del terreno.' }}
                 </p>
+
+                <!-- Datos Oficiales de Contacto para Fichajes -->
+                <div class="pt-3 border-t border-slate-100">
+                    <h4 class="text-xs font-bold text-slate-800 mb-2">Canales de Contacto Directo</h4>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
+                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
+                            <div class="flex items-center gap-2.5">
+                                <div class="size-7 rounded-lg bg-emerald-100 text-[#057a55] flex items-center justify-center font-bold">
+                                    <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
+                                </div>
+                                <div>
+                                    <div class="text-[10px] text-slate-400 font-medium">Teléfono / WhatsApp</div>
+                                    <div class="font-bold text-slate-800">{{ $player->profile?->contact_phone ?? 'No registrado' }}</div>
+                                </div>
+                            </div>
+                            @if($player->profile?->contact_phone)
+                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $player->profile->contact_phone) }}" target="_blank" class="px-2.5 py-1 rounded bg-[#057a55] text-white text-[10px] font-bold hover:bg-[#046c4b] transition">
+                                    WhatsApp
+                                </a>
+                            @endif
+                        </div>
+
+                        <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center gap-2.5">
+                            <div class="size-7 rounded-lg bg-blue-100 text-blue-700 flex items-center justify-center font-bold">
+                                <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+                            </div>
+                            <div class="min-w-0">
+                                <div class="text-[10px] text-slate-400 font-medium">Correo Electrónico</div>
+                                <div class="font-bold text-slate-800 truncate">{{ $player->profile?->contact_email ?? 'No registrado' }}</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
-            <!-- Recruitment Action for DTs -->
-            @if($availableTeams->isNotEmpty())
+            @php
+                $currentUser = auth()->user();
+                $isDT = $currentUser && ($currentUser->isCoach() || $currentUser->isCaptain());
+                $isSuperAdmin = $currentUser?->isSuperAdmin() ?? false;
+                $isAdmin = $currentUser?->isAdmin() ?? false;
+                $myPendingRequest = $currentUser ? \App\Models\v1\PlayerRecruitmentRequest::where('player_id', $player->id)->where('requested_by_user_id', $currentUser->id)->where('status', 'pending')->first() : null;
+            @endphp
+
+            <!-- Flujo de Fichaje para DTs (Propuesta previa y Solicitud) -->
+            @if($player->isFreeAgent() && $isDT)
+                @if($myPendingRequest)
+                    <div class="rounded-2xl border border-amber-200 bg-amber-50/80 p-6 shadow-2xs">
+                        <div class="flex items-center gap-3">
+                            <div class="size-10 rounded-full bg-amber-100 text-amber-700 flex items-center justify-center shrink-0">
+                                <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                            </div>
+                            <div>
+                                <h3 class="text-sm font-bold text-amber-950">Solicitud de Fichaje en Proceso</h3>
+                                <p class="text-xs text-amber-800 mt-0.5">
+                                    Has enviado una propuesta para fichar a {{ $player->name }} en <strong>{{ $myPendingRequest->team->name }}</strong> (Dorsal propuesto #{{ $myPendingRequest->proposed_jersey_number ?? 'S/N' }}).
+                                </p>
+                            </div>
+                        </div>
+                        <div class="mt-4 flex items-center justify-between pt-3 border-t border-amber-200/60 text-xs">
+                            <span class="text-amber-800 font-medium">En espera de aceptación formal.</span>
+                            <a href="{{ route('scouting.requests.index') }}" class="font-bold text-[#057a55] hover:underline">
+                                Ver Mis Solicitudes &rarr;
+                            </a>
+                        </div>
+                    </div>
+                @elseif($availableTeams->isNotEmpty())
+                    <div class="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-2xs">
+                        <div class="flex items-center justify-between mb-3">
+                            <div>
+                                <h3 class="text-sm font-bold text-emerald-950">Contactar y Solicitar Fichaje</h3>
+                                <p class="text-xs text-emerald-800 mt-0.5">Ponte en contacto con el jugador y remítele una propuesta formal de incorporación.</p>
+                            </div>
+                            <span class="text-[11px] font-bold bg-[#057a55] text-white px-2.5 py-1 rounded-lg">
+                                Protocolo Oficial
+                            </span>
+                        </div>
+
+                        <form method="POST" action="{{ route('scouting.recruit.request', $player) }}" class="space-y-3 mt-4">
+                            @csrf
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Club Destino</label>
+                                    <select name="team_id" required class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                                        @foreach($availableTeams as $t)
+                                            <option value="{{ $t->id }}">Fichar en {{ $t->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Dorsal Propuesto (1-99)</label>
+                                    <input type="number" name="proposed_jersey_number" placeholder="Ej: 10" min="1" max="99" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Teléfono de Contacto del Club / DT</label>
+                                    <input type="text" name="contact_phone" value="{{ auth()->user()->phone ?? '' }}" placeholder="+57 300 000 0000" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                                </div>
+                                <div>
+                                    <label class="block text-[11px] font-bold text-slate-700 mb-1">Correo de Contacto</label>
+                                    <input type="email" name="contact_email" value="{{ auth()->user()->email }}" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="block text-[11px] font-bold text-slate-700 mb-1">Mensaje / Propuesta al Jugador</label>
+                                <textarea name="message" rows="2" required placeholder="Hola {{ $player->name }}, nos gustaría que te unas a nuestro club para disputar el torneo..." class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none"></textarea>
+                            </div>
+
+                            <div class="flex items-center justify-between pt-2">
+                                <span class="text-[11px] text-slate-500">Se notificará la propuesta para su debida aceptación.</span>
+                                <button type="submit" class="rounded-lg bg-[#057a55] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#046c4b] transition shadow-2xs">
+                                    Enviar Propuesta Formal de Fichaje
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                @endif
+            @elseif($player->isFreeAgent() && ($isSuperAdmin || $isAdmin))
+                <!-- Reclutamiento Administrativo Directo -->
                 <div class="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-2xs">
-                    <h3 class="text-sm font-bold text-emerald-950">Fichar Jugador para tu Club</h3>
-                    <p class="text-xs text-emerald-800 mt-0.5">Incorpora a este talento a tu nómina activa seleccionando el club y el dorsal.</p>
-                    <form method="POST" action="{{ route('scouting.recruit', $player) }}" class="mt-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+                    <div class="flex items-center justify-between mb-2">
+                        <h3 class="text-sm font-bold text-emerald-950">Asignar Jugador a un Club (Gestión Administrativa)</h3>
+                        <a href="{{ route('scouting.requests.index') }}" class="text-xs font-bold text-[#057a55] hover:underline">
+                            Ver Solicitudes Pendientes &rarr;
+                        </a>
+                    </div>
+                    <p class="text-xs text-emerald-800 mb-4">Como administrador puedes formalizar el fichaje inmediato en un club del torneo.</p>
+                    <form method="POST" action="{{ route('scouting.recruit', $player) }}" class="flex flex-col gap-3 sm:flex-row sm:items-center">
                         @csrf
                         <select name="team_id" required class="flex-1 rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
                             @foreach($availableTeams as $t)
-                                <option value="{{ $t->id }}">Fichar en {{ $t->name }}</option>
+                                <option value="{{ $t->id }}">Asignar a {{ $t->name }}</option>
                             @endforeach
                         </select>
                         <input type="number" name="jersey_number" placeholder="Dorsal (1-99)" min="1" max="99" class="w-32 rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
                         <button type="submit" class="rounded-lg bg-[#057a55] px-5 py-2 text-xs font-semibold text-white hover:bg-[#046c4b] transition shadow-2xs">
-                            Confirmar Fichaje
+                            Formalizar Fichaje
                         </button>
                     </form>
                 </div>
             @endif
 
-            <!-- Release to free agency button if user manages this team -->
-            @if($player->team && $availableTeams->pluck('id')->contains($player->team_id))
+            <!-- Release to free agency button if user manages this team or is admin -->
+            @if($player->team && ($availableTeams->pluck('id')->contains($player->team_id) || $isSuperAdmin))
                 <div class="rounded-2xl border border-slate-200/90 bg-white p-4 flex items-center justify-between shadow-2xs">
                     <div>
-                        <h4 class="text-xs font-bold text-slate-900">Dar de baja al jugador</h4>
-                        <p class="text-[11px] text-slate-500">Transfiere al jugador de regreso a la Agencia Libre.</p>
+                        <h4 class="text-xs font-bold text-slate-900">Liberar a la Agencia Libre</h4>
+                        <p class="text-[11px] text-slate-500">El jugador saldrá del plantel de {{ $player->team->name }} y quedará disponible para que otros clubes lo fichen.</p>
                     </div>
-                    <form method="POST" action="{{ route('scouting.release', $player) }}" onsubmit="return confirm('¿Seguro que deseas liberar a este jugador a la agencia libre?')">
+                    <form method="POST" action="{{ route('scouting.release', $player) }}" onsubmit="return confirm('¿Seguro que deseas liberar a este jugador a la agencia libre del torneo?')">
                         @csrf
-                        <button type="submit" class="rounded-lg border border-rose-200 bg-white px-3 py-1.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition shadow-2xs">
-                            Liberar a Agencia Libre
+                        <button type="submit" class="rounded-lg border border-rose-200 bg-white px-3.5 py-2 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition shadow-2xs">
+                            Liberar Jugador
                         </button>
                     </form>
                 </div>

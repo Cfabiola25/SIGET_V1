@@ -48,6 +48,10 @@ class TeamPortalController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'identification_document' => ['required', 'string', 'max:50'],
             'jersey_number' => ['required', 'integer', 'between:1,99'],
+            'position' => ['nullable', 'string', 'in:goalkeeper,defender,midfielder,forward'],
+            'preferred_foot' => ['nullable', 'string', 'in:right,left,ambidextrous'],
+            'height_cm' => ['nullable', 'integer', 'between:100,230'],
+            'weight_kg' => ['nullable', 'integer', 'between:30,150'],
         ]);
 
         // Verify jersey number is unique in this team
@@ -55,9 +59,25 @@ class TeamPortalController extends Controller
             return back()->withErrors(['jersey_number' => 'El número de dorsal ya está ocupado en este equipo.'])->withInput();
         }
 
-        $team->players()->create($validated);
+        $player = $team->players()->create([
+            'name' => $validated['name'],
+            'identification_document' => $validated['identification_document'],
+            'jersey_number' => $validated['jersey_number'],
+        ]);
 
-        return back()->with('status', "Jugador {$validated['name']} agregado exitosamente al plantel.");
+        // Update profile if additional athletic data was submitted
+        if ($player->profile) {
+            $player->profile->update([
+                'position' => $validated['position'] ?? $player->profile->position ?? 'midfielder',
+                'preferred_foot' => $validated['preferred_foot'] ?? $player->profile->preferred_foot ?? 'right',
+                'height_cm' => $validated['height_cm'] ?? $player->profile->height_cm,
+                'weight_kg' => $validated['weight_kg'] ?? $player->profile->weight_kg,
+                'is_free_agent' => false,
+            ]);
+        }
+
+        return redirect()->route('dt.roster', $team)
+            ->with('status', "Jugador {$validated['name']} agregado exitosamente al plantel con su perfil deportivo oficial.");
     }
 
     public function importRoster(Request $request, Team $team): RedirectResponse
@@ -126,14 +146,20 @@ class TeamPortalController extends Controller
         return back()->with('status', $msg);
     }
 
-    public function destroyPlayer(Team $team, Player $player): RedirectResponse
+    public function releasePlayer(Team $team, Player $player, \App\Services\v1\ScoutingRatingService $scoutingService): RedirectResponse
     {
         $this->authorizeTeamCoach($team);
         abort_unless($player->team_id === $team->id, 404);
 
-        $player->delete();
+        $scoutingService->releasePlayer($player);
 
-        return back()->with('status', 'Jugador removido del plantel.');
+        return redirect()->route('dt.roster', $team)
+            ->with('status', "El jugador {$player->name} ha sido liberado del plantel y transferido a la Agencia Libre. Ahora está disponible en el Radar de Talentos para que otros clubes soliciten su fichaje.");
+    }
+
+    public function destroyPlayer(Team $team, Player $player, \App\Services\v1\ScoutingRatingService $scoutingService): RedirectResponse
+    {
+        return $this->releasePlayer($team, $player, $scoutingService);
     }
 
     private function authorizeTeamCoach(Team $team): void

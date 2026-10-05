@@ -70,6 +70,11 @@ class PlayerProfileController extends Controller
             ]
         );
 
+        if ($request->filled('redirect_to')) {
+            return redirect($request->input('redirect_to'))
+                ->with('status', "Ficha médica de {$player->name} actualizada exitosamente.");
+        }
+
         return redirect()->route('players.cromo', $player)
             ->with('status', 'Ficha médica y exoneración de responsabilidad actualizadas exitosamente.');
     }
@@ -99,6 +104,11 @@ class PlayerProfileController extends Controller
             $validated
         );
 
+        if ($request->filled('redirect_to')) {
+            return redirect($request->input('redirect_to'))
+                ->with('status', "Perfil deportivo de {$player->name} actualizado correctamente.");
+        }
+
         return redirect()->route('players.cromo', $player)
             ->with('status', 'Perfil deportivo actualizado correctamente.');
     }
@@ -109,8 +119,8 @@ class PlayerProfileController extends Controller
         abort_unless(
             $user && (
                 $user->isSuperAdmin() ||
-                ($user->isAdmin() && $player->team->tournament->admin_id === $user->id) ||
-                $player->team->isManagedBy($user) ||
+                ($player->team && $user->isAdmin() && $player->team->tournament?->admin_id === $user->id) ||
+                ($player->team && $player->team->isManagedBy($user)) ||
                 $player->user_id === $user->id
             ),
             403

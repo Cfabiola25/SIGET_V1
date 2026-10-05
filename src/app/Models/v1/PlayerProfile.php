@@ -18,6 +18,8 @@ class PlayerProfile extends Model
         'preferred_foot',
         'birth_date',
         'nationality',
+        'contact_phone',
+        'contact_email',
         'height_cm',
         'weight_kg',
         'mvp_count',

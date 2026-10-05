@@ -15,6 +15,9 @@
     <form method="POST" action="{{ route('players.profile.update', $player) }}" class="space-y-6 rounded-2xl border border-slate-800 bg-slate-900/60 p-6 backdrop-blur-sm">
         @csrf
         @method('PUT')
+        @if(request('redirect_to'))
+            <input type="hidden" name="redirect_to" value="{{ request('redirect_to') }}">
+        @endif
 
         <div class="space-y-4">
             <div class="grid gap-4 sm:grid-cols-2">

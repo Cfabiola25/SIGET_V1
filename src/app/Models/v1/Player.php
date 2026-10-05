@@ -67,6 +67,16 @@ class Player extends Model
         return $this->hasMany(MatchGame::class, 'mvp_player_id');
     }
 
+    public function recruitmentRequests(): HasMany
+    {
+        return $this->hasMany(PlayerRecruitmentRequest::class);
+    }
+
+    public function pendingRecruitmentRequest(): HasOne
+    {
+        return $this->hasOne(PlayerRecruitmentRequest::class)->where('status', 'pending');
+    }
+
     public function isFreeAgent(): bool
     {
         return (bool) ($this->profile?->is_free_agent || is_null($this->team_id));
