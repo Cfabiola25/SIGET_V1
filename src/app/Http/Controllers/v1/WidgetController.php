@@ -22,7 +22,7 @@ class WidgetController extends Controller
         $standings = $tournament->standings()
             ->with('team')
             ->orderBy('points', 'desc')
-            ->orderBy('goal_difference', 'desc')
+            ->orderByRaw('(goals_for - goals_against) desc')
             ->orderBy('goals_for', 'desc')
             ->get();
 

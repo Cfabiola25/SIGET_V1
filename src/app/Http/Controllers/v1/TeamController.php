@@ -46,7 +46,7 @@ class TeamController extends Controller
 
     public function adminIndex(Request $request): View
     {
-        abort_unless(auth()->check(), 403);
+        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
 
         $search = $request->query('search');
 

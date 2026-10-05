@@ -7,6 +7,7 @@ use App\Http\Requests\v1\StoreMatchRequest;
 use App\Http\Requests\v1\UpdateScoreRequest;
 use App\Models\v1\MatchGame;
 use App\Models\v1\Sport;
+use App\Models\v1\Team;
 use App\Models\v1\Tournament;
 use App\Services\StandingService;
 use Illuminate\Http\RedirectResponse;
@@ -90,7 +91,7 @@ class MatchController extends Controller
 
     public function adminIndex(Request $request): View
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin', 'captain', 'coach', 'referee'], true), 403);
+        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
 
         $filters = $request->validate([
             'search' => ['nullable', 'string', 'max:100'],
@@ -223,22 +224,36 @@ class MatchController extends Controller
 
     public function schedule(Request $request): View
     {
-        $date = $request->query('date', '2024-10-24'); // Default date matching screenshot or fallback to today
+        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        $date = $request->query('date', now()->format('Y-m-d'));
         if ($request->has('today')) {
             $date = now()->format('Y-m-d');
         }
 
         $viewMode = $request->query('view', 'day'); // today, day, week
+        $user = $request->user();
 
-        $tournaments = Tournament::whereIn('status', ['pending', 'active'])->get();
-        $teams = Team::orderBy('name')->get();
+        if ($user && $user->isAdmin()) {
+            $tournaments = Tournament::where('admin_id', $user->id)->get();
+            $tournamentIds = $tournaments->pluck('id');
+            $teams = Team::whereIn('tournament_id', $tournamentIds)->orderBy('name')->get();
+            $matches = MatchGame::with(['homeTeam', 'awayTeam', 'referee', 'venue'])
+                ->whereIn('tournament_id', $tournamentIds)
+                ->whereDate('match_date', $date)
+                ->orderBy('match_date')
+                ->get();
+        } else {
+            $tournaments = Tournament::whereIn('status', ['pending', 'active'])->get();
+            $teams = Team::orderBy('name')->get();
+            $matches = MatchGame::with(['homeTeam', 'awayTeam', 'referee', 'venue'])
+                ->whereDate('match_date', $date)
+                ->orderBy('match_date')
+                ->get();
+        }
+
         $venues = \App\Models\v1\Venue::where('is_active', true)->get();
         $referees = \App\Models\v1\Referee::where('is_active', true)->get();
-
-        $matches = MatchGame::with(['homeTeam', 'awayTeam', 'referee', 'venue'])
-            ->whereDate('match_date', $date)
-            ->orderBy('match_date')
-            ->get();
 
         return view('v1.matches.scheduler', [
             'date' => $date,
@@ -253,6 +268,8 @@ class MatchController extends Controller
 
     public function storeSchedule(Request $request): RedirectResponse
     {
+        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
         $data = $request->validate([
             'home_team_id' => ['required', 'exists:teams,id', 'different:away_team_id'],
             'away_team_id' => ['required', 'exists:teams,id'],
@@ -264,15 +281,22 @@ class MatchController extends Controller
         ]);
 
         $homeTeam = Team::findOrFail($data['home_team_id']);
+        $awayTeam = Team::findOrFail($data['away_team_id']);
+
+        $user = auth()->user();
+        if ($user->isAdmin()) {
+            $adminTournamentIds = Tournament::where('admin_id', $user->id)->pluck('id');
+            abort_unless($adminTournamentIds->contains($homeTeam->tournament_id), 403, 'Solo puedes programar partidos dentro de tus torneos asignados.');
+        }
+
         $tournamentId = $homeTeam->tournament_id ?? Tournament::value('id') ?? 1;
 
         $matchDateTime = \Carbon\Carbon::parse($data['date'] . ' ' . $data['time']);
 
         $refereeId = null;
-        if (!empty($data['referee_id']) && $data['referee_id'] !== 'auto') {
+        if (!empty($data['referee_id']) && is_numeric($data['referee_id'])) {
             $refereeId = (int)$data['referee_id'];
-        } elseif ($data['referee_id'] === 'auto') {
-            // Auto-assign first available referee
+        } elseif (($data['referee_id'] ?? '') === 'auto') {
             $refereeId = \App\Models\v1\Referee::where('is_active', true)->value('id');
         }
 
@@ -280,7 +304,7 @@ class MatchController extends Controller
         if (!empty($data['venue_id']) && is_numeric($data['venue_id'])) {
             $venueId = (int)$data['venue_id'];
         } else {
-            $venueId = \App\Models\v1\Venue::value('id');
+            $venueId = \App\Models\v1\Venue::where('is_active', true)->value('id') ?? \App\Models\v1\Venue::value('id');
         }
 
         MatchGame::create([
@@ -296,7 +320,7 @@ class MatchController extends Controller
         ]);
 
         return redirect()->route('matches.schedule', ['date' => $data['date']])
-            ->with('status', 'Partido programado exitosamente en el calendario.');
+            ->with('status', "Partido entre {$homeTeam->name} y {$awayTeam->name} programado exitosamente para el {$matchDateTime->format('d/m/Y H:i')}.");
     }
 
     public function contingencySheet(MatchGame $match): View

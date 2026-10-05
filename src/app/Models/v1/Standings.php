@@ -38,4 +38,29 @@ class Standings extends Model
     {
         return $this->belongsTo(Team::class);
     }
+
+    public function getPlayedAttribute(): int
+    {
+        return (int) ($this->attributes['matches_played'] ?? 0);
+    }
+
+    public function getWonAttribute(): int
+    {
+        return (int) ($this->attributes['wins'] ?? 0);
+    }
+
+    public function getDrawnAttribute(): int
+    {
+        return (int) ($this->attributes['draws'] ?? 0);
+    }
+
+    public function getLostAttribute(): int
+    {
+        return (int) ($this->attributes['losses'] ?? 0);
+    }
+
+    public function getGoalDifferenceAttribute(): int
+    {
+        return (int) (($this->attributes['goals_for'] ?? 0) - ($this->attributes['goals_against'] ?? 0));
+    }
 }

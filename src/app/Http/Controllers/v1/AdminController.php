@@ -10,24 +10,27 @@ class AdminController extends Controller
 {
     public function index(Request $request): View
     {
-        $tournaments = $request->user()->managedTournaments()->withCount(['teams', 'matches'])->latest()->get();
+        $user = $request->user();
+        $tournaments = $user->managedTournaments()->withCount(['teams', 'matches'])->latest()->get();
+        $tournamentIds = $tournaments->pluck('id');
 
-        $totalTeamsCount = \App\Models\v1\Team::count();
-        if ($totalTeamsCount === 0) $totalTeamsCount = 128;
+        $totalTeamsCount = \App\Models\v1\Team::whereIn('tournament_id', $tournamentIds)->count();
+        $activePlayersCount = \App\Models\v1\Player::whereHas('team', fn ($q) => $q->whereIn('tournament_id', $tournamentIds))->count();
+        $upcomingMatchesCount = \App\Models\v1\MatchGame::whereIn('tournament_id', $tournamentIds)->where('status', 'scheduled')->count();
+        $pendingResultsCount = \App\Models\v1\MatchGame::whereIn('tournament_id', $tournamentIds)
+            ->where(function ($q): void {
+                $q->where('status', 'in_progress')->orWhereNull('home_score');
+            })->count();
 
-        $activePlayersCount = \App\Models\v1\Player::count();
-        if ($activePlayersCount === 0) $activePlayersCount = 2450;
-
-        $upcomingMatchesCount = \App\Models\v1\MatchGame::where('status', 'scheduled')->count();
-        if ($upcomingMatchesCount === 0) $upcomingMatchesCount = 24;
-
-        $pendingResultsCount = \App\Models\v1\MatchGame::where('status', 'in_progress')->orWhereNull('home_score')->count();
-        if ($pendingResultsCount === 0) $pendingResultsCount = 7;
-
-        $recentMatches = \App\Models\v1\MatchGame::with(['homeTeam', 'awayTeam', 'referee'])
+        $recentMatches = \App\Models\v1\MatchGame::whereIn('tournament_id', $tournamentIds)
+            ->with(['homeTeam', 'awayTeam', 'referee'])
             ->latest('match_date')
             ->take(6)
             ->get();
+
+        $completedMatchesCount = \App\Models\v1\MatchGame::whereIn('tournament_id', $tournamentIds)->where('status', 'played')->count();
+        $allMatchesCount = \App\Models\v1\MatchGame::whereIn('tournament_id', $tournamentIds)->count();
+        $progressPercentage = $allMatchesCount > 0 ? (int) round(($completedMatchesCount / $allMatchesCount) * 100) : 0;
 
         return view('v1.admin.dashboard', [
             'tournaments' => $tournaments,
@@ -36,7 +39,7 @@ class AdminController extends Controller
             'upcomingMatchesCount' => $upcomingMatchesCount,
             'pendingResultsCount' => $pendingResultsCount,
             'recentMatches' => $recentMatches,
-            'progressPercentage' => 70,
+            'progressPercentage' => $progressPercentage,
         ]);
     }
 }

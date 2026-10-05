@@ -12,6 +12,8 @@ class VenueController extends Controller
 {
     public function index(): View
     {
+        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+
         $venues = Venue::withCount('matches')->latest()->paginate(15);
 
         return view('v1.venues.index', compact('venues'));
@@ -51,6 +53,8 @@ class VenueController extends Controller
 
     public function show(Venue $venue): View
     {
+        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+
         return view('v1.venues.show', [
             'venue' => $venue->load(['matches.homeTeam', 'matches.awayTeam', 'matches.tournament']),
         ]);

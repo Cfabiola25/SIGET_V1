@@ -17,13 +17,20 @@ class DashboardController extends Controller
             return redirect()->route('referees.portal');
         }
 
-        $data = match ($user->role) {
-            'admin' => ['tournamentsCount' => Tournament::count(), 'teamsCount' => Team::count()],
+        $baseData = [
+            'tournamentsCount' => Tournament::count(),
+            'teamsCount' => Team::count(),
+            'matchesCount' => \App\Models\v1\MatchGame::count(),
+            'venuesCount' => \App\Models\v1\Venue::count(),
+        ];
+
+        $roleData = match ($user->role) {
+            'admin' => [],
             'organizer' => ['tournaments' => $user->tournaments()->latest()->get()],
-            'captain' => ['teams' => $user->captainedTeams()->with('tournament')->get()],
+            'captain', 'coach' => ['teams' => $user->managedTeams()->with('tournament')->get()],
             default => ['players' => $user->playerProfiles()->with('team')->get()],
         };
 
-        return view('v1.dashboard', $data);
+        return view('v1.dashboard', array_merge($baseData, $roleData));
     }
 }

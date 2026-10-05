@@ -13,40 +13,42 @@ class AuditController extends Controller
 {
     public function index(Request $request)
     {
-        // Fetch or simulate pending referee audits like in the screenshot
+        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        // Fetch or simulate pending referee audits in Spanish
         $pendingAudits = [
             [
                 'match_id' => 842,
-                'referee' => 'Ref. Thomas',
-                'badge' => 'Disputed Score',
+                'referee' => 'Árb. Thomas Pérez',
+                'badge' => 'Marcador en Disputa',
                 'badge_color' => 'rose',
-                'summary' => 'Metro City Strikers (2) vs Eastside Rangers (1). Captain dispute logged regarding final goal timing.',
-                'action_primary' => 'Resolve',
-                'action_secondary' => 'Review Log',
+                'summary' => 'Metro City Strikers (2) vs Eastside Rangers (1). Reclamación oficial registrada por el capitán sobre el minuto del gol definitivo.',
+                'action_primary' => 'Resolver Disputa',
+                'action_secondary' => 'Revisar Acta',
                 'route_secondary' => route('matches.index'),
-                'time_ago' => '15m ago',
+                'time_ago' => 'Hace 15 min',
             ],
             [
                 'match_id' => 840,
-                'referee' => 'Ref. Davis',
-                'badge' => 'Red Card Review',
+                'referee' => 'Árb. Carlos Davis',
+                'badge' => 'Revisión de Tarjeta Roja',
                 'badge_color' => 'slate',
-                'summary' => "Player #9 (Valley Heights) sent off 78'. Mandatory suspension review required.",
-                'action_primary' => 'Process Suspension',
+                'summary' => "Jugador #9 (Valley Heights) expulsado al min 78'. Requiere revisión disciplinaria de fechas de suspensión obligatoria.",
+                'action_primary' => 'Procesar Sanción',
                 'action_secondary' => null,
                 'route_secondary' => null,
-                'time_ago' => '42m ago',
+                'time_ago' => 'Hace 42 min',
             ],
             [
                 'match_id' => 838,
-                'referee' => 'Ref. Martinez',
-                'badge' => 'Lineup Late Entry',
+                'referee' => 'Árb. Andrés Martínez',
+                'badge' => 'Alineación a Destiempo',
                 'badge_color' => 'amber',
-                'summary' => 'Late roster modification submitted 8 minutes before kickoff. Sanction review pending.',
-                'action_primary' => 'Validate Entry',
-                'action_secondary' => 'Inspect',
+                'summary' => 'Modificación de nómina enviada a 8 minutos del pitazo inicial. Pendiente de validación de alineación de emergencia.',
+                'action_primary' => 'Validar Planilla',
+                'action_secondary' => 'Inspeccionar',
                 'route_secondary' => route('matches.index'),
-                'time_ago' => '2h ago',
+                'time_ago' => 'Hace 2 horas',
             ],
         ];
 

@@ -38,10 +38,17 @@ class StandingsController extends Controller
 
     public function adminIndex(Request $request): View
     {
-        abort_unless(auth()->check(), 403);
+        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        $query = Standings::with(['team', 'tournament'])->orderByDesc('points');
+
+        if (auth()->user()->isAdmin()) {
+            $adminTournamentIds = Tournament::where('admin_id', auth()->id())->pluck('id');
+            $query->whereIn('tournament_id', $adminTournamentIds);
+        }
 
         return view('v1.standings.index', [
-            'standings' => Standings::with(['team', 'tournament'])->orderByDesc('points')->get(),
+            'standings' => $query->get(),
         ]);
     }
 }
