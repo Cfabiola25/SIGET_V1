@@ -17,7 +17,7 @@
             @elseif ($match->is_timer_running)
                 <span class="text-emerald-700 animate-pulse font-bold">EN VIVO {{ $match->formatted_clock }}</span>
             @else
-                <span>{{ $match->match_date->format('d/m H:i') }}</span>
+                <span>{{ $match->match_date?->format('d/m H:i') ?? 'Por definir' }}</span>
             @endif
         </div>
     </div>

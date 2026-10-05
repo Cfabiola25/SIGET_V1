@@ -24,10 +24,13 @@
 
             @endif
             @if (auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true))
+                <a href="{{ route('venues.edit', $venue) }}" class="rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shadow-2xs">
+                    Editar
+                </a>
                 <form method="POST" action="{{ route('venues.destroy', $venue) }}" onsubmit="return confirm('¿Eliminar esta sede?');">
                     @csrf
                     @method('DELETE')
-                    <button type="submit" class="rounded-lg border border-rose-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition shadow-2xs">
+                    <button type="submit" class="rounded-lg border border-rose-200 bg-white px-3.5 py-2.5 text-xs font-semibold text-rose-600 hover:bg-rose-50 transition shadow-2xs cursor-pointer">
                         Eliminar
                     </button>
                 </form>

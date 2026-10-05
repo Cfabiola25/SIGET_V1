@@ -77,10 +77,10 @@
                         @foreach ($activeSanctions as $sanction)
                             <tr class="hover:bg-slate-50 transition">
                                 <td class="py-3.5 px-5 font-semibold text-slate-900">
-                                    {{ $sanction->player->name }}
+                                    {{ $sanction->player?->name ?? 'Jugador' }}
                                 </td>
                                 <td class="py-3.5 px-5 text-slate-600 font-medium">
-                                    {{ $sanction->player->team?->name }}
+                                    {{ $sanction->player?->team?->name ?? 'Sin equipo' }}
                                 </td>
                                 <td class="py-3.5 px-5">
                                     @if ($sanction->sanction_type === 'direct_red')

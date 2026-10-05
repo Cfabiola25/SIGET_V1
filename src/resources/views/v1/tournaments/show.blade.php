@@ -144,16 +144,16 @@
                     <div class="flex items-center justify-between py-3">
                         <div>
                             <div class="text-sm font-bold text-slate-900">
-                                {{ $match->homeTeam->name }}
+                                {{ $match->homeTeam?->name ?? 'Por definir' }}
                                 @if ($match->status === 'played')
                                     <span class="text-emerald-700 font-black">({{ $match->home_score }} - {{ $match->away_score }})</span>
                                 @else
                                     <span class="text-slate-400 font-normal">vs</span>
                                 @endif
-                                {{ $match->awayTeam->name }}
+                                {{ $match->awayTeam?->name ?? 'Por definir' }}
                             </div>
                             <p class="text-xs text-slate-500 mt-0.5">
-                                {{ $match->match_date->format('d M Y · H:i') }}
+                                {{ $match->match_date?->format('d M Y · H:i') ?? 'Fecha por definir' }}
                                 @if ($match->venue) • <x-reicon name="pin" class="size-3 text-slate-400 inline-block" /> {{ $match->venue->name }} @endif
                             </p>
                         </div>

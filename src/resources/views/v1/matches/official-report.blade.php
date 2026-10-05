@@ -66,7 +66,7 @@
                 <div class="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-4 text-xs">
                     <div>
                         <span class="block text-slate-500 uppercase font-semibold text-[10px]">Fecha y Hora</span>
-                        <strong class="text-slate-900">{{ $match->match_date->format('d/m/Y - H:i') }} hrs</strong>
+                        <strong class="text-slate-900">{{ $match->match_date?->format('d/m/Y - H:i') ?? 'Fecha por definir' }} hrs</strong>
                     </div>
                     <div>
                         <span class="block text-slate-500 uppercase font-semibold text-[10px]">Sede y Cancha</span>
@@ -87,22 +87,22 @@
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-6 text-center">
                 <div class="grid grid-cols-1 sm:grid-cols-3 items-center gap-4">
                     <div class="sm:text-right">
-                        <h3 class="text-xl sm:text-2xl font-black text-slate-950 uppercase">{{ $match->homeTeam->name }}</h3>
-                        <p class="text-xs text-slate-500 font-semibold">Director Técnico: {{ $match->homeTeam->coach_name ?? 'N/D' }}</p>
+                        <h3 class="text-xl sm:text-2xl font-black text-slate-950 uppercase">{{ $match->homeTeam?->name ?? 'Equipo Local' }}</h3>
+                        <p class="text-xs text-slate-500 font-semibold">Director Técnico: {{ $match->homeTeam?->coach_name ?? 'N/D' }}</p>
                     </div>
 
                     <div class="flex flex-col items-center">
                         <span class="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-1">Resultado Final</span>
                         <div class="flex items-center gap-3 text-4xl sm:text-5xl font-mono font-black text-slate-900">
-                            <span>{{ $match->home_score }}</span>
+                            <span>{{ $match->home_score ?? 0 }}</span>
                             <span class="text-slate-300">-</span>
-                            <span>{{ $match->away_score }}</span>
+                            <span>{{ $match->away_score ?? 0 }}</span>
                         </div>
                     </div>
 
                     <div class="sm:text-left">
-                        <h3 class="text-xl sm:text-2xl font-black text-slate-950 uppercase">{{ $match->awayTeam->name }}</h3>
-                        <p class="text-xs text-slate-500 font-semibold">Director Técnico: {{ $match->awayTeam->coach_name ?? 'N/D' }}</p>
+                        <h3 class="text-xl sm:text-2xl font-black text-slate-950 uppercase">{{ $match->awayTeam?->name ?? 'Equipo Visitante' }}</h3>
+                        <p class="text-xs text-slate-500 font-semibold">Director Técnico: {{ $match->awayTeam?->coach_name ?? 'N/D' }}</p>
                     </div>
                 </div>
             </div>
@@ -112,7 +112,7 @@
                 <!-- Local Team Lineup -->
                 <div class="border border-slate-200 rounded-xl p-4 space-y-3">
                     <div class="flex items-center justify-between border-b border-slate-200 pb-2">
-                        <h4 class="font-black text-sm text-slate-900 uppercase">{{ $match->homeTeam->name }} (Local)</h4>
+                        <h4 class="font-black text-sm text-slate-900 uppercase">{{ $match->homeTeam?->name ?? 'Equipo Local' }} (Local)</h4>
                         <span class="text-[11px] font-mono text-slate-500">Titulares / Suplentes</span>
                     </div>
 

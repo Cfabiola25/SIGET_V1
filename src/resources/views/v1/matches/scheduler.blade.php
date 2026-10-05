@@ -15,34 +15,52 @@
 
 @section('content')
 @php
-    $carbonDate = \Carbon\Carbon::parse($date);
+    $carbonDate = \Carbon\Carbon::parse($date)->locale('es');
     $prevDate = $carbonDate->copy()->subDay()->format('Y-m-d');
     $nextDate = $carbonDate->copy()->addDay()->format('Y-m-d');
-    $displayDate = $carbonDate->format('F d, Y');
+    $displayDate = $carbonDate->isoFormat('D [de] MMMM, YYYY');
 @endphp
 
 <div class="space-y-6">
 
-    <!-- Date Navigation & View Modes Toolbar -->
+    @if (session('status'))
+        <div class="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs font-semibold flex items-center gap-2">
+            <svg class="size-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            {{ session('status') }}
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="p-4 rounded-xl bg-rose-50 border border-rose-200 text-rose-800 text-xs font-semibold space-y-1">
+            <p class="font-bold">Por favor corrige los siguientes inconvenientes:</p>
+            <ul class="list-disc pl-5">
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <!-- Barra de Herramientas de Navegación de Fecha y Modos de Vista -->
     <div class="bg-white rounded-2xl border border-slate-200/90 p-3.5 px-6 shadow-2xs flex flex-col sm:flex-row items-center justify-between gap-4">
         
-        <!-- Date Switcher -->
+        <!-- Selector de Fecha -->
         <div class="flex items-center gap-4">
-            <a href="{{ route('matches.schedule', ['date' => $prevDate]) }}" class="p-1 text-slate-500 hover:text-slate-800 transition">
+            <a href="{{ route('matches.schedule', ['date' => $prevDate]) }}" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition" title="Día Anterior">
                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
             </a>
-            <h2 class="text-base md:text-lg font-bold text-slate-900 min-w-44 text-center">
+            <h2 class="text-base md:text-lg font-bold text-slate-900 min-w-44 text-center capitalize">
                 {{ $displayDate }}
             </h2>
-            <a href="{{ route('matches.schedule', ['date' => $nextDate]) }}" class="p-1 text-slate-500 hover:text-slate-800 transition">
+            <a href="{{ route('matches.schedule', ['date' => $nextDate]) }}" class="p-1.5 rounded-lg text-slate-500 hover:text-slate-900 hover:bg-slate-100 transition" title="Día Siguiente">
                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
             </a>
         </div>
 
-        <!-- Mode Buttons: Today, Day, Week -->
+        <!-- Botones de Modo: Hoy, Día, Semana -->
         <div class="flex items-center rounded-xl bg-slate-100 p-1 text-xs font-semibold text-slate-600">
             <a href="{{ route('matches.schedule', ['date' => now()->format('Y-m-d'), 'view' => 'today']) }}" 
-               class="px-4 py-1.5 rounded-lg transition {{ $viewMode === 'today' || $date === now()->format('Y-m-d') ? 'bg-sky-100 text-sky-800 font-bold shadow-2xs' : 'hover:text-slate-900' }}">
+               class="px-4 py-1.5 rounded-lg transition {{ $viewMode === 'today' || $date === now()->format('Y-m-d') ? 'bg-[#057a55] text-white font-bold shadow-2xs' : 'hover:text-slate-900' }}">
                 Hoy
             </a>
             <a href="{{ route('matches.schedule', ['date' => $date, 'view' => 'day']) }}" 
@@ -56,203 +74,203 @@
         </div>
     </div>
 
-    <!-- Main Scheduler Split Layout -->
+    <!-- Estructura Principal Dividida del Programador -->
     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
         
-        <!-- Left: Pitches / Timeline Grid (2 Cols) -->
+        <!-- Izquierda: Cronograma por Canchas (2 Columnas) -->
         <div class="lg:col-span-2 bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden">
             
-            <!-- Table Timeline Header -->
-            <div class="grid grid-cols-12 bg-[#edf2f9] border-b border-slate-200 text-xs font-semibold text-slate-700 py-3.5 px-4">
-                <div class="col-span-2">Hora</div>
-                <div class="col-span-5">Cancha 1 (Estadio Principal)</div>
-                <div class="col-span-5">Cancha 2 (Cancha Sintética)</div>
+            <!-- Encabezado de la Tabla de Canchas -->
+            <div class="grid grid-cols-12 bg-slate-50 border-b border-slate-200 text-xs font-bold text-slate-700 py-3.5 px-4">
+                <div class="col-span-2">Horario</div>
+                <div class="col-span-5">Cancha 1 (Principal)</div>
+                <div class="col-span-5">Cancha 2 (Alterna)</div>
             </div>
 
-            <!-- Time Slots -->
-            <div class="divide-y divide-slate-100/90 text-sm">
-                
+            <!-- Franjas Horarias -->
+            <div class="divide-y divide-slate-100 text-sm">
                 @php
-                    $timeSlots = ['09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00'];
+                    $timeSlots = ['08:00', '09:00', '10:00', '11:00', '12:00', '13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00'];
                 @endphp
 
                 @foreach ($timeSlots as $slot)
                     @php
-                        // Filter matches for Pitch 1 and Pitch 2
+                        // Filtrar partidos para Cancha 1 y Cancha 2
                         $matchP1 = $matches->first(function($m) use ($slot) {
-                            return ($m->field_number == 1 || $m->field_number == null) && $m->match_date->format('H:i') === $slot;
+                            return ($m->field_number == 1 || $m->field_number == null) && $m->match_date?->format('H:i') === $slot;
                         });
                         $matchP2 = $matches->first(function($m) use ($slot) {
-                            return $m->field_number == 2 && $m->match_date->format('H:i') === $slot;
+                            return $m->field_number == 2 && $m->match_date?->format('H:i') === $slot;
                         });
                     @endphp
 
-                    <div class="grid grid-cols-12 min-h-22 items-stretch border-b border-slate-100/70 hover:bg-slate-50/40 transition">
+                    <div class="grid grid-cols-12 min-h-20 items-stretch border-b border-slate-100 hover:bg-slate-50/50 transition">
                         
-                        <!-- Time Label -->
-                        <div class="col-span-2 p-3 text-xs font-semibold text-slate-400 border-r border-slate-100 flex items-start pt-3">
+                        <!-- Etiqueta de Hora -->
+                        <div class="col-span-2 p-3 text-xs font-mono font-bold text-slate-500 border-r border-slate-100 flex items-start pt-3">
                             {{ $slot }}
                         </div>
 
-                        <!-- Pitch 1 Column -->
+                        <!-- Columna Cancha 1 -->
                         <div class="col-span-5 p-2.5 border-r border-slate-100 flex flex-col justify-center">
                             @if ($matchP1)
-                                <div class="bg-[#057a55] text-white p-3 rounded-xl shadow-xs transition hover:shadow-md cursor-pointer">
+                                <a href="{{ route('matches.show', $matchP1) }}" class="block bg-emerald-700 hover:bg-emerald-800 text-white p-3 rounded-xl shadow-xs transition cursor-pointer group">
                                     <div class="flex items-center justify-between gap-1">
                                         <div class="font-bold text-xs truncate">
-                                            {{ $matchP1->homeTeam->name }} vs {{ $matchP1->awayTeam->name }}
+                                            {{ $matchP1->homeTeam?->name ?? 'Local' }} vs {{ $matchP1->awayTeam?->name ?? 'Visita' }}
                                         </div>
-                                        <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">
-                                            U14
+                                        <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 uppercase">
+                                            {{ $matchP1->status === 'played' ? 'Final' : ($matchP1->status === 'live' ? 'En Vivo' : 'Programado') }}
                                         </span>
                                     </div>
-                                    <div class="mt-2 flex items-center gap-1.5 text-[11px] text-emerald-100 font-medium">
-                                        <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                                        <span>Árb: {{ $matchP1->referee?->name ?? 'J. Smith' }}</span>
+                                    <div class="mt-2 flex items-center justify-between text-[11px] text-emerald-100 font-medium">
+                                        <span class="truncate">Árb: {{ $matchP1->referee?->name ?? 'Por asignar' }}</span>
+                                        <span class="text-[10px] bg-black/20 px-1.5 py-0.5 rounded">{{ $matchP1->venue?->name ?? 'Cancha 1' }}</span>
                                     </div>
-                                </div>
-                            @elseif ($slot === '09:00' && $matches->isEmpty())
-                                <!-- Demo match from screenshot -->
-                                <div class="bg-[#057a55] text-white p-3 rounded-xl shadow-xs transition hover:shadow-md cursor-pointer">
-                                    <div class="flex items-center justify-between gap-1">
-                                        <div class="font-bold text-xs truncate">Eagles vs Falcons</div>
-                                        <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0">U14</span>
-                                    </div>
-                                    <div class="mt-2 flex items-center gap-1.5 text-[11px] text-emerald-100 font-medium">
-                                        <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
-                                        <span>Árb: J. Smith</span>
-                                    </div>
-                                </div>
+                                </a>
+                            @else
+                                <button type="button" 
+                                        onclick="prefillTime('{{ $slot }}', 1)" 
+                                        class="w-full h-full min-h-12 border border-dashed border-slate-200 rounded-xl text-slate-400 hover:text-[#057a55] hover:border-emerald-300 hover:bg-emerald-50/30 transition text-xs flex items-center justify-center gap-1 font-medium">
+                                    <span>+ Disponible</span>
+                                </button>
                             @endif
                         </div>
 
-                        <!-- Pitch 2 Column -->
+                        <!-- Columna Cancha 2 -->
                         <div class="col-span-5 p-2.5 flex flex-col justify-center">
                             @if ($matchP2)
-                                <div class="bg-sky-100 text-slate-800 p-3 rounded-xl border border-sky-200 shadow-2xs transition hover:shadow-md cursor-pointer">
+                                <a href="{{ route('matches.show', $matchP2) }}" class="block bg-sky-700 hover:bg-sky-800 text-white p-3 rounded-xl shadow-xs transition cursor-pointer group">
                                     <div class="flex items-center justify-between gap-1">
-                                        <div class="font-bold text-xs text-slate-900 truncate">
-                                            {{ $matchP2->homeTeam->name }} vs {{ $matchP2->awayTeam->name }}
+                                        <div class="font-bold text-xs truncate">
+                                            {{ $matchP2->homeTeam?->name ?? 'Local' }} vs {{ $matchP2->awayTeam?->name ?? 'Visita' }}
                                         </div>
-                                        <span class="bg-white text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 border border-slate-200">
-                                            U16
+                                        <span class="bg-white/20 text-white text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 uppercase">
+                                            {{ $matchP2->status === 'played' ? 'Final' : ($matchP2->status === 'live' ? 'En Vivo' : 'Programado') }}
                                         </span>
                                     </div>
-                                    <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-600 font-medium">
-                                        @if ($matchP2->referee)
-                                            <span class="text-emerald-700">Árb: {{ $matchP2->referee->name }}</span>
-                                        @else
-                                            <span class="text-amber-700 flex items-center gap-1 font-semibold">
-                                                <span class="inline-flex items-center gap-1"><x-reicon name="alert-triangle" class="size-3 text-amber-500" /><span>Sin Árbitro Asignado</span></span>
-                                            </span>
-                                        @endif
+                                    <div class="mt-2 flex items-center justify-between text-[11px] text-sky-100 font-medium">
+                                        <span class="truncate">Árb: {{ $matchP2->referee?->name ?? 'Por asignar' }}</span>
+                                        <span class="text-[10px] bg-black/20 px-1.5 py-0.5 rounded">{{ $matchP2->venue?->name ?? 'Cancha 2' }}</span>
                                     </div>
-                                </div>
-                            @elseif ($slot === '10:00' && $matches->isEmpty())
-                                <!-- Demo match from screenshot -->
-                                <div class="bg-sky-100 text-slate-800 p-3 rounded-xl border border-sky-200 shadow-2xs transition hover:shadow-md cursor-pointer">
-                                    <div class="flex items-center justify-between gap-1">
-                                        <div class="font-bold text-xs text-slate-900 truncate">Tigers vs Lions</div>
-                                        <span class="bg-white text-slate-600 text-[10px] font-bold px-2 py-0.5 rounded-full shrink-0 border border-slate-200">U16</span>
-                                    </div>
-                                    <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-600 font-medium">
-                                        <span class="text-amber-700 flex items-center gap-1 font-semibold">
-                                            <span class="inline-flex items-center gap-1"><x-reicon name="alert-triangle" class="size-3 text-amber-500" /><span>Sin Árbitro Asignado</span></span>
-                                        </span>
-                                    </div>
-                                </div>
+                                </a>
+                            @else
+                                <button type="button" 
+                                        onclick="prefillTime('{{ $slot }}', 2)" 
+                                        class="w-full h-full min-h-12 border border-dashed border-slate-200 rounded-xl text-slate-400 hover:text-sky-700 hover:border-sky-300 hover:bg-sky-50/30 transition text-xs flex items-center justify-center gap-1 font-medium">
+                                    <span>+ Disponible</span>
+                                </button>
                             @endif
                         </div>
 
                     </div>
                 @endforeach
-
             </div>
         </div>
 
-        <!-- Right: Schedule New Match Form Card (1 Col) -->
-        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden p-6">
+        <!-- Derecha: Tarjeta de Formulario para Programar Nuevo Partido (1 Columna) -->
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs overflow-hidden p-6 sticky top-24">
             
-            <!-- Header -->
-            <div class="flex items-center gap-3 mb-6">
-                <div class="size-8 rounded-full border-2 border-emerald-600 text-emerald-600 flex items-center justify-center font-bold text-lg">
+            <!-- Encabezado -->
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
+                <div class="size-9 rounded-xl bg-emerald-50 text-[#057a55] border border-emerald-200 flex items-center justify-center font-bold text-xl shadow-2xs">
                     +
                 </div>
-                <h3 class="text-lg font-bold text-slate-900 leading-tight">
-                    Programar Nuevo<br>Partido
-                </h3>
+                <div>
+                    <h3 class="text-base font-bold text-slate-900 leading-tight">
+                        Programar Partido
+                    </h3>
+                    <p class="text-xs text-slate-500">Asigna equipos, fecha, cancha y colegiado arbitral.</p>
+                </div>
             </div>
 
-            <!-- Form -->
+            <!-- Formulario Oficial -->
             <form method="POST" action="{{ route('matches.schedule.store') }}" class="space-y-4">
                 @csrf
 
-                <!-- Teams Row -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Equipo Local</label>
-                        <select name="home_team_id" required class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                            <option value="">Seleccionar Equipo...</option>
-                            @foreach ($teams as $team)
-                                <option value="{{ $team->id }}">{{ $team->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Equipo Visitante</label>
-                        <select name="away_team_id" required class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                            <option value="">Seleccionar Equipo...</option>
-                            @foreach ($teams as $team)
-                                <option value="{{ $team->id }}">{{ $team->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
-                </div>
-
-                <!-- Date & Time Row -->
-                <div class="grid grid-cols-2 gap-3">
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Fecha</label>
-                        <input type="date" name="date" value="{{ $date }}" required 
-                               class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                    </div>
-
-                    <div>
-                        <label class="block text-xs font-semibold text-slate-600 mb-1">Hora</label>
-                        <input type="time" name="time" value="09:00" required 
-                               class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                    </div>
-                </div>
-
-                <!-- Venue / Pitch -->
+                <!-- Fila de Equipos -->
                 <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Sede / Cancha</label>
-                    <select name="field_number" class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                        <option value="1">Cancha 1 (Estadio Principal)</option>
-                        <option value="2">Cancha 2 (Cancha Sintética)</option>
-                        <option value="3">Cancha 3 (Cancha Alterna)</option>
-                    </select>
-                </div>
-
-                <!-- Referee -->
-                <div>
-                    <label class="block text-xs font-semibold text-slate-600 mb-1">Árbitro</label>
-                    <select name="referee_id" class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                        <option value="auto">Asignación Automática</option>
-                        @foreach ($referees as $referee)
-                            <option value="{{ $referee->id }}">{{ $referee->name }} (Nivel {{ $referee->certification_level }})</option>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Equipo Local *</label>
+                    <select name="home_team_id" id="home_team_id" required class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#057a55] focus:outline-none">
+                        <option value="">Seleccionar Equipo Local...</option>
+                        @foreach ($teams as $team)
+                            <option value="{{ $team->id }}" {{ old('home_team_id') == $team->id ? 'selected' : '' }}>
+                                {{ $team->name }} ({{ $team->tournament?->name ?? 'Torneo' }})
+                            </option>
                         @endforeach
                     </select>
                 </div>
 
-                <!-- Actions: Cancel & Schedule -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Equipo Visitante *</label>
+                    <select name="away_team_id" id="away_team_id" required class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#057a55] focus:outline-none">
+                        <option value="">Seleccionar Equipo Visitante...</option>
+                        @foreach ($teams as $team)
+                            <option value="{{ $team->id }}" {{ old('away_team_id') == $team->id ? 'selected' : '' }}>
+                                {{ $team->name }} ({{ $team->tournament?->name ?? 'Torneo' }})
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Fila de Fecha y Hora -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha *</label>
+                        <input type="date" name="date" id="match_date_input" value="{{ old('date', $date) }}" required 
+                               class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#057a55] focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-700 mb-1">Hora *</label>
+                        <input type="time" name="time" id="match_time_input" value="{{ old('time', '09:00') }}" required 
+                               class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#057a55] focus:outline-none">
+                    </div>
+                </div>
+
+                <!-- Sede Deportiva -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Sede Deportiva *</label>
+                    <select name="venue_id" id="venue_id" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#057a55] focus:outline-none">
+                        @foreach ($venues as $v)
+                            <option value="{{ $v->id }}" {{ old('venue_id') == $v->id ? 'selected' : '' }}>
+                                {{ $v->name }} ({{ $v->city ?? 'Principal' }} - {{ $v->field_count }} canchas)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Número de Cancha -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Cancha *</label>
+                    <select name="field_number" id="field_number_select" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#057a55] focus:outline-none">
+                        <option value="1" {{ old('field_number') == '1' ? 'selected' : '' }}>Cancha 1 (Principal)</option>
+                        <option value="2" {{ old('field_number') == '2' ? 'selected' : '' }}>Cancha 2 (Alterna)</option>
+                        <option value="3" {{ old('field_number') == '3' ? 'selected' : '' }}>Cancha 3</option>
+                        <option value="4" {{ old('field_number') == '4' ? 'selected' : '' }}>Cancha 4</option>
+                    </select>
+                </div>
+
+                <!-- Árbitro Asignado -->
+                <div>
+                    <label class="block text-xs font-semibold text-slate-700 mb-1">Colegiado Arbitral</label>
+                    <select name="referee_id" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#057a55] focus:outline-none">
+                        <option value="auto">Asignación Automática (Sistema de Desempeño)</option>
+                        @foreach ($referees as $referee)
+                            <option value="{{ $referee->id }}" {{ old('referee_id') == $referee->id ? 'selected' : '' }}>
+                                {{ $referee->name }} (Lic: {{ $referee->license_number ?? 'Oficial' }} • {{ number_format($referee->rating_average ?? 5.0, 1) }}★)
+                            </option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <!-- Acciones -->
                 <div class="grid grid-cols-2 gap-3 pt-3">
-                    <button type="reset" class="w-full py-2.5 px-4 bg-sky-100 hover:bg-sky-200 text-sky-900 text-sm font-semibold rounded-lg transition text-center cursor-pointer">
-                        Cancelar
+                    <button type="reset" class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition text-center cursor-pointer">
+                        Limpiar
                     </button>
-                    <button type="submit" class="w-full py-2.5 px-4 bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-sm font-semibold rounded-lg shadow-xs transition text-center cursor-pointer">
-                        Programar
+                    <button type="submit" class="w-full py-2.5 px-4 bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs font-bold rounded-lg shadow-xs transition text-center cursor-pointer">
+                        Programar Partido
                     </button>
                 </div>
             </form>
@@ -262,4 +280,20 @@
     </div>
 
 </div>
+
+<script>
+    function prefillTime(time, fieldNum) {
+        const timeInput = document.getElementById('match_time_input');
+        const fieldSelect = document.getElementById('field_number_select');
+        if (timeInput) timeInput.value = time;
+        if (fieldSelect) fieldSelect.value = fieldNum;
+        
+        // Efecto visual de foco en el formulario
+        const homeSelect = document.getElementById('home_team_id');
+        if (homeSelect) {
+            homeSelect.focus();
+            homeSelect.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+    }
+</script>
 @endsection

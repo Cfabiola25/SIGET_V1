@@ -41,14 +41,36 @@
 
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Partidos Programados</span>
-            <div class="mt-3 text-3xl font-black text-slate-900">6</div>
+            <div class="mt-3 text-3xl font-black text-slate-900">{{ $matchesCount ?? 0 }}</div>
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Canchas Habilitadas</span>
-            <div class="mt-3 text-3xl font-black text-slate-900">2</div>
+            <div class="mt-3 text-3xl font-black text-slate-900">{{ $venuesCount ?? 0 }}</div>
         </div>
     </div>
+
+    @if(isset($teams) && $teams->isNotEmpty())
+        <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5">
+            <h3 class="text-base font-bold text-slate-900 flex items-center gap-2 mb-3">
+                <x-reicon name="shield-check" class="size-4 text-emerald-600" />
+                <span>Mis Equipos Gestionados</span>
+            </h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3">
+                @foreach($teams as $team)
+                    <div class="p-4 rounded-xl border border-slate-200 bg-slate-50/50 flex items-center justify-between">
+                        <div>
+                            <h4 class="font-bold text-slate-900 text-sm">{{ $team->name }}</h4>
+                            <p class="text-xs text-slate-400">{{ $team->tournament?->name ?? 'Sin torneo asignado' }}</p>
+                        </div>
+                        <a href="{{ route('dt.dashboard', $team) }}" class="text-xs font-bold text-[#057a55] hover:underline">
+                            Panel DT &rarr;
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    @endif
 
     <!-- Actions & Shortcuts -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">

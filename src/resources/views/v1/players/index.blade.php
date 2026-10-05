@@ -63,10 +63,10 @@
                 <label class="block text-xs font-semibold text-slate-600 mb-1.5">Filtrar por Posición</label>
                 <select name="position" class="w-full text-xs md:text-sm px-3 py-2 bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
                     <option value="">Todas las Posiciones</option>
-                    <option value="FW" @selected(($position ?? '') === 'FW')>Delantero (DEL)</option>
-                    <option value="MF" @selected(($position ?? '') === 'MF')>Mediocampista (MED)</option>
-                    <option value="DF" @selected(($position ?? '') === 'DF')>Defensa (DEF)</option>
-                    <option value="GK" @selected(($position ?? '') === 'GK')>Portero (POR)</option>
+                    <option value="forward" @selected(in_array(($position ?? ''), ['forward', 'FW']))>Delantero (DEL)</option>
+                    <option value="midfielder" @selected(in_array(($position ?? ''), ['midfielder', 'MF']))>Mediocampista (MED)</option>
+                    <option value="defender" @selected(in_array(($position ?? ''), ['defender', 'DF']))>Defensa (DEF)</option>
+                    <option value="goalkeeper" @selected(in_array(($position ?? ''), ['goalkeeper', 'GK']))>Portero (POR)</option>
                 </select>
             </div>
 
@@ -104,13 +104,14 @@
                     @forelse ($players as $player)
                         @php
                             $playerIdCode = 'PLY-' . str_pad($player->id, 3, '0', STR_PAD_LEFT);
-                            $pos = $player->profile?->position ?? 'FW';
-                            $posLabel = match($pos) {
-                                'FW' => 'DEL',
-                                'MF' => 'MED',
-                                'DF' => 'DEF',
-                                'GK' => 'POR',
-                                default => $pos
+                            $pos = $player->profile?->position ?? 'forward';
+                            $posLabel = match(strtolower($pos)) {
+                                'forward', 'fw', 'delantero', 'pivot' => 'DEL',
+                                'midfielder', 'mf', 'mediocampista', 'volante' => 'MED',
+                                'defender', 'df', 'defensa', 'cierre' => 'DEF',
+                                'goalkeeper', 'gk', 'portero', 'arquero' => 'POR',
+                                'ala', 'lateral' => 'ALA',
+                                default => strtoupper(substr($pos, 0, 3)),
                             };
                             $isSuspended = $player->sanctions->isNotEmpty();
                         @endphp
@@ -177,88 +178,14 @@
 
                         </tr>
                     @empty
-                        <!-- Demo Mock Rows -->
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="py-3.5 px-6 font-semibold text-slate-900">
-                                <div class="flex items-center gap-3.5">
-                                    <div class="size-9 rounded-full bg-slate-800 text-white font-bold text-xs flex items-center justify-center shrink-0">AM</div>
-                                    <div>
-                                        <div class="text-sm font-bold text-slate-900">Alex Mercer</div>
-                                        <div class="text-[11px] text-slate-400 font-normal">ID: PLY-001</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-3.5 px-6 text-slate-600 font-medium">Lions FC</td>
-                            <td class="py-3.5 px-6 text-center font-bold text-slate-800">10</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">DEL</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVO</span></td>
-                            <td class="py-3.5 px-6 text-right">
-                                <div class="flex items-center justify-end gap-3 text-slate-400">
-                                    <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
-                                    <button class="p-1 hover:text-rose-600"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="py-3.5 px-6 font-semibold text-slate-900">
-                                <div class="flex items-center gap-3.5">
-                                    <div class="size-9 rounded-full bg-sky-100 text-sky-800 font-bold text-xs flex items-center justify-center shrink-0">SJ</div>
-                                    <div>
-                                        <div class="text-sm font-bold text-slate-900">Sarah Jenkins</div>
-                                        <div class="text-[11px] text-slate-400 font-normal">ID: PLY-042</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-3.5 px-6 text-slate-600 font-medium">Bay Area FC</td>
-                            <td class="py-3.5 px-6 text-center font-bold text-slate-800">4</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">DEF</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVO</span></td>
-                            <td class="py-3.5 px-6 text-right">
-                                <div class="flex items-center justify-end gap-3 text-slate-400">
-                                    <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
-                                    <button class="p-1 hover:text-rose-600"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="py-3.5 px-6 font-semibold text-slate-900">
-                                <div class="flex items-center gap-3.5">
-                                    <div class="size-9 rounded-full bg-slate-700 text-white font-bold text-xs flex items-center justify-center shrink-0">MT</div>
-                                    <div>
-                                        <div class="text-sm font-bold text-slate-900">Marcus Thorne</div>
-                                        <div class="text-[11px] text-slate-400 font-normal">ID: PLY-018</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-3.5 px-6 text-slate-600 font-medium">Golden Gate United</td>
-                            <td class="py-3.5 px-6 text-center font-bold text-slate-800">1</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">POR</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#fee2e2] text-[#991b1b] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">SUSPENDIDO</span></td>
-                            <td class="py-3.5 px-6 text-right">
-                                <div class="flex items-center justify-end gap-3 text-slate-400">
-                                    <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
-                                    <button class="p-1 hover:text-rose-600"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr class="hover:bg-slate-50/80 transition-colors">
-                            <td class="py-3.5 px-6 font-semibold text-slate-900">
-                                <div class="flex items-center gap-3.5">
-                                    <div class="size-9 rounded-full bg-emerald-100 text-emerald-800 font-bold text-xs flex items-center justify-center shrink-0">EL</div>
-                                    <div>
-                                        <div class="text-sm font-bold text-slate-900">Elena Rodriguez</div>
-                                        <div class="text-[11px] text-slate-400 font-normal">ID: PLY-088</div>
-                                    </div>
-                                </div>
-                            </td>
-                            <td class="py-3.5 px-6 text-slate-600 font-medium">Lions FC</td>
-                            <td class="py-3.5 px-6 text-center font-bold text-slate-800">8</td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-slate-100 text-slate-700 text-xs font-bold px-2.5 py-0.5 rounded">MED</span></td>
-                            <td class="py-3.5 px-6 text-center"><span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">ACTIVO</span></td>
-                            <td class="py-3.5 px-6 text-right">
-                                <div class="flex items-center justify-end gap-3 text-slate-400">
-                                    <button class="p-1 hover:text-slate-800"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"/></svg></button>
-                                    <button class="p-1 hover:text-rose-600"><svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"/></svg></button>
+                        <tr>
+                            <td colspan="6" class="py-12 text-center">
+                                <div class="flex flex-col items-center justify-center text-slate-400">
+                                    <svg class="size-10 stroke-1 text-slate-300 mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
+                                    </svg>
+                                    <p class="text-sm font-semibold text-slate-600">No se encontraron jugadores</p>
+                                    <p class="text-xs text-slate-400 mt-1">Prueba ajustando los filtros de búsqueda o registra un nuevo jugador con el botón superior.</p>
                                 </div>
                             </td>
                         </tr>
@@ -270,25 +197,18 @@
         <!-- Pagination Bar -->
         <div class="p-4 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
             <div>
-                @if($players instanceof \Illuminate\Pagination\LengthAwarePaginator)
-                    Mostrando {{ $players->firstItem() ?? 1 }} a {{ $players->lastItem() ?? 4 }} de {{ $players->total() }} jugadores
+                @if($players instanceof \Illuminate\Pagination\LengthAwarePaginator && $players->total() > 0)
+                    Mostrando {{ $players->firstItem() }} a {{ $players->lastItem() }} de {{ $players->total() }} jugadores
+                @elseif($players instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                    0 jugadores encontrados
                 @else
-                    Mostrando 1 a 4 de 128 jugadores
+                    Total: {{ count($players) }} jugadores
                 @endif
             </div>
 
             <div>
-                @if($players instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                @if($players instanceof \Illuminate\Pagination\LengthAwarePaginator && $players->hasPages())
                     {{ $players->links('pagination::tailwind') }}
-                @else
-                    <div class="flex items-center gap-1">
-                        <button class="size-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 flex items-center justify-center cursor-pointer">&lt;</button>
-                        <button class="size-8 rounded-lg bg-[#057a55] text-white font-bold flex items-center justify-center">1</button>
-                        <button class="size-8 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 flex items-center justify-center cursor-pointer">2</button>
-                        <button class="size-8 rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 flex items-center justify-center cursor-pointer">3</button>
-                        <span class="px-1 text-slate-400">...</span>
-                        <button class="size-8 rounded-lg border border-slate-200 text-slate-500 hover:bg-slate-50 flex items-center justify-center cursor-pointer">&gt;</button>
-                    </div>
                 @endif
             </div>
         </div>
@@ -326,10 +246,10 @@
             <div>
                 <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Posición de Juego</label>
                 <select name="position" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                    <option value="FW">Delantero (DEL)</option>
-                    <option value="MF">Mediocampista (MED)</option>
-                    <option value="DF">Defensa (DEF)</option>
-                    <option value="GK">Portero (POR)</option>
+                    <option value="forward">Delantero (DEL)</option>
+                    <option value="midfielder">Mediocampista (MED)</option>
+                    <option value="defender">Defensa (DEF)</option>
+                    <option value="goalkeeper">Portero (POR)</option>
                 </select>
             </div>
             <div>

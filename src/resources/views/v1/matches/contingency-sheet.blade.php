@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Planilla Oficial de Contingencia | {{ $match->homeTeam->name }} vs {{ $match->awayTeam->name }}</title>
+    <title>Planilla Oficial de Contingencia | {{ $match->homeTeam?->name ?? 'Equipo Local' }} vs {{ $match->awayTeam?->name ?? 'Equipo Visitante' }}</title>
     <style>
         @page {
             size: A4 portrait;
@@ -173,7 +173,7 @@
         <tr>
             <!-- Equipo Local -->
             <td class="team-box">
-                <div class="team-header">LOCAL: {{ $match->homeTeam->name }}</div>
+                <div class="team-header">LOCAL: {{ $match->homeTeam?->name ?? 'Equipo Local' }}</div>
                 <table class="roster-table">
                     <thead>
                         <tr>
@@ -185,7 +185,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($match->homeTeam->players as $p)
+                        @forelse (($match->homeTeam?->players ?? collect()) as $p)
                             <tr>
                                 <td style="text-align: center; font-weight: bold;">{{ $p->jersey_number ?? '-' }}</td>
                                 <td>{{ $p->name }}</td>
@@ -206,7 +206,7 @@
 
             <!-- Equipo Visitante -->
             <td class="team-box">
-                <div class="team-header">VISITANTE: {{ $match->awayTeam->name }}</div>
+                <div class="team-header">VISITANTE: {{ $match->awayTeam?->name ?? 'Equipo Visitante' }}</div>
                 <table class="roster-table">
                     <thead>
                         <tr>
@@ -218,7 +218,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($match->awayTeam->players as $p)
+                        @forelse (($match->awayTeam?->players ?? collect()) as $p)
                             <tr>
                                 <td style="text-align: center; font-weight: bold;">{{ $p->jersey_number ?? '-' }}</td>
                                 <td>{{ $p->name }}</td>
@@ -274,7 +274,7 @@
             <td style="width: 40%; border: 1px solid #000; padding: 6px; text-align: center;">
                 <span style="font-size: 10px; font-weight: bold;">RESULTADO FINAL EN CANCHA</span><br>
                 <span style="font-size: 14px; font-weight: bold;">
-                    {{ $match->homeTeam->name }} [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] - [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] {{ $match->awayTeam->name }}
+                    {{ $match->homeTeam?->name ?? 'Equipo Local' }} [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] - [ &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ] {{ $match->awayTeam?->name ?? 'Equipo Visitante' }}
                 </span>
             </td>
             <td style="width: 60%; border: 1px solid #000; padding: 4px; vertical-align: top;">
@@ -290,7 +290,7 @@
             <td>
                 ___________________________________<br>
                 <strong>Firma y Aclaración Capitán / DT Local</strong><br>
-                {{ $match->homeTeam->coach?->name ?? 'DT Local' }}
+                {{ $match->homeTeam?->coach?->name ?? 'DT Local' }}
             </td>
             <td>
                 ___________________________________<br>
@@ -300,7 +300,7 @@
             <td>
                 ___________________________________<br>
                 <strong>Firma y Aclaración Capitán / DT Visitante</strong><br>
-                {{ $match->awayTeam->coach?->name ?? 'DT Visitante' }}
+                {{ $match->awayTeam?->coach?->name ?? 'DT Visitante' }}
             </td>
         </tr>
     </table>

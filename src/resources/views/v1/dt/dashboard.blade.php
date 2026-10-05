@@ -99,10 +99,10 @@
                 <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <span class="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[11px] font-bold text-emerald-800 border border-emerald-200">
-                            {{ $nextMatch->match_date->format('d/m/Y - H:i') }} hrs
+                            {{ $nextMatch->match_date?->format('d/m/Y - H:i') ?? 'Fecha por definir' }} hrs
                         </span>
                         <div class="mt-2 text-lg font-bold text-slate-900">
-                            {{ $nextMatch->homeTeam->name }} <span class="text-slate-400 font-normal">vs</span> {{ $nextMatch->awayTeam->name }}
+                            {{ $nextMatch->homeTeam?->name ?? 'Equipo Local' }} <span class="text-slate-400 font-normal">vs</span> {{ $nextMatch->awayTeam?->name ?? 'Equipo Visitante' }}
                         </div>
                         @if ($nextMatch->venue)
                             <p class="mt-1 text-xs text-slate-500">

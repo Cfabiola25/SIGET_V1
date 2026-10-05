@@ -88,7 +88,7 @@
                         </span>
                         <span class="text-slate-300">•</span>
                         <span class="text-xs text-slate-500 font-medium">
-                            {{ $match->match_date->format('d M Y · H:i') }}
+                            {{ $match->match_date?->format('d M Y · H:i') ?? 'Fecha por definir' }}
                         </span>
                         @if ($match->venue)
                             <span class="text-slate-300">•</span>
@@ -100,11 +100,11 @@
 
                     <div class="flex items-center gap-3">
                         <h3 class="text-lg md:text-xl font-bold text-slate-900">
-                            {{ $match->homeTeam->name }}
+                            {{ $match->homeTeam?->name ?? 'Por definir' }}
                         </h3>
                         <span class="text-slate-400 font-normal text-sm">vs</span>
                         <h3 class="text-lg md:text-xl font-bold text-slate-900">
-                            {{ $match->awayTeam->name }}
+                            {{ $match->awayTeam?->name ?? 'Por definir' }}
                         </h3>
                     </div>
 

@@ -1,6 +1,6 @@
 @extends('v1.layouts.app')
 
-@section('title', $match->homeTeam->name . ' vs ' . $match->awayTeam->name)
+@section('title', ($match->homeTeam?->name ?? 'Equipo 1') . ' vs ' . ($match->awayTeam?->name ?? 'Equipo 2'))
 
 @section('content')
 <div class="space-y-6 max-w-6xl mx-auto">
@@ -37,7 +37,7 @@
                 <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-emerald-50 text-[#057a55] border border-emerald-100 shadow-2xs">
                     <x-reicon name="football" class="size-8 text-[#057a55]" />
                 </div>
-                <h2 class="text-lg font-bold text-slate-900 md:text-2xl">{{ $match->homeTeam->name }}</h2>
+                <h2 class="text-lg font-bold text-slate-900 md:text-2xl">{{ $match->homeTeam?->name ?? 'Por definir' }}</h2>
                 <span class="inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Local</span>
             </div>
 
@@ -50,7 +50,7 @@
                 @else
                     <div class="text-2xl font-black text-slate-300 md:text-4xl">VS</div>
                 @endif
-                <p class="text-xs font-medium text-slate-600 font-mono">{{ $match->match_date->format('d/m/Y - H:i') }} hrs</p>
+                <p class="text-xs font-medium text-slate-600 font-mono">{{ $match->match_date?->format('d/m/Y - H:i') ?? 'Fecha por definir' }} hrs</p>
                 @if ($match->venue)
                     <p class="text-[11px] text-slate-500 flex items-center justify-center gap-1">
                         <svg class="size-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
@@ -68,7 +68,7 @@
                 <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 shadow-2xs">
                     <x-reicon name="football" class="size-8 text-blue-600" />
                 </div>
-                <h2 class="text-lg font-bold text-slate-900 md:text-2xl">{{ $match->awayTeam->name }}</h2>
+                <h2 class="text-lg font-bold text-slate-900 md:text-2xl">{{ $match->awayTeam?->name ?? 'Por definir' }}</h2>
                 <span class="inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Visitante</span>
             </div>
         </div>
@@ -104,15 +104,15 @@
 
                 @auth
                     @if (! $match->isLocked())
-                        @if (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()) || $match->homeTeam->isManagedBy(auth()->user()))
+                        @if ($match->homeTeam && (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()) || $match->homeTeam->isManagedBy(auth()->user())))
                             <a href="{{ route('matches.lineup.edit', [$match, $match->homeTeam]) }}" class="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50/70 px-3 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 transition">
-                                <span class="inline-flex items-center gap-1"><x-reicon name="clipboard-list" class="size-3.5 text-slate-400" /><span>Nómina {{ $match->homeTeam->name }}</span>
+                                <x-reicon name="clipboard-list" class="size-3.5 text-slate-400" /><span>Nómina {{ $match->homeTeam->name }}</span>
                             </a>
                         @endif
 
-                        @if (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()) || $match->awayTeam->isManagedBy(auth()->user()))
+                        @if ($match->awayTeam && (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()) || $match->awayTeam->isManagedBy(auth()->user())))
                             <a href="{{ route('matches.lineup.edit', [$match, $match->awayTeam]) }}" class="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50/70 px-3 py-2 text-xs font-semibold text-blue-800 hover:bg-blue-100 transition">
-                                <span class="inline-flex items-center gap-1"><x-reicon name="clipboard-list" class="size-3.5 text-slate-400" /><span>Nómina {{ $match->awayTeam->name }}</span>
+                                <x-reicon name="clipboard-list" class="size-3.5 text-slate-400" /><span>Nómina {{ $match->awayTeam->name }}</span>
                             </a>
                         @endif
 

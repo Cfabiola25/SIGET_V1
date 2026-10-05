@@ -1,6 +1,6 @@
 @extends('v1.layouts.app')
 
-@section('title', 'Cargar Marcador: ' . $match->homeTeam->name . ' vs ' . $match->awayTeam->name)
+@section('title', 'Cargar Marcador: ' . ($match->homeTeam?->name ?? 'Equipo 1') . ' vs ' . ($match->awayTeam?->name ?? 'Equipo 2'))
 
 @section('content')
 <div class="max-w-2xl mx-auto space-y-6">
@@ -11,7 +11,7 @@
                 Volver al Partido
             </a>
             <h1 class="text-2xl font-bold text-slate-900 mt-1">Registrar Marcador Oficial</h1>
-            <p class="text-xs text-slate-500">Torneo: <span class="font-semibold text-slate-700">{{ $match->tournament->name }}</span> • Fecha: {{ $match->match_date->format('d/m/Y H:i') }}</p>
+            <p class="text-xs text-slate-500">Torneo: <span class="font-semibold text-slate-700">{{ $match->tournament->name }}</span> • Fecha: {{ $match->match_date?->format('d/m/Y H:i') ?? 'Fecha por definir' }}</p>
         </div>
         <span class="rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700 border border-slate-200">
             Fase Regular
@@ -34,7 +34,7 @@
                 <!-- Home Team Box -->
                 <div class="rounded-xl border border-slate-200 bg-slate-50/50 p-5 text-center space-y-3">
                     <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Equipo Local</span>
-                    <h3 class="text-base font-bold text-slate-900 truncate">{{ $match->homeTeam->name }}</h3>
+                    <h3 class="text-base font-bold text-slate-900 truncate">{{ $match->homeTeam?->name ?? 'Equipo Local' }}</h3>
                     <div class="flex justify-center">
                         <input type="number" 
                                name="home_score" 
@@ -48,7 +48,7 @@
                 <!-- Away Team Box -->
                 <div class="rounded-xl border border-slate-200 bg-slate-50/50 p-5 text-center space-y-3">
                     <span class="text-[11px] font-bold text-slate-400 uppercase tracking-wider">Equipo Visitante</span>
-                    <h3 class="text-base font-bold text-slate-900 truncate">{{ $match->awayTeam->name }}</h3>
+                    <h3 class="text-base font-bold text-slate-900 truncate">{{ $match->awayTeam?->name ?? 'Equipo Visitante' }}</h3>
                     <div class="flex justify-center">
                         <input type="number" 
                                name="away_score" 

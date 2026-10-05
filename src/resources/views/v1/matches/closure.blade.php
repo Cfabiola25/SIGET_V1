@@ -78,7 +78,7 @@
             </div>
             <div>
                 <span class="block text-slate-400 text-[11px]">Fecha</span>
-                <strong class="text-slate-800">{{ $match->match_date->format('d/m/Y H:i') }}</strong>
+                <strong class="text-slate-800">{{ $match->match_date?->format('d/m/Y H:i') ?? 'Por definir' }}</strong>
             </div>
             <div>
                 <span class="block text-slate-400 text-[11px]">Árbitro Designado</span>
@@ -101,7 +101,7 @@
                     <div class="flex items-center gap-2.5 p-2.5 rounded-lg bg-slate-50 border border-slate-200/80 text-xs">
                         <span class="text-base">{{ $event->icon }}</span>
                         <div class="flex-1 min-w-0">
-                            <p class="font-semibold text-slate-900 truncate">{{ $event->player?->name ?? $event->team->name }}</p>
+                            <p class="font-semibold text-slate-900 truncate">{{ $event->player?->name ?? ($event->team?->name ?? 'Equipo') }}</p>
                             <p class="text-[11px] text-slate-500">{{ $event->label }} &bull; {{ $event->formatted_time }}</p>
                         </div>
                     </div>

@@ -8,37 +8,37 @@
         <div>
             <div class="flex items-center gap-2">
                 <span class="inline-flex size-3 rounded-full bg-rose-500 animate-ping"></span>
-                <span class="text-xs font-black uppercase tracking-widest text-rose-400">EN VIVO • MARCADOR EN TIEMPO REAL</span>
+                <span class="text-xs font-black uppercase tracking-widest text-rose-600">EN VIVO &bull; MARCADOR EN TIEMPO REAL</span>
             </div>
-            <h1 class="mt-1 text-2xl font-black text-white md:text-3xl">Centro de Partidos en Directo</h1>
-            <p class="text-sm text-slate-400">Actualización de marcadores, tiempos y eventos de partido al instante sin recargar la página.</p>
+            <h1 class="mt-1 text-2xl font-black text-slate-900 md:text-3xl tracking-tight">Centro de Partidos en Directo</h1>
+            <p class="text-sm text-slate-500">Actualización de marcadores, tiempos y eventos de partido al instante sin recargar la página.</p>
         </div>
 
         <div class="flex items-center gap-2">
-            <span class="rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-1.5 text-xs font-semibold text-slate-300">
-                Sincronización Automática: <strong class="text-emerald-400">Activa</strong>
+            <span class="rounded-xl border border-slate-200 bg-white px-3.5 py-1.5 text-xs font-semibold text-slate-700 shadow-2xs">
+                Sincronización Automática: <strong class="text-emerald-600">Activa</strong>
             </span>
         </div>
     </div>
 
     @if ($matches->isEmpty())
-        <div class="rounded-2xl border border-slate-800 bg-slate-900/60 p-12 text-center">
+        <div class="rounded-2xl border border-slate-200 bg-white p-12 text-center shadow-2xs">
             <x-reicon name="football" class="size-10 text-slate-300 mx-auto block mb-2" />
-            <h2 class="mt-3 text-lg font-bold text-white">No hay partidos en disputa en este momento</h2>
-            <p class="mt-1 text-sm text-slate-400">Los partidos activos aparecerán aquí automáticamente en cuanto el árbitro inicie el cronómetro.</p>
-            <a href="{{ route('matches.index') }}" class="mt-4 inline-block rounded-xl bg-emerald-500 px-4 py-2 text-xs font-bold text-slate-950 hover:bg-emerald-400">
-                Ver fixture programado →
+            <h2 class="mt-3 text-lg font-bold text-slate-900">No hay partidos en disputa en este momento</h2>
+            <p class="mt-1 text-sm text-slate-500">Los partidos activos aparecerán aquí automáticamente en cuanto el árbitro inicie el cronómetro.</p>
+            <a href="{{ route('matches.index') }}" class="mt-4 inline-block rounded-xl bg-[#057a55] px-4 py-2 text-xs font-bold text-white hover:bg-[#046c4b] transition shadow-xs">
+                Ver fixture programado &rarr;
             </a>
         </div>
     @else
         @foreach ($matches as $match)
-            <div id="match-card-{{ $match->id }}" class="relative overflow-hidden rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-900/90 to-emerald-950/40 p-6 md:p-8 backdrop-blur-xl shadow-2xl space-y-6">
+            <div id="match-card-{{ $match->id }}" class="relative overflow-hidden rounded-3xl border border-slate-800 bg-gradient-to-r from-slate-900 via-slate-900/90 to-emerald-950/40 p-6 md:p-8 shadow-2xl space-y-6">
                 <!-- Header del Partido -->
                 <div class="flex items-center justify-between border-b border-slate-800/80 pb-4">
                     <div>
-                        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">{{ $match->tournament->name }}</span>
+                        <span class="text-xs font-semibold text-emerald-400 uppercase tracking-wider">{{ $match->tournament?->name ?? 'Torneo Oficial' }}</span>
                         @if ($match->venue)
-                            <span class="text-slate-500 text-xs mx-1.5">•</span>
+                            <span class="text-slate-500 text-xs mx-1.5">&bull;</span>
                             <span class="text-xs text-slate-400"><x-reicon name="pin" class="size-3.5 inline-block text-slate-400 mr-0.5" /> {{ $match->venue->name }}</span>
                         @endif
                     </div>
@@ -56,7 +56,7 @@
                 <!-- Marcador Dinámico -->
                 <div class="grid grid-cols-3 items-center text-center">
                     <div>
-                        <h2 class="text-lg font-black text-white sm:text-2xl">{{ $match->homeTeam->name }}</h2>
+                        <h2 class="text-lg font-black text-white sm:text-2xl">{{ $match->homeTeam?->name ?? 'Equipo Local' }}</h2>
                         <span class="text-xs font-semibold text-slate-400">Local</span>
                     </div>
 
@@ -69,7 +69,7 @@
                     </div>
 
                     <div>
-                        <h2 class="text-lg font-black text-white sm:text-2xl">{{ $match->awayTeam->name }}</h2>
+                        <h2 class="text-lg font-black text-white sm:text-2xl">{{ $match->awayTeam?->name ?? 'Equipo Visitante' }}</h2>
                         <span class="text-xs font-semibold text-slate-400">Visitante</span>
                     </div>
                 </div>
@@ -79,7 +79,7 @@
                     <div class="flex items-center justify-between">
                         <h3 class="text-xs font-bold uppercase tracking-wider text-slate-400">Minuto a Minuto Oficial</h3>
                         <a href="{{ route('matches.show', $match) }}" class="text-xs font-bold text-emerald-400 hover:underline">
-                            Ver nóminas y ficha completa →
+                            Ver nóminas y ficha completa &rarr;
                         </a>
                     </div>
 
@@ -90,13 +90,18 @@
                                     <span class="font-mono font-bold text-emerald-400">{{ $event->formatted_time }}</span>
                                     <span>{{ $event->icon }}</span>
                                     <span class="font-bold text-white">{{ $event->label }}</span>
-                                    <span class="text-slate-400">• {{ $event->player?->name ?? 'N/A' }}</span>
+                                    <span class="text-slate-400">&bull; {{ $event->player?->name ?? 'N/A' }}</span>
                                 </div>
                                 @if ($event->notes)
                                     <span class="text-[11px] text-slate-500 italic">{{ $event->notes }}</span>
                                 @endif
                             </div>
                         @empty
+                            <p class="text-xs text-slate-500 py-3 text-center">Sin incidencias registradas aún en el encuentro.</p>
+                        @endforelse
+                    </div>
+                </div>
+
                 <!-- Votación Pública del MVP en Vivo (Fan Engagement) -->
                 <div class="border-t border-slate-800/80 pt-4 space-y-3 bg-slate-950/40 -mx-6 -mb-6 p-6 rounded-b-3xl">
                     <div class="flex items-center justify-between">
@@ -117,18 +122,18 @@
                             @csrf
                             <select id="mvp-select-{{ $match->id }}" required class="flex-1 w-full rounded-xl border border-slate-800 bg-slate-900 px-3 py-2 text-xs font-semibold text-slate-200 focus:border-amber-500 focus:outline-none">
                                 <option value="">-- Elige al Mejor Jugador de la Cancha --</option>
-                                <optgroup label="{{ $match->homeTeam->name }} (Local)">
-                                    @foreach($match->homeTeam->players as $p)
+                                <optgroup label="{{ $match->homeTeam?->name ?? 'Equipo Local' }} (Local)">
+                                    @foreach($match->homeTeam?->players ?? collect() as $p)
                                         <option value="{{ $p->id }}">{{ $p->name }} (#{{ $p->jersey_number ?? '-' }})</option>
                                     @endforeach
                                 </optgroup>
-                                <optgroup label="{{ $match->awayTeam->name }} (Visitante)">
-                                    @foreach($match->awayTeam->players as $p)
+                                <optgroup label="{{ $match->awayTeam?->name ?? 'Equipo Visitante' }} (Visitante)">
+                                    @foreach($match->awayTeam?->players ?? collect() as $p)
                                         <option value="{{ $p->id }}">{{ $p->name }} (#{{ $p->jersey_number ?? '-' }})</option>
                                     @endforeach
                                 </optgroup>
                             </select>
-                            <button type="submit" class="w-full sm:w-auto rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 px-4 py-2 text-xs font-black text-slate-950 shadow-md shadow-amber-500/10 hover:from-amber-400 transition">
+                            <button type="submit" class="w-full sm:w-auto rounded-xl bg-gradient-to-r from-amber-500 to-yellow-400 px-4 py-2 text-xs font-black text-slate-950 shadow-md shadow-amber-500/10 hover:from-amber-400 transition cursor-pointer">
                                 Votar MVP
                             </button>
                         </form>

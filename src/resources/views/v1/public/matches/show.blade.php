@@ -72,9 +72,11 @@
                 <h2 class="mt-3 font-display text-base sm:text-xl font-bold text-slate-900 leading-tight">
                     {{ $match->homeTeam?->name ?? 'Equipo Local' }}
                 </h2>
-                <a href="{{ route('teams.show', $match->homeTeam) }}" class="text-xs text-emerald-700 font-semibold hover:underline mt-1">
-                    Ver Club
-                </a>
+                @if($match->homeTeam)
+                    <a href="{{ route('teams.show', $match->homeTeam) }}" class="text-xs text-emerald-700 font-semibold hover:underline mt-1">
+                        Ver Club
+                    </a>
+                @endif
             </div>
 
             <!-- Marcador / VS -->
@@ -108,9 +110,11 @@
                 <h2 class="mt-3 font-display text-base sm:text-xl font-bold text-slate-900 leading-tight">
                     {{ $match->awayTeam?->name ?? 'Equipo Visitante' }}
                 </h2>
-                <a href="{{ route('teams.show', $match->awayTeam) }}" class="text-xs text-blue-700 font-semibold hover:underline mt-1">
-                    Ver Club
-                </a>
+                @if($match->awayTeam)
+                    <a href="{{ route('teams.show', $match->awayTeam) }}" class="text-xs text-blue-700 font-semibold hover:underline mt-1">
+                        Ver Club
+                    </a>
+                @endif
             </div>
         </div>
 
