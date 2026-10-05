@@ -17,7 +17,7 @@
 
         <div class="flex items-center gap-2">
             <span class="inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold bg-emerald-50 border border-emerald-200 text-emerald-800">
-                <span>⚽</span> {{ $tournament->teams->count() }} Equipos
+                <x-reicon name="football" class="size-4 text-emerald-600 inline-block mr-1" /> {{ $tournament->teams->count() }} Equipos
             </span>
         </div>
     </div>
@@ -41,7 +41,7 @@
 
     @if ($tournament->teams->count() < 2)
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-8 text-center">
-            <div class="text-4xl mb-3">⚠️</div>
+            <x-reicon name="alert-triangle" class="size-10 text-amber-500 mx-auto block mb-3" />
             <h3 class="text-base font-bold text-slate-900">Insuficientes Equipos</h3>
             <p class="text-xs text-slate-500 max-w-md mx-auto mt-1">Se requieren al menos 2 equipos confirmados para generar un calendario de competición.</p>
             <a href="{{ route('tournaments.show', $tournament) }}" class="mt-4 inline-block px-4 py-2 rounded-lg bg-[#057a55] text-white font-bold text-xs hover:bg-[#046c4b] transition">
@@ -53,7 +53,7 @@
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6 space-y-3">
             <div class="flex items-start gap-3">
                 <div class="p-2.5 rounded-xl bg-emerald-50 text-emerald-800 text-xl font-bold">
-                    📐
+                    <x-reicon name="setting" class="size-4 text-slate-500 inline-block" />
                 </div>
                 <div>
                     <h3 class="text-sm font-bold text-slate-900">Motor Matemático Berger (Sistema de Rotación de Polígono)</h3>
@@ -61,7 +61,7 @@
                         El generador calcula de forma determinista todas las jornadas garantizando que cada equipo enfrente a todos los demás, alternando equitativamente localías y respetando descansos mínimos entre encuentros.
                         @if ($tournament->teams->count() % 2 !== 0)
                             <span class="block mt-1 text-amber-700 font-semibold">
-                                ℹ️ Cantidad impar de equipos ({{ $tournament->teams->count() }}): se aplicará descanso automático (BYE) rotativo por jornada.
+                                <x-reicon name="alert-triangle" class="size-4 text-slate-500 inline-block" /> Cantidad impar de equipos ({{ $tournament->teams->count() }}): se aplicará descanso automático (BYE) rotativo por jornada.
                             </span>
                         @endif
                     </p>
@@ -75,7 +75,7 @@
 
             <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6 space-y-5">
                 <h3 class="text-base font-bold text-slate-900 border-b border-slate-100 pb-3 flex items-center gap-2">
-                    <span>⚙️</span> Parámetros del Calendario
+                    <x-reicon name="setting" class="size-4 text-slate-500 inline-block mr-1" /> Parámetros del Calendario
                 </h3>
 
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -163,7 +163,7 @@
                     Cancelar
                 </a>
                 <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white font-bold text-xs transition shadow-xs flex items-center gap-2 cursor-pointer">
-                    <span>🗓️</span> Generar Fixture Oficial
+                    <x-reicon name="calendar" class="size-4 text-white inline-block mr-1" /> Generar Fixture Oficial
                 </button>
             </div>
         </form>

@@ -25,7 +25,7 @@
 
     @if ($venues->isEmpty())
         <div class="rounded-2xl border border-slate-200/90 bg-white p-12 text-center shadow-2xs">
-            <span class="text-4xl block">📍</span>
+            <x-reicon name="pin" class="size-10 text-slate-300 mx-auto block" />
             <h2 class="mt-3 text-base font-bold text-slate-900">No hay sedes registradas</h2>
             <p class="mt-1 text-xs text-slate-500">Registra las canchas con coordenadas GPS para asignarlas en el programador de partidos.</p>
             @if (auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true))

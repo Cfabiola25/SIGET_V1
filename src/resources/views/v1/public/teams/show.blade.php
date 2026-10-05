@@ -31,14 +31,15 @@
         <div class="p-6 sm:p-10 flex flex-col md:flex-row items-center md:items-start gap-6 border-b border-slate-100">
             <!-- Escudo Gigante -->
             <div class="size-24 sm:size-28 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-[#057a55] font-black text-4xl flex items-center justify-center shadow-xs shrink-0">
-                🛡️
+                <x-reicon name="shield-check" class="size-12 text-[#057a55]" />
             </div>
 
             <!-- Datos del Club -->
             <div class="flex-1 text-center md:text-left space-y-2">
                 <div class="flex flex-wrap items-center justify-center md:justify-start gap-2 text-xs">
-                    <span class="inline-flex items-center gap-1 px-3 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                        🏆 {{ $team->tournament?->name ?? 'Torneo Oficial' }}
+                    <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
+                        <x-reicon name="trophy" class="size-3.5 text-emerald-700 shrink-0" />
+                        <span>{{ $team->tournament?->name ?? 'Torneo Oficial' }}</span>
                     </span>
                     <span class="inline-flex items-center px-2.5 py-0.5 rounded-full font-bold uppercase text-[10px] bg-slate-100 text-slate-700">
                         {{ $team->status === 'active' || $team->status === 'approved' ? 'ACTIVO' : ($team->status === 'completed' ? 'FINALIZADO' : 'PENDIENTE') }}
@@ -127,7 +128,10 @@
                                 <span>Pierna: {{ $player->preferred_foot === 'right' ? 'Diestro' : ($player->preferred_foot === 'left' ? 'Zurdo' : 'Ambidiestro') }}</span>
                                 @if($player->profile?->scouting_rating)
                                     <span>&bull;</span>
-                                    <span class="font-bold text-amber-700">★ {{ number_format($player->profile->scouting_rating, 1) }}</span>
+                                    <span class="font-bold text-amber-700 inline-flex items-center gap-1">
+                                        <x-reicon name="star" variant="filled" class="size-3 text-amber-500" />
+                                        <span>{{ number_format($player->profile->scouting_rating, 1) }}</span>
+                                    </span>
                                 @endif
                             </p>
                             @if($player->profile?->bio)

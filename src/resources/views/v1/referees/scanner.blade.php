@@ -23,7 +23,7 @@
     <!-- Escáner Activo de Carnet QR -->
     <div class="rounded-3xl border border-slate-800 bg-slate-900/80 p-6 backdrop-blur-xl shadow-2xl">
         <div class="text-center">
-            <span class="text-3xl">📷</span>
+            <x-reicon name="camera" class="size-8 text-slate-400" />
             <h2 class="mt-1 text-lg font-black text-white">Escaneo Rápido de Carnet</h2>
             <p class="text-xs text-slate-400">Pasa el lector o cámara sobre el carnet QR del jugador (o introduce el código).</p>
         </div>
@@ -58,7 +58,7 @@
                             <span class="text-slate-500 ml-1">({{ $lineup->is_starter ? 'Titular' : 'Suplente' }})</span>
                         </div>
                         <span class="qr-status-badge rounded px-2 py-0.5 text-[10px] font-bold {{ $lineup->verified_by_qr ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500' }}">
-                            {{ $lineup->verified_by_qr ? '✅ Verificado' : 'Pendiente' }}
+                            {{ $lineup->verified_by_qr ? 'Verificado' : 'Pendiente' }}
                         </span>
                     </div>
                 @endforeach
@@ -79,7 +79,7 @@
                             <span class="text-slate-500 ml-1">({{ $lineup->is_starter ? 'Titular' : 'Suplente' }})</span>
                         </div>
                         <span class="qr-status-badge rounded px-2 py-0.5 text-[10px] font-bold {{ $lineup->verified_by_qr ? 'bg-emerald-500/20 text-emerald-400' : 'bg-slate-800 text-slate-500' }}">
-                            {{ $lineup->verified_by_qr ? '✅ Verificado' : 'Pendiente' }}
+                            {{ $lineup->verified_by_qr ? 'Verificado' : 'Pendiente' }}
                         </span>
                     </div>
                 @endforeach
@@ -118,7 +118,7 @@
                 scanResult.className = 'mt-6 rounded-2xl p-5 border text-left border-emerald-500/40 bg-emerald-950/40 text-emerald-300';
                 scanResult.innerHTML = `
                     <div class="flex items-center justify-between">
-                        <span class="text-lg font-black text-white">✅ HABILITADO EN CANCHA</span>
+                        <span class="text-lg font-black text-white flex items-center justify-center gap-2"><x-reicon name="check" class="size-5 text-white" /><span>HABILITADO EN CANCHA</span></span>
                         <span class="rounded bg-emerald-500/20 px-2 py-0.5 text-xs font-bold text-emerald-400">${data.player.lineup_status}</span>
                     </div>
                     <div class="mt-2 text-xl font-black text-white">#${data.player.jersey_number} ${data.player.name}</div>
@@ -131,13 +131,13 @@
                     const badge = row.querySelector('.qr-status-badge');
                     if (badge) {
                         badge.className = 'qr-status-badge rounded px-2 py-0.5 text-[10px] font-bold bg-emerald-500/20 text-emerald-400';
-                        badge.innerText = '✅ Verificado';
+                        badge.innerText = 'Verificado';
                     }
                 }
             } else {
                 scanResult.className = 'mt-6 rounded-2xl p-5 border text-left border-rose-500/40 bg-rose-950/40 text-rose-300';
                 scanResult.innerHTML = `
-                    <div class="font-black text-white text-lg">⛔ JUGADOR INHABILITADO</div>
+                    <div class="font-black text-white text-lg flex items-center justify-center gap-2"><x-reicon name="alert-triangle" class="size-5 text-white" /><span>JUGADOR INHABILITADO</span></div>
                     <p class="mt-1 text-sm font-semibold">${data.message}</p>
                     ${data.player ? `<div class="mt-2 text-xs text-slate-300">${data.player.name} (${data.player.team})</div>` : ''}
                 `;

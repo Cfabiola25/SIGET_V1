@@ -43,7 +43,7 @@
                     <option value="">Todos los Torneos</option>
                     @foreach($tournaments as $t)
                         <option value="{{ $t->id }}" @selected(($selectedTournamentId ?? '') == $t->id)>
-                            {{ $t->name }} ({{ $t->sport_type }}){{ $t->is_featured ? ' ⭐ (Principal)' : '' }}
+                            {{ $t->name }} ({{ $t->sport_type }}){{ $t->is_featured ? ' (Principal)' : '' }}
                         </option>
                     @endforeach
                 </select>
@@ -54,10 +54,10 @@
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Estado del Encuentro</label>
                 <select name="status" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#057a55] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todos los Estados</option>
-                    <option value="scheduled" @selected(($filters['status'] ?? '') === 'scheduled')>📅 Programados</option>
-                    <option value="live" @selected(($filters['status'] ?? '') === 'live')>🔴 En Vivo</option>
-                    <option value="played" @selected(($filters['status'] ?? '') === 'played')>✅ Finalizados</option>
-                    <option value="suspended" @selected(($filters['status'] ?? '') === 'suspended')>⚠️ Suspendidos</option>
+                    <option value="scheduled" @selected(($filters['status'] ?? '') === 'scheduled')>Programados</option>
+                    <option value="live" @selected(($filters['status'] ?? '') === 'live')>En Vivo</option>
+                    <option value="played" @selected(($filters['status'] ?? '') === 'played')>Finalizados</option>
+                    <option value="suspended" @selected(($filters['status'] ?? '') === 'suspended')>Suspendidos</option>
                 </select>
             </div>
 
@@ -116,8 +116,9 @@
                 
                 <!-- Encabezado de la Tarjeta: Torneo, Fecha y Estado -->
                 <div class="p-4 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between text-xs">
-                    <span class="font-bold text-slate-600 truncate max-w-[170px]" title="{{ $match->tournament?->name }}">
-                        🏆 {{ $match->tournament?->name ?? 'Torneo' }}
+                    <span class="font-bold text-slate-600 truncate max-w-[170px] inline-flex items-center gap-1.5" title="{{ $match->tournament?->name }}">
+                        <x-reicon name="trophy" class="size-3.5 text-emerald-600 shrink-0" />
+                        <span class="truncate">{{ $match->tournament?->name ?? 'Torneo' }}</span>
                     </span>
                     
                     <!-- Badge de Estado -->
@@ -191,8 +192,9 @@
                             <span>{{ $match->venue?->name ?? 'Sede Principal' }}</span>
                         </span>
                         @if($match->referee)
-                            <span class="truncate text-slate-400" title="{{ $match->referee->name }}">
-                                👤 {{ $match->referee->name }}
+                            <span class="truncate text-slate-400 inline-flex items-center gap-1" title="{{ $match->referee->name }}">
+                                <x-reicon name="user" class="size-3 text-slate-400 shrink-0" />
+                                <span>{{ $match->referee->name }}</span>
                             </span>
                         @endif
                     </div>
@@ -208,7 +210,7 @@
             </div>
         @empty
             <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-500">
-                <span class="text-4xl block mb-2">⚽</span>
+                <x-reicon name="football" class="size-10 text-slate-300 mx-auto block mb-2" />
                 <h3 class="text-base font-bold text-slate-800">No se encontraron partidos</h3>
                 <p class="text-xs text-slate-500 mt-1">Intenta ajustando los filtros de torneo, estado o búsqueda.</p>
                 <div class="mt-4">

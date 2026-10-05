@@ -38,8 +38,9 @@
                 <span class="inline-flex items-center gap-1 px-3 py-0.5 rounded-full font-bold bg-cyan-100 text-cyan-900 border border-cyan-300">
                     {{ $player->profile?->position_label ?? ucfirst($player->position) }}
                 </span>
-                <span class="inline-flex items-center gap-1 px-3 py-0.5 rounded-full font-black bg-amber-100 text-amber-900 border border-amber-300">
-                    ★ Rating: {{ number_format($player->profile?->performance_rating ?? $player->profile?->scouting_rating ?? 8.0, 1) }} / 10
+                <span class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full font-black bg-amber-100 text-amber-900 border border-amber-300">
+                    <x-reicon name="star" variant="filled" class="size-3.5 text-amber-500 shrink-0" />
+                    <span>Rating: {{ number_format($player->profile?->performance_rating ?? $player->profile?->scouting_rating ?? 8.0, 1) }} / 10</span>
                 </span>
             </div>
 

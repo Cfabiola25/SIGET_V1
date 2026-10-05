@@ -35,11 +35,11 @@
             </button>
             <button type="button" onclick="handleTimerAction('pause')"
                     class="rounded-xl border border-slate-700 bg-slate-800 px-4 py-2.5 text-xs font-bold text-slate-200 hover:bg-slate-700 transition">
-                ⏸ Pausar
+                <x-reicon name="clock" class="size-4 text-slate-600 inline-block mr-1" /> Pausar
             </button>
             <button type="button" onclick="handleTimerAction('halftime')"
                     class="rounded-xl border border-amber-500/40 bg-amber-500/10 px-4 py-2.5 text-xs font-bold text-amber-400 hover:bg-amber-500/20 transition">
-                ☕ Entretiempo
+                <x-reicon name="clock" class="size-4 text-amber-600 inline-block" /> Entretiempo
             </button>
             <button type="button" onclick="handleTimerAction('start_2h')"
                     class="rounded-xl border border-blue-500/40 bg-blue-500/10 px-4 py-2.5 text-xs font-bold text-blue-400 hover:bg-blue-500/20 transition">
@@ -47,17 +47,17 @@
             </button>
             <button type="button" onclick="handleTimerAction('end_match')"
                     class="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2.5 text-xs font-bold text-rose-400 hover:bg-rose-500/20 transition">
-                🏁 Fin de Partido
+                <x-reicon name="flag" variant="filled" class="size-4 text-slate-900 inline-block" /> Fin de Partido
             </button>
             @if ($match->isLocked())
                 <a href="{{ route('matches.report', $match) }}"
                    class="rounded-xl border border-emerald-500/50 bg-emerald-500/20 px-4 py-2.5 text-xs font-black text-emerald-300 hover:bg-emerald-500/30 transition flex items-center gap-1.5">
-                    📜 Ver Acta Oficial Firmada
+                    <x-reicon name="clipboard-list" class="size-4 text-slate-600 inline-block" /> Ver Acta Oficial Firmada
                 </a>
             @else
                 <a href="{{ route('matches.closure', $match) }}"
                    class="rounded-xl border border-emerald-500/50 bg-emerald-500/20 px-4 py-2.5 text-xs font-black text-emerald-300 hover:bg-emerald-500/30 transition flex items-center gap-1.5">
-                    ✍️ Firmar y Cerrar Acta
+                    <x-reicon name="pen" class="size-4 text-emerald-600 inline-block mr-1" /> Firmar y Cerrar Acta
                 </a>
             @endif
         </div>
@@ -86,30 +86,30 @@
 
         <div class="grid grid-cols-2 gap-3 sm:grid-cols-5">
             <!-- GOL -->
-            <button type="button" onclick="openActionModal('goal', '⚽ GOL', 'emerald')"
+            <button type="button" onclick="openActionModal('goal', 'GOL', 'emerald')"
                     class="flex flex-col items-center justify-center rounded-2xl border-2 border-emerald-500/50 bg-emerald-500/15 py-5 text-emerald-400 shadow-lg shadow-emerald-950/40 hover:bg-emerald-500/25 active:scale-95 transition">
-                <span class="text-3xl">⚽</span>
+                <span class="text-3xl"><x-reicon name="football" class="size-5 text-emerald-600 inline-block" /></span>
                 <span class="mt-1 text-base font-black">GOL</span>
             </button>
 
             <!-- TARJETA AMARILLA -->
-            <button type="button" onclick="openActionModal('yellow_card', '🟨 TARJETA AMARILLA', 'amber')"
+            <button type="button" onclick="openActionModal('yellow_card', 'TARJETA AMARILLA', 'amber')"
                     class="flex flex-col items-center justify-center rounded-2xl border-2 border-amber-500/50 bg-amber-500/15 py-5 text-amber-400 shadow-lg shadow-amber-950/40 hover:bg-amber-500/25 active:scale-95 transition">
-                <span class="text-3xl">🟨</span>
+                <span class="text-3xl"><x-reicon name="card" variant="filled" class="size-5 text-amber-500 inline-block" /></span>
                 <span class="mt-1 text-sm font-black">AMARILLA</span>
             </button>
 
             <!-- TARJETA ROJA -->
-            <button type="button" onclick="openActionModal('red_card', '🟥 TARJETA ROJA', 'rose')"
+            <button type="button" onclick="openActionModal('red_card', 'TARJETA ROJA', 'rose')"
                     class="flex flex-col items-center justify-center rounded-2xl border-2 border-rose-500/50 bg-rose-500/15 py-5 text-rose-400 shadow-lg shadow-rose-950/40 hover:bg-rose-500/25 active:scale-95 transition">
-                <span class="text-3xl">🟥</span>
+                <span class="text-3xl"><x-reicon name="card" variant="filled" class="size-5 text-rose-600 inline-block" /></span>
                 <span class="mt-1 text-sm font-black">ROJA</span>
             </button>
 
             <!-- SUSTITUCIÓN -->
-            <button type="button" onclick="openActionModal('substitution', '🔄 CAMBIO', 'blue')"
+            <button type="button" onclick="openActionModal('substitution', 'CAMBIO', 'blue')"
                     class="flex flex-col items-center justify-center rounded-2xl border-2 border-blue-500/50 bg-blue-500/15 py-5 text-blue-400 shadow-lg shadow-blue-950/40 hover:bg-blue-500/25 active:scale-95 transition">
-                <span class="text-3xl">🔄</span>
+                <span class="text-3xl"><x-reicon name="refresh" class="size-5 text-slate-700 inline-block" /></span>
                 <span class="mt-1 text-sm font-black">CAMBIO</span>
             </button>
 
@@ -156,7 +156,7 @@
     <div class="w-full max-w-lg rounded-3xl border border-slate-800 bg-slate-900 p-6 shadow-2xl space-y-4 max-h-[90vh] overflow-y-auto">
         <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h3 id="modalTitle" class="text-lg font-black text-white">Registrar Evento</h3>
-            <button type="button" onclick="closeActionModal()" class="text-slate-400 hover:text-white text-xl">✕</button>
+            <button type="button" onclick="closeActionModal()" class="text-slate-400 hover:text-white text-xl"><x-reicon name="alert-circle" class="size-4 text-rose-500 inline-block" /></button>
         </div>
 
         <!-- Paso 1: Seleccionar Equipo -->

@@ -48,7 +48,7 @@
         <!-- Card 3: Average Rating -->
         <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs">
             <span class="text-xs font-semibold text-slate-500">Calificación Promedio</span>
-            <div class="text-3xl font-extrabold text-slate-900 mt-2">{{ number_format($avgRating, 1) }} <span class="text-amber-500 text-xl">★</span></div>
+            <div class="text-3xl font-extrabold text-slate-900 mt-2">{{ number_format($avgRating, 1) }} <x-reicon name="star" variant="filled" class="size-5 text-amber-500 inline-block" /></div>
             <span class="inline-flex items-center text-[11px] text-slate-500 font-medium mt-1">Evaluado por directores técnicos</span>
         </div>
 
@@ -125,7 +125,7 @@
                             </td>
                             <td class="py-3.5 px-5 text-center">
                                 <span class="inline-flex items-center gap-1 font-bold text-amber-600 bg-amber-50 border border-amber-200 px-2 py-0.5 rounded-full text-[11px]">
-                                    ★ {{ number_format($referee->rating_average, 1) }}
+                                    <x-reicon name="star" variant="filled" class="size-3.5 text-amber-400 inline-block mr-1" /> {{ number_format($referee->rating_average, 1) }}
                                 </span>
                             </td>
                             <td class="py-3.5 px-5 text-center">

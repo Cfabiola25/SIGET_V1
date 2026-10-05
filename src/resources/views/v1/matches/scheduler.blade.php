@@ -143,7 +143,7 @@
                                             <span class="text-emerald-700">Árb: {{ $matchP2->referee->name }}</span>
                                         @else
                                             <span class="text-amber-700 flex items-center gap-1 font-semibold">
-                                                <span>⚠</span> Sin Árbitro Asignado
+                                                <span class="inline-flex items-center gap-1"><x-reicon name="alert-triangle" class="size-3 text-amber-500" /><span>Sin Árbitro Asignado</span></span>
                                             </span>
                                         @endif
                                     </div>
@@ -157,7 +157,7 @@
                                     </div>
                                     <div class="mt-2 flex items-center gap-1.5 text-[11px] text-slate-600 font-medium">
                                         <span class="text-amber-700 flex items-center gap-1 font-semibold">
-                                            <span>⚠</span> Sin Árbitro Asignado
+                                            <span class="inline-flex items-center gap-1"><x-reicon name="alert-triangle" class="size-3 text-amber-500" /><span>Sin Árbitro Asignado</span></span>
                                         </span>
                                     </div>
                                 </div>

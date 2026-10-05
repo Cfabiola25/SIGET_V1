@@ -59,10 +59,10 @@
                 <div>
                     <label class="block text-xs font-semibold text-slate-600 mb-1.5">Modalidad de Fútbol *</label>
                     <select name="sport_type" required class="w-full text-sm px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg focus:border-emerald-600 transition font-medium">
-                        <option value="Fútbol 11">⚽ Fútbol 11 (Cancha reglamentaria - 11 vs 11)</option>
-                        <option value="Fútbol 8 (Canchas sintéticas)">🏟️ Fútbol 8 (Canchas sintéticas - 8 vs 8)</option>
-                        <option value="Fútbol 5 (Canchas sintéticas)">🥅 Fútbol 5 (Canchas sintéticas - 5 vs 5)</option>
-                        <option value="Fútbol de Salón (Microfútbol)">👟 Fútbol de Salón (Microfútbol - Salón / AMF)</option>
+                        <option value="Fútbol 11">Fútbol 11 (Cancha reglamentaria - 11 vs 11)</option>
+                        <option value="Fútbol 8 (Canchas sintéticas)">Fútbol 8 (Canchas sintéticas - 8 vs 8)</option>
+                        <option value="Fútbol 5 (Canchas sintéticas)">Fútbol 5 (Canchas sintéticas - 5 vs 5)</option>
+                        <option value="Fútbol de Salón (Microfútbol)">Fútbol de Salón (Microfútbol - Salón / AMF)</option>
                     </select>
                 </div>
 

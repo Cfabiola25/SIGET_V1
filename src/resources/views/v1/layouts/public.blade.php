@@ -191,7 +191,7 @@
         <div class="bg-white p-6 rounded-2xl">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div class="flex items-center gap-2 font-display font-bold text-lg text-slate-900">
-                    <span class="text-emerald-600 text-xl">🏆</span>
+                    <x-reicon name="trophy" class="size-5 text-emerald-600" />
                     <span>Explorar Torneos Disponibles</span>
                 </div>
                 <button type="button" onclick="document.getElementById('quickTournamentModal').close()" class="p-1 text-slate-400 hover:text-slate-700 text-xl font-bold">&times;</button>
@@ -205,7 +205,8 @@
                                     <h4 class="text-sm font-bold text-slate-800 group-hover:text-emerald-700">{{ $t->name }}</h4>
                                     @if($t->is_featured)
                                         <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300 px-1.5 py-0.5 rounded-full">
-                                            ⭐ Principal
+                                            <x-reicon name="star" variant="filled" class="size-3 text-amber-600" />
+                                            <span>Principal</span>
                                         </span>
                                     @endif
                                 </div>

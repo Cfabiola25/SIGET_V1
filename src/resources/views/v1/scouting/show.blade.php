@@ -116,7 +116,7 @@
             <div class="flex items-center justify-between rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs">
                 <div>
                     <span class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Calificación Algorítmica SIGET</span>
-                    <h2 class="text-3xl font-extrabold text-slate-900 mt-1">{{ number_format($metrics['overall'], 1) }} <span class="text-xl text-amber-500">★</span></h2>
+                    <h2 class="text-3xl font-extrabold text-slate-900 mt-1">{{ number_format($metrics['overall'], 1) }} <x-reicon name="star" variant="filled" class="size-5 text-amber-500 inline-block" /></h2>
                     <p class="text-xs text-slate-500 mt-1">Calculado con base en partidos disputados, goles, tarjetas y premios MVP.</p>
                 </div>
                 <div class="text-right">

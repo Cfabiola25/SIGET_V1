@@ -104,7 +104,9 @@
     <div class="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-500/10 via-amber-100/40 to-emerald-500/10 p-5 shadow-2xs">
         <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div class="flex items-start sm:items-center gap-3.5">
-                <span class="size-11 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center text-xl font-black shadow-xs shrink-0">⭐</span>
+                <span class="size-11 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center shadow-xs shrink-0">
+                    <x-reicon name="star" variant="filled" class="size-6 text-amber-950" />
+                </span>
                 <div>
                     <span class="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
                         TORNEO PRINCIPAL DEL PORTAL PÚBLICO
@@ -157,7 +159,7 @@
                                 <td class="py-3.5 px-5 font-bold text-slate-900">
                                     <div class="flex items-center gap-1.5">
                                         @if($tournament->is_featured)
-                                            <span class="text-amber-500 font-bold" title="Torneo Principal">⭐</span>
+                                            <x-reicon name="star" variant="filled" class="size-3.5 text-amber-500 shrink-0" title="Torneo Principal" />
                                         @endif
                                         <span>{{ $tournament->name }}</span>
                                     </div>
@@ -168,7 +170,8 @@
                                 <td class="py-3.5 px-4 text-center">
                                     @if($tournament->is_featured)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-black bg-amber-100 text-amber-900 border border-amber-300">
-                                            ⭐ Principal
+                                            <x-reicon name="star" variant="filled" class="size-3 text-amber-600 shrink-0" />
+                                            <span>Principal</span>
                                         </span>
                                     @else
                                         <form method="POST" action="{{ route('super-admin.tournaments.feature', $tournament) }}">

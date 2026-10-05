@@ -30,7 +30,7 @@
         <!-- Tarjetas y Disciplina -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="mb-5 flex items-center gap-3 border-b border-slate-100 pb-3">
-                <div class="size-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center font-bold text-sm">⚠️</div>
+                <div class="size-8 rounded-lg bg-amber-50 text-amber-700 flex items-center justify-center"><x-reicon name="alert-triangle" class="size-4 text-amber-600" /></div>
                 <div>
                     <h3 class="text-base font-bold text-slate-900">Régimen Disciplinario</h3>
                     <p class="text-xs text-slate-400">Control automático de inhabilitación de jugadores en plantillas.</p>
@@ -65,7 +65,7 @@
         <!-- Sistema de Puntos y Tabla General -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="mb-5 flex items-center gap-3 border-b border-slate-100 pb-3">
-                <div class="size-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-sm">📊</div>
+                <div class="size-8 rounded-lg bg-emerald-50 text-emerald-700 flex items-center justify-center"><x-reicon name="chart" class="size-4 text-emerald-600" /></div>
                 <div>
                     <h3 class="text-base font-bold text-slate-900">Sistema de Puntuación & Criterio de Desempate</h3>
                     <p class="text-xs text-slate-400">Puntajes aplicados automáticamente tras el cierre oficial de cada partido.</p>
@@ -120,7 +120,7 @@
         <!-- Parámetros del Partido y Alineaciones -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="mb-5 flex items-center gap-3 border-b border-slate-100 pb-3">
-                <div class="size-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center font-bold text-sm">⏱️</div>
+                <div class="size-8 rounded-lg bg-blue-50 text-blue-700 flex items-center justify-center"><x-reicon name="clock" class="size-4 text-blue-600" /></div>
                 <div>
                     <h3 class="text-base font-bold text-slate-900">Parámetros de Partido & Alineaciones</h3>
                     <p class="text-xs text-slate-400">Límites reglamentarios y control de tiempos en el día de partido.</p>

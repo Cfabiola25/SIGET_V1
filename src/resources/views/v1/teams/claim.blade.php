@@ -7,7 +7,7 @@
     <div class="rounded-3xl border border-emerald-500/30 bg-slate-900/80 p-8 shadow-2xl backdrop-blur-xl">
         <div class="text-center">
             <span class="inline-flex size-16 items-center justify-center rounded-2xl bg-emerald-500/20 text-3xl font-black text-emerald-400 shadow-inner">
-                ⚽
+                <x-reicon name="football" class="size-6 text-emerald-600 inline-block" />
             </span>
             <div class="mt-4 text-xs font-bold uppercase tracking-wider text-emerald-400">Invitación de Director Técnico (DT)</div>
             <h1 class="mt-1 text-2xl font-black text-white sm:text-3xl">Toma el mando de {{ $invitation->team->name }}</h1>

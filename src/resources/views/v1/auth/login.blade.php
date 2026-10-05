@@ -38,15 +38,15 @@
 
                     <div class="pt-6 space-y-3.5 border-t border-slate-700/60 text-xs text-slate-300">
                         <div class="flex items-center gap-2.5">
-                            <span class="size-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">✓</span>
+                            <span class="size-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><x-reicon name="check" class="size-3 text-emerald-400" /></span>
                             <span>Consola arbitral en tiempo real & acta digital inmutable</span>
                         </div>
                         <div class="flex items-center gap-2.5">
-                            <span class="size-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">✓</span>
+                            <span class="size-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><x-reicon name="check" class="size-3 text-emerald-400" /></span>
                             <span>Generador algorítmico Berger & eliminación directa</span>
                         </div>
                         <div class="flex items-center gap-2.5">
-                            <span class="size-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold">✓</span>
+                            <span class="size-4 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center"><x-reicon name="check" class="size-3 text-emerald-400" /></span>
                             <span>Auditoría de disputas y tribunal de disciplina</span>
                         </div>
                     </div>

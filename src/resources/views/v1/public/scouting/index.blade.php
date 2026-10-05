@@ -41,10 +41,10 @@
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Posición</label>
                 <select name="position" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#057a55] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todas las Posiciones</option>
-                    <option value="goalkeeper" @selected(($filters['position'] ?? '') === 'goalkeeper')>🧤 Portero</option>
-                    <option value="defender" @selected(($filters['position'] ?? '') === 'defender')>🛡️ Defensa</option>
-                    <option value="midfielder" @selected(($filters['position'] ?? '') === 'midfielder')>🎯 Mediocampista</option>
-                    <option value="forward" @selected(($filters['position'] ?? '') === 'forward')>⚡ Delantero</option>
+                    <option value="goalkeeper" @selected(($filters['position'] ?? '') === 'goalkeeper')>Portero</option>
+                    <option value="defender" @selected(($filters['position'] ?? '') === 'defender')>Defensa</option>
+                    <option value="midfielder" @selected(($filters['position'] ?? '') === 'midfielder')>Mediocampista</option>
+                    <option value="forward" @selected(($filters['position'] ?? '') === 'forward')>Delantero</option>
                 </select>
             </div>
 
@@ -64,9 +64,9 @@
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Rating Mínimo</label>
                 <select name="min_rating" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#057a55] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todos</option>
-                    <option value="8.0" @selected(($filters['min_rating'] ?? '') == '8.0')>★ 8.0 o más</option>
-                    <option value="8.5" @selected(($filters['min_rating'] ?? '') == '8.5')>★ 8.5 o más</option>
-                    <option value="9.0" @selected(($filters['min_rating'] ?? '') == '9.0')>★ 9.0 o más</option>
+                    <option value="8.0" @selected(($filters['min_rating'] ?? '') == '8.0')>8.0 o más</option>
+                    <option value="8.5" @selected(($filters['min_rating'] ?? '') == '8.5')>8.5 o más</option>
+                    <option value="9.0" @selected(($filters['min_rating'] ?? '') == '9.0')>9.0 o más</option>
                 </select>
             </div>
 
@@ -101,12 +101,12 @@
                 
                 <!-- Encabezado con Posición y Rating -->
                 <div class="p-4 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between text-xs">
-                    <span class="inline-flex items-center gap-1 font-bold text-slate-600">
-                        <span>{{ $agent->profile?->position_icon ?? '⚽' }}</span>
+                    <span class="inline-flex items-center gap-1.5 font-bold text-slate-600">
+                        <x-reicon name="football" class="size-3.5 text-slate-500" />
                         <span>{{ $agent->profile?->position_label ?? ucfirst($agent->position) }}</span>
                     </span>
                     <span class="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-black bg-amber-100 text-amber-900 border border-amber-300">
-                        <span>★</span>
+                        <x-reicon name="star" variant="filled" class="size-3 text-amber-500" />
                         <span>{{ number_format($agent->profile?->performance_rating ?? $agent->profile?->scouting_rating ?? 8.0, 1) }}</span>
                     </span>
                 </div>
@@ -150,7 +150,7 @@
             </div>
         @empty
             <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-500">
-                <span class="text-4xl block mb-2">🔍</span>
+                <x-reicon name="search" class="size-10 text-slate-300 mx-auto block mb-2" />
                 <h3 class="text-base font-bold text-slate-800">No se encontraron futbolistas libres</h3>
                 <p class="text-xs text-slate-500 mt-1">Modifica los filtros de posición o calificación.</p>
             </div>

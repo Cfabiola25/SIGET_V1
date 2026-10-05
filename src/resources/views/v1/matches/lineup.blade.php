@@ -18,11 +18,11 @@
         <div>
             @if ($isLocked)
                 <span class="rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-2 text-xs font-black text-rose-400">
-                    🔒 Envío Bloqueado por Tiempo Reglamentario
+                    <x-reicon name="lock" class="size-4 inline-block text-rose-600 mr-1" /> Envío Bloqueado por Tiempo Reglamentario
                 </span>
             @else
                 <span class="rounded-xl border border-emerald-500/40 bg-emerald-500/10 px-4 py-2 text-xs font-black text-emerald-400">
-                    ⏱️ Cierre: {{ $lockMinutes }} min antes del pitazo
+                    <x-reicon name="clock" class="size-3.5 inline-block text-slate-500 mr-1" /> Cierre: {{ $lockMinutes }} min antes del pitazo
                 </span>
             @endif
         </div>
@@ -41,7 +41,7 @@
 
     @if ($isLocked)
         <div class="rounded-2xl border border-rose-500/30 bg-rose-950/30 p-6 text-center text-slate-300">
-            <span class="text-3xl">⛔</span>
+            <x-reicon name="alert-triangle" class="size-8 text-rose-600 inline-block" />
             <h2 class="mt-2 text-base font-bold text-white">Plazo de Envío Finalizado</h2>
             <p class="text-xs text-slate-400 mt-1">
                 El reglamento del torneo estipula que las alineaciones deben confirmarse al menos {{ $lockMinutes }} minutos antes del inicio.
@@ -100,12 +100,12 @@
                                     <td class="px-4 py-3">
                                         @if ($isEligible)
                                             <span class="inline-flex items-center gap-1.5 rounded-full bg-emerald-500/20 px-2.5 py-0.5 text-xs font-bold text-emerald-400 border border-emerald-500/30">
-                                                ✅ Habilitado
+                                                <x-reicon name="check" class="size-3.5 inline-block text-emerald-600 mr-1" /> Habilitado
                                             </span>
                                         @else
                                             <div class="space-y-1">
                                                 <span class="inline-flex items-center gap-1 rounded-full bg-rose-500/20 px-2.5 py-0.5 text-xs font-bold text-rose-400 border border-rose-500/30">
-                                                    ⛔ Inhabilitado
+                                                    <x-reicon name="alert-triangle" class="size-3.5 inline-block text-rose-600 mr-1" /> Inhabilitado
                                                 </span>
                                                 <ul class="text-[11px] text-rose-400 list-disc list-inside">
                                                     @foreach ($check['reasons'] as $reason)

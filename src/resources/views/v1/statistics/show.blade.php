@@ -51,8 +51,8 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <span class="size-8 rounded-lg bg-emerald-50 text-emerald-700 grid place-items-center text-sm font-bold border border-emerald-200">
-                        ⚽
+                    <span class="size-8 rounded-lg bg-emerald-50 text-emerald-700 grid place-items-center border border-emerald-200">
+                        <x-reicon name="football" class="size-4 text-emerald-700" />
                     </span>
                     <div>
                         <h3 class="text-sm font-bold text-slate-900">Tabla de Goleadores</h3>
@@ -75,7 +75,7 @@
                         </div>
                         <div class="flex items-center gap-2">
                             <span class="inline-block px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 font-mono font-bold text-xs">
-                                {{ $scorer->goals_count ?? 0 }} ⚽
+                                {{ $scorer->goals_count ?? 0 }} <x-reicon name="football" class="size-3.5 text-emerald-600 inline-block" />
                             </span>
                         </div>
                     </div>
@@ -91,8 +91,8 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
             <div class="p-5 border-b border-slate-100 flex items-center justify-between">
                 <div class="flex items-center gap-2">
-                    <span class="size-8 rounded-lg bg-amber-50 text-amber-700 grid place-items-center text-sm font-bold border border-amber-200">
-                        🟨
+                    <span class="size-8 rounded-lg bg-amber-50 text-amber-700 grid place-items-center border border-amber-200">
+                        <x-reicon name="card" variant="filled" class="size-4 text-amber-500" />
                     </span>
                     <div>
                         <h3 class="text-sm font-bold text-slate-900">Sanciones Disciplinarias</h3>
@@ -116,12 +116,12 @@
                         <div class="flex items-center gap-2">
                             @if (($player->yellow_cards ?? 0) > 0)
                                 <span class="px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 text-xs font-bold">
-                                    {{ $player->yellow_cards }} 🟨
+                                    {{ $player->yellow_cards }} <x-reicon name="card" variant="filled" class="size-3 text-amber-500 inline-block" />
                                 </span>
                             @endif
                             @if (($player->red_cards ?? 0) > 0)
                                 <span class="px-2 py-0.5 rounded bg-rose-50 text-rose-800 border border-rose-200 text-xs font-bold">
-                                    {{ $player->red_cards }} 🟥
+                                    {{ $player->red_cards }} <x-reicon name="card" variant="filled" class="size-3 text-rose-600 inline-block" />
                                 </span>
                             @endif
                         </div>

@@ -15,14 +15,14 @@
 
         <div class="flex flex-wrap items-center gap-3">
             <a href="{{ route('players.carnet', $player) }}" class="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-black text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400">
-                <span>📱</span> Ver Carnet Digital QR
+                <x-reicon name="mobile" class="size-4 text-slate-500 inline-block mr-1" /> Ver Carnet Digital QR
             </a>
             @auth
                 <a href="{{ route('players.medical.edit', $player) }}" class="rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 transition">
                     🩺 Ficha Médica
                 </a>
                 <a href="{{ route('players.profile.edit', $player) }}" class="rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 transition">
-                    ✏️ Editar Perfil
+                    <x-reicon name="pen" class="size-3.5 text-slate-500 inline-block mr-1" /> Editar Perfil
                 </a>
             @endauth
         </div>
@@ -53,12 +53,12 @@
                     @if ($player->profile?->photo_path)
                         <img src="{{ asset($player->profile->photo_path) }}" alt="{{ $player->name }}" class="size-full object-cover">
                     @else
-                        <span class="text-6xl select-none">🏃</span>
+                        <x-reicon name="run" class="size-16 text-emerald-600 mx-auto block" />
                     @endif
 
                     @if ($stats['mvps'] > 0)
                         <span class="absolute bottom-1 right-1 rounded-md bg-amber-500 px-1.5 py-0.5 text-[10px] font-black text-slate-950 shadow">
-                            ⭐ {{ $stats['mvps'] }} MVP
+                            <x-reicon name="star" variant="filled" class="size-3.5 text-amber-400 inline-block mr-1" /> {{ $stats['mvps'] }} MVP
                         </span>
                     @endif
                 </div>
@@ -131,11 +131,11 @@
                     </div>
                     @if ($player->medicalRecord?->isClearedForMatch())
                         <span class="rounded-full bg-emerald-500/20 px-3 py-1 text-xs font-bold text-emerald-400 border border-emerald-500/30">
-                            ✅ Habilitado Médicamente
+                            <x-reicon name="check" class="size-3.5 text-emerald-600 inline-block mr-1" /> Habilitado Médicamente
                         </span>
                     @else
                         <span class="rounded-full bg-rose-500/20 px-3 py-1 text-xs font-bold text-rose-400 border border-rose-500/30">
-                            ⚠️ Incompleto
+                            <x-reicon name="alert-triangle" class="size-3.5 text-amber-500 inline-block mr-1" /> Incompleto
                         </span>
                     @endif
                 </div>

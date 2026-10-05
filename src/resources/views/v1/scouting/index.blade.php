@@ -59,9 +59,9 @@
                 <select name="min_rating" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 focus:border-[#057a55] focus:outline-none">
                     <option value="">Cualquier calificación</option>
                     <option value="6.0" {{ ($filters['min_rating'] ?? '') === '6.0' ? 'selected' : '' }}>6.0 o superior</option>
-                    <option value="7.0" {{ ($filters['min_rating'] ?? '') === '7.0' ? 'selected' : '' }}>7.0 o superior ★</option>
-                    <option value="8.0" {{ ($filters['min_rating'] ?? '') === '8.0' ? 'selected' : '' }}>8.0 o superior ★★</option>
-                    <option value="9.0" {{ ($filters['min_rating'] ?? '') === '9.0' ? 'selected' : '' }}>9.0 Elite ★★★</option>
+                    <option value="7.0" {{ ($filters['min_rating'] ?? '') === '7.0' ? 'selected' : '' }}>7.0 o superior</option>
+                    <option value="8.0" {{ ($filters['min_rating'] ?? '') === '8.0' ? 'selected' : '' }}>8.0 o superior</option>
+                    <option value="9.0" {{ ($filters['min_rating'] ?? '') === '9.0' ? 'selected' : '' }}>9.0 Elite</option>
                 </select>
             </div>
 
@@ -106,7 +106,7 @@
                             </span>
                             <div class="flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200">
                                 <span>{{ number_format($rating, 1) }}</span>
-                                <span class="text-[10px]">★</span>
+                                <x-reicon name="star" variant="filled" class="size-3 text-amber-400" />
                             </div>
                         </div>
 

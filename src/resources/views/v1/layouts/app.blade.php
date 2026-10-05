@@ -341,14 +341,14 @@
             </p>
             <div class="grid gap-3 pt-2">
                 <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-3">
-                    <span class="text-lg">📧</span>
+                    <x-reicon name="envelope" class="size-5 text-emerald-600 shrink-0" />
                     <div>
                         <div class="font-bold text-slate-800">Correo Electrónico</div>
                         <div class="text-xs text-slate-500">soporte@siget.com</div>
                     </div>
                 </div>
                 <div class="p-3 rounded-lg bg-slate-50 border border-slate-200 flex items-center gap-3">
-                    <span class="text-lg">📱</span>
+                    <x-reicon name="mobile" class="size-5 text-emerald-600 shrink-0" />
                     <div>
                         <div class="font-bold text-slate-800">Línea Directa / WhatsApp</div>
                         <div class="text-xs text-slate-500">+57 (300) 890-4521</div>

@@ -9,7 +9,7 @@
         <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div class="flex items-center gap-5">
                 <span class="grid size-16 place-items-center rounded-2xl bg-emerald-50 text-3xl font-black text-[#057a55] border border-emerald-100 shadow-2xs">
-                    🛡️
+                    <x-reicon name="shield-check" class="size-6 text-emerald-600 inline-block" />
                 </span>
                 <div>
                     <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#057a55]">
@@ -56,7 +56,7 @@
         @php $invite = session('invitation_created'); @endphp
         <div class="rounded-2xl border border-emerald-200 bg-emerald-50/80 p-6 shadow-2xs">
             <div class="flex items-center gap-3 border-b border-emerald-200/60 pb-3">
-                <span class="text-2xl">🔗</span>
+                <x-reicon name="paperclip" class="size-5 text-slate-500" />
                 <div>
                     <h2 class="text-sm font-bold text-emerald-950">¡Magic Link de Invitación Generado!</h2>
                     <p class="text-xs text-emerald-800">Comparte este enlace con el Director Técnico para que tome el control del equipo sin crearle usuario manualmente.</p>
@@ -68,11 +68,11 @@
                        class="w-full bg-white px-3.5 py-2 font-mono text-xs text-emerald-800 border border-emerald-300 rounded-lg" />
                 <button type="button" onclick="navigator.clipboard.writeText(document.getElementById('magicLinkInput').value); alert('¡Enlace copiado al portapapeles!');"
                         class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shrink-0 shadow-2xs">
-                    📋 Copiar Enlace
+                    <x-reicon name="clipboard-list" class="size-4 text-slate-500 inline-block mr-1" /> Copiar Enlace
                 </button>
                 <a href="{{ $invite['whatsapp_url'] }}" target="_blank" rel="noopener noreferrer"
                    class="rounded-lg bg-[#057a55] px-4 py-2 text-xs font-semibold text-white hover:bg-[#046c4b] transition shrink-0 shadow-2xs">
-                    💬 Enviar por WhatsApp
+                    <x-reicon name="chat" class="size-4 text-emerald-600 inline-block mr-1" /> Enviar por WhatsApp
                 </a>
             </div>
         </div>
@@ -124,7 +124,7 @@
 
         @if ($team->players->isEmpty())
             <div class="py-10 text-center text-xs text-slate-400">
-                <span class="text-3xl block">👥</span>
+                <x-reicon name="users" class="size-8 text-slate-300 mx-auto block" />
                 <p class="mt-2 font-medium">Aún no hay jugadores registrados en este equipo.</p>
             </div>
         @else

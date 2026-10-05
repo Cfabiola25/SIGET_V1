@@ -20,10 +20,16 @@
             <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-300 mb-5 border border-emerald-500/30">
                 <span class="size-2 rounded-full bg-emerald-400 animate-ping"></span>
                 @if($tournament?->is_featured)
-                    <span class="text-amber-300 font-black">⭐ TORNEO PRINCIPAL</span>
+                    <span class="text-amber-300 font-black inline-flex items-center gap-1">
+                        <x-reicon name="star" variant="filled" class="size-3.5 text-amber-300" />
+                        <span>TORNEO PRINCIPAL</span>
+                    </span>
                     <span class="text-white/40">|</span>
                 @endif
-                <span>🏆 {{ $tournament?->name ?? 'Copa Élite SIGET 2026' }}</span>
+                <span class="inline-flex items-center gap-1.5">
+                    <x-reicon name="trophy" class="size-4 text-emerald-300" />
+                    <span>{{ $tournament?->name ?? 'Copa Élite SIGET 2026' }}</span>
+                </span>
                 <span class="text-white/40">|</span>
                 <span class="text-slate-300 font-medium capitalize">{{ $tournament?->status ?? 'En Curso' }}</span>
             </div>
@@ -92,11 +98,13 @@
                     <span>Actualmente viendo:</span>
                     @if($tournament?->is_featured)
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-900 font-bold border border-amber-300">
-                            ⭐ Torneo Principal: {{ $tournament->name }}
+                            <x-reicon name="star" variant="filled" class="size-3.5 text-amber-500" />
+                            <span>Torneo Principal: {{ $tournament->name }}</span>
                         </span>
                     @else
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
-                            🏆 {{ $tournament?->name ?? 'Torneo Activo' }}
+                            <x-reicon name="trophy" class="size-3.5 text-emerald-600" />
+                            <span>{{ $tournament?->name ?? 'Torneo Activo' }}</span>
                         </span>
                         @if($allTournaments->where('is_featured', true)->isNotEmpty())
                             <a href="{{ url('/') }}" class="text-xs text-[#057a55] font-bold hover:underline ml-1">
@@ -112,21 +120,15 @@
                 @forelse($allTournaments as $t)
                     @php
                         $isSelected = $tournament && $tournament->id === $t->id;
-                        $sportIcon = match(true) {
-                            str_contains($t->sport_type, 'Salón') || str_contains($t->sport_type, 'Micro') => '👟',
-                            str_contains($t->sport_type, '8') => '🏟️',
-                            str_contains($t->sport_type, '5') => '🥅',
-                            default => '⚽',
-                        };
                     @endphp
                     <a href="{{ url('/?tournament_id=' . $t->id) }}" 
                        class="shrink-0 flex items-center gap-3 px-4 py-2.5 rounded-xl border text-xs font-medium transition-all {{ $isSelected ? 'bg-emerald-600 text-white border-emerald-600 shadow-sm font-bold' : 'bg-slate-50 text-slate-700 border-slate-200 hover:bg-slate-100 hover:border-slate-300' }}">
-                        <span class="text-base">{{ $sportIcon }}</span>
+                        <x-reicon name="football" class="size-4 shrink-0 {{ $isSelected ? 'text-white' : 'text-emerald-600' }}" />
 
                         <div class="text-left">
                             <div class="leading-tight font-bold flex items-center gap-1.5 {{ $isSelected ? 'text-white' : 'text-slate-900' }}">
                                 @if($t->is_featured)
-                                    <span class="text-amber-400" title="Torneo Principal Destacado Oficial">⭐</span>
+                                    <x-reicon name="star" variant="filled" class="size-3 text-amber-400 shrink-0" title="Torneo Principal Destacado Oficial" />
                                 @endif
                                 <span>{{ $t->name }}</span>
                             </div>
@@ -154,7 +156,9 @@
                 <div>
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-2.5">
-                            <span class="text-2xl">⚽</span>
+                            <span class="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                <x-reicon name="football" class="size-6 text-emerald-600" />
+                            </span>
                             <div>
                                 <h2 class="font-display text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Partidos de Hoy</h2>
                                 <p class="text-xs text-slate-500">Encuentros en vivo, finalizados y programación oficial</p>
@@ -238,14 +242,14 @@
                                     <button type="button" 
                                             onclick="openMatchLiveModal({{ $match->id }}, '{{ addslashes($match->homeTeam?->name ?? 'Local') }}', '{{ addslashes($match->awayTeam?->name ?? 'Visitante') }}', {{ $match->home_score ?? 0 }}, {{ $match->away_score ?? 0 }}, '{{ $match->status }}', '{{ $match->formatted_clock ?? '00:00' }}')"
                                             class="w-full rounded-xl bg-slate-50 hover:bg-[#057a55] text-slate-700 hover:text-white px-3 py-2 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#057a55]">
-                                        <span class="text-sm">⭐</span>
+                                        <x-reicon name="star" variant="filled" class="size-3.5 text-amber-400 group-hover:text-amber-300" />
                                         <span>Detalles / Votar MVP</span>
                                     </button>
                                 </div>
                             </div>
                         @empty
                             <div class="col-span-2 bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500 text-xs">
-                                <span class="text-3xl block mb-2">⚽</span>
+                                <x-reicon name="football" class="size-8 text-slate-300 mx-auto block mb-2" />
                                 No hay partidos registrados en este torneo aún.
                             </div>
                         @endforelse
@@ -256,7 +260,9 @@
                 <div>
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-2.5">
-                            <span class="text-2xl">📰</span>
+                            <span class="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                <x-reicon name="file-text" class="size-6 text-emerald-600" />
+                            </span>
                             <div>
                                 <h2 class="font-display text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Noticias & Crónicas del Torneo</h2>
                                 <p class="text-xs text-slate-500">Narrativa periodística generada en tiempo real por el motor IA Match Reporter</p>
@@ -264,7 +270,7 @@
                         </div>
                         @if($chronicles->isNotEmpty())
                             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-purple-100 text-purple-900 border border-purple-200">
-                                <span>🤖</span>
+                                <x-reicon name="cpu-bolt" class="size-3.5 text-purple-600" />
                                 <span>IA Match Reporter</span>
                             </span>
                         @endif
@@ -279,8 +285,8 @@
                                         <img src="{{ asset('images/soccer_news.jpg') }}" 
                                              alt="Crónica del Partido" 
                                              class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
-                                        <div class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-emerald-400 text-[10px] font-black tracking-wide flex items-center gap-1 border border-emerald-500/30">
-                                            <span>🤖</span>
+                                        <div class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-emerald-400 text-[10px] font-black tracking-wide flex items-center gap-1.5 border border-emerald-500/30">
+                                            <x-reicon name="cpu-bolt" class="size-3 text-emerald-400" />
                                             <span>CRÓNICA IA</span>
                                         </div>
                                     </div>
@@ -317,15 +323,16 @@
                     @else
                         <!-- Estado Limpio y Transparente: Cero texto falso -->
                         <div class="bg-white rounded-2xl border border-dashed border-slate-300 p-8 text-center space-y-3">
-                            <div class="size-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center mx-auto text-2xl shadow-2xs">
-                                🤖
+                            <div class="size-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center mx-auto shadow-2xs">
+                                <x-reicon name="cpu-bolt" class="size-6 text-purple-600" />
                             </div>
                             <h3 class="font-display font-bold text-slate-900 text-sm">Crónicas Deportivas Autónomas IA</h3>
                             <p class="text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">
                                 En SIGET las crónicas no son textos estáticos ni inventados. Son redactadas de manera 100% autónoma por nuestro motor <strong>IA Match Reporter</strong> en el instante en que el árbitro o mesa de control certifica y cierra el acta oficial de cada partido.
                             </p>
                             <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">
-                                <span>⚡ Esperando cierre del próximo partido oficial para generar su crónica</span>
+                                <x-reicon name="bolt" class="size-3.5 text-amber-500" />
+                                <span>Esperando cierre del próximo partido oficial para generar su crónica</span>
                             </div>
                         </div>
                     @endif
@@ -335,7 +342,9 @@
                 <div id="seccion-estadisticas">
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-2.5">
-                            <span class="text-2xl">🌟</span>
+                            <span class="p-2 rounded-xl bg-amber-50 text-amber-600 border border-amber-100">
+                                <x-reicon name="award" class="size-6 text-amber-600" />
+                            </span>
                             <div>
                                 <h2 class="font-display text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Líderes de Goleo</h2>
                                 <p class="text-xs text-slate-500">Máximos artilleros del torneo</p>
@@ -379,7 +388,9 @@
                 <div id="seccion-equipos">
                     <div class="flex items-center justify-between mb-5">
                         <div class="flex items-center gap-2.5">
-                            <span class="text-2xl">🛡️</span>
+                            <span class="p-2 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100">
+                                <x-reicon name="shield-check" class="size-6 text-emerald-600" />
+                            </span>
                             <div>
                                 <h2 class="font-display text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Equipos en Competencia</h2>
                                 <p class="text-xs text-slate-500">Clubes y plantillas inscritas en este torneo</p>
@@ -423,7 +434,7 @@
                     <!-- Encabezado de la Tabla -->
                     <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <span class="text-xl">📋</span>
+                            <x-reicon name="clipboard-list" class="size-5 text-emerald-600" />
                             <h3 class="font-display text-base font-bold text-slate-900">Tabla de Posiciones</h3>
                         </div>
                     </div>
@@ -500,7 +511,7 @@
                 @if($upcomingMatches->count() > 0)
                     <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs">
                         <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
-                            <span class="text-base">📅</span>
+                            <x-reicon name="calendar" class="size-4 text-emerald-600" />
                             <h4 class="font-display text-sm font-bold text-slate-900">Próximas Fechas</h4>
                         </div>
                         <div class="space-y-2.5">
@@ -522,7 +533,7 @@
                 <!-- Ficha del Torneo -->
                 <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs text-xs space-y-3">
                     <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
-                        <span class="text-base">ℹ️</span>
+                        <x-reicon name="file-text" class="size-4 text-emerald-600" />
                         <h4 class="font-display font-bold text-sm text-slate-900">Ficha del Torneo</h4>
                     </div>
                     <div class="space-y-2 text-slate-600">
@@ -582,7 +593,7 @@
             <!-- Votación de Aficionados: MVP -->
             <div class="rounded-xl border border-amber-200 bg-amber-50/70 p-4 mb-5">
                 <div class="flex items-center gap-2 mb-1.5">
-                    <span class="text-base text-amber-600">⭐</span>
+                    <x-reicon name="star" variant="filled" class="size-4 text-amber-500" />
                     <h4 class="font-display font-bold text-slate-900 text-sm">Votación en Vivo: Jugador del Partido (MVP)</h4>
                 </div>
                 <p class="text-xs text-slate-600 mb-3 leading-relaxed">
@@ -617,7 +628,8 @@
             <!-- Timeline de Eventos Minuto a Minuto -->
             <div class="border-t border-slate-100 pt-4">
                 <h5 class="text-xs font-black uppercase tracking-wider text-slate-600 mb-2.5 flex items-center gap-1.5">
-                    <span>⏱️</span> Incidencias del Partido
+                    <x-reicon name="clock" class="size-4 text-emerald-600" />
+                    <span>Incidencias del Partido</span>
                 </h5>
                 <div id="modalEventsList" class="space-y-2 max-h-40 overflow-y-auto pr-1 text-xs text-slate-700">
                     <p class="text-xs text-slate-400 italic">Cargando incidencias del encuentro...</p>
@@ -706,7 +718,10 @@
                     feedback.classList.remove('hidden');
                     feedback.className = "mt-2 p-3 rounded-lg text-center bg-amber-100 text-amber-900 border border-amber-300";
                     feedback.innerHTML = `
-                        <div class="text-xs uppercase font-black text-amber-800">🏆 MVP Oficial Coronado</div>
+                        <div class="text-xs uppercase font-black text-amber-800 flex items-center justify-center gap-1.5">
+                            <x-reicon name="crown" variant="filled" class="size-4 text-amber-600" />
+                            <span>MVP Oficial Coronado</span>
+                        </div>
                         <div class="text-sm font-extrabold text-slate-900 mt-0.5">${data.official_mvp.name}</div>
                         <div class="text-[11px] text-slate-600">${data.official_mvp.team} · Calificación: ${data.official_mvp.rating || '9.0'} / 10</div>
                     `;

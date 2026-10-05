@@ -25,12 +25,12 @@
                     <p class="text-xs sm:text-sm text-slate-300 mt-1">Cuerpo Arbitral Oficial &bull; Plataforma SIGET</p>
                     <div class="flex items-center gap-4 mt-3 text-xs text-slate-300">
                         <span class="flex items-center gap-1.5">
-                            <span class="text-amber-400">⭐</span>
+                            <x-reicon name="star" variant="filled" class="size-4 text-amber-400" />
                             <strong>{{ number_format($referee->rating_average, 2) }}</strong> / 5.00 Calificación Promedio
                         </span>
                         <span>&bull;</span>
                         <span class="flex items-center gap-1.5">
-                            <span class="text-emerald-400">📋</span>
+                            <x-reicon name="clipboard-list" class="size-4 text-emerald-400" />
                             <strong>{{ $referee->total_matches_officiated }}</strong> Partidos Dirigidos
                         </span>
                     </div>
@@ -51,7 +51,7 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex items-center gap-4">
             <div class="size-12 rounded-xl bg-amber-50 border border-amber-200 text-amber-700 flex items-center justify-center text-xl">
-                📅
+                <x-reicon name="calendar" class="size-3.5 text-slate-500 inline-block" />
             </div>
             <div>
                 <div class="text-2xl font-black font-mono text-slate-900">{{ $upcomingMatches->count() }}</div>
@@ -60,7 +60,7 @@
         </div>
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex items-center gap-4">
             <div class="size-12 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-700 flex items-center justify-center text-xl">
-                ✓
+                <x-reicon name="check" class="size-3.5 text-emerald-600 inline-block" />
             </div>
             <div>
                 <div class="text-2xl font-black font-mono text-slate-900">{{ $pastMatches->count() }}</div>
@@ -69,7 +69,7 @@
         </div>
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs flex items-center gap-4">
             <div class="size-12 rounded-xl bg-cyan-50 border border-cyan-200 text-cyan-700 flex items-center justify-center text-xl">
-                ⭐
+                <x-reicon name="star" variant="filled" class="size-3.5 text-amber-400 inline-block" />
             </div>
             <div>
                 <div class="text-2xl font-black font-mono text-slate-900">{{ $evaluations->count() }}</div>
@@ -82,7 +82,7 @@
     <div class="space-y-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <span class="text-2xl">📋</span>
+                <x-reicon name="clipboard-list" class="size-6 text-emerald-600" />
                 <div>
                     <h2 class="font-display text-xl font-extrabold text-slate-900 tracking-tight">Tus Próximas Asignaciones</h2>
                     <p class="text-xs text-slate-500">Partidos oficiales programados bajo tu dirección arbitral</p>
@@ -140,7 +140,7 @@
                         <!-- Info de Sede y Cancha -->
                         <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-100 text-xs text-slate-600 flex items-center justify-between mb-4">
                             <span class="flex items-center gap-1.5">
-                                <span>📍</span>
+                                <x-reicon name="pin" class="size-3.5 text-slate-400" />
                                 <strong>{{ $match->venue?->name ?? 'Estadio Central' }}</strong>
                             </span>
                             <span class="text-slate-400">Cancha #{{ $match->field_number ?? 1 }}</span>
@@ -153,7 +153,7 @@
                         <a href="{{ route('referees.matches.scan.console', $match) }}" 
                            class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-800 font-bold text-xs transition" 
                            title="Escanear carnets y validar nómina de jugadores">
-                            <span>📷</span>
+                            <x-reicon name="camera" class="size-3.5 text-slate-400" />
                             <span>Validar QR</span>
                         </a>
 
@@ -161,14 +161,14 @@
                         <a href="{{ route('matches.console', $match) }}" 
                            class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#057a55] hover:bg-[#046c4b] text-white font-bold text-xs transition shadow-xs" 
                            title="Llevar cronómetro, goles y tarjetas">
-                            <span>⏱️</span>
+                            <x-reicon name="clock" class="size-3.5 text-slate-400" />
                             <span>Consola Partido</span>
                         </a>
                     </div>
                 </div>
             @empty
                 <div class="col-span-2 bg-white rounded-2xl border border-slate-200 p-8 text-center text-slate-500 text-xs">
-                    <span class="text-3xl block mb-2">⚽</span>
+                    <x-reicon name="football" class="size-8 text-slate-300 mx-auto block mb-2" />
                     No tienes partidos programados en este momento. Las nuevas designaciones aparecerán automáticamente aquí.
                 </div>
             @endforelse
@@ -179,7 +179,7 @@
     <div class="space-y-4">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-2.5">
-                <span class="text-2xl">📑</span>
+                <x-reicon name="file-text" class="size-6 text-slate-600" />
                 <div>
                     <h2 class="font-display text-xl font-extrabold text-slate-900 tracking-tight">Historial de Partidos Dirigidos</h2>
                     <p class="text-xs text-slate-500">Actas arbitrales, marcadores oficiales y cierres de partido</p>
@@ -240,7 +240,7 @@
     <!-- 3. EVALUACIONES RECIBIDAS DE LOS DIRECTORES TÉCNICOS -->
     <div class="space-y-4">
         <div class="flex items-center gap-2.5">
-            <span class="text-2xl">⭐</span>
+            <x-reicon name="star" variant="filled" class="size-6 text-amber-500" />
             <div>
                 <h2 class="font-display text-xl font-extrabold text-slate-900 tracking-tight">Evaluaciones de Desempeño</h2>
                 <p class="text-xs text-slate-500">Calificaciones emitidas por los cuerpos técnicos tras los encuentros</p>
@@ -256,7 +256,7 @@
                             <span class="text-slate-400 block text-[10px]">{{ $eval->created_at ? $eval->created_at->format('d M, Y') : '' }}</span>
                         </div>
                         <div class="flex items-center gap-1 bg-amber-50 text-amber-900 font-bold px-2.5 py-1 rounded-lg border border-amber-200">
-                            <span>⭐</span>
+                            <x-reicon name="star" variant="filled" class="size-3.5 text-amber-400" />
                             <span>{{ $eval->score_overall }} / 5</span>
                         </div>
                     </div>

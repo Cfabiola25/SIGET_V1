@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Support\Reicon;
+use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+        if (! function_exists('reicon')) {
+            require_once __DIR__ . '/../helpers.php';
+        }
     }
 
     /**
@@ -19,6 +23,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        Blade::directive('reicon', function (string $expression): string {
+            return "<?php echo \\App\\Support\\Reicon::render({$expression}); ?>";
+        });
     }
 }

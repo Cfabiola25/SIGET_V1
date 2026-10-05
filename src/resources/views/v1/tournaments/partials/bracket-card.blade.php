@@ -58,7 +58,7 @@
                 &rarr; Avanza a <strong class="text-slate-700">{{ $match->nextMatch->bracket_position ?? 'Siguiente' }}</strong>
             </span>
         @else
-            <span class="text-amber-700 font-bold">🏆 Campeón</span>
+            <span class="text-amber-700 font-bold"><x-reicon name="trophy" class="size-3.5 text-amber-600 inline-block mr-1" /> Campeón</span>
         @endif
 
         <a href="{{ route('matches.show', $match) }}" class="text-xs font-bold text-emerald-800 hover:text-emerald-900">

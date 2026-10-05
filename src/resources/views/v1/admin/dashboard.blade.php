@@ -85,7 +85,7 @@
                     {{ $pendingResultsCount }}
                 </div>
                 <div class="mt-2 text-xs font-semibold text-rose-600 flex items-center gap-1">
-                    <span>⚠</span>
+                    <x-reicon name="alert-triangle" class="size-4 text-amber-500" />
                     <span>Requiere validación</span>
                 </div>
             </div>
@@ -97,7 +97,7 @@
     <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5">
         <div class="flex items-center justify-between pb-4 border-b border-slate-100">
             <h3 class="text-base font-bold text-slate-900 flex items-center gap-2">
-                <span>🏆</span>
+                <x-reicon name="trophy" class="size-4 text-amber-500" />
                 <span>Mis Torneos Asignados</span>
             </h3>
             <span class="text-xs text-slate-400 font-mono">{{ $tournaments->count() }} torneos</span>

@@ -73,7 +73,7 @@
                             <td class="py-3.5 px-5">
                                 <div class="flex items-center gap-3">
                                     <div class="size-8 rounded-lg bg-slate-100 border border-slate-200 grid place-items-center text-xs font-bold text-slate-700">
-                                        ⚽
+                                        <x-reicon name="football" class="size-4 text-emerald-600 inline-block" />
                                     </div>
                                     <div>
                                         <a href="{{ route('teams.show', $standing->team) }}" class="font-bold text-slate-900 hover:text-[#057a55] transition hover:underline">

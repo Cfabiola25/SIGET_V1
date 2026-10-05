@@ -356,6 +356,6 @@ class NextGenViralAiScoutingDisruptiveTest extends TestCase
             ->assertOk()
             ->assertSee('Panel de Arbitraje Profesional')
             ->assertSee('Nestor Pitana')
-            ->assertSee('4.00 ★');
+            ->assertSee('4.00');
     }
 }

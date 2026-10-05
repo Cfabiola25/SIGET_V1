@@ -39,7 +39,7 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs space-y-4">
             <div class="flex items-center gap-3">
                 <div class="grid size-10 place-items-center rounded-xl bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
-                    ⚙
+                    <x-reicon name="setting" class="size-4 text-slate-500 inline-block" />
                 </div>
                 <div>
                     <h3 class="text-sm font-bold text-slate-900">Asignación Algorítmica por Jornada</h3>
@@ -73,7 +73,7 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs space-y-4">
             <div class="flex items-center gap-3">
                 <div class="grid size-10 place-items-center rounded-xl bg-amber-50 text-amber-700 border border-amber-200 font-bold">
-                    ⚠
+                    <x-reicon name="alert-triangle" class="size-4 text-amber-500 inline-block" />
                 </div>
                 <div>
                     <h3 class="text-sm font-bold text-slate-900">Declaración de Conflicto de Interés</h3>
@@ -88,7 +88,7 @@
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Árbitro</label>
                         <select name="referee_id" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
                             @foreach($referees as $r)
-                                <option value="{{ $r->id }}">{{ $r->name }} ({{ number_format($r->rating_average, 2) }} ★)</option>
+                                <option value="{{ $r->id }}">{{ $r->name }} ({{ number_format($r->rating_average, 2) }} pts)</option>
                             @endforeach
                         </select>
                     </div>
@@ -147,7 +147,7 @@
                             <td class="px-5 py-3.5 text-slate-500 font-mono">{{ $referee->license_number ?? 'LIBRE' }}</td>
                             <td class="px-5 py-3.5 text-center">
                                 <span class="inline-flex items-center gap-1 rounded-full bg-amber-50 px-2.5 py-0.5 text-xs font-bold text-amber-700 border border-amber-200">
-                                    {{ number_format($referee->rating_average, 2) }} ★
+                                    {{ number_format($referee->rating_average, 2) }} <x-reicon name="star" variant="filled" class="size-3.5 text-amber-400 inline-block ml-1" />
                                 </span>
                             </td>
                             <td class="px-5 py-3.5 text-center font-bold text-slate-800">
@@ -160,7 +160,7 @@
                                     <div class="flex flex-wrap gap-1.5">
                                         @foreach($referee->conflictRecords as $con)
                                             <span class="rounded bg-rose-50 px-2 py-0.5 text-[10px] font-semibold text-rose-700 border border-rose-200" title="{{ $con->reason }}">
-                                                ✖ {{ $con->team?->name }}
+                                                <x-reicon name="alert-circle" class="size-3.5 text-rose-500 inline-block mr-1" /> {{ $con->team?->name }}
                                             </span>
                                         @endforeach
                                     </div>

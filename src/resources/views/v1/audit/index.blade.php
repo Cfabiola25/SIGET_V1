@@ -92,7 +92,7 @@
                                     {{ $audit['action_secondary'] }}
                                 </a>
                             @endif
-                            <button type="button" onclick="alert('Acción completada: {{ $audit['action_primary'] }} en Partido #{{ $audit['match_id'] }}'); this.innerText = '✓ Resuelto'; this.disabled = true; this.className = 'rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 text-xs font-bold';" class="rounded-lg border border-[#057a55] text-[#057a55] hover:bg-[#057a55] hover:text-white px-3.5 py-1.5 text-xs font-semibold transition">
+                            <button type="button" onclick="alert('Acción completada: {{ $audit['action_primary'] }} en Partido #{{ $audit['match_id'] }}'); this.innerText = 'Resuelto'; this.disabled = true; this.className = 'rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 text-xs font-bold';" class="rounded-lg border border-[#057a55] text-[#057a55] hover:bg-[#057a55] hover:text-white px-3.5 py-1.5 text-xs font-semibold transition">
                                 {{ $audit['action_primary'] }}
                             </button>
                         </div>

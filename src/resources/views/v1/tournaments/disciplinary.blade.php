@@ -18,10 +18,10 @@
 
         <div class="flex flex-wrap items-center gap-2">
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-amber-900 text-xs font-bold">
-                <span>🟨</span> Límite Amarillas: {{ $tournament->rules?->yellow_card_limit_for_suspension ?? 2 }}
+                <x-reicon name="card" variant="filled" class="size-3.5 text-amber-400 inline-block mr-1" /> Límite Amarillas: {{ $tournament->rules?->yellow_card_limit_for_suspension ?? 2 }}
             </span>
             <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-rose-50 border border-rose-200 text-rose-900 text-xs font-bold">
-                <span>🟥</span> Suspensión Roja: {{ $tournament->rules?->direct_red_suspension_matches ?? 1 }} fecha(s)
+                <x-reicon name="card" variant="filled" class="size-3.5 text-rose-600 inline-block mr-1" /> Suspensión Roja: {{ $tournament->rules?->direct_red_suspension_matches ?? 1 }} fecha(s)
             </span>
         </div>
     </div>
@@ -56,7 +56,7 @@
 
         @if ($activeSanctions->isEmpty())
             <div class="p-8 text-center text-slate-500 italic">
-                <span class="text-3xl block mb-2">🛡️</span>
+                <x-reicon name="shield-check" class="size-8 text-slate-300 mx-auto block mb-2" />
                 No hay jugadores con sanciones disciplinarias activas en este momento. Fair play impecable.
             </div>
         @else
@@ -85,15 +85,15 @@
                                 <td class="py-3.5 px-5">
                                     @if ($sanction->sanction_type === 'direct_red')
                                         <span class="inline-block bg-[#fee2e2] text-[#991b1b] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                                            🟥 Roja Directa
+                                            <x-reicon name="card" variant="filled" class="size-3 text-rose-600 inline-block mr-1" /> Roja Directa
                                         </span>
                                     @elseif ($sanction->sanction_type === 'double_yellow')
                                         <span class="inline-block bg-amber-100 text-amber-900 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                                            🟨🟨 Doble Amarilla
+                                            <x-reicon name="card" variant="filled" class="size-3 text-amber-400 inline-block mr-1" /> Doble Amarilla
                                         </span>
                                     @else
                                         <span class="inline-block bg-yellow-100 text-yellow-900 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase">
-                                            🟨 Acumulación Amarillas
+                                            <x-reicon name="card" variant="filled" class="size-3 text-amber-400 inline-block mr-1" /> Acumulación Amarillas
                                         </span>
                                     @endif
                                 </td>
@@ -131,7 +131,7 @@
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
                 <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-                    <span>🟨</span> Tarjetas Amarillas Acumuladas
+                    <x-reicon name="card" variant="filled" class="size-3.5 text-amber-400 inline-block mr-1" /> Tarjetas Amarillas Acumuladas
                 </h3>
                 <span class="text-xs text-slate-400">Límite: {{ $tournament->rules?->yellow_card_limit_for_suspension ?? 2 }}</span>
             </div>
@@ -162,7 +162,7 @@
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-3">
                 <h3 class="font-bold text-slate-900 text-sm flex items-center gap-2">
-                    <span>🟥</span> Tarjetas Rojas en el Torneo
+                    <x-reicon name="card" variant="filled" class="size-3.5 text-rose-600 inline-block mr-1" /> Tarjetas Rojas en el Torneo
                 </h3>
                 <span class="text-xs text-slate-400">Expulsiones</span>
             </div>

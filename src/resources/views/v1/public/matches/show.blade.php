@@ -32,7 +32,7 @@
         <!-- Barra de Torneo & Estado -->
         <div class="px-6 py-4 bg-slate-50/80 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 text-xs">
             <div class="flex items-center gap-2 font-bold text-slate-700">
-                <span class="text-base">🏆</span>
+                <x-reicon name="trophy" class="size-4 text-emerald-600" />
                 <span>{{ $match->tournament?->name ?? 'Torneo Oficial' }}</span>
                 <span class="text-slate-300">•</span>
                 <span class="text-slate-500 font-medium">{{ $match->tournament?->sport_type ?? 'Fútbol' }}</span>
@@ -46,7 +46,8 @@
                     </span>
                 @elseif($match->status === 'played')
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-emerald-100 text-emerald-800 border border-emerald-300">
-                        <span>✓ Finalizado Oficial</span>
+                        <x-reicon name="check" class="size-3.5 text-emerald-700" />
+                        <span>Finalizado Oficial</span>
                     </span>
                 @elseif($match->status === 'suspended')
                     <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300">
@@ -92,7 +93,8 @@
 
                 @if($match->venue)
                     <div class="mt-1 text-xs text-slate-500 flex items-center justify-center gap-1">
-                        <span>📍 {{ $match->venue->name }}</span>
+                        <x-reicon name="pin" class="size-3.5 text-slate-400" />
+                        <span>{{ $match->venue->name }}</span>
                         @if($match->field_number) <span>(Cancha {{ $match->field_number }})</span> @endif
                     </div>
                 @endif
@@ -140,7 +142,7 @@
             <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-xs">
                 <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                     <h3 class="font-display font-bold text-base text-slate-900 flex items-center gap-2">
-                        <span>⏱️</span>
+                        <x-reicon name="clock" class="size-4 text-emerald-600" />
                         <span>Incidencias & Cronología Oficial</span>
                     </h3>
                     <span class="text-xs text-slate-400 font-mono">{{ $match->events->count() }} eventos</span>
@@ -154,7 +156,15 @@
                                 
                                 <span class="size-7 rounded-lg flex items-center justify-center font-bold text-sm
                                     {{ $event->event_type === 'goal' ? 'bg-emerald-100 text-emerald-800' : ($event->event_type === 'yellow_card' ? 'bg-amber-100 text-amber-800' : ($event->event_type === 'red_card' ? 'bg-rose-100 text-rose-800' : 'bg-slate-200 text-slate-700')) }}">
-                                    {{ $event->event_type === 'goal' ? '⚽' : ($event->event_type === 'yellow_card' ? '🟨' : ($event->event_type === 'red_card' ? '🟥' : '🔄')) }}
+                                    @if($event->event_type === 'goal')
+                                        <x-reicon name="football" class="size-4 text-emerald-800" />
+                                    @elseif($event->event_type === 'yellow_card')
+                                        <x-reicon name="card" variant="filled" class="size-3.5 text-amber-500" />
+                                    @elseif($event->event_type === 'red_card')
+                                        <x-reicon name="card" variant="filled" class="size-3.5 text-rose-600" />
+                                    @else
+                                        <x-reicon name="refresh" class="size-3.5 text-slate-700" />
+                                    @endif
                                 </span>
 
                                 <div>
@@ -187,7 +197,7 @@
             <!-- Alineaciones Oficiales -->
             <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-xs">
                 <h3 class="font-display font-bold text-base text-slate-900 pb-4 border-b border-slate-100 flex items-center gap-2">
-                    <span>📋</span>
+                    <x-reicon name="clipboard-list" class="size-5 text-emerald-600" />
                     <span>Nóminas Oficiales de Jugadores</span>
                 </h3>
 
@@ -239,7 +249,7 @@
         <div class="lg:col-span-5 space-y-6">
             <div class="bg-gradient-to-br from-amber-500/10 via-white to-amber-500/5 rounded-2xl border border-amber-200/80 p-6 shadow-xs">
                 <div class="flex items-center gap-2.5 pb-4 border-b border-amber-200/50">
-                    <span class="text-2xl">🏆</span>
+                    <x-reicon name="crown" variant="filled" class="size-6 text-amber-600" />
                     <div>
                         <h3 class="font-display font-bold text-base text-slate-900">Votación Jugador MVP</h3>
                         <p class="text-xs text-slate-500">Elige a la figura destacada de este partido</p>
@@ -314,7 +324,9 @@
         <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm p-6 sm:p-8 space-y-4">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div class="flex items-center gap-2.5">
-                    <span class="size-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center text-sm font-black">🤖</span>
+                    <span class="size-8 rounded-xl bg-purple-100 text-purple-700 flex items-center justify-center">
+                        <x-reicon name="cpu-bolt" class="size-4 text-purple-700" />
+                    </span>
                     <div>
                         <span class="text-[10px] font-black uppercase tracking-wider text-purple-700">IA MATCH REPORTER</span>
                         <h3 class="font-display font-bold text-lg text-slate-900">{{ $match->chronicle_title ?? 'Crónica Oficial del Encuentro' }}</h3>

@@ -43,7 +43,7 @@
                     <option value="">Todos los Torneos</option>
                     @foreach($tournaments as $t)
                         <option value="{{ $t->id }}" @selected(($tournamentId ?? '') == $t->id)>
-                            {{ $t->name }}{{ $t->is_featured ? ' ⭐ (Principal)' : '' }}
+                            {{ $t->name }}{{ $t->is_featured ? ' (Principal)' : '' }}
                         </option>
                     @endforeach
                 </select>
@@ -83,8 +83,9 @@
                 
                 <!-- Encabezado de la Tarjeta con Torneo -->
                 <div class="p-4 bg-slate-50/70 border-b border-slate-100 flex items-center justify-between text-xs">
-                    <span class="font-bold text-slate-500 truncate max-w-[150px]" title="{{ $team->tournament?->name }}">
-                        🏆 {{ $team->tournament?->name ?? 'Torneo' }}
+                    <span class="font-bold text-slate-500 truncate max-w-[150px] inline-flex items-center gap-1.5" title="{{ $team->tournament?->name }}">
+                        <x-reicon name="trophy" class="size-3.5 text-emerald-600 shrink-0" />
+                        <span class="truncate">{{ $team->tournament?->name ?? 'Torneo' }}</span>
                     </span>
                     <span class="inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-emerald-50 text-emerald-800 border border-emerald-200">
                         {{ $team->status === 'active' || $team->status === 'approved' ? 'ACTIVO' : ($team->status === 'completed' ? 'FINALIZADO' : 'PENDIENTE') }}
@@ -94,7 +95,7 @@
                 <!-- Escudo y Nombre Central -->
                 <div class="p-6 flex flex-col items-center text-center">
                     <div class="size-20 rounded-2xl bg-emerald-50 border border-emerald-200 text-[#057a55] font-black text-2xl flex items-center justify-center shadow-2xs group-hover:scale-105 transition">
-                        🛡️
+                        <x-reicon name="shield-check" class="size-9 text-[#057a55]" />
                     </div>
                     <h3 class="mt-3.5 font-display text-lg font-bold text-slate-900 group-hover:text-[#057a55] transition leading-snug">
                         {{ $team->name }}
@@ -130,7 +131,7 @@
             </div>
         @empty
             <div class="col-span-full bg-white rounded-2xl border border-slate-200 p-12 text-center text-slate-500">
-                <span class="text-4xl block mb-2">🛡️</span>
+                <x-reicon name="shield-check" class="size-10 text-slate-300 mx-auto block mb-2" />
                 <h3 class="text-base font-bold text-slate-800">No se encontraron equipos</h3>
                 <p class="text-xs text-slate-500 mt-1">Ajusta los criterios de búsqueda o revisa los torneos activos.</p>
             </div>

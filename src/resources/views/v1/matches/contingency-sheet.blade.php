@@ -141,7 +141,7 @@
 </head>
 <body>
 
-    <button onclick="window.print()" class="btn-print">🖨️ Imprimir Planilla de Contingencia</button>
+    <button onclick="window.print()" class="btn-print">Imprimir Planilla de Contingencia</button>
 
     <!-- Header General -->
     <table class="header-table">
@@ -190,7 +190,7 @@
                                 <td style="text-align: center; font-weight: bold;">{{ $p->jersey_number ?? '-' }}</td>
                                 <td>{{ $p->name }}</td>
                                 <td style="text-align: center; font-size: 8px;">{{ $p->profile?->document_number ?? 'OK' }}</td>
-                                <td style="text-align: center;">✓</td>
+                                <td style="text-align: center; font-weight: bold; color: #057a55;">OK</td>
                                 <td></td>
                             </tr>
                         @empty
@@ -223,7 +223,7 @@
                                 <td style="text-align: center; font-weight: bold;">{{ $p->jersey_number ?? '-' }}</td>
                                 <td>{{ $p->name }}</td>
                                 <td style="text-align: center; font-size: 8px;">{{ $p->profile?->document_number ?? 'OK' }}</td>
-                                <td style="text-align: center;">✓</td>
+                                <td style="text-align: center; font-weight: bold; color: #057a55;">OK</td>
                                 <td></td>
                             </tr>
                         @empty
@@ -261,7 +261,7 @@
                     <td></td>
                     <td></td>
                     <td></td>
-                    <td style="font-size: 8px; color: #555;">[ ] GOL &nbsp; [ ] 🟨 &nbsp; [ ] 🟥</td>
+                    <td style="font-size: 8px; color: #555;">[ ] GOL &nbsp; [ ] AMARILLA &nbsp; [ ] ROJA</td>
                     <td></td>
                 </tr>
             @endfor

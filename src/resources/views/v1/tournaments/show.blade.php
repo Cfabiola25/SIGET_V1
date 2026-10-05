@@ -35,13 +35,13 @@
                     <span>Programar Partidos</span>
                 </a>
                 <a href="{{ route('tournaments.brackets', $tournament) }}" class="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 shadow-2xs transition flex items-center gap-1.5">
-                    <span>🏆 Llaves</span>
+                    <span class="inline-flex items-center gap-1.5"><x-reicon name="trophy" class="size-3.5 text-slate-500" /><span>Llaves</span></span>
                 </a>
                 <a href="{{ route('tournaments.disciplinary', $tournament) }}" class="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 shadow-2xs transition flex items-center gap-1.5">
-                    <span>⚖️ Disciplinario</span>
+                    <span class="inline-flex items-center gap-1.5"><x-reicon name="shield" class="size-3.5 text-slate-500" /><span>Disciplinario</span></span>
                 </a>
                 <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="px-4 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 shadow-2xs transition flex items-center gap-1.5">
-                    <span>⚙️ Reglamento</span>
+                    <span class="inline-flex items-center gap-1.5"><x-reicon name="setting" class="size-3.5 text-slate-500" /><span>Reglamento</span></span>
                 </a>
                 <a href="{{ route('standings.index', ['tournament' => $tournament->id]) }}" class="px-4 py-2 rounded-lg bg-sky-100 text-sky-900 text-xs font-bold hover:bg-sky-200 transition">
                     Posiciones
@@ -56,7 +56,7 @@
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6">
             <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
                 <div class="flex items-center gap-2">
-                    <span class="text-lg">⚖️</span>
+                    <x-reicon name="shield" class="size-4 text-slate-500" />
                     <h3 class="text-xs font-bold uppercase tracking-wider text-slate-900">Reglamento Técnico del Torneo</h3>
                 </div>
                 <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 transition">
@@ -154,7 +154,7 @@
                             </div>
                             <p class="text-xs text-slate-500 mt-0.5">
                                 {{ $match->match_date->format('d M Y · H:i') }}
-                                @if ($match->venue) • 📍 {{ $match->venue->name }} @endif
+                                @if ($match->venue) • <x-reicon name="pin" class="size-3 text-slate-400 inline-block" /> {{ $match->venue->name }} @endif
                             </p>
                         </div>
                         <a href="{{ route('matches.show', $match) }}" class="px-3 py-1 text-xs font-semibold rounded-lg border border-slate-200 text-slate-700 hover:bg-slate-50 transition">

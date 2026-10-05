@@ -18,7 +18,7 @@
 
         <div class="flex items-center gap-2">
             <a href="{{ route('standings.index', ['tournament' => $tournament->id]) }}" class="px-4 py-2 rounded-lg bg-sky-100 text-sky-900 text-xs font-bold hover:bg-sky-200 transition flex items-center gap-1.5">
-                <span>📊</span> Tabla de Posiciones
+                <x-reicon name="chart" class="size-4 text-emerald-600 inline-block mr-1" /> Tabla de Posiciones
             </a>
         </div>
     </div>
@@ -33,8 +33,8 @@
         <!-- Bracket Initialization Wizard -->
         <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-6 space-y-6">
             <div class="flex items-start gap-4">
-                <div class="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-700 text-2xl">
-                    🏆
+                <div class="p-3 rounded-2xl bg-amber-50 border border-amber-200 text-amber-700">
+                    <x-reicon name="trophy" class="size-7 text-amber-600" />
                 </div>
                 <div>
                     <h3 class="text-lg font-bold text-slate-900">Transición a Fase de Playoffs</h3>
@@ -87,7 +87,7 @@
 
                 <div class="pt-4 flex justify-end">
                     <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white font-bold text-xs transition shadow-xs flex items-center gap-2 cursor-pointer">
-                        <span>⚡</span> Activar Llaves de Eliminación Directa
+                        <x-reicon name="bolt" class="size-4 text-amber-500 inline-block mr-1" /> Activar Llaves de Eliminación Directa
                     </button>
                 </div>
             </form>
@@ -139,7 +139,7 @@
                 <div class="space-y-4">
                     <div class="text-center py-2 px-3 rounded-xl bg-amber-50 border border-amber-200">
                         <h3 class="text-xs font-black uppercase tracking-wider text-amber-900 flex items-center justify-center gap-1.5">
-                            <span>👑</span> Gran Final de Campeonato
+                            <x-reicon name="crown" variant="filled" class="size-4 text-amber-500 inline-block mr-1" /> Gran Final de Campeonato
                         </h3>
                         <span class="text-[10px] text-amber-700">Partido por el Título</span>
                     </div>

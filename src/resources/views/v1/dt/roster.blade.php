@@ -66,7 +66,7 @@
 
             <!-- Carga Masiva CSV -->
             <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs">
-                <h2 class="text-sm font-bold text-slate-900">📁 Importar CSV</h2>
+                <h2 class="text-sm font-bold text-slate-900"><x-reicon name="file-text" class="size-4 text-emerald-600 inline-block mr-1" /> Importar CSV</h2>
                 <p class="text-[11px] text-slate-500">Carga masiva para nóminas completas.</p>
 
                 <div class="mt-3 rounded-lg border border-slate-200 bg-slate-50 p-3 text-[11px] text-slate-600">
@@ -94,7 +94,7 @@
 
             @if ($players->isEmpty())
                 <div class="mt-8 rounded-xl border border-dashed border-slate-200 p-8 text-center text-slate-400">
-                    <span class="text-3xl block">👥</span>
+                    <x-reicon name="users" class="size-8 text-slate-300 mx-auto block mb-2" />
                     <p class="mt-2 text-xs font-medium">Aún no hay jugadores registrados en este equipo.</p>
                 </div>
             @else
@@ -124,7 +124,7 @@
                                     </td>
                                     <td class="px-4 py-3 text-right space-x-2">
                                         <a href="{{ route('players.carnet', $player) }}" class="text-xs font-semibold text-[#057a55] hover:underline">
-                                            📱 Carnet
+                                            <x-reicon name="mobile" class="size-3.5 text-slate-400 inline-block mr-1" /> Carnet
                                         </a>
                                         <a href="{{ route('players.cromo', $player) }}" class="text-xs font-semibold text-slate-600 hover:text-slate-900">
                                             Ficha

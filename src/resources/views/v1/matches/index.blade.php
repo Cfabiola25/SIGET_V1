@@ -93,7 +93,7 @@
                         @if ($match->venue)
                             <span class="text-slate-300">•</span>
                             <span class="text-xs text-slate-500 font-medium">
-                                📍 {{ $match->venue->name }} (Cancha {{ $match->field_number ?? 1 }})
+                                <x-reicon name="pin" class="size-3.5 text-slate-400 inline-block mr-1" /> {{ $match->venue->name }} (Cancha {{ $match->field_number ?? 1 }})
                             </span>
                         @endif
                     </div>

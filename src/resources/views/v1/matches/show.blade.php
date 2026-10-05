@@ -34,8 +34,8 @@
         <div class="my-6 grid grid-cols-3 items-center text-center">
             <!-- Equipo Local -->
             <div class="space-y-2">
-                <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-emerald-50 text-2xl font-black text-[#057a55] border border-emerald-100 shadow-2xs">
-                    ⚽
+                <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-emerald-50 text-[#057a55] border border-emerald-100 shadow-2xs">
+                    <x-reicon name="football" class="size-8 text-[#057a55]" />
                 </div>
                 <h2 class="text-lg font-bold text-slate-900 md:text-2xl">{{ $match->homeTeam->name }}</h2>
                 <span class="inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Local</span>
@@ -65,8 +65,8 @@
 
             <!-- Equipo Visitante -->
             <div class="space-y-2">
-                <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-blue-50 text-2xl font-black text-blue-600 border border-blue-100 shadow-2xs">
-                    ⚽
+                <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-blue-50 text-blue-600 border border-blue-100 shadow-2xs">
+                    <x-reicon name="football" class="size-8 text-blue-600" />
                 </div>
                 <h2 class="text-lg font-bold text-slate-900 md:text-2xl">{{ $match->awayTeam->name }}</h2>
                 <span class="inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Visitante</span>
@@ -106,13 +106,13 @@
                     @if (! $match->isLocked())
                         @if (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()) || $match->homeTeam->isManagedBy(auth()->user()))
                             <a href="{{ route('matches.lineup.edit', [$match, $match->homeTeam]) }}" class="inline-flex items-center gap-1.5 rounded-lg border border-emerald-200 bg-emerald-50/70 px-3 py-2 text-xs font-semibold text-emerald-800 hover:bg-emerald-100 transition">
-                                <span>📋 Nómina {{ $match->homeTeam->name }}</span>
+                                <span class="inline-flex items-center gap-1"><x-reicon name="clipboard-list" class="size-3.5 text-slate-400" /><span>Nómina {{ $match->homeTeam->name }}</span>
                             </a>
                         @endif
 
                         @if (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()) || $match->awayTeam->isManagedBy(auth()->user()))
                             <a href="{{ route('matches.lineup.edit', [$match, $match->awayTeam]) }}" class="inline-flex items-center gap-1.5 rounded-lg border border-blue-200 bg-blue-50/70 px-3 py-2 text-xs font-semibold text-blue-800 hover:bg-blue-100 transition">
-                                <span>📋 Nómina {{ $match->awayTeam->name }}</span>
+                                <span class="inline-flex items-center gap-1"><x-reicon name="clipboard-list" class="size-3.5 text-slate-400" /><span>Nómina {{ $match->awayTeam->name }}</span>
                             </a>
                         @endif
 
@@ -136,8 +136,8 @@
         <div class="rounded-2xl border border-amber-200 bg-amber-50/70 p-6 shadow-2xs">
             <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                 <div class="flex items-center gap-4">
-                    <div class="grid size-14 place-items-center rounded-xl bg-amber-100 text-2xl font-black text-amber-700 border border-amber-300 shadow-2xs">
-                        🏆
+                    <div class="grid size-14 place-items-center rounded-xl bg-amber-100 text-amber-700 border border-amber-300 shadow-2xs">
+                        <x-reicon name="crown" variant="filled" class="size-7 text-amber-700" />
                     </div>
                     <div>
                         <div class="flex items-center gap-2">
@@ -147,7 +147,7 @@
                             <span class="text-xs text-amber-800">Elegido por votación y rendimiento</span>
                         </div>
                         <h2 class="text-xl font-bold text-slate-900 mt-1">{{ $match->mvpPlayer->name }}</h2>
-                        <p class="text-xs text-amber-800 font-semibold">{{ $match->mvpPlayer->team?->name }} • Calificación Algorítmica: {{ number_format($match->mvpPlayer->profile?->performance_rating ?? 9.5, 1) }} ★</p>
+                        <p class="text-xs text-amber-800 font-semibold">{{ $match->mvpPlayer->team?->name }} • Calificación Algorítmica: {{ number_format($match->mvpPlayer->profile?->performance_rating ?? 9.5, 1) }} estrellas</p>
                     </div>
                 </div>
             </div>
@@ -224,7 +224,7 @@
                                     </a>
                                 </div>
                                 @if ($starter->verified_by_qr)
-                                    <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200">✅ Verificado QR</span>
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200"><x-reicon name="check" class="size-3 text-emerald-600" /><span>Verificado QR</span></span>
                                 @else
                                     <span class="text-[10px] text-slate-400 font-medium">Sin escanear</span>
                                 @endif
@@ -246,7 +246,7 @@
                                         </a>
                                     </div>
                                     @if ($sub->verified_by_qr)
-                                        <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200">✅ Verificado QR</span>
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200"><x-reicon name="check" class="size-3 text-emerald-600" /><span>Verificado QR</span></span>
                                     @endif
                                 </div>
                             @endforeach
@@ -288,7 +288,7 @@
                                     </a>
                                 </div>
                                 @if ($starter->verified_by_qr)
-                                    <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200">✅ Verificado QR</span>
+                                    <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200"><x-reicon name="check" class="size-3 text-emerald-600" /><span>Verificado QR</span></span>
                                 @else
                                     <span class="text-[10px] text-slate-400 font-medium">Sin escanear</span>
                                 @endif
@@ -310,7 +310,7 @@
                                         </a>
                                     </div>
                                     @if ($sub->verified_by_qr)
-                                        <span class="rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200">✅ Verificado QR</span>
+                                        <span class="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2 py-0.5 text-[10px] font-bold text-emerald-700 border border-emerald-200"><x-reicon name="check" class="size-3 text-emerald-600" /><span>Verificado QR</span></span>
                                     @endif
                                 </div>
                             @endforeach
@@ -342,12 +342,12 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white p-6 md:p-8 shadow-2xs">
             <div class="flex items-center justify-between border-b border-slate-100 pb-4">
                 <div class="flex items-center gap-3">
-                    <span class="grid size-10 place-items-center rounded-xl bg-amber-50 text-amber-700 font-bold border border-amber-200">
-                        ⚖
+                    <span class="grid size-10 place-items-center rounded-xl bg-amber-50 text-amber-700 border border-amber-200">
+                        <x-reicon name="shield" class="size-5 text-amber-700" />
                     </span>
                     <div>
                         <h3 class="text-base font-bold text-slate-900">Evaluación Arbitral Oficial</h3>
-                        <p class="text-xs text-slate-500">Árbitro Designado: <strong class="text-slate-800">{{ $match->referee->name }}</strong> (Rating histórico: {{ number_format($match->referee->rating_average, 2) }} ★)</p>
+                        <p class="text-xs text-slate-500">Árbitro Designado: <strong class="text-slate-800">{{ $match->referee->name }}</strong> (Rating histórico: {{ number_format($match->referee->rating_average, 2) }} estrellas)</p>
                     </div>
                 </div>
             </div>
@@ -355,8 +355,8 @@
             @if($existingEvaluation)
                 <div class="mt-4 rounded-xl bg-slate-50 p-4 border border-slate-200 flex items-center justify-between">
                     <div>
-                        <span class="text-xs font-bold text-emerald-700">✅ Tu club ya ha evaluado a este colegiado</span>
-                        <p class="text-xs text-slate-600 mt-1">Calificación general: {{ $existingEvaluation->score_overall }} / 5 ★ • Reglas: {{ $existingEvaluation->score_rule_enforcement }}/5 • Imparcialidad: {{ $existingEvaluation->score_fairness }}/5</p>
+                        <span class="text-xs font-bold text-emerald-700"><x-reicon name="check" class="size-3.5 text-emerald-600 inline-block mr-1" /> Tu club ya ha evaluado a este colegiado</span>
+                        <p class="text-xs text-slate-600 mt-1">Calificación general: {{ $existingEvaluation->score_overall }} / 5 estrellas • Reglas: {{ $existingEvaluation->score_rule_enforcement }}/5 • Imparcialidad: {{ $existingEvaluation->score_fairness }}/5</p>
                         @if($existingEvaluation->comments)
                             <p class="text-xs italic text-slate-500 mt-1">"{{ $existingEvaluation->comments }}"</p>
                         @endif
@@ -372,11 +372,11 @@
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Desempeño General</label>
                             <select name="score_overall" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-amber-600 focus:border-[#057a55] focus:outline-none">
-                                <option value="5">5 ★★★★★ (Excelente)</option>
-                                <option value="4">4 ★★★★ (Bueno)</option>
-                                <option value="3">3 ★★★ (Regular)</option>
-                                <option value="2">2 ★★ (Deficiente)</option>
-                                <option value="1">1 ★ (Inaceptable)</option>
+                                <option value="5">5 estrellas (Excelente)</option>
+                                <option value="4">4 estrellas (Bueno)</option>
+                                <option value="3">3 estrellas (Regular)</option>
+                                <option value="2">2 estrellas (Deficiente)</option>
+                                <option value="1">1 estrella (Inaceptable)</option>
                             </select>
                         </div>
                         <div>

@@ -8,8 +8,8 @@
     <div class="rounded-2xl border border-slate-200/90 bg-white p-6 md:p-8 shadow-2xs">
         <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div class="flex items-center gap-5">
-                <span class="grid size-16 place-items-center rounded-2xl bg-emerald-50 text-3xl font-black text-[#057a55] border border-emerald-100 shadow-2xs">
-                    📋
+                <span class="grid size-16 place-items-center rounded-2xl bg-emerald-50 text-[#057a55] border border-emerald-100 shadow-2xs">
+                    <x-reicon name="clipboard-list" class="size-8 text-[#057a55]" />
                 </span>
                 <div>
                     <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#057a55]">
@@ -44,7 +44,7 @@
         @php $rules = $team->tournament->rules; @endphp
         <div class="rounded-2xl border border-amber-200 bg-amber-50/70 p-5 shadow-2xs">
             <div class="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-900">
-                <span>⚠️</span> Reglas Clave del Torneo para este Equipo
+                <x-reicon name="alert-triangle" class="size-4 text-amber-500 inline-block mr-1" /> Reglas Clave del Torneo para este Equipo
             </div>
             <div class="mt-3 grid gap-4 text-xs sm:grid-cols-3 text-amber-950">
                 <div>
@@ -106,7 +106,7 @@
                         </div>
                         @if ($nextMatch->venue)
                             <p class="mt-1 text-xs text-slate-500">
-                                📍 Sede: <span class="text-slate-800 font-semibold">{{ $nextMatch->venue->name }}</span>
+                                <x-reicon name="pin" class="size-3.5 text-slate-400 inline-block mr-1" /> Sede: <span class="text-slate-800 font-semibold">{{ $nextMatch->venue->name }}</span>
                                 @if ($nextMatch->venue->navigation_url)
                                     • <a href="{{ $nextMatch->venue->navigation_url }}" target="_blank" class="text-[#057a55] hover:underline font-semibold">Ver Mapa GPS</a>
                                 @endif
