@@ -97,6 +97,39 @@
         </div>
     </section>
 
+    @php
+        $featuredTournament = $tournaments->firstWhere('is_featured', true) ?? $tournaments->where('status', 'active')->first();
+    @endphp
+    <!-- Banner de Torneo Principal Configurado por Super Admin -->
+    <div class="rounded-2xl border border-amber-200 bg-gradient-to-r from-amber-500/10 via-amber-100/40 to-emerald-500/10 p-5 shadow-2xs">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <div class="flex items-start sm:items-center gap-3.5">
+                <span class="size-11 rounded-2xl bg-amber-400 text-amber-950 flex items-center justify-center text-xl font-black shadow-xs shrink-0">⭐</span>
+                <div>
+                    <span class="text-[10px] font-black uppercase tracking-wider text-amber-800 bg-amber-100 px-2 py-0.5 rounded-full border border-amber-300">
+                        TORNEO PRINCIPAL DEL PORTAL PÚBLICO
+                    </span>
+                    <h3 class="font-display font-black text-slate-900 text-lg mt-1">
+                        {{ $featuredTournament ? $featuredTournament->name : 'Ningún torneo fijado aún' }}
+                    </h3>
+                    <p class="text-xs text-slate-600">
+                        @if($featuredTournament)
+                            Este torneo es el que se presenta automáticamente como protagonista en la página de inicio, tabla de posiciones, calendario y noticias para todo el público visitante.
+                        @else
+                            Selecciona en la tabla de abajo cuál torneo debe destacarse como Principal para que sea el que el público vea por defecto.
+                        @endif
+                    </p>
+                </div>
+            </div>
+            @if($featuredTournament)
+                <a href="{{ url('/?tournament_id=' . $featuredTournament->id) }}" target="_blank" class="px-4 py-2 rounded-xl bg-white border border-amber-300 text-amber-900 hover:bg-amber-50 text-xs font-bold transition flex items-center gap-1.5 shadow-2xs shrink-0 self-start sm:self-auto">
+                    <span>Ver en Portal Público</span>
+                    <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                </a>
+            @endif
+        </div>
+    </div>
+
     <!-- Torneos & Nuevo Admin Grid -->
     <div class="grid gap-6 lg:grid-cols-[1.2fr_0.8fr]">
         <section class="rounded-2xl border border-slate-200/90 bg-white shadow-2xs overflow-hidden">
@@ -114,18 +147,38 @@
                             <th class="py-3 px-5">Torneo</th>
                             <th class="py-3 px-4">Deporte</th>
                             <th class="py-3 px-4">Admin Asignado</th>
+                            <th class="py-3 px-4 text-center">Destacado Público</th>
                             <th class="py-3 px-5 text-right">Acción</th>
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100 text-slate-700">
                         @forelse ($tournaments as $tournament)
-                            <tr class="hover:bg-slate-50/60 transition">
+                            <tr class="hover:bg-slate-50/60 transition {{ $tournament->is_featured ? 'bg-amber-50/40' : '' }}">
                                 <td class="py-3.5 px-5 font-bold text-slate-900">
-                                    {{ $tournament->name }}
+                                    <div class="flex items-center gap-1.5">
+                                        @if($tournament->is_featured)
+                                            <span class="text-amber-500 font-bold" title="Torneo Principal">⭐</span>
+                                        @endif
+                                        <span>{{ $tournament->name }}</span>
+                                    </div>
                                     <span class="mt-0.5 block text-[11px] font-normal text-slate-400">{{ $tournament->start_date->format('d/m/Y') }} &bull; {{ $tournament->status === 'active' ? 'Activo' : ($tournament->status === 'completed' ? 'Finalizado' : 'Pendiente') }}</span>
                                 </td>
                                 <td class="py-3.5 px-4 text-slate-500">{{ $tournament->sport_type }}</td>
                                 <td class="py-3.5 px-4 text-slate-600 font-semibold">{{ $tournament->admin?->name ?? 'Sin asignar' }}</td>
+                                <td class="py-3.5 px-4 text-center">
+                                    @if($tournament->is_featured)
+                                        <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-black bg-amber-100 text-amber-900 border border-amber-300">
+                                            ⭐ Principal
+                                        </span>
+                                    @else
+                                        <form method="POST" action="{{ route('super-admin.tournaments.feature', $tournament) }}">
+                                            @csrf
+                                            <button type="submit" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-slate-600 bg-slate-100 hover:bg-amber-100 hover:text-amber-900 hover:border-amber-300 transition border border-slate-200" title="Definir este torneo como el principal visible en el portal público">
+                                                Fijar Principal
+                                            </button>
+                                        </form>
+                                    @endif
+                                </td>
                                 <td class="py-3.5 px-5 text-right">
                                     <div class="flex items-center justify-end gap-2">
                                         <a class="text-xs font-semibold text-[#057a55] hover:underline" href="{{ route('tournaments.edit', $tournament) }}">Editar</a>
@@ -139,7 +192,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td class="py-8 text-center text-slate-400" colspan="4">Todavía no hay torneos.</td>
+                                <td class="py-8 text-center text-slate-400" colspan="5">Todavía no hay torneos creados.</td>
                             </tr>
                         @endforelse
                     </tbody>

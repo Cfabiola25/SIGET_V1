@@ -123,4 +123,14 @@ class SuperAdminController extends Controller
 
         return redirect()->route('super-admin.dashboard')->with('status', 'Deporte quitado correctamente.');
     }
+
+    public function setFeaturedTournament(Tournament $tournament): RedirectResponse
+    {
+        abort_unless(auth()->user()?->isSuperAdmin(), 403);
+
+        $tournament->makeFeatured();
+
+        return redirect()->route('super-admin.dashboard')
+            ->with('status', "El torneo '{$tournament->name}' ha sido establecido como el Torneo Principal visible en el portal público.");
+    }
 }

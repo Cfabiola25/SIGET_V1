@@ -20,14 +20,34 @@ class Tournament extends Model
         return TournamentFactory::new();
     }
 
-    protected $fillable = ['super_admin_id', 'admin_id', 'name', 'sport_type', 'start_date', 'end_date', 'status'];
+    protected $fillable = ['super_admin_id', 'admin_id', 'name', 'sport_type', 'start_date', 'end_date', 'status', 'is_featured'];
 
     protected function casts(): array
     {
         return [
             'start_date' => 'date',
             'end_date' => 'date',
+            'is_featured' => 'boolean',
         ];
+    }
+
+    /**
+     * Obtiene el Torneo Principal establecido por el Super Admin (o el más reciente activo por defecto).
+     */
+    public static function getFeatured(): ?self
+    {
+        return static::where('is_featured', true)->first()
+            ?? static::whereIn('status', ['active', 'pending'])->latest()->first()
+            ?? static::latest()->first();
+    }
+
+    /**
+     * Establece este torneo como el único Principal / Destacado.
+     */
+    public function makeFeatured(): void
+    {
+        static::query()->where('id', '!=', $this->id)->update(['is_featured' => false]);
+        $this->update(['is_featured' => true]);
     }
 
     public function superAdmin(): BelongsTo

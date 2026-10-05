@@ -33,6 +33,10 @@ class MatchController extends Controller
         $tournaments = $tournamentsQuery->get();
         $selectedTournamentId = $request->query('tournament_id');
 
+        if (! $request->has('tournament_id')) {
+            $selectedTournamentId = $tournaments->firstWhere('is_featured', true)?->id;
+        }
+
         $query = MatchGame::with(['tournament', 'homeTeam', 'awayTeam', 'venue', 'referee'])->orderBy('match_date');
 
         if ($selectedTournamentId) {

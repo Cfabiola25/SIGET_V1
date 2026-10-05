@@ -18,47 +18,28 @@ class PublicController extends Controller
 
         $tournamentId = $request->query('tournament_id');
 
+        $relations = [
+            'standings.team',
+            'teams.captain',
+            'teams.players.profile',
+            'matches.homeTeam.players.profile',
+            'matches.awayTeam.players.profile',
+            'matches.venue',
+            'matches.referee',
+            'matches.mvpPlayer',
+            'matches.events.player',
+            'rules',
+        ];
+
+        $tournamentId = $request->query('tournament_id');
+
         if ($tournamentId) {
-            $tournament = Tournament::with([
-                'standings.team',
-                'teams.captain',
-                'teams.players.profile',
-                'matches.homeTeam.players.profile',
-                'matches.awayTeam.players.profile',
-                'matches.venue',
-                'matches.referee',
-                'matches.mvpPlayer',
-                'matches.events.player',
-                'rules',
-            ])->find($tournamentId);
+            $tournament = Tournament::with($relations)->find($tournamentId);
         } else {
-            $tournament = Tournament::with([
-                'standings.team',
-                'teams.captain',
-                'teams.players.profile',
-                'matches.homeTeam.players.profile',
-                'matches.awayTeam.players.profile',
-                'matches.venue',
-                'matches.referee',
-                'matches.mvpPlayer',
-                'matches.events.player',
-                'rules',
-            ])
-                ->whereIn('status', ['active', 'pending'])
-                ->latest()
-                ->first()
-                ?? Tournament::with([
-                    'standings.team',
-                    'teams.captain',
-                    'teams.players.profile',
-                    'matches.homeTeam.players.profile',
-                    'matches.awayTeam.players.profile',
-                    'matches.venue',
-                    'matches.referee',
-                    'matches.mvpPlayer',
-                    'matches.events.player',
-                    'rules',
-                ])->latest()->first();
+            // Priorizar el torneo configurado como Principal / Destacado por el Super Admin
+            $tournament = Tournament::with($relations)->where('is_featured', true)->first()
+                ?? Tournament::with($relations)->whereIn('status', ['active', 'pending'])->latest()->first()
+                ?? Tournament::with($relations)->latest()->first();
         }
 
         $standings = collect();
@@ -107,10 +88,22 @@ class PublicController extends Controller
 
             $teams = $tournament->teams;
 
+            // Crónicas deportivas generadas autónomamente por la IA Match Reporter al cerrar partidos
             $chronicles = $allTournamentMatches
                 ->whereNotNull('chronicle_title')
-                ->sortByDesc('match_date')
+                ->whereNotNull('chronicle_body')
+                ->sortByDesc(fn ($m) => $m->chronicle_generated_at ?? $m->match_date)
                 ->values();
+
+            // Si el torneo actual aún no tiene crónicas concluidas, cargar crónicas recientes globales
+            if ($chronicles->isEmpty()) {
+                $chronicles = \App\Models\v1\MatchGame::whereNotNull('chronicle_title')
+                    ->whereNotNull('chronicle_body')
+                    ->with(['homeTeam', 'awayTeam', 'tournament'])
+                    ->latest('chronicle_generated_at')
+                    ->take(3)
+                    ->get();
+            }
 
             $totalMatchesPlayed = $allTournamentMatches->where('status', 'played')->count();
             $totalGoals = $allTournamentMatches->where('status', 'played')->sum(fn ($m) => ($m->home_score ?? 0) + ($m->away_score ?? 0));
@@ -143,9 +136,12 @@ class PublicController extends Controller
     public function tournament()
     {
         $tournament = Tournament::with(['teams', 'matches.homeTeam', 'matches.awayTeam', 'standings.team'])
-            ->whereIn('status', ['pending', 'active'])
-            ->latest()
-            ->first();
+            ->where('is_featured', true)
+            ->first()
+            ?? Tournament::with(['teams', 'matches.homeTeam', 'matches.awayTeam', 'standings.team'])
+                ->whereIn('status', ['pending', 'active'])
+                ->latest()
+                ->first();
 
         if (! $tournament) {
             return redirect()->route('tournaments.index')->with('status', 'No hay torneos activos disponibles en este momento.');

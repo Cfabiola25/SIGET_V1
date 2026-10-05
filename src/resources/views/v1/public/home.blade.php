@@ -19,6 +19,10 @@
             <!-- Badge de Torneo Oficial -->
             <div class="inline-flex items-center gap-2 rounded-full bg-emerald-500/20 backdrop-blur-md px-4 py-1.5 text-xs font-bold uppercase tracking-wider text-emerald-300 mb-5 border border-emerald-500/30">
                 <span class="size-2 rounded-full bg-emerald-400 animate-ping"></span>
+                @if($tournament?->is_featured)
+                    <span class="text-amber-300 font-black">⭐ TORNEO PRINCIPAL</span>
+                    <span class="text-white/40">|</span>
+                @endif
                 <span>🏆 {{ $tournament?->name ?? 'Copa Élite SIGET 2026' }}</span>
                 <span class="text-white/40">|</span>
                 <span class="text-slate-300 font-medium capitalize">{{ $tournament?->status ?? 'En Curso' }}</span>
@@ -86,9 +90,20 @@
                 </div>
                 <div class="flex items-center gap-2 text-xs font-semibold text-slate-600">
                     <span>Actualmente viendo:</span>
-                    <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
-                        🏆 {{ $tournament?->name ?? 'Torneo Activo' }}
-                    </span>
+                    @if($tournament?->is_featured)
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-900 font-bold border border-amber-300">
+                            ⭐ Torneo Principal: {{ $tournament->name }}
+                        </span>
+                    @else
+                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">
+                            🏆 {{ $tournament?->name ?? 'Torneo Activo' }}
+                        </span>
+                        @if($allTournaments->where('is_featured', true)->isNotEmpty())
+                            <a href="{{ url('/') }}" class="text-xs text-[#057a55] font-bold hover:underline ml-1">
+                                (Volver al Principal)
+                            </a>
+                        @endif
+                    @endif
                 </div>
             </div>
 
@@ -109,7 +124,12 @@
                         <span class="text-base">{{ $sportIcon }}</span>
 
                         <div class="text-left">
-                            <div class="leading-tight font-bold {{ $isSelected ? 'text-white' : 'text-slate-900' }}">{{ $t->name }}</div>
+                            <div class="leading-tight font-bold flex items-center gap-1.5 {{ $isSelected ? 'text-white' : 'text-slate-900' }}">
+                                @if($t->is_featured)
+                                    <span class="text-amber-400" title="Torneo Principal Destacado Oficial">⭐</span>
+                                @endif
+                                <span>{{ $t->name }}</span>
+                            </div>
                             <div class="text-[10px] {{ $isSelected ? 'text-emerald-100' : 'text-slate-500' }}">
                                 {{ $t->sport_type }} · {{ $t->teams_count }} equipos
                             </div>
@@ -119,7 +139,7 @@
                         @endif
                     </a>
                 @empty
-                    <p class="text-xs text-slate-400">No hay más torneos registrados en la plataforma.</p>
+                    <p class="text-xs text-slate-400">No hay torneos registrados en la plataforma actualmente.</p>
                 @endforelse
             </div>
         </div>
@@ -232,46 +252,83 @@
                     </div>
                 </div>
 
-                <!-- SECCIÓN: Noticias & Crónicas (Idéntico a la Maqueta) -->
+                <!-- SECCIÓN: Crónicas Deportivas & Noticias Autónomas IA -->
                 <div>
-                    <div class="flex items-center gap-2.5 mb-5">
-                        <span class="text-2xl">📰</span>
-                        <div>
-                            <h2 class="font-display text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Noticias</h2>
-                            <p class="text-xs text-slate-500">Crónicas y actualidad oficial del torneo</p>
+                    <div class="flex items-center justify-between mb-5">
+                        <div class="flex items-center gap-2.5">
+                            <span class="text-2xl">📰</span>
+                            <div>
+                                <h2 class="font-display text-xl sm:text-2xl font-black text-slate-900 tracking-tight">Noticias & Crónicas del Torneo</h2>
+                                <p class="text-xs text-slate-500">Narrativa periodística generada en tiempo real por el motor IA Match Reporter</p>
+                            </div>
                         </div>
+                        @if($chronicles->isNotEmpty())
+                            <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-bold bg-purple-100 text-purple-900 border border-purple-200">
+                                <span>🤖</span>
+                                <span>IA Match Reporter</span>
+                            </span>
+                        @endif
                     </div>
 
-                    @php
-                        $latestChronicle = $chronicles->first();
-                    @endphp
+                    @if($chronicles->isNotEmpty())
+                        <div class="space-y-4">
+                            @foreach($chronicles->take(3) as $chronicle)
+                                <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs overflow-hidden flex flex-col md:flex-row gap-6 items-start group hover:shadow-md transition">
+                                    <!-- Thumbnail / Badge -->
+                                    <div class="w-full md:w-5/12 shrink-0 overflow-hidden rounded-xl h-52 md:h-44 relative bg-slate-900">
+                                        <img src="{{ asset('images/soccer_news.jpg') }}" 
+                                             alt="Crónica del Partido" 
+                                             class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
+                                        <div class="absolute top-2.5 left-2.5 px-2.5 py-1 rounded-full bg-slate-950/80 backdrop-blur-md text-emerald-400 text-[10px] font-black tracking-wide flex items-center gap-1 border border-emerald-500/30">
+                                            <span>🤖</span>
+                                            <span>CRÓNICA IA</span>
+                                        </div>
+                                    </div>
 
-                    <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs overflow-hidden flex flex-col md:flex-row gap-6 items-center group hover:shadow-md transition">
-                        <!-- Imagen de Noticia -->
-                        <div class="w-full md:w-5/12 shrink-0 overflow-hidden rounded-xl h-52 md:h-44 relative bg-slate-900">
-                            <img src="{{ asset('images/soccer_news.jpg') }}" 
-                                 alt="Crónica del Partido" 
-                                 class="w-full h-full object-cover object-center group-hover:scale-105 transition duration-500">
+                                    <!-- Contenido de la Crónica -->
+                                    <div class="flex-1 space-y-2">
+                                        <div class="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-[#057a55]">
+                                            <span>{{ $chronicle->tournament?->name ?? 'Fútbol Oficial' }}</span>
+                                            <span class="text-slate-300">&bull;</span>
+                                            <span class="text-slate-500 font-mono">{{ $chronicle->homeTeam?->name }} vs {{ $chronicle->awayTeam?->name }}</span>
+                                        </div>
+
+                                        <h3 class="font-display text-lg sm:text-xl font-bold text-slate-900 leading-snug group-hover:text-emerald-700 transition">
+                                            <a href="{{ route('matches.show', $chronicle) }}">
+                                                {{ $chronicle->chronicle_title }}
+                                            </a>
+                                        </h3>
+
+                                        <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
+                                            {{ Str::limit(strip_tags($chronicle->chronicle_body), 220) }}
+                                        </p>
+
+                                        <div class="pt-2 flex items-center justify-between text-xs text-slate-400 font-medium border-t border-slate-100">
+                                            <span>{{ $chronicle->chronicle_generated_at ? $chronicle->chronicle_generated_at->format('d M, Y • H:i') : ($chronicle->match_date ? $chronicle->match_date->format('d M, Y') : date('d M, Y')) }}</span>
+                                            <a href="{{ route('matches.show', $chronicle) }}" class="font-bold text-[#057a55] hover:underline flex items-center gap-1">
+                                                <span>Leer Crónica Completa</span>
+                                                <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endforeach
                         </div>
-
-                        <!-- Contenido de la Noticia -->
-                        <div class="flex-1 space-y-2.5">
-                            <div class="text-[11px] font-black uppercase tracking-wider text-[#057a55]">
-                                ACTUALIDAD
+                    @else
+                        <!-- Estado Limpio y Transparente: Cero texto falso -->
+                        <div class="bg-white rounded-2xl border border-dashed border-slate-300 p-8 text-center space-y-3">
+                            <div class="size-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center mx-auto text-2xl shadow-2xs">
+                                🤖
                             </div>
-                            <h3 class="font-display text-lg sm:text-xl font-bold text-slate-900 leading-snug group-hover:text-emerald-700 transition">
-                                {{ $latestChronicle?->chronicle_title ?? 'Resultados sorpresivos en la jornada de fin de semana' }}
-                            </h3>
-                            <p class="text-xs sm:text-sm text-slate-600 leading-relaxed line-clamp-3">
-                                {{ $latestChronicle?->chronicle_body ?? 'Los equipos considerados favoritos tropezaron en sus respectivos encuentros, dejando la tabla de posiciones más apretada que nunca. Los directores técnicos ajustan sus tácticas de cara a las próximas fechas decisivas.' }}
+                            <h3 class="font-display font-bold text-slate-900 text-sm">Crónicas Deportivas Autónomas IA</h3>
+                            <p class="text-xs text-slate-500 max-w-lg mx-auto leading-relaxed">
+                                En SIGET las crónicas no son textos estáticos ni inventados. Son redactadas de manera 100% autónoma por nuestro motor <strong>IA Match Reporter</strong> en el instante en que el árbitro o mesa de control certifica y cierra el acta oficial de cada partido.
                             </p>
-                            <div class="pt-2 flex items-center gap-4 text-xs text-slate-400 font-medium border-t border-slate-100">
-                                <span>{{ $latestChronicle && $latestChronicle->match_date ? $latestChronicle->match_date->format('d M, Y') : date('d M, Y') }}</span>
-                                <span>&bull;</span>
-                                <span class="text-emerald-700 font-semibold">Oficial SIGET</span>
+                            <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[11px] font-semibold bg-slate-100 text-slate-600">
+                                <span>⚡ Esperando cierre del próximo partido oficial para generar su crónica</span>
                             </div>
                         </div>
-                    </div>
+                    @endif
                 </div>
 
                 <!-- SECCIÓN: Líderes de Goleo & Estadísticas Destacadas -->

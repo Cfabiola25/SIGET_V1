@@ -42,7 +42,9 @@
                 <select name="tournament_id" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#057a55] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todos los Torneos</option>
                     @foreach($tournaments as $t)
-                        <option value="{{ $t->id }}" @selected(($tournamentId ?? '') == $t->id)>{{ $t->name }}</option>
+                        <option value="{{ $t->id }}" @selected(($tournamentId ?? '') == $t->id)>
+                            {{ $t->name }}{{ $t->is_featured ? ' ⭐ (Principal)' : '' }}
+                        </option>
                     @endforeach
                 </select>
             </div>

@@ -201,7 +201,14 @@
                     @foreach($allTournaments as $t)
                         <a href="{{ url('/?tournament_id=' . $t->id) }}" class="flex items-center justify-between p-3.5 rounded-xl border border-slate-200 hover:border-emerald-500 hover:bg-emerald-50/40 transition group">
                             <div>
-                                <h4 class="text-sm font-bold text-slate-800 group-hover:text-emerald-700">{{ $t->name }}</h4>
+                                <div class="flex items-center gap-2">
+                                    <h4 class="text-sm font-bold text-slate-800 group-hover:text-emerald-700">{{ $t->name }}</h4>
+                                    @if($t->is_featured)
+                                        <span class="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-wider bg-amber-100 text-amber-900 border border-amber-300 px-1.5 py-0.5 rounded-full">
+                                            ⭐ Principal
+                                        </span>
+                                    @endif
+                                </div>
                                 <p class="text-xs text-slate-500">{{ $t->sport_type }} · {{ $t->teams_count }} Equipos · {{ $t->matches_count }} Partidos</p>
                             </div>
                             <span class="text-xs font-bold px-2.5 py-1 rounded-full uppercase {{ $t->status === 'active' ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-700' }}">

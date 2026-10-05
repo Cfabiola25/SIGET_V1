@@ -15,8 +15,9 @@ class TeamController extends Controller
     public function index(Request $request): View
     {
         $search = $request->query('search');
-        $tournamentId = $request->query('tournament_id');
         $tournaments = Tournament::whereIn('status', ['pending', 'active'])->orderBy('name')->get();
+        $defaultTournamentId = $tournaments->firstWhere('is_featured', true)?->id ?? $tournaments->first()?->id;
+        $tournamentId = $request->query('tournament_id', $defaultTournamentId);
 
         $query = Team::with(['tournament', 'captain', 'standing'])
             ->withCount('players')

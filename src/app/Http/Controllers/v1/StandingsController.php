@@ -13,7 +13,7 @@ class StandingsController extends Controller
     public function index(Request $request): View
     {
         $tournaments = Tournament::whereIn('status', ['active', 'pending', 'completed'])->orderBy('name')->get();
-        $selectedTournamentId = $request->query('tournament_id', $tournaments->first()?->id);
+        $selectedTournamentId = $request->query('tournament_id', $tournaments->firstWhere('is_featured', true)?->id ?? $tournaments->first()?->id);
 
         $query = Standings::with(['team.captain', 'tournament'])
             ->orderByDesc('points');

@@ -189,6 +189,7 @@ Route::prefix('super-admin')->name('super-admin.')->middleware(['auth', 'active'
     Route::patch('/admins/{admin}/status', [SuperAdminController::class, 'updateAdminStatus'])->name('admins.status');
     Route::put('/admins/{admin}/password', [SuperAdminController::class, 'resetAdminPassword'])->name('admins.password');
     Route::post('/tournaments', [SuperAdminController::class, 'storeTournament'])->name('tournaments.store');
+    Route::post('/tournaments/{tournament}/feature', [SuperAdminController::class, 'setFeaturedTournament'])->name('tournaments.feature');
     Route::post('/sports', [SuperAdminController::class, 'storeSport'])->name('sports.store');
     Route::delete('/sports/{sport}', [SuperAdminController::class, 'destroySport'])->name('sports.destroy');
 });
