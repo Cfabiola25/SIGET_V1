@@ -93,5 +93,4 @@ class Tournament extends Model
             }
         });
     }
-
 }

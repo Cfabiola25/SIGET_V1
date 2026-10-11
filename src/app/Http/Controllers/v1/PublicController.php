@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\v1\MatchEvent;
+use App\Models\v1\MatchGame;
 use App\Models\v1\Tournament;
 use Illuminate\Http\Request;
 
@@ -72,6 +73,7 @@ class PublicController extends Controller
                     if ($m->status === 'scheduled') {
                         return 1;
                     }
+
                     return 2;
                 })
                 ->values();
@@ -97,7 +99,7 @@ class PublicController extends Controller
 
             // Si el torneo actual aún no tiene crónicas concluidas, cargar crónicas recientes globales
             if ($chronicles->isEmpty()) {
-                $chronicles = \App\Models\v1\MatchGame::whereNotNull('chronicle_title')
+                $chronicles = MatchGame::whereNotNull('chronicle_title')
                     ->whereNotNull('chronicle_body')
                     ->with(['homeTeam', 'awayTeam', 'tournament'])
                     ->latest('chronicle_generated_at')

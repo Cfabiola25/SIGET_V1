@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\v1\Player;
+use App\Models\v1\PlayerRecruitmentRequest;
 use App\Models\v1\Team;
 use App\Services\v1\ScoutingRatingService;
 use Illuminate\Http\RedirectResponse;
@@ -139,7 +140,7 @@ class ScoutingController extends Controller
 
         abort_unless($player->isFreeAgent(), 422, 'El jugador no se encuentra disponible como agente libre.');
 
-        \App\Models\v1\PlayerRecruitmentRequest::create([
+        PlayerRecruitmentRequest::create([
             'player_id' => $player->id,
             'team_id' => $team->id,
             'requested_by_user_id' => $user->id,
@@ -164,7 +165,7 @@ class ScoutingController extends Controller
         abort_unless(auth()->check(), 403);
         $user = auth()->user();
 
-        $query = \App\Models\v1\PlayerRecruitmentRequest::with(['player.profile', 'team.tournament', 'requester'])
+        $query = PlayerRecruitmentRequest::with(['player.profile', 'team.tournament', 'requester'])
             ->latest();
 
         if ($user->isCoach() || $user->isCaptain()) {
@@ -183,7 +184,7 @@ class ScoutingController extends Controller
     /**
      * Acepta formalmente la solicitud de fichaje e incorpora al jugador al equipo.
      */
-    public function acceptRecruitment(\App\Models\v1\PlayerRecruitmentRequest $recruitmentRequest): RedirectResponse
+    public function acceptRecruitment(PlayerRecruitmentRequest $recruitmentRequest): RedirectResponse
     {
         $user = auth()->user();
         abort_unless(
@@ -207,7 +208,7 @@ class ScoutingController extends Controller
             ]);
 
             // Rechazar cualquier otra solicitud pendiente para este jugador
-            \App\Models\v1\PlayerRecruitmentRequest::where('player_id', $player->id)
+            PlayerRecruitmentRequest::where('player_id', $player->id)
                 ->where('id', '!=', $recruitmentRequest->id)
                 ->where('status', 'pending')
                 ->update([
@@ -228,7 +229,7 @@ class ScoutingController extends Controller
     /**
      * Rechaza una solicitud de fichaje.
      */
-    public function rejectRecruitment(Request $request, \App\Models\v1\PlayerRecruitmentRequest $recruitmentRequest): RedirectResponse
+    public function rejectRecruitment(Request $request, PlayerRecruitmentRequest $recruitmentRequest): RedirectResponse
     {
         $user = auth()->user();
         abort_unless(

@@ -2,7 +2,6 @@
 
 namespace App\Providers;
 
-use App\Support\Reicon;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
 
@@ -14,7 +13,7 @@ class AppServiceProvider extends ServiceProvider
     public function register(): void
     {
         if (! function_exists('reicon')) {
-            require_once __DIR__ . '/../helpers.php';
+            require_once __DIR__.'/../helpers.php';
         }
     }
 

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use App\Models\v1\Player;
+use App\Models\v1\Referee;
 use App\Models\v1\Team;
 use App\Models\v1\Tournament;
 use Database\Factories\UserFactory;
@@ -11,6 +12,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Attributes\Hidden;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -63,9 +65,9 @@ class User extends Authenticatable
         return $this->role === 'referee';
     }
 
-    public function refereeProfile(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function refereeProfile(): HasOne
     {
-        return $this->hasOne(\App\Models\v1\Referee::class);
+        return $this->hasOne(Referee::class);
     }
 
     public function captainedTeams(): HasMany

@@ -30,7 +30,6 @@ return new class extends Migration
             ]);
         }
 
-
         $existingSports = DB::table('tournaments')->distinct()->pluck('sport_type');
 
         foreach ($existingSports as $name) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\v1\Player;
 use App\Models\v1\Team;
+use App\Services\v1\ScoutingRatingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -146,7 +147,7 @@ class TeamPortalController extends Controller
         return back()->with('status', $msg);
     }
 
-    public function releasePlayer(Team $team, Player $player, \App\Services\v1\ScoutingRatingService $scoutingService): RedirectResponse
+    public function releasePlayer(Team $team, Player $player, ScoutingRatingService $scoutingService): RedirectResponse
     {
         $this->authorizeTeamCoach($team);
         abort_unless($player->team_id === $team->id, 404);
@@ -157,7 +158,7 @@ class TeamPortalController extends Controller
             ->with('status', "El jugador {$player->name} ha sido liberado del plantel y transferido a la Agencia Libre. Ahora está disponible en el Radar de Talentos para que otros clubes soliciten su fichaje.");
     }
 
-    public function destroyPlayer(Team $team, Player $player, \App\Services\v1\ScoutingRatingService $scoutingService): RedirectResponse
+    public function destroyPlayer(Team $team, Player $player, ScoutingRatingService $scoutingService): RedirectResponse
     {
         return $this->releasePlayer($team, $player, $scoutingService);
     }

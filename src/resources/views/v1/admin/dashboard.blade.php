@@ -151,90 +151,44 @@
                         </tr>
                     </thead>
                     <tbody class="divide-y divide-slate-100">
-                        @if ($recentMatches->isNotEmpty())
-                            @foreach ($recentMatches as $m)
-                                <tr class="hover:bg-slate-50/80 transition-colors">
-                                    <td class="py-4 px-5 font-semibold text-slate-900">
-                                        <div class="flex items-center gap-2">
-                                            <span>{{ $m->homeTeam->name }}</span>
-                                            <span class="text-slate-400 font-normal">vs</span>
-                                            <span>{{ $m->awayTeam->name }}</span>
-                                        </div>
-                                    </td>
-                                    <td class="py-4 px-5 text-center font-bold text-slate-900">
-                                        {{ $m->status === 'played' ? ($m->home_score ?? 0).' - '.($m->away_score ?? 0) : ($m->status === 'in_progress' ? '0 - 0' : '--') }}
-                                    </td>
-                                    <td class="py-4 px-5 text-slate-600 font-medium">
-                                        {{ $m->referee?->name ?? 'J. Smith' }}
-                                    </td>
-                                    <td class="py-4 px-5 text-center">
-                                        @if ($m->status === 'played')
-                                            <span class="inline-block bg-[#057a55] text-white text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                                Finalizado
-                                            </span>
-                                        @elseif ($m->status === 'in_progress')
-                                            <span class="inline-block bg-sky-100 text-sky-800 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                                En Juego
-                                            </span>
-                                        @else
-                                            <span class="inline-block bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                                Programado
-                                            </span>
-                                        @endif
-                                    </td>
-                                </tr>
-                            @endforeach
-                        @else
-                            <!-- Demo Rows matching screenshot -->
+                        @forelse ($recentMatches as $m)
                             <tr class="hover:bg-slate-50/80 transition-colors">
                                 <td class="py-4 px-5 font-semibold text-slate-900">
-                                    Lions vs Tigers
+                                    <div class="flex items-center gap-2">
+                                        <span>{{ $m->homeTeam?->name ?? 'Equipo Local' }}</span>
+                                        <span class="text-slate-400 font-normal">vs</span>
+                                        <span>{{ $m->awayTeam?->name ?? 'Equipo Visitante' }}</span>
+                                    </div>
                                 </td>
                                 <td class="py-4 px-5 text-center font-bold text-slate-900">
-                                    2 - 1
+                                    {{ $m->status === 'played' ? ($m->home_score ?? 0).' - '.($m->away_score ?? 0) : ($m->status === 'in_progress' ? '0 - 0' : '--') }}
                                 </td>
                                 <td class="py-4 px-5 text-slate-600 font-medium">
-                                    J. Smith
+                                    {{ $m->referee?->name ?? 'Por asignar' }}
                                 </td>
                                 <td class="py-4 px-5 text-center">
-                                    <span class="inline-block bg-[#057a55] text-white text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                        Finalizado
-                                    </span>
+                                    @if ($m->status === 'played')
+                                        <span class="inline-block bg-[#057a55] text-white text-[11px] font-bold px-3 py-0.5 rounded-full">
+                                            Finalizado
+                                        </span>
+                                    @elseif ($m->status === 'in_progress')
+                                        <span class="inline-block bg-sky-100 text-sky-800 text-[11px] font-bold px-3 py-0.5 rounded-full">
+                                            En Juego
+                                        </span>
+                                    @else
+                                        <span class="inline-block bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-0.5 rounded-full">
+                                            Programado
+                                        </span>
+                                    @endif
                                 </td>
                             </tr>
-                            <tr class="hover:bg-slate-50/80 transition-colors">
-                                <td class="py-4 px-5 font-semibold text-slate-900">
-                                    Eagles vs Hawks
-                                </td>
-                                <td class="py-4 px-5 text-center font-bold text-slate-900">
-                                    0 - 0
-                                </td>
-                                <td class="py-4 px-5 text-slate-600 font-medium">
-                                    A. Davis
-                                </td>
-                                <td class="py-4 px-5 text-center">
-                                    <span class="inline-block bg-sky-100 text-sky-800 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                        En Juego
-                                    </span>
+                        @empty
+                            <tr>
+                                <td colspan="4" class="py-12 text-center text-slate-400 text-xs">
+                                    No hay partidos recientes registrados aún. Comienza programando los primeros encuentros.
                                 </td>
                             </tr>
-                            <tr class="hover:bg-slate-50/80 transition-colors">
-                                <td class="py-4 px-5 font-semibold text-slate-900">
-                                    Sharks vs Dolphins
-                                </td>
-                                <td class="py-4 px-5 text-center font-bold text-slate-500">
-                                    --
-                                </td>
-                                <td class="py-4 px-5 text-slate-600 font-medium">
-                                    M. Johnson
-                                </td>
-                                <td class="py-4 px-5 text-center">
-                                    <span class="inline-block bg-slate-100 text-slate-700 text-[11px] font-bold px-3 py-0.5 rounded-full">
-                                        Programado
-                                    </span>
-                                </td>
-                            </tr>
-                        @endif
+                        @endforelse
                     </tbody>
                 </table>
             </div>

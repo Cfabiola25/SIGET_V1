@@ -38,7 +38,7 @@
         <div class="flex items-center gap-2">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Torneo:</span>
             <div class="flex items-center gap-2 overflow-x-auto">
-                @foreach($tournaments as $t)
+                @forelse($tournaments as $t)
                     <a href="{{ route('standings.index', ['tournament_id' => $t->id]) }}" 
                        class="px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap inline-flex items-center gap-1.5 {{ ($selectedTournamentId ?? '') == $t->id ? 'bg-[#057a55] text-white shadow-xs' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200' }}">
                         <x-reicon name="trophy" class="size-3.5 {{ ($selectedTournamentId ?? '') == $t->id ? 'text-white' : 'text-emerald-600' }} shrink-0" />
@@ -47,7 +47,9 @@
                             <x-reicon name="star" variant="filled" class="size-3 text-amber-300 ml-0.5 shrink-0" />
                         @endif
                     </a>
-                @endforeach
+                @empty
+                    <span class="text-xs text-slate-400 italic px-2">No hay torneos activos aún</span>
+                @endforelse
             </div>
         </div>
 

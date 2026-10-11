@@ -2,10 +2,8 @@
 
 namespace App\Services\v1;
 
-use App\Models\User;
 use App\Models\v1\DisciplinarySanction;
 use App\Models\v1\MatchGame;
-use App\Models\v1\Player;
 use App\Models\v1\Team;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
@@ -24,9 +22,9 @@ class NotificationDispatcherService
 
         $message = "⚠️ *SIGET - Recordatorio de Alineación*\n"
             ."Hola {$coach?->name}, recuerda confirmar la nómina oficial de *{$team->name}* "
-            ."para el encuentro vs *".($team->id === $match->home_team_id ? $match->awayTeam?->name : $match->homeTeam?->name)."* ($matchTime).\n"
+            .'para el encuentro vs *'.($team->id === $match->home_team_id ? $match->awayTeam?->name : $match->homeTeam?->name)."* ($matchTime).\n"
             ."⏰ *Hora límite:* {$deadlineText} hs.\n"
-            ."📲 Carga tu nómina aquí: ".route('matches.lineup.edit', ['match' => $match->id, 'team' => $team->id]);
+            .'📲 Carga tu nómina aquí: '.route('matches.lineup.edit', ['match' => $match->id, 'team' => $team->id]);
 
         return $this->dispatchOmnichannel([
             'recipient_phone' => $team->phone ?? $coach?->phone ?? null,
@@ -60,7 +58,7 @@ class NotificationDispatcherService
             ."📌 *Motivo:* {$typeLabel}\n"
             ."⛔ *Fechas de suspensión:* {$sanction->matches_suspended} fecha(s)\n"
             ."📝 *Dictamen:* {$sanction->notes}\n"
-            ."El jugador queda inhabilitado en el sistema QR y consola hasta cumplir su sanción.";
+            .'El jugador queda inhabilitado en el sistema QR y consola hasta cumplir su sanción.';
 
         return $this->dispatchOmnichannel([
             'recipient_phone' => $team?->phone ?? $coach?->phone ?? null,
@@ -90,7 +88,7 @@ class NotificationDispatcherService
             ."🌧️ *Causa:* {$reason}\n"
             ."🗓️ *Nueva Fecha:* {$dateFormatted} hs\n"
             ."🏟️ *Sede:* {$venueName} (Campo {$field})\n"
-            ."🗺️ *Ubicación:* ".($match->venue?->navigation_url ?? 'N/A');
+            .'🗺️ *Ubicación:* '.($match->venue?->navigation_url ?? 'N/A');
 
         $recipients = [
             $homeTeam?->coach?->phone ?? $homeTeam?->phone,

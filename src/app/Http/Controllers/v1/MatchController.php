@@ -6,10 +6,13 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\StoreMatchRequest;
 use App\Http\Requests\v1\UpdateScoreRequest;
 use App\Models\v1\MatchGame;
+use App\Models\v1\Referee;
 use App\Models\v1\Sport;
 use App\Models\v1\Team;
 use App\Models\v1\Tournament;
+use App\Models\v1\Venue;
 use App\Services\StandingService;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -44,7 +47,6 @@ class MatchController extends Controller
             $query->where('tournament_id', $selectedTournamentId);
         }
 
-
         $query
             ->when($filters['search'] ?? null, function ($query, $search): void {
                 $query->where(function ($query) use ($search): void {
@@ -58,7 +60,7 @@ class MatchController extends Controller
                 if ($status === 'live') {
                     $query->where(function ($q) {
                         $q->where('is_timer_running', true)
-                          ->orWhere('status', 'live');
+                            ->orWhere('status', 'live');
                     });
                 } else {
                     $query->where('status', $status);
@@ -73,7 +75,7 @@ class MatchController extends Controller
             $baseCountQuery->where('tournament_id', $selectedTournamentId);
         }
         $totalMatchesCount = (clone $baseCountQuery)->count();
-        $liveMatchesCount = (clone $baseCountQuery)->where(fn($q) => $q->where('is_timer_running', true)->orWhere('status', 'live'))->count();
+        $liveMatchesCount = (clone $baseCountQuery)->where(fn ($q) => $q->where('is_timer_running', true)->orWhere('status', 'live'))->count();
         $scheduledMatchesCount = (clone $baseCountQuery)->where('status', 'scheduled')->count();
         $playedMatchesCount = (clone $baseCountQuery)->where('status', 'played')->count();
 
@@ -252,8 +254,8 @@ class MatchController extends Controller
                 ->get();
         }
 
-        $venues = \App\Models\v1\Venue::where('is_active', true)->get();
-        $referees = \App\Models\v1\Referee::where('is_active', true)->get();
+        $venues = Venue::where('is_active', true)->get();
+        $referees = Referee::where('is_active', true)->get();
 
         return view('v1.matches.scheduler', [
             'date' => $date,
@@ -291,20 +293,20 @@ class MatchController extends Controller
 
         $tournamentId = $homeTeam->tournament_id ?? Tournament::value('id') ?? 1;
 
-        $matchDateTime = \Carbon\Carbon::parse($data['date'] . ' ' . $data['time']);
+        $matchDateTime = Carbon::parse($data['date'].' '.$data['time']);
 
         $refereeId = null;
-        if (!empty($data['referee_id']) && is_numeric($data['referee_id'])) {
-            $refereeId = (int)$data['referee_id'];
+        if (! empty($data['referee_id']) && is_numeric($data['referee_id'])) {
+            $refereeId = (int) $data['referee_id'];
         } elseif (($data['referee_id'] ?? '') === 'auto') {
-            $refereeId = \App\Models\v1\Referee::where('is_active', true)->value('id');
+            $refereeId = Referee::where('is_active', true)->value('id');
         }
 
         $venueId = null;
-        if (!empty($data['venue_id']) && is_numeric($data['venue_id'])) {
-            $venueId = (int)$data['venue_id'];
+        if (! empty($data['venue_id']) && is_numeric($data['venue_id'])) {
+            $venueId = (int) $data['venue_id'];
         } else {
-            $venueId = \App\Models\v1\Venue::where('is_active', true)->value('id') ?? \App\Models\v1\Venue::value('id');
+            $venueId = Venue::where('is_active', true)->value('id') ?? Venue::value('id');
         }
 
         MatchGame::create([
@@ -343,4 +345,3 @@ class MatchController extends Controller
         abort_unless($user && ($user->isSuperAdmin() || ($user->isAdmin() && $match->tournament->admin_id === $user->id)), 403);
     }
 }
-

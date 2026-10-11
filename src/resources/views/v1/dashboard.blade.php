@@ -31,12 +31,12 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5">
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Torneos Registrados</span>
-            <div class="mt-3 text-3xl font-black text-slate-900">{{ $tournamentsCount ?? 1 }}</div>
+            <div class="mt-3 text-3xl font-black text-slate-900">{{ $tournamentsCount ?? 0 }}</div>
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs">
             <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Equipos en Competencia</span>
-            <div class="mt-3 text-3xl font-black text-slate-900">{{ $teamsCount ?? 4 }}</div>
+            <div class="mt-3 text-3xl font-black text-slate-900">{{ $teamsCount ?? 0 }}</div>
         </div>
 
         <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-2xs">

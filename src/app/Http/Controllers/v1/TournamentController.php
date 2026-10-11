@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\StoreTournamentRequest;
 use App\Models\v1\Sport;
 use App\Models\v1\Tournament;
+use App\Models\v1\TournamentRule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -86,12 +87,17 @@ class TournamentController extends Controller
         ]);
 
         // Reglas de competición automáticas según modalidad de fútbol
-        $ruleData = \App\Models\v1\TournamentRule::rulesForModality($data['sport_type'], $tournament->id);
-        if (isset($data['points_win'])) $ruleData['points_for_win'] = (int) $data['points_win'];
-        if (isset($data['points_draw'])) $ruleData['points_for_draw'] = (int) $data['points_draw'];
-        if (isset($data['points_loss'])) $ruleData['points_for_loss'] = (int) $data['points_loss'];
-        \App\Models\v1\TournamentRule::create($ruleData);
-
+        $ruleData = TournamentRule::rulesForModality($data['sport_type'], $tournament->id);
+        if (isset($data['points_win'])) {
+            $ruleData['points_for_win'] = (int) $data['points_win'];
+        }
+        if (isset($data['points_draw'])) {
+            $ruleData['points_for_draw'] = (int) $data['points_draw'];
+        }
+        if (isset($data['points_loss'])) {
+            $ruleData['points_for_loss'] = (int) $data['points_loss'];
+        }
+        TournamentRule::create($ruleData);
 
         return redirect()->route('tournaments.show', $tournament)
             ->with('status', 'Torneo y fases configurados exitosamente.');

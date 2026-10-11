@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\v1\MatchGame;
 use App\Models\v1\Team;
 use App\Models\v1\Tournament;
+use App\Models\v1\Venue;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -20,8 +22,8 @@ class DashboardController extends Controller
         $baseData = [
             'tournamentsCount' => Tournament::count(),
             'teamsCount' => Team::count(),
-            'matchesCount' => \App\Models\v1\MatchGame::count(),
-            'venuesCount' => \App\Models\v1\Venue::count(),
+            'matchesCount' => MatchGame::count(),
+            'venuesCount' => Venue::count(),
         ];
 
         $roleData = match ($user->role) {

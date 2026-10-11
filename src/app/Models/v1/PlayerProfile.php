@@ -83,7 +83,6 @@ class PlayerProfile extends Model
         };
     }
 
-
     public function getPreferredFootLabelAttribute(): string
     {
         return match ($this->preferred_foot) {

@@ -7,7 +7,6 @@ use App\Models\v1\MatchEvent;
 use App\Models\v1\MatchGame;
 use App\Models\v1\Player;
 use App\Models\v1\Team;
-use Illuminate\Support\Facades\DB;
 
 class StatisticsController extends Controller
 {

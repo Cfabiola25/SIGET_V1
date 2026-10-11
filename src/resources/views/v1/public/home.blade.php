@@ -99,7 +99,7 @@
                     @if($tournament?->is_featured)
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-900 font-bold border border-amber-300">
                             <x-reicon name="star" variant="filled" class="size-3.5 text-amber-500" />
-                            <span>Torneo Principal: {{ $tournament->name }}</span>
+                            <span>Torneo Principal: {{ $tournament?->name }}</span>
                         </span>
                     @else
                         <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 font-bold border border-emerald-200">

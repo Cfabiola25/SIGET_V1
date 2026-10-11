@@ -6,7 +6,6 @@ use App\Models\v1\MatchGame;
 use App\Models\v1\Tournament;
 use App\Models\v1\Venue;
 use Carbon\Carbon;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\DB;
 
 class ScheduleService
@@ -155,7 +154,7 @@ class ScheduleService
             $coachOverlap = MatchGame::where('id', '!=', $match->id)
                 ->where(function ($q) use ($homeCoachId) {
                     $q->whereHas('homeTeam', fn ($t) => $t->where('coach_user_id', $homeCoachId))
-                      ->orWhereHas('awayTeam', fn ($t) => $t->where('coach_user_id', $homeCoachId));
+                        ->orWhereHas('awayTeam', fn ($t) => $t->where('coach_user_id', $homeCoachId));
                 })
                 ->whereBetween('match_date', [
                     $proposedDate->copy()->subMinutes(120),
@@ -173,7 +172,7 @@ class ScheduleService
             $awayCoachOverlap = MatchGame::where('id', '!=', $match->id)
                 ->where(function ($q) use ($awayCoachId) {
                     $q->whereHas('homeTeam', fn ($t) => $t->where('coach_user_id', $awayCoachId))
-                      ->orWhereHas('awayTeam', fn ($t) => $t->where('coach_user_id', $awayCoachId));
+                        ->orWhereHas('awayTeam', fn ($t) => $t->where('coach_user_id', $awayCoachId));
                 })
                 ->whereBetween('match_date', [
                     $proposedDate->copy()->subMinutes(120),
@@ -200,4 +199,3 @@ class ScheduleService
         ];
     }
 }
-

@@ -85,7 +85,6 @@ class TournamentCompleteSeeder extends Seeder
             ]
         );
 
-
         if ($tournament->rules) {
             $tournament->rules->update([
                 'points_for_win' => 3,
@@ -306,7 +305,7 @@ class TournamentCompleteSeeder extends Seeder
             // 3. DT inscribe a sus jugadores, perfiles y fichas médicas
             $createdPlayers = [];
             foreach ($tData['players'] as $pData) {
-                $doc = 'CC-' . $tData['prefix'] . '-' . str_pad($pData['number'], 2, '0', STR_PAD_LEFT);
+                $doc = 'CC-'.$tData['prefix'].'-'.str_pad($pData['number'], 2, '0', STR_PAD_LEFT);
 
                 $player = Player::updateOrCreate(
                     [
@@ -341,8 +340,8 @@ class TournamentCompleteSeeder extends Seeder
                         'blood_type' => ['O+', 'A+', 'B+', 'O-'][rand(0, 3)],
                         'health_provider' => ['EPS Sura', 'Compensar', 'Sanitas', 'Colmédica'][rand(0, 3)],
                         'allergies' => rand(0, 5) === 0 ? 'Penicilina' : 'Ninguna',
-                        'emergency_contact_name' => 'Familia de ' . $player->name,
-                        'emergency_contact_phone' => '+57 310 ' . rand(100, 999) . ' ' . rand(1000, 9999),
+                        'emergency_contact_name' => 'Familia de '.$player->name,
+                        'emergency_contact_phone' => '+57 310 '.rand(100, 999).' '.rand(1000, 9999),
                         'waiver_signed' => true,
                         'waiver_signed_at' => now()->subDays(6),
                         'is_medically_cleared' => true,
@@ -403,7 +402,7 @@ class TournamentCompleteSeeder extends Seeder
                 'is_timer_running' => false,
                 'mvp_player_id' => $nacPlayers[10]->id, // Edwin Cardona MVP
                 'chronicle_title' => 'Nacional se impone en un clásico vibrante con genialidad de Cardona',
-                'chronicle_body' => "En una tarde memorable en el Estadio Metropolitano Central, Atlético Nacional superó 2-1 a Millonarios FC en un clásico que desbordó adrenalina de principio a fin. El conjunto verdolaga abrió la cuenta temprano gracias a una soberbia definición de Jefferson Duque al minuto 22 tras pase milimétrico de Edwin Cardona. Millonarios reaccionó con fiereza y encontró la igualdad a los 54 minutos por intermedio de Leonardo Castro, quien fusiló al arquero Mier. Sin embargo, cuando parecía que el clásico terminaba en tablas, Cardona sacó un latigazo inolvidable desde fuera del área al minuto 82 que selló el triunfo de Nacional y desató el júbilo en las gradas.",
+                'chronicle_body' => 'En una tarde memorable en el Estadio Metropolitano Central, Atlético Nacional superó 2-1 a Millonarios FC en un clásico que desbordó adrenalina de principio a fin. El conjunto verdolaga abrió la cuenta temprano gracias a una soberbia definición de Jefferson Duque al minuto 22 tras pase milimétrico de Edwin Cardona. Millonarios reaccionó con fiereza y encontró la igualdad a los 54 minutos por intermedio de Leonardo Castro, quien fusiló al arquero Mier. Sin embargo, cuando parecía que el clásico terminaba en tablas, Cardona sacó un latigazo inolvidable desde fuera del área al minuto 82 que selló el triunfo de Nacional y desató el júbilo en las gradas.',
                 'chronicle_generated_at' => $match1Date->copy()->addHours(2),
                 'match_sheet_notes' => 'Partido disputado con alto nivel competitivo y deportividad. Sin incidentes en tribuna ni reclamos formales.',
             ]
@@ -529,7 +528,7 @@ class TournamentCompleteSeeder extends Seeder
                 'is_timer_running' => false,
                 'mvp_player_id' => $amePlayers[10]->id, // Duván Vergara MVP
                 'chronicle_title' => 'Tablas en El Campín: América y Junior igualan en un choque de titanes',
-                'chronicle_body' => "En el marco de la primera jornada, América de Cali y Junior FC protagonizaron un intenso empate 1-1 en el Complejo Deportivo El Campín. Duván Vergara frotó la lámpara al minuto 31 con una diagonal letal para abrir la cuenta escarlata. En el complemento, el tiburón respondió con el peso de su historia: Carlos Bacca aprovechó un balón suelto al 67 para sellar la igualdad definitiva con frialdad implacable.",
+                'chronicle_body' => 'En el marco de la primera jornada, América de Cali y Junior FC protagonizaron un intenso empate 1-1 en el Complejo Deportivo El Campín. Duván Vergara frotó la lámpara al minuto 31 con una diagonal letal para abrir la cuenta escarlata. En el complemento, el tiburón respondió con el peso de su historia: Carlos Bacca aprovechó un balón suelto al 67 para sellar la igualdad definitiva con frialdad implacable.',
                 'chronicle_generated_at' => $match2Date->copy()->addHours(2),
                 'match_sheet_notes' => 'Empate cerrado sin amonestaciones desmedidas. Gran comportamiento del público.',
             ]
@@ -674,13 +673,13 @@ class TournamentCompleteSeeder extends Seeder
             ]
         );
 
-        $this->command?->info("✓ 6 Encuentros del Torneo programados (2 jugados con resultados y 4 por disputar).");
+        $this->command?->info('✓ 6 Encuentros del Torneo programados (2 jugados con resultados y 4 por disputar).');
 
         // -------------------------------------------------------------
         // 7. RECÁLCULO OFICIAL DE TABLA DE POSICIONES
         // -------------------------------------------------------------
         app(StandingService::class)->recalculate($tournament);
-        $this->command?->info("✓ Tabla de posiciones calculada automáticamente con los partidos de la Fecha 1.");
+        $this->command?->info('✓ Tabla de posiciones calculada automáticamente con los partidos de la Fecha 1.');
 
         // -------------------------------------------------------------
         // 8. TRIBUNAL DE PENAS / SANCIÓN DISCIPLINARIA DEMO
@@ -747,16 +746,16 @@ class TournamentCompleteSeeder extends Seeder
             ]);
         }
 
-        $this->command?->info("✓ Agentes libres agregados para el módulo de Scouting.");
-        $this->command?->info("=====================================================");
-        $this->command?->info("SEEDER COMPLETO FINALIZADO EXITOSAMENTE.");
-        $this->command?->info("=====================================================");
+        $this->command?->info('✓ Agentes libres agregados para el módulo de Scouting.');
+        $this->command?->info('=====================================================');
+        $this->command?->info('SEEDER COMPLETO FINALIZADO EXITOSAMENTE.');
+        $this->command?->info('=====================================================');
     }
 
     /**
      * Registra la alineación oficial de un equipo para un partido (titulares y suplentes verificados).
      *
-     * @param array<int, Player> $players
+     * @param  array<int, Player>  $players
      */
     protected function seedLineup(MatchGame $match, int $teamId, array $players): void
     {

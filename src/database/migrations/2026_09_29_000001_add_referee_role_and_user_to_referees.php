@@ -35,5 +35,4 @@ return new class extends Migration
             DB::statement("ALTER TABLE users MODIFY COLUMN role ENUM('super_admin', 'admin', 'captain', 'player') NOT NULL DEFAULT 'player'");
         }
     }
-
 };

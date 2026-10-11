@@ -40,4 +40,3 @@ class DatabaseSeeder extends Seeder
         Sport::whereNotIn('name', $footballModalities)->delete();
     }
 }
-

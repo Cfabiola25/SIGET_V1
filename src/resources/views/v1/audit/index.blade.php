@@ -65,7 +65,7 @@
         </h2>
 
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            @foreach ($pendingAudits as $audit)
+            @forelse ($pendingAudits as $audit)
                 <div class="rounded-2xl border border-slate-200/90 bg-white p-5 shadow-2xs flex flex-col justify-between space-y-4">
                     <div>
                         <div class="flex items-start justify-between gap-2 border-b border-slate-100 pb-3">
@@ -92,13 +92,21 @@
                                     {{ $audit['action_secondary'] }}
                                 </a>
                             @endif
-                            <button type="button" onclick="alert('Acción completada: {{ $audit['action_primary'] }} en Partido #{{ $audit['match_id'] }}'); this.innerText = 'Resuelto'; this.disabled = true; this.className = 'rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200 px-3 py-1.5 text-xs font-bold';" class="rounded-lg border border-[#057a55] text-[#057a55] hover:bg-[#057a55] hover:text-white px-3.5 py-1.5 text-xs font-semibold transition">
+                            <a href="{{ $audit['route_primary'] ?? '#' }}" class="rounded-lg border border-[#057a55] text-[#057a55] hover:bg-[#057a55] hover:text-white px-3.5 py-1.5 text-xs font-semibold transition">
                                 {{ $audit['action_primary'] }}
-                            </button>
+                            </a>
                         </div>
                     </div>
                 </div>
-            @endforeach
+            @empty
+                <div class="col-span-full bg-white rounded-2xl border border-slate-200/90 p-8 text-center shadow-2xs">
+                    <div class="size-12 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center mx-auto mb-3">
+                        <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    </div>
+                    <h4 class="text-sm font-bold text-slate-900">Sin actas pendientes de revisión</h4>
+                    <p class="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Todas las planillas y actas arbitrales se encuentran al día y auditadas.</p>
+                </div>
+            @endforelse
         </div>
     </div>
 
@@ -126,34 +134,21 @@
                     </tr>
                 </thead>
                 <tbody class="divide-y divide-slate-100 text-slate-700">
-                    <tr class="hover:bg-slate-50/60 transition">
-                        <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subMinutes(12)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Director de Torneo</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">PARTIDO_PROGRAMADO</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">Partido #109</td>
-                        <td class="py-3 px-5 text-slate-500">Programado en Cancha 1 (Estadio Principal) a las 10:00</td>
-                    </tr>
-                    <tr class="hover:bg-slate-50/60 transition">
-                        <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subMinutes(34)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Usuario Administrador</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-50 text-blue-800 border border-blue-200">JUGADOR_CREADO</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">Jugador JUG-042</td>
-                        <td class="py-3 px-5 text-slate-500">Nueva inscripción asignada a Lions</td>
-                    </tr>
-                    <tr class="hover:bg-slate-50/60 transition">
-                        <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subHours(2)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Árb. Thomas</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-50 text-amber-800 border border-amber-200">ACTA_CERRADA</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">Partido #842</td>
-                        <td class="py-3 px-5 text-slate-500">Firmas tripartitas almacenadas. Marcador final 2-1</td>
-                    </tr>
-                    <tr class="hover:bg-slate-50/60 transition">
-                        <td class="py-3 px-5 font-mono text-slate-500">{{ now()->subHours(4)->format('d/m/Y H:i:s') }}</td>
-                        <td class="py-3 px-5 font-bold text-slate-900">Comité Disciplinario</td>
-                        <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-rose-50 text-rose-800 border border-rose-200">SANCIÓN_EMITIDA</span></td>
-                        <td class="py-3 px-5 font-medium text-slate-800">Jugador #9 (Valley Heights)</td>
-                        <td class="py-3 px-5 text-slate-500">1 partido de suspensión por tarjeta roja directa</td>
-                    </tr>
+                    @forelse ($auditLogs as $log)
+                        <tr class="hover:bg-slate-50/60 transition">
+                            <td class="py-3 px-5 font-mono text-slate-500">{{ $log->created_at->format('d/m/Y H:i:s') }}</td>
+                            <td class="py-3 px-5 font-bold text-slate-900">{{ $log->user?->name ?? 'Sistema Oficial' }}</td>
+                            <td class="py-3 px-5"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-50 text-emerald-800 border border-emerald-200">{{ strtoupper($log->action) }}</span></td>
+                            <td class="py-3 px-5 font-medium text-slate-800">{{ class_basename($log->entity_type) }} #{{ $log->entity_id }}</td>
+                            <td class="py-3 px-5 text-slate-500">{{ is_array($log->details) ? json_encode($log->details, JSON_UNESCAPED_UNICODE) : ($log->details ?? 'Operación registrada') }}</td>
+                        </tr>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="py-12 text-center text-slate-400 text-xs">
+                                No hay eventos de auditoría registrados en el sistema aún.
+                            </td>
+                        </tr>
+                    @endforelse
                 </tbody>
             </table>
         </div>

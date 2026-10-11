@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\v1\DisciplinarySanction;
+use App\Models\v1\MatchGame;
+use App\Models\v1\Player;
 use App\Models\v1\Team;
 use App\Models\v1\TeamInvitation;
 use App\Models\v1\Tournament;
@@ -30,7 +33,7 @@ class TeamController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhereHas('captain', fn ($user) => $user->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('captain', fn ($user) => $user->where('name', 'like', "%{$search}%"));
             });
         }
 
@@ -61,20 +64,20 @@ class TeamController extends Controller
         if ($search) {
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhereHas('captain', fn ($user) => $user->where('name', 'like', "%{$search}%"));
+                    ->orWhereHas('captain', fn ($user) => $user->where('name', 'like', "%{$search}%"));
             });
         }
 
         $teams = $query->paginate(8)->withQueryString();
 
         $totalTeamsCount = Team::count();
-        $activePlayersCount = \App\Models\v1\Player::count();
+        $activePlayersCount = Player::count();
         $pendingRegistrationsCount = Team::where('status', 'pending')->count();
         if ($pendingRegistrationsCount === 0) {
             $pendingRegistrationsCount = 12;
         }
 
-        $pendingSanctions = \App\Models\v1\DisciplinarySanction::with(['player.team', 'matchGame'])
+        $pendingSanctions = DisciplinarySanction::with(['player.team', 'matchGame'])
             ->where('status', 'active')
             ->latest()
             ->take(5)
@@ -177,10 +180,10 @@ class TeamController extends Controller
 
         $team->load(['tournament', 'captain', 'players.profile', 'standing']);
 
-        $recentMatches = \App\Models\v1\MatchGame::where(function ($q) use ($team) {
-                $q->where('home_team_id', $team->id)
-                  ->orWhere('away_team_id', $team->id);
-            })
+        $recentMatches = MatchGame::where(function ($q) use ($team) {
+            $q->where('home_team_id', $team->id)
+                ->orWhere('away_team_id', $team->id);
+        })
             ->with(['homeTeam', 'awayTeam', 'venue'])
             ->orderBy('match_date')
             ->take(6)

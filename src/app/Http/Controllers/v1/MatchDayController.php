@@ -9,6 +9,7 @@ use App\Models\v1\MatchEvent;
 use App\Models\v1\MatchGame;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class MatchDayController extends Controller
@@ -219,7 +220,7 @@ class MatchDayController extends Controller
             'timer_state' => ['nullable', 'array'],
         ]);
 
-        return \Illuminate\Support\Facades\DB::transaction(function () use ($validated, $match): JsonResponse {
+        return DB::transaction(function () use ($validated, $match): JsonResponse {
             $createdEvents = [];
 
             foreach ($validated['events'] as $eventData) {
@@ -294,4 +295,3 @@ class MatchDayController extends Controller
         );
     }
 }
-

@@ -83,4 +83,3 @@ class TournamentRule extends Model
         };
     }
 }
-

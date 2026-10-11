@@ -7,7 +7,9 @@ use Illuminate\Support\HtmlString;
 class Reicon
 {
     protected static ?array $index = null;
+
     protected static array $categories = [];
+
     protected static array $iconCache = [];
 
     /**
@@ -108,9 +110,9 @@ class Reicon
 
         $attrString = is_array($attributes)
             ? static::buildAttributes($attributes)
-            : 'class="reicon inline-block ' . trim($attributes) . '"';
+            : 'class="reicon inline-block '.trim($attributes).'"';
 
-        return new HtmlString('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" ' . $attrString . '>' . $code . '</svg>');
+        return new HtmlString('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" '.$attrString.'>'.$code.'</svg>');
     }
 
     /**
@@ -119,6 +121,7 @@ class Reicon
     public static function resolveName(string $name): string
     {
         $normalized = strtolower(trim($name));
+
         return static::$aliases[$normalized] ?? $normalized;
     }
 
@@ -175,7 +178,7 @@ class Reicon
         if (! isset($attributes['class'])) {
             $attributes['class'] = 'reicon inline-block size-5';
         } else {
-            $attributes['class'] = 'reicon inline-block ' . $attributes['class'];
+            $attributes['class'] = 'reicon inline-block '.$attributes['class'];
         }
 
         $html = [];

@@ -3,9 +3,11 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\v1\Referee;
 use App\Models\v1\Tournament;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class RefereeController extends Controller
 {
@@ -19,7 +21,7 @@ class RefereeController extends Controller
             $search = $request->input('search');
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('license_number', 'like', "%{$search}%");
+                    ->orWhere('license_number', 'like', "%{$search}%");
             });
         }
 
@@ -69,10 +71,10 @@ class RefereeController extends Controller
 
         $user = null;
         if (! empty($validated['email'])) {
-            $user = \App\Models\User::create([
+            $user = User::create([
                 'name' => $validated['name'],
                 'email' => $validated['email'],
-                'password' => \Illuminate\Support\Facades\Hash::make($validated['password'] ?? 'password'),
+                'password' => Hash::make($validated['password'] ?? 'password'),
                 'role' => 'referee',
                 'is_active' => true,
             ]);
@@ -95,6 +97,7 @@ class RefereeController extends Controller
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
 
         $referee->delete();
+
         return redirect()->route('referees.index')->with('status', 'Colegiado eliminado del padrón.');
     }
 }

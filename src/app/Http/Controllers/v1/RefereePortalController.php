@@ -12,7 +12,7 @@ class RefereePortalController extends Controller
     public function index(Request $request): View
     {
         $user = $request->user();
-        
+
         // Obtener el perfil de árbitro vinculado al usuario
         $referee = Referee::where('user_id', $user->id)->first()
             ?? Referee::where('name', $user->name)->first();

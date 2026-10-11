@@ -4,8 +4,8 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Models\v1\Player;
-use App\Models\v1\PlayerProfile;
 use App\Models\v1\Team;
+use App\Models\v1\Tournament;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -32,14 +32,14 @@ class PlayerController extends Controller
             return $this->exportCsv($request);
         }
 
-        $query = Player::with(['team', 'profile', 'sanctions' => fn($q) => $q->where('status', 'active')])
+        $query = Player::with(['team', 'profile', 'sanctions' => fn ($q) => $q->where('status', 'active')])
             ->latest('id');
 
         if ($user && $user->isAdmin()) {
-            $adminTournamentIds = \App\Models\v1\Tournament::where('admin_id', $user->id)->pluck('id');
+            $adminTournamentIds = Tournament::where('admin_id', $user->id)->pluck('id');
             $query->where(function ($q) use ($adminTournamentIds) {
                 $q->whereHas('team', fn ($t) => $t->whereIn('tournament_id', $adminTournamentIds))
-                  ->orWhereNull('team_id');
+                    ->orWhereNull('team_id');
             });
             $teams = Team::whereIn('tournament_id', $adminTournamentIds)->orderBy('name')->get();
         } else {
@@ -51,9 +51,9 @@ class PlayerController extends Controller
             $cleanSearch = preg_replace('/[^0-9]/', '', $search);
             $query->where(function ($q) use ($search, $cleanSearch) {
                 $q->where('name', 'like', "%{$search}%")
-                  ->orWhere('identification_document', 'like', "%{$search}%");
+                    ->orWhere('identification_document', 'like', "%{$search}%");
                 if ($cleanSearch) {
-                    $q->orWhere('id', (int)$cleanSearch);
+                    $q->orWhere('id', (int) $cleanSearch);
                 }
             });
         }
@@ -97,14 +97,14 @@ class PlayerController extends Controller
         $teamId = $request->query('team_id');
         $position = $request->query('position');
 
-        $query = Player::with(['team', 'profile', 'sanctions' => fn($q) => $q->where('status', 'active')])->latest('id');
+        $query = Player::with(['team', 'profile', 'sanctions' => fn ($q) => $q->where('status', 'active')])->latest('id');
 
         if ($search) {
             $cleanSearch = preg_replace('/[^0-9]/', '', $search);
             $query->where(function ($q) use ($search, $cleanSearch) {
                 $q->where('name', 'like', "%{$search}%");
                 if ($cleanSearch) {
-                    $q->orWhere('id', (int)$cleanSearch);
+                    $q->orWhere('id', (int) $cleanSearch);
                 }
             });
         }
@@ -134,7 +134,7 @@ class PlayerController extends Controller
 
         $headers = [
             'Content-Type' => 'text/csv; charset=UTF-8',
-            'Content-Disposition' => 'attachment; filename="players_export_' . now()->format('Y-m-d') . '.csv"',
+            'Content-Disposition' => 'attachment; filename="players_export_'.now()->format('Y-m-d').'.csv"',
             'Pragma' => 'no-cache',
             'Cache-Control' => 'must-revalidate, post-check=0, pre-check=0',
             'Expires' => '0',
@@ -148,7 +148,7 @@ class PlayerController extends Controller
 
             foreach ($players as $p) {
                 $isSuspended = $p->sanctions->isNotEmpty();
-                $posLabel = match($p->profile?->position) {
+                $posLabel = match ($p->profile?->position) {
                     'goalkeeper' => 'Portero',
                     'defender' => 'Defensa',
                     'midfielder' => 'Mediocampista',
@@ -157,7 +157,7 @@ class PlayerController extends Controller
                 };
 
                 fputcsv($handle, [
-                    'PLY-' . str_pad($p->id, 3, '0', STR_PAD_LEFT),
+                    'PLY-'.str_pad($p->id, 3, '0', STR_PAD_LEFT),
                     $p->name,
                     $p->team?->name ?? 'Agente Libre',
                     $p->jersey_number ?? '-',
@@ -200,9 +200,9 @@ class PlayerController extends Controller
 
         $player = Player::create([
             'name' => $data['name'],
-            'team_id' => !empty($data['team_id']) ? $data['team_id'] : null,
+            'team_id' => ! empty($data['team_id']) ? $data['team_id'] : null,
             'jersey_number' => $data['jersey_number'] ?? null,
-            'identification_document' => $data['identification_document'] ?? ('ID-' . rand(10000, 99999)),
+            'identification_document' => $data['identification_document'] ?? ('ID-'.rand(10000, 99999)),
         ]);
 
         $isFreeAgent = empty($data['team_id']);
@@ -234,8 +234,8 @@ class PlayerController extends Controller
         abort_unless($user && ($user->isSuperAdmin() || $user->isAdmin()), 403);
 
         if ($user->isAdmin()) {
-            $adminTournamentIds = \App\Models\v1\Tournament::where('admin_id', $user->id)->pluck('id');
-            abort_unless(!$player->team_id || $adminTournamentIds->contains($player->team?->tournament_id), 403, 'No tienes autorización para eliminar jugadores fuera de tu torneo.');
+            $adminTournamentIds = Tournament::where('admin_id', $user->id)->pluck('id');
+            abort_unless(! $player->team_id || $adminTournamentIds->contains($player->team?->tournament_id), 403, 'No tienes autorización para eliminar jugadores fuera de tu torneo.');
         }
 
         $playerName = $player->name;

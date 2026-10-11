@@ -29,6 +29,7 @@ use App\Http\Controllers\v1\TeamPortalController;
 use App\Http\Controllers\v1\TournamentController;
 use App\Http\Controllers\v1\TournamentRuleController;
 use App\Http\Controllers\v1\VenueController;
+use App\Http\Controllers\v1\WidgetController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicController::class, 'home']);
@@ -55,9 +56,9 @@ Route::get('/scouting', [ScoutingController::class, 'index'])->name('scouting.in
 Route::get('/scouting/{player}', [ScoutingController::class, 'show'])->name('scouting.show')->whereNumber('player');
 
 // Widgets Embebibles y API Pública para Clubes Afiliados (Fase 7)
-Route::get('/embed/tournaments/{tournament}/standings', [\App\Http\Controllers\v1\WidgetController::class, 'embedStandings'])->name('widgets.standings');
-Route::get('/embed/tournaments/{tournament}/fixture', [\App\Http\Controllers\v1\WidgetController::class, 'embedFixture'])->name('widgets.fixture');
-Route::get('/api/v1/tournaments/{tournament}/standings', [\App\Http\Controllers\v1\WidgetController::class, 'apiStandings'])->name('api.standings');
+Route::get('/embed/tournaments/{tournament}/standings', [WidgetController::class, 'embedStandings'])->name('widgets.standings');
+Route::get('/embed/tournaments/{tournament}/fixture', [WidgetController::class, 'embedFixture'])->name('widgets.fixture');
+Route::get('/api/v1/tournaments/{tournament}/standings', [WidgetController::class, 'apiStandings'])->name('api.standings');
 
 // Planilla Oficial Federativa de Contingencia (Imprimible Pre-partido)
 Route::get('/matches/{match}/contingency-sheet', [MatchController::class, 'contingencySheet'])->name('matches.contingency_sheet');
@@ -172,7 +173,7 @@ Route::middleware(['auth', 'active'])->group(function (): void {
 
     Route::get('/matches/live', [MatchController::class, 'live'])->name('matches.live');
     Route::resource('matches', MatchController::class)->except(['index', 'show']);
-    
+
     // Players Management
     Route::get('/players', [PlayerController::class, 'index'])->name('players.index');
     Route::get('/players/export', [PlayerController::class, 'exportCsv'])->name('players.export');
