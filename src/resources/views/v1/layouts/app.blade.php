@@ -27,6 +27,32 @@
             border-radius: 4px;
         }
     </style>
+    <!-- Immediate Theme & Energy-Saving Initialization (Zero Flash) -->
+    <script>
+        (function() {
+            const THEME_KEY = 'siget_athletix_theme';
+            const saved = localStorage.getItem(THEME_KEY);
+            let isDark = false;
+            if (saved === 'dark') {
+                isDark = true;
+            } else if (saved === 'light') {
+                isDark = false;
+            } else {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    isDark = true;
+                }
+            }
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body class="h-full bg-[#f4f6fa] text-slate-800 antialiased flex flex-col md:flex-row overflow-x-hidden">
 
@@ -65,10 +91,12 @@
                 <div class="text-sm font-bold leading-none">SIGET</div>
                 <div class="text-[10px] text-slate-400">{{ $roleLabel }}</div>
             </div>
+        <div class="flex items-center gap-2">
+            <x-theme-toggle id="mobile-app-theme-switch" />
+            <button type="button" onclick="document.getElementById('siget-sidebar').classList.toggle('-translate-x-full')" class="p-2 text-slate-300 hover:text-white focus:outline-none">
+                <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </button>
         </div>
-        <button type="button" onclick="document.getElementById('siget-sidebar').classList.toggle('-translate-x-full')" class="p-2 text-slate-300 hover:text-white focus:outline-none">
-            <svg class="size-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
-        </button>
     </header>
 
     <!-- Sidebar Navigation (Dark Slate #182232) -->
@@ -377,6 +405,9 @@
                         <svg class="size-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
                     </a>
                 @endif
+
+                <!-- Theme Switcher (Dark / Light / Battery Saver) -->
+                <x-theme-toggle id="topbar-theme-switch" class="mr-1" />
 
                 <!-- User Profile Dropdown Pill -->
                 <div class="flex items-center gap-2.5 pl-2 border-l border-slate-200">

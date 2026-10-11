@@ -5,6 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Iniciar Sesión | SIGET Admin</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <!-- Immediate Theme & Energy-Saving Initialization (Zero Flash) -->
+    <script>
+        (function() {
+            const THEME_KEY = 'siget_athletix_theme';
+            const saved = localStorage.getItem(THEME_KEY);
+            let isDark = false;
+            if (saved === 'dark') {
+                isDark = true;
+            } else if (saved === 'light') {
+                isDark = false;
+            } else {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    isDark = true;
+                }
+            }
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body class="min-h-screen bg-[#f4f6fa] text-slate-900 font-sans antialiased">
     <main class="grid min-h-screen lg:grid-cols-[480px_1fr]">
@@ -72,8 +98,13 @@
                 </div>
 
                 <div class="bg-white rounded-2xl border border-slate-200/90 p-8 shadow-xs">
-                    <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Acceso al Panel</h2>
-                    <p class="mt-1 text-xs text-slate-500">Ingresa tus credenciales oficiales para administrar la plataforma.</p>
+                    <div class="flex items-start justify-between gap-4">
+                        <div>
+                            <h2 class="text-2xl font-bold text-slate-900 tracking-tight">Acceso al Panel</h2>
+                            <p class="mt-1 text-xs text-slate-500">Ingresa tus credenciales oficiales para administrar la plataforma.</p>
+                        </div>
+                        <x-theme-toggle id="login-theme-switch" />
+                    </div>
 
                     @if ($errors->any())
                         <div class="mt-5 rounded-xl border border-rose-200 bg-rose-50 p-3.5 text-xs text-rose-800 font-medium">

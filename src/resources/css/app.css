@@ -140,3 +140,338 @@
         background-color: #f8fafc;
     }
 }
+
+/* ========================================================
+   SIGET DARK THEME SYSTEM & HIGH-CONTRAST STYLES
+   ======================================================== */
+html.dark {
+    color-scheme: dark;
+    background-color: #0b0f17;
+}
+
+html.dark body {
+    background-color: #0b0f17 !important;
+    color: #e2e8f0 !important;
+}
+
+/* Header & Navigation in Dark Mode */
+html.dark header.bg-white,
+html.dark header.bg-white\/95 {
+    background-color: #111827 !important;
+    border-color: #1e293b !important;
+}
+
+html.dark footer.bg-white {
+    background-color: #111827 !important;
+    border-color: #1e293b !important;
+    color: #94a3b8 !important;
+}
+
+/* Cards and Panels */
+html.dark .siget-card,
+html.dark main .bg-white,
+html.dark .bg-white.rounded-xl,
+html.dark .bg-white.rounded-2xl {
+    background-color: #131c2a !important;
+    border-color: #1e2b3e !important;
+    color: #e2e8f0 !important;
+}
+
+/* Modals */
+html.dark dialog,
+html.dark .bg-white.rounded-2xl.border {
+    background-color: #131c2a !important;
+    border-color: #1e2b3e !important;
+    color: #e2e8f0 !important;
+}
+
+/* Text Overrides for High Contrast Legibility in Dark Mode */
+html.dark .text-slate-900,
+html.dark .text-slate-800 {
+    color: #f8fafc !important;
+}
+
+html.dark .text-slate-700,
+html.dark .text-slate-600 {
+    color: #cbd5e1 !important;
+}
+
+html.dark .text-slate-500 {
+    color: #94a3b8 !important;
+}
+
+/* Inputs, Selects & Textareas in Dark Mode */
+html.dark input:not([type='checkbox']):not([type='radio']),
+html.dark select,
+html.dark textarea {
+    background-color: #0d1522 !important;
+    border-color: #24344d !important;
+    color: #f8fafc !important;
+}
+
+html.dark input:not([type='checkbox']):not([type='radio']):focus,
+html.dark select:focus,
+html.dark textarea:focus {
+    border-color: #10b981 !important;
+    box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.2) !important;
+}
+
+/* Tables in Dark Mode */
+html.dark thead {
+    background-color: #0d1522 !important;
+    color: #94a3b8 !important;
+}
+
+html.dark tbody tr:hover {
+    background-color: #182333 !important;
+}
+
+html.dark tr.border-b,
+html.dark td.border-b,
+html.dark th.border-b {
+    border-color: #1e2b3e !important;
+}
+
+/* Borders and Background Accents */
+html.dark .border-slate-200,
+html.dark .border-slate-200\/80 {
+    border-color: #1e2b3e !important;
+}
+
+html.dark .bg-slate-50,
+html.dark .bg-slate-100 {
+    background-color: #162030 !important;
+}
+
+html.dark .hover\:bg-slate-100:hover,
+html.dark .hover\:bg-slate-50:hover {
+    background-color: #1e2b3e !important;
+}
+
+html.dark .siget-btn-secondary {
+    background-color: #162030 !important;
+    color: #f1f5f9 !important;
+    border-color: #2a3b52 !important;
+}
+
+html.dark .siget-btn-secondary:hover {
+    background-color: #1e2c40 !important;
+}
+
+/* ========================================================
+   ANIMATED SUN/MOON THEME SWITCH (USER SPECIFICATION)
+   ======================================================== */
+.switch {
+    --hue: 223;
+    --trans-dur: 0.4s;
+    --trans-timing: cubic-bezier(0.65, 0, 0.35, 1);
+    font-size: 14px;
+    position: relative;
+    display: inline-block;
+    -webkit-tap-highlight-color: transparent;
+    vertical-align: middle;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.switch *,
+.switch *::before,
+.switch *::after {
+    box-sizing: border-box;
+    border: 0;
+    margin: 0;
+    padding: 0;
+}
+
+.switch__input {
+    position: relative;
+    -webkit-tap-highlight-color: transparent;
+    background-color: #2b3544;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.75em;
+    cursor: pointer;
+    display: block;
+    width: 3em;
+    height: 1.5em;
+    transition: background-color var(--trans-dur) var(--trans-timing), border-color var(--trans-dur) var(--trans-timing);
+    -webkit-appearance: none;
+    appearance: none;
+}
+
+html.dark .switch__input {
+    background-color: hsl(var(--hue), 10%, 15%);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.switch__input:before {
+    border-radius: 50%;
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0.125em;
+    left: 0.125em;
+    width: 1.25em;
+    height: 1.25em;
+    background-color: hsl(var(--hue), 10%, 10%);
+    transition:
+        background-color var(--trans-dur) var(--trans-timing),
+        transform var(--trans-dur) var(--trans-timing);
+}
+
+.switch__icon,
+.switch__icon-part {
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+.switch__icon {
+    background-color: hsl(var(--hue), 10%, 90%);
+    border-radius: 50%;
+    overflow: hidden;
+    pointer-events: none;
+    top: 0.125em;
+    left: 0.125em;
+    width: 1.25em;
+    height: 1.25em;
+    transition: transform var(--trans-dur) var(--trans-timing);
+}
+
+.switch__icon-part {
+    transition:
+        box-shadow var(--trans-dur) var(--trans-timing),
+        transform var(--trans-dur) var(--trans-timing);
+}
+
+.switch__icon-part--1,
+.switch__icon-part--2,
+.switch__icon-part--3 {
+    border-radius: 50%;
+}
+
+.switch__icon-part--1 {
+    background-color: hsl(var(--hue), 10%, 90%);
+    top: calc(50% - 0.375em);
+    left: calc(50% - 0.375em);
+    width: 0.75em;
+    height: 0.75em;
+}
+
+.switch__icon-part--2 {
+    background-color: hsl(var(--hue), 10%, 10%);
+    top: calc(50% - 0.4375em);
+    left: calc(50% - 0.0625em);
+    width: 0.5em;
+    height: 0.5em;
+    transform: translate(-0.1875em, 0.1875em) scale(0.2);
+}
+
+.switch__icon-part--3 {
+    box-shadow: 0 0 0 0.625em hsl(var(--hue), 10%, 10%) inset;
+    width: 1.25em;
+    height: 1.25em;
+    transform: scale(0.25);
+}
+
+.switch__icon-part--3 ~ .switch__icon-part {
+    background-color: hsl(var(--hue), 10%, 10%);
+    border-radius: 0.0625em;
+    top: 50%;
+    left: 50%;
+    width: 0.125em;
+    height: 0.1875em;
+    transform-origin: 50% 0;
+}
+
+.switch__icon-part--4 {
+    transform: translateX(-50%) rotate(0) translateY(0.25em);
+}
+
+.switch__icon-part--5 {
+    transform: translateX(-50%) rotate(45deg) translateY(0.25em);
+}
+
+.switch__icon-part--6 {
+    transform: translateX(-50%) rotate(90deg) translateY(0.25em);
+}
+
+.switch__icon-part--7 {
+    transform: translateX(-50%) rotate(135deg) translateY(0.25em);
+}
+
+.switch__icon-part--8 {
+    transform: translateX(-50%) rotate(180deg) translateY(0.25em);
+}
+
+.switch__icon-part--9 {
+    transform: translateX(-50%) rotate(225deg) translateY(0.25em);
+}
+
+.switch__icon-part--10 {
+    transform: translateX(-50%) rotate(270deg) translateY(0.25em);
+}
+
+.switch__icon-part--11 {
+    transform: translateX(-50%) rotate(315deg) translateY(0.25em);
+}
+
+.switch__sr {
+    overflow: hidden;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    clip: rect(0, 0, 0, 0);
+}
+
+/* `:checked` state (DARK MODE - MOON) */
+.switch__input:checked {
+    background-color: hsl(var(--hue), 10%, 25%);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+
+.switch__input:checked:before,
+.switch__input:checked ~ .switch__icon {
+    transform: translateX(1.5em);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--2 {
+    transform: translate(0, 0) scale(1);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--3 {
+    box-shadow: 0 0 0 0.25em hsl(var(--hue), 10%, 10%) inset;
+    transform: scale(1);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--4 {
+    transform: translateX(-50%) rotate(0) translateY(0.625em) scale(0);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--5 {
+    transform: translateX(-50%) rotate(45deg) translateY(0.625em) scale(0);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--6 {
+    transform: translateX(-50%) rotate(90deg) translateY(0.625em) scale(0);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--7 {
+    transform: translateX(-50%) rotate(135deg) translateY(0.625em) scale(0);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--8 {
+    transform: translateX(-50%) rotate(180deg) translateY(0.625em) scale(0);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--9 {
+    transform: translateX(-50%) rotate(225deg) translateY(0.625em) scale(0);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--10 {
+    transform: translateX(-50%) rotate(270deg) translateY(0.625em) scale(0);
+}
+
+.switch__input:checked ~ .switch__icon .switch__icon-part--11 {
+    transform: translateX(-50%) rotate(315deg) translateY(0.625em) scale(0);
+}

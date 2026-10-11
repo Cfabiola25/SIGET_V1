@@ -20,6 +20,32 @@
             font-family: var(--font-display);
         }
     </style>
+    <!-- Immediate Theme & Energy-Saving Initialization (Zero Flash) -->
+    <script>
+        (function() {
+            const THEME_KEY = 'siget_athletix_theme';
+            const saved = localStorage.getItem(THEME_KEY);
+            let isDark = false;
+            if (saved === 'dark') {
+                isDark = true;
+            } else if (saved === 'light') {
+                isDark = false;
+            } else {
+                if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                    isDark = true;
+                }
+            }
+            if (isDark) {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+                document.documentElement.setAttribute('data-theme', 'dark');
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+                document.documentElement.setAttribute('data-theme', 'light');
+            }
+        })();
+    </script>
 </head>
 <body class="min-h-full bg-[#f4f6fa] text-slate-800 antialiased flex flex-col selection:bg-emerald-500 selection:text-white">
 
@@ -71,6 +97,9 @@
                 <!-- Lado Derecho: Selector Rápido de Torneo & Autenticación -->
                 <div class="flex items-center gap-3">
                     
+                    <!-- Selector de Tema (Oscuro / Claro / Ahorro de Energía) -->
+                    <x-theme-toggle id="public-header-theme-switch" />
+
                     <!-- Botón de Búsqueda Rápida de Torneos -->
                     <button type="button" 
                             onclick="document.getElementById('quickTournamentModal')?.showModal()" 
