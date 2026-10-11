@@ -13,9 +13,9 @@ class SportsChronicleService
      *
      * @return array{title: string, body: string, generated_at: string}
      */
-    public function generateAndSave(MatchGame $match): array
+    public function generateAndSave(MatchGame $match, string $style = 'clasico'): array
     {
-        $chronicle = $this->generateChronicle($match);
+        $chronicle = $this->generateChronicle($match, $style);
 
         $match->update([
             'chronicle_title' => $chronicle['title'],
@@ -28,17 +28,18 @@ class SportsChronicleService
 
     /**
      * Genera la crónica a través de LLM o del motor narrativo algorítmico integrado.
+     * Soporta tres estilos: 'clasico', 'radial' (emotivo de alta intensidad) y 'tactico' (análisis profundo).
      *
      * @return array{title: string, body: string, generated_at: string}
      */
-    public function generateChronicle(MatchGame $match): array
+    public function generateChronicle(MatchGame $match, string $style = 'clasico'): array
     {
         $geminiKey = config('services.gemini.key') ?? env('GEMINI_API_KEY');
         $openAiKey = config('services.openai.key') ?? env('OPENAI_API_KEY');
 
         if ($geminiKey && ! app()->environment('testing')) {
             try {
-                $llmResult = $this->callGeminiApi($match, $geminiKey);
+                $llmResult = $this->callGeminiApi($match, $geminiKey, $style);
                 if ($llmResult) {
                     return $llmResult;
                 }
@@ -49,7 +50,7 @@ class SportsChronicleService
 
         if ($openAiKey && ! app()->environment('testing')) {
             try {
-                $llmResult = $this->callOpenAiApi($match, $openAiKey);
+                $llmResult = $this->callOpenAiApi($match, $openAiKey, $style);
                 if ($llmResult) {
                     return $llmResult;
                 }
@@ -58,8 +59,9 @@ class SportsChronicleService
             }
         }
 
-        return $this->generateAlgorithmicChronicle($match);
+        return $this->generateAlgorithmicChronicle($match, $style);
     }
+
 
     /**
      * Motor narrativo algorítmico de alta fidelidad periodística.
@@ -150,19 +152,20 @@ class SportsChronicleService
         ];
     }
 
-    protected function callGeminiApi(MatchGame $match, string $apiKey): ?array
+    protected function callGeminiApi(MatchGame $match, string $apiKey, string $style = 'clasico'): ?array
     {
-        $prompt = $this->buildLlmPrompt($match);
+        $prompt = $this->buildLlmPrompt($match, $style);
+        $model = config('services.gemini.model', 'gemini-1.5-flash');
 
         $response = Http::withHeaders([
             'Content-Type' => 'application/json',
-        ])->timeout(8)->post("https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key={$apiKey}", [
+        ])->timeout(10)->post("https://generativelanguage.googleapis.com/v1beta/models/{$model}:generateContent?key={$apiKey}", [
             'contents' => [
                 ['parts' => [['text' => $prompt]]],
             ],
             'generationConfig' => [
                 'responseMimeType' => 'application/json',
-                'temperature' => 0.7,
+                'temperature' => $style === 'radial' ? 0.9 : 0.6,
             ],
         ]);
 
@@ -185,14 +188,14 @@ class SportsChronicleService
         ];
     }
 
-    protected function callOpenAiApi(MatchGame $match, string $apiKey): ?array
+    protected function callOpenAiApi(MatchGame $match, string $apiKey, string $style = 'clasico'): ?array
     {
-        $prompt = $this->buildLlmPrompt($match);
+        $prompt = $this->buildLlmPrompt($match, $style);
 
         $response = Http::withHeaders([
             'Authorization' => "Bearer {$apiKey}",
             'Content-Type' => 'application/json',
-        ])->timeout(8)->post('https://api.openai.com/v1/chat/completions', [
+        ])->timeout(10)->post('https://api.openai.com/v1/chat/completions', [
             'model' => 'gpt-4o-mini',
             'messages' => [
                 ['role' => 'system', 'content' => 'Eres un narrador y cronista deportivo profesional de élite internacional. Responde estrictamente en formato JSON con las claves "title" y "body".'],
@@ -220,8 +223,14 @@ class SportsChronicleService
         ];
     }
 
-    protected function buildLlmPrompt(MatchGame $match): string
+    protected function buildLlmPrompt(MatchGame $match, string $style = 'clasico'): string
     {
+        $persona = match ($style) {
+            'radial' => 'Adopta el rol de un apasionado locutor radial latinoamericano. Usa exclamaciones vibrantes, ritmo vertiginoso, emoción pura y giros dramáticos como si estuvieras narrando a viva voz en cabina de radio.',
+            'tactico' => 'Adopta el rol de un riguroso analista táctico estilo UEFA Pro. Analiza la disposición táctica, presión en bloques, transiciones defensa-ataque, rendimiento individual y efectividad en el banquillo.',
+            default => 'Adopta el rol de un cronista deportivo de alta alcurnia de un diario de prestigio. Redacta con prosa pulcra, narrativa cautivadora y rigor deportivo.',
+        };
+
         $events = $match->events()->with('player')->get()->map(fn ($e) => [
             'minute' => $e->minute,
             'type' => $e->event_type,
@@ -241,6 +250,7 @@ class SportsChronicleService
             'events' => $events,
         ];
 
-        return 'Redacta una crónica periodística deportiva vibrante y profesional en español a partir del siguiente reporte de partido: '.json_encode($payload, JSON_UNESCAPED_UNICODE).'. Devuelve un JSON con {"title": "...", "body": "..."}. La crónica debe incluir 4 párrafos que narren el contexto, momentos clave, jugadas estelares y el impacto en el torneo.';
+        return "{$persona} Redacta una crónica periodística deportiva en español a partir del siguiente reporte de partido: ".json_encode($payload, JSON_UNESCAPED_UNICODE).'. Devuelve un JSON con {"title": "...", "body": "..."}. La crónica debe estructurarse en 4 párrafos que narren el contexto del escenario, los momentos clave y goles, la tensión/disciplina y el impacto del resultado en la tabla de posiciones.';
     }
+
 }

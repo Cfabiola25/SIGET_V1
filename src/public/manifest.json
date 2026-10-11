@@ -1,0 +1,25 @@
+{
+  "name": "SIGET - Sistema de Gestión de Torneos",
+  "short_name": "SIGET",
+  "description": "Plataforma oficial de torneos, partidos en vivo, actas arbitrales y estadísticas deportivas.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0f172a",
+  "theme_color": "#057a55",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "/images/stadium_hero.jpg",
+      "sizes": "192x192",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/images/stadium_hero.jpg",
+      "sizes": "512x512",
+      "type": "image/jpeg",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["sports", "productivity"]
+}

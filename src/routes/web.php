@@ -63,6 +63,10 @@ Route::get('/api/v1/tournaments/{tournament}/standings', [WidgetController::clas
 // Planilla Oficial Federativa de Contingencia (Imprimible Pre-partido)
 Route::get('/matches/{match}/contingency-sheet', [MatchController::class, 'contingencySheet'])->name('matches.contingency_sheet');
 
+// Streaming en Tiempo Real (Server-Sent Events / SSE)
+Route::get('/matches/{match}/stream', [MatchDayController::class, 'stream'])->name('matches.stream')->whereNumber('match');
+
+
 Route::middleware('guest')->group(function (): void {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');

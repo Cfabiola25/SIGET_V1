@@ -87,3 +87,15 @@
         setupThemeListeners();
     }
 })();
+
+// SIGET PWA & Service Worker Registration
+if ('serviceWorker' in navigator && window.location.protocol.startsWith('http')) {
+    window.addEventListener('load', () => {
+        navigator.serviceWorker.register('/sw.js').then((reg) => {
+            console.log('[SIGET PWA] Service Worker registrado exitosamente:', reg.scope);
+        }).catch((err) => {
+            console.warn('[SIGET PWA] Registro de Service Worker falló:', err);
+        });
+    });
+}
+

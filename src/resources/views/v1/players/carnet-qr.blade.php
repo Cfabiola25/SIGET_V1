@@ -52,7 +52,30 @@
             Presenta este código al árbitro en la línea de cal para registrar tu ingreso en menos de 1 segundo.
         </p>
     </div>
+
+    <!-- Acciones de Impresión y Descarga -->
+    <div class="mt-4 flex justify-center gap-3 no-print">
+        <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 rounded-xl bg-[#057a55] px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#046c4b] transition active:scale-95">
+            🖨️ Imprimir / Guardar Carnet PDF
+        </button>
+    </div>
 </div>
+
+<style>
+    @media print {
+        header, aside, .no-print, #siget-sidebar, button {
+            display: none !important;
+        }
+        body {
+            background: #fff !important;
+            padding: 0 !important;
+        }
+        .max-w-sm {
+            max-width: 320px !important;
+            margin: 0 auto !important;
+        }
+    }
+</style>
 
 <script>
     function updateClock() {

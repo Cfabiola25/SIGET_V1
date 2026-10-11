@@ -16,6 +16,10 @@
             background: #fff;
             padding: 8px;
         }
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0 !important; background: #fff !important; }
+        }
         .header-table {
             width: 100%;
             border-collapse: collapse;
@@ -123,6 +127,11 @@
             position: fixed;
             top: 15px;
             right: 15px;
+            display: flex;
+            gap: 8px;
+            z-index: 9999;
+        }
+        .btn-print a, .btn-print button {
             background: #057a55;
             color: white;
             border: none;
@@ -131,17 +140,24 @@
             font-weight: bold;
             border-radius: 6px;
             cursor: pointer;
+            text-decoration: none;
             box-shadow: 0 4px 6px rgba(0,0,0,0.15);
         }
+        .btn-print a {
+            background: #334155;
+        }
         @media print {
-            .btn-print { display: none; }
-            body { padding: 0; }
+            .btn-print { display: none !important; }
+            body { padding: 0 !important; }
         }
     </style>
 </head>
 <body>
 
-    <button onclick="window.print()" class="btn-print">Imprimir Planilla de Contingencia</button>
+    <div class="btn-print">
+        <a href="javascript:history.back()">← Volver</a>
+        <button type="button" onclick="window.print()">🖨️ Imprimir / Guardar PDF</button>
+    </div>
 
     <!-- Header General -->
     <table class="header-table">

@@ -10,9 +10,20 @@
             ← Salir de Consola
         </a>
         <div class="flex items-center gap-2">
-            <span class="inline-flex size-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-            <span class="text-xs font-bold text-slate-300 uppercase tracking-widest">Consola Oficial de Arbitraje</span>
+            <span id="headerOnlineDot" class="inline-flex size-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+            <span id="headerOnlineText" class="text-xs font-bold text-slate-300 uppercase tracking-widest">Consola Oficial de Arbitraje</span>
         </div>
+    </div>
+
+    <!-- Banner de Estado de Conectividad Offline / PWA -->
+    <div id="connectivityBanner" class="hidden rounded-2xl p-3 text-xs font-bold transition flex items-center justify-between border">
+        <div class="flex items-center gap-2.5">
+            <span id="connectivityDot" class="size-2.5 rounded-full"></span>
+            <span id="connectivityText"></span>
+        </div>
+        <button type="button" id="btnSyncOffline" onclick="syncOfflineEvents()" class="hidden px-3 py-1 rounded-lg bg-amber-500 text-slate-950 font-black hover:bg-amber-400 transition text-[11px]">
+            Sincronizar Ahora (<span id="offlineCount">0</span>)
+        </button>
     </div>
 
     <!-- Marcador Central & Cronómetro Sincronizado -->
@@ -351,6 +362,125 @@
         });
     }
 
+    const MATCH_ID = {{ $match->id }};
+    const OFFLINE_KEY = 'siget_offline_events_' + MATCH_ID;
+
+    function getOfflineQueue() {
+        try {
+            return JSON.parse(localStorage.getItem(OFFLINE_KEY) || '[]');
+        } catch (e) {
+            return [];
+        }
+    }
+
+    function saveOfflineQueue(queue) {
+        localStorage.setItem(OFFLINE_KEY, JSON.stringify(queue));
+        updateOfflineUI();
+    }
+
+    function updateOfflineUI() {
+        const queue = getOfflineQueue();
+        const banner = document.getElementById('connectivityBanner');
+        const dot = document.getElementById('connectivityDot');
+        const text = document.getElementById('connectivityText');
+        const btnSync = document.getElementById('btnSyncOffline');
+        const countSpan = document.getElementById('offlineCount');
+        const headerDot = document.getElementById('headerOnlineDot');
+        const headerText = document.getElementById('headerOnlineText');
+
+        const isOnline = navigator.onLine;
+
+        if (!isOnline) {
+            banner.classList.remove('hidden', 'bg-emerald-950/60', 'border-emerald-700/60', 'text-emerald-300');
+            banner.classList.add('bg-amber-950/80', 'border-amber-600/80', 'text-amber-200');
+            dot.className = 'size-2.5 rounded-full bg-amber-400 animate-pulse';
+            text.innerText = '⚠️ Modo Offline Activo. Las incidencias se almacenan en tu dispositivo y se enviarán al recuperar señal.';
+            if (headerDot) {
+                headerDot.className = 'inline-flex size-2.5 rounded-full bg-amber-400';
+                headerText.innerText = 'Sin Conexión • Modo Local';
+            }
+        } else if (queue.length > 0) {
+            banner.classList.remove('hidden', 'bg-emerald-950/60', 'border-emerald-700/60', 'text-emerald-300');
+            banner.classList.add('bg-blue-950/80', 'border-blue-600/80', 'text-blue-200');
+            dot.className = 'size-2.5 rounded-full bg-blue-400';
+            text.innerText = `Conexión restablecida. Hay ${queue.length} incidencia(s) registradas offline listas para sincronizar.`;
+            btnSync.classList.remove('hidden');
+            countSpan.innerText = queue.length;
+            if (headerDot) {
+                headerDot.className = 'inline-flex size-2.5 rounded-full bg-blue-400 animate-pulse';
+                headerText.innerText = 'Pendiente de Sincronizar';
+            }
+        } else {
+            banner.classList.add('hidden');
+            btnSync.classList.add('hidden');
+            if (headerDot) {
+                headerDot.className = 'inline-flex size-2.5 rounded-full bg-emerald-400 animate-pulse';
+                headerText.innerText = 'En Línea • Consola Oficial';
+            }
+        }
+    }
+
+    window.addEventListener('online', () => {
+        updateOfflineUI();
+        if (getOfflineQueue().length > 0) {
+            syncOfflineEvents();
+        }
+    });
+
+    window.addEventListener('offline', updateOfflineUI);
+    document.addEventListener('DOMContentLoaded', updateOfflineUI);
+
+    async function syncOfflineEvents() {
+        const queue = getOfflineQueue();
+        if (queue.length === 0) return;
+
+        const btnSync = document.getElementById('btnSyncOffline');
+        if (btnSync) {
+            btnSync.disabled = true;
+            btnSync.innerText = 'Sincronizando...';
+        }
+
+        try {
+            const res = await fetch("{{ route('matches.events.sync_batch', $match) }}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify({
+                    events: queue,
+                    timer_state: {
+                        elapsed_seconds: timerSeconds,
+                        is_timer_running: isRunning,
+                        period: '{{ $match->current_period }}'
+                    }
+                })
+            });
+
+            const data = await res.json();
+            if (res.ok && data.success) {
+                localStorage.removeItem(OFFLINE_KEY);
+                if (data.home_score !== undefined) {
+                    document.getElementById('homeScore').innerText = data.home_score;
+                    document.getElementById('awayScore').innerText = data.away_score;
+                }
+                updateOfflineUI();
+                alert(`✅ ${data.message || 'Incidencias sincronizadas exitosamente con el servidor central.'}`);
+                location.reload();
+            } else {
+                alert('Aviso de sincronización: ' + (data.message || 'El servidor rechazó el lote.'));
+            }
+        } catch (err) {
+            console.warn('Error en sincronización offline:', err);
+        } finally {
+            if (btnSync) {
+                btnSync.disabled = false;
+                btnSync.innerText = 'Sincronizar Ahora';
+            }
+        }
+    }
+
     async function submitEvent() {
         if (!selectedTeamId || !activeEventType) return;
 
@@ -358,6 +488,38 @@
         const btn = document.getElementById('btnConfirmEvent');
         btn.disabled = true;
         btn.innerText = 'Guardando...';
+
+        const clientUuid = 'ev-' + Date.now() + '-' + Math.random().toString(36).substring(2, 8);
+        const eventPayload = {
+            client_uuid: clientUuid,
+            team_id: selectedTeamId,
+            event_type: activeEventType,
+            player_id: selectedPlayerId,
+            sub_in_player_id: selectedSubInPlayerId,
+            minute: Math.floor(timerSeconds / 60),
+            second: timerSeconds % 60,
+            notes: notes
+        };
+
+        // Si estamos sin conexión, guardar directamente en la cola local
+        if (!navigator.onLine) {
+            const queue = getOfflineQueue();
+            queue.push(eventPayload);
+            saveOfflineQueue(queue);
+
+            // Actualización visual optimista del marcador si es gol
+            if (activeEventType === 'goal') {
+                const scoreElId = (selectedTeamId === {{ $match->home_team_id }}) ? 'homeScore' : 'awayScore';
+                const el = document.getElementById(scoreElId);
+                if (el) el.innerText = parseInt(el.innerText || '0') + 1;
+            }
+
+            renderOptimisticEventRow(eventPayload, true);
+            closeActionModal();
+            btn.disabled = false;
+            btn.innerText = 'Confirmar Registro';
+            return;
+        }
 
         try {
             const res = await fetch("{{ route('matches.events.store', $match) }}", {
@@ -367,22 +529,14 @@
                     'X-CSRF-TOKEN': '{{ csrf_token() }}',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify({
-                    team_id: selectedTeamId,
-                    event_type: activeEventType,
-                    player_id: selectedPlayerId,
-                    sub_in_player_id: selectedSubInPlayerId,
-                    notes: notes
-                })
+                body: JSON.stringify(eventPayload)
             });
 
             const data = await res.json();
             if (data.success) {
-                // Actualizar marcador
                 document.getElementById('homeScore').innerText = data.home_score;
                 document.getElementById('awayScore').innerText = data.away_score;
 
-                // Añadir evento al timeline
                 const noMsg = document.getElementById('noEventsMsg');
                 if (noMsg) noMsg.remove();
 
@@ -402,15 +556,52 @@
                     ${data.event.notes ? `<span class="text-[11px] text-slate-500 italic">${data.event.notes}</span>` : ''}
                 `;
                 timeline.insertBefore(row, timeline.firstChild);
-
                 closeActionModal();
+            } else {
+                throw new Error(data.message || 'Error en servidor');
             }
         } catch (e) {
-            alert('Error al registrar incidencia: ' + e.message);
+            // Falla de red en pleno envío: salvaguardar en cola offline
+            console.warn('Conexión perdida durante el guardado. Pasando a cola offline local:', e);
+            const queue = getOfflineQueue();
+            queue.push(eventPayload);
+            saveOfflineQueue(queue);
+
+            if (activeEventType === 'goal') {
+                const scoreElId = (selectedTeamId === {{ $match->home_team_id }}) ? 'homeScore' : 'awayScore';
+                const el = document.getElementById(scoreElId);
+                if (el) el.innerText = parseInt(el.innerText || '0') + 1;
+            }
+
+            renderOptimisticEventRow(eventPayload, true);
+            closeActionModal();
         } finally {
             btn.disabled = false;
             btn.innerText = 'Confirmar Registro';
         }
+    }
+
+    function renderOptimisticEventRow(payload, isOffline) {
+        const noMsg = document.getElementById('noEventsMsg');
+        if (noMsg) noMsg.remove();
+
+        const timeline = document.getElementById('eventsTimeline');
+        const row = document.createElement('div');
+        row.className = 'flex items-center justify-between py-2.5 text-xs border-b border-slate-800/80 animate-fade-in bg-amber-950/20 px-2 rounded-lg';
+        
+        const minStr = String(payload.minute).padStart(2, '0') + ':' + String(payload.second).padStart(2, '0');
+        row.innerHTML = `
+            <div class="flex items-center gap-3">
+                <span class="font-mono font-bold text-amber-400">${minStr}</span>
+                <span class="text-base">⚡</span>
+                <div>
+                    <span class="font-bold text-white uppercase">${payload.event_type}</span>
+                    <span class="text-amber-300 text-[11px]"> • Guardado localmente (Offline)</span>
+                </div>
+            </div>
+            <span class="rounded bg-amber-500/20 text-amber-300 px-2 py-0.5 text-[10px] font-bold">Pendiente de Sync</span>
+        `;
+        timeline.insertBefore(row, timeline.firstChild);
     }
 </script>
 @endsection

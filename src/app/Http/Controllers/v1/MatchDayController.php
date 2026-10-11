@@ -198,6 +198,59 @@ class MatchDayController extends Controller
     }
 
     /**
+     * Transmisión en Tiempo Real mediante Server-Sent Events (SSE).
+     * Alternativa nativa de alto rendimiento sin sobrecarga de WebSockets externos.
+     */
+    public function stream(MatchGame $match): \Symfony\Component\HttpFoundation\StreamedResponse
+    {
+        return response()->stream(function () use ($match): void {
+            $match->load([
+                'homeTeam',
+                'awayTeam',
+                'events.player',
+                'events.subInPlayer',
+                'events.team',
+            ]);
+
+            $data = [
+                'match_id' => $match->id,
+                'home_score' => $match->home_score,
+                'away_score' => $match->away_score,
+                'status' => $match->status,
+                'current_period' => $match->current_period,
+                'is_timer_running' => $match->is_timer_running,
+                'formatted_clock' => $match->formatted_clock,
+                'elapsed_seconds' => $match->getCurrentClockSeconds(),
+                'events' => $match->events->map(fn ($e) => [
+                    'id' => $e->id,
+                    'team_id' => $e->team_id,
+                    'team_name' => $e->team->name,
+                    'player_name' => $e->player?->name ?? 'N/A',
+                    'sub_in_player_name' => $e->subInPlayer?->name,
+                    'event_type' => $e->event_type,
+                    'icon' => $e->icon,
+                    'label' => $e->label,
+                    'formatted_time' => $e->formatted_time,
+                    'notes' => $e->notes,
+                ]),
+            ];
+
+            echo "event: match_state\n";
+            echo 'data: '.json_encode($data, JSON_UNESCAPED_UNICODE)."\n\n";
+
+            if (ob_get_level() > 0) {
+                ob_flush();
+            }
+            flush();
+        }, 200, [
+            'Content-Type' => 'text/event-stream',
+            'Cache-Control' => 'no-cache, no-transform',
+            'Connection' => 'keep-alive',
+            'X-Accel-Buffering' => 'no',
+        ]);
+    }
+
+    /**
      * Sincronización en Ráfaga (Burst Sync) para la Consola Offline-First.
      * Recibe los eventos acumulados en IndexedDB cuando se restablece la conexión.
      */

@@ -154,7 +154,57 @@
     @if (!$matches->isEmpty())
         const matchIds = @json($matches->pluck('id'));
 
+        function updateMatchCard(matchId, data) {
+            const card = document.getElementById(`match-card-${matchId}`);
+            if (!card) return;
+
+            // Actualizar marcador con micro-animación
+            const homeScoreEl = card.querySelector('.live-home-score');
+            const awayScoreEl = card.querySelector('.live-away-score');
+
+            if (homeScoreEl && homeScoreEl.innerText != data.home_score) {
+                homeScoreEl.innerText = data.home_score;
+                homeScoreEl.classList.add('text-emerald-400', 'scale-125');
+                setTimeout(() => homeScoreEl.classList.remove('text-emerald-400', 'scale-125'), 1500);
+            }
+
+            if (awayScoreEl && awayScoreEl.innerText != data.away_score) {
+                awayScoreEl.innerText = data.away_score;
+                awayScoreEl.classList.add('text-emerald-400', 'scale-125');
+                setTimeout(() => awayScoreEl.classList.remove('text-emerald-400', 'scale-125'), 1500);
+            }
+
+            // Actualizar reloj y periodo
+            const clockEl = card.querySelector('.live-clock-badge');
+            if (clockEl) {
+                clockEl.innerText = data.formatted_clock;
+            }
+
+            // Actualizar eventos
+            const container = card.querySelector('.live-events-container');
+            if (container && data.events && data.events.length > 0) {
+                let html = '';
+                data.events.forEach(e => {
+                    html += `
+                        <div class="flex items-center justify-between py-2 text-xs">
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono font-bold text-emerald-400">${e.formatted_time}</span>
+                                <span>${e.icon}</span>
+                                <span class="font-bold text-white">${e.label}</span>
+                                <span class="text-slate-400">• ${e.player_name} (${e.team_name})</span>
+                                ${e.sub_in_player_name ? `<span class="text-emerald-400 font-semibold">(Entra: ${e.sub_in_player_name})</span>` : ''}
+                            </div>
+                            ${e.notes ? `<span class="text-[11px] text-slate-500 italic">${e.notes}</span>` : ''}
+                        </div>
+                    `;
+                });
+                container.innerHTML = html;
+            }
+        }
+
         async function syncLiveMatches() {
+            if (document.hidden) return; // Ahorro de CPU y batería cuando la pestaña está en segundo plano
+
             for (const matchId of matchIds) {
                 try {
                     const res = await fetch(`/matches/${matchId}/live-feed`, {
@@ -163,51 +213,8 @@
                     if (!res.ok) continue;
 
                     const data = await res.json();
-                    const card = document.getElementById(`match-card-${matchId}`);
-                    if (!card) continue;
+                    updateMatchCard(matchId, data);
 
-                    // Actualizar marcador
-                    const homeScoreEl = card.querySelector('.live-home-score');
-                    const awayScoreEl = card.querySelector('.live-away-score');
-
-                    if (homeScoreEl && homeScoreEl.innerText != data.home_score) {
-                        homeScoreEl.innerText = data.home_score;
-                        homeScoreEl.classList.add('text-emerald-400', 'scale-125');
-                        setTimeout(() => homeScoreEl.classList.remove('text-emerald-400', 'scale-125'), 1500);
-                    }
-
-                    if (awayScoreEl && awayScoreEl.innerText != data.away_score) {
-                        awayScoreEl.innerText = data.away_score;
-                        awayScoreEl.classList.add('text-emerald-400', 'scale-125');
-                        setTimeout(() => awayScoreEl.classList.remove('text-emerald-400', 'scale-125'), 1500);
-                    }
-
-                    // Actualizar reloj
-                    const clockEl = card.querySelector('.live-clock-badge');
-                    if (clockEl) {
-                        clockEl.innerText = data.formatted_clock;
-                    }
-
-                    // Actualizar eventos
-                    const container = card.querySelector('.live-events-container');
-                    if (container && data.events && data.events.length > 0) {
-                        let html = '';
-                        data.events.forEach(e => {
-                            html += `
-                                <div class="flex items-center justify-between py-2 text-xs">
-                                    <div class="flex items-center gap-2">
-                                        <span class="font-mono font-bold text-emerald-400">${e.formatted_time}</span>
-                                        <span>${e.icon}</span>
-                                        <span class="font-bold text-white">${e.label}</span>
-                                        <span class="text-slate-400">• ${e.player_name} (${e.team_name})</span>
-                                        ${e.sub_in_player_name ? `<span class="text-emerald-400 font-semibold">(Entra: ${e.sub_in_player_name})</span>` : ''}
-                                    </div>
-                                    ${e.notes ? `<span class="text-[11px] text-slate-500 italic">${e.notes}</span>` : ''}
-                                </div>
-                            `;
-                        });
-                        container.innerHTML = html;
-                    }
                     // Sincronizar estadísticas de MVP en vivo
                     try {
                         const mvpRes = await fetch(`/matches/${matchId}/mvp/live-stats`, {
@@ -241,7 +248,23 @@
             }
         }
 
-        setInterval(syncLiveMatches, 3000);
+        // Conectar Server-Sent Events (SSE) nativos para push inmediato
+        let sseActive = false;
+        if (window.EventSource) {
+            matchIds.forEach(id => {
+                try {
+                    const es = new EventSource(`/matches/${id}/stream`);
+                    es.addEventListener('match_state', (e) => {
+                        const data = JSON.parse(e.data);
+                        updateMatchCard(id, data);
+                    });
+                    sseActive = true;
+                } catch(e) {}
+            });
+        }
+
+        // Fallback adaptativo: Si SSE está activo, pollear cada 10s solo para MVP; si no, cada 3s
+        setInterval(syncLiveMatches, sseActive ? 10000 : 3000);
     @endif
 
     async function handleMvpVote(e, matchId) {
