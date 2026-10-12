@@ -20,6 +20,7 @@ class StoreTournamentRequest extends FormRequest
             'start_date' => ['required', 'date'],
             'end_date' => ['required', 'date', 'after_or_equal:start_date'],
             'status' => ['sometimes', 'in:pending,active,completed'],
+            'admin_id' => ['nullable', 'exists:users,id'],
         ];
     }
 }

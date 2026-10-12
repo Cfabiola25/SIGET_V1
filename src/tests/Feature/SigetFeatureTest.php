@@ -154,6 +154,44 @@ class SigetFeatureTest extends TestCase
         ]);
     }
 
+    public function test_super_admin_can_create_tournament_and_then_assign_admin_from_tournaments_view(): void
+    {
+        $superAdmin = User::factory()->create(['role' => 'super_admin']);
+        $admin = User::factory()->create(['role' => 'admin', 'is_active' => true]);
+
+        // 1. Crear torneo sin admin asignado inicialmente
+        $this->actingAs($superAdmin)
+            ->post(route('super-admin.tournaments.store'), [
+                'name' => 'Torneo Sin Admin Inicial',
+                'sport_type' => 'Fútbol 11',
+                'start_date' => now()->addDay()->toDateString(),
+                'end_date' => now()->addWeek()->toDateString(),
+                'admin_id' => null,
+            ])
+            ->assertRedirect(route('super-admin.dashboard'));
+
+        $tournament = Tournament::where('name', 'Torneo Sin Admin Inicial')->firstOrFail();
+        $this->assertNull($tournament->admin_id);
+
+        // 2. Asignar admin desde la vista de torneos
+        $this->actingAs($superAdmin)
+            ->patch(route('super-admin.tournaments.assign-admin', $tournament), [
+                'admin_id' => $admin->id,
+            ])
+            ->assertSessionHas('status');
+
+        $this->assertEquals($admin->id, $tournament->fresh()->admin_id);
+
+        // 3. Desvincular admin
+        $this->actingAs($superAdmin)
+            ->patch(route('super-admin.tournaments.assign-admin', $tournament), [
+                'admin_id' => null,
+            ])
+            ->assertSessionHas('status');
+
+        $this->assertNull($tournament->fresh()->admin_id);
+    }
+
     public function test_team_cannot_be_scheduled_twice_on_the_same_day(): void
     {
         $superAdmin = User::factory()->create(['role' => 'super_admin']);

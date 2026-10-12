@@ -88,17 +88,43 @@ class SuperAdminController extends Controller
     {
         $assignment = Validator::make($request->all(), [
             'admin_id' => [
-                'required',
+                'nullable',
                 Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'admin')->where('is_active', true)),
             ],
         ])->validate();
 
-        Tournament::create(array_merge($request->validated(), [
+        $tournament = Tournament::create(array_merge($request->validated(), [
             'super_admin_id' => $request->user()->id,
-            'admin_id' => $assignment['admin_id'],
+            'admin_id' => $assignment['admin_id'] ?? null,
         ]));
 
+        // Inicializar reglas oficiales para la modalidad seleccionada
+        $ruleData = \App\Models\v1\TournamentRule::rulesForModality($tournament->sport_type, $tournament->id);
+        \App\Models\v1\TournamentRule::firstOrCreate(['tournament_id' => $tournament->id], $ruleData);
+
         return redirect()->route('super-admin.dashboard')->with('status', 'Torneo creado correctamente.');
+    }
+
+    public function assignAdmin(Request $request, Tournament $tournament): RedirectResponse
+    {
+        abort_unless(auth()->user()?->isSuperAdmin(), 403);
+
+        $data = Validator::make($request->all(), [
+            'admin_id' => [
+                'nullable',
+                Rule::exists('users', 'id')->where(fn ($query) => $query->where('role', 'admin')->where('is_active', true)),
+            ],
+        ])->validate();
+
+        $adminId = !empty($data['admin_id']) ? $data['admin_id'] : null;
+        $tournament->update(['admin_id' => $adminId]);
+
+        $tournament->refresh()->load('admin');
+        $message = $tournament->admin
+            ? "Administrador '{$tournament->admin->name}' asignado exitosamente al torneo '{$tournament->name}'."
+            : "Se ha desvinculado el administrador del torneo '{$tournament->name}'.";
+
+        return back()->with('status', $message);
     }
 
     public function storeSport(Request $request): RedirectResponse

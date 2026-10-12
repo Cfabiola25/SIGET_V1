@@ -1,4 +1,4 @@
-﻿@extends('v1.layouts.app')
+@extends('v1.layouts.app')
 
 @section('title', 'Crear Nuevo Torneo')
 @section('header_title', 'Crear Nuevo Torneo')
@@ -66,6 +66,18 @@
                     </select>
                 </div>
 
+                @if(auth()->user()?->isSuperAdmin())
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-600 mb-1.5">Director / Administrador Responsable (Opcional)</label>
+                        <select name="admin_id" class="w-full text-sm px-3.5 py-2.5 bg-white border border-slate-300 rounded-lg focus:border-emerald-600 transition font-medium">
+                            <option value="">-- Asignar más tarde desde la lista de torneos --</option>
+                            @foreach ($activeAdmins as $admin)
+                                <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->email }})</option>
+                            @endforeach
+                        </select>
+                        <p class="text-[11px] text-slate-400 mt-1">Puedes dejarlo sin asignar y vincular al administrador después desde el panel de torneos.</p>
+                    </div>
+                @endif
 
                 <div class="grid grid-cols-2 gap-3 pt-1">
                     <div>

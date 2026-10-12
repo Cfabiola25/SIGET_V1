@@ -1,4 +1,4 @@
-﻿@extends('v1.layouts.app')
+@extends('v1.layouts.app')
 
 @section('title', 'Panel Super Admin')
 
@@ -166,7 +166,26 @@
                                     <span class="mt-0.5 block text-[11px] font-normal text-slate-400">{{ $tournament->start_date->format('d/m/Y') }} &bull; {{ $tournament->status === 'active' ? 'Activo' : ($tournament->status === 'completed' ? 'Finalizado' : 'Pendiente') }}</span>
                                 </td>
                                 <td class="py-3.5 px-4 text-slate-500">{{ $tournament->sport_type }}</td>
-                                <td class="py-3.5 px-4 text-slate-600 font-semibold">{{ $tournament->admin?->name ?? 'Sin asignar' }}</td>
+                                <td class="py-3.5 px-4">
+                                    <form method="POST" action="{{ route('super-admin.tournaments.assign-admin', $tournament) }}" class="flex items-center gap-1.5">
+                                        @csrf
+                                        @method('PATCH')
+                                        <select name="admin_id" onchange="this.form.submit()" 
+                                                class="rounded-lg border {{ $tournament->admin ? 'border-slate-200 bg-white text-slate-800 font-medium' : 'border-amber-300 bg-amber-50 text-amber-900 font-bold' }} py-1.5 px-2 text-xs focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] transition cursor-pointer">
+                                            <option value="" @selected(!$tournament->admin_id)>⚠️ Sin Asignar</option>
+                                            @foreach ($activeAdmins as $admin)
+                                                <option value="{{ $admin->id }}" @selected($tournament->admin_id === $admin->id)>
+                                                    {{ $admin->name }}
+                                                </option>
+                                            @endforeach
+                                        </select>
+                                        @if($tournament->admin)
+                                            <span class="size-2 rounded-full bg-emerald-500 shrink-0" title="Admin asignado"></span>
+                                        @else
+                                            <span class="size-2 rounded-full bg-amber-400 animate-pulse shrink-0" title="Pendiente de asignación"></span>
+                                        @endif
+                                    </form>
+                                </td>
                                 <td class="py-3.5 px-4 text-center">
                                     @if($tournament->is_featured)
                                         <span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-black bg-amber-100 text-amber-900 border border-amber-300">
@@ -232,8 +251,8 @@
                         <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none" name="start_date" type="date" required>
                         <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none" name="end_date" type="date" required>
                     </div>
-                    <select class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none" name="admin_id" required>
-                        <option value="">Selecciona admin responsable</option>
+                    <select class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none" name="admin_id">
+                        <option value="">Selecciona admin responsable (Opcional - asignar después)</option>
                         @foreach ($activeAdmins as $admin)
                             <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->email }})</option>
                         @endforeach

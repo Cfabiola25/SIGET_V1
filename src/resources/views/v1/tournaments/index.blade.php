@@ -1,4 +1,4 @@
-﻿@extends('v1.layouts.app')
+@extends('v1.layouts.app')
 
 @section('title', 'Gestión de Torneos')
 @section('header_title', 'Torneos')
@@ -22,6 +22,12 @@
             <span>+ Nuevo Torneo</span>
         </a>
     </div>
+
+    @if (session('status'))
+        <div class="rounded-xl border border-emerald-200 bg-emerald-50 p-4 text-xs font-semibold text-emerald-800">
+            {{ session('status') }}
+        </div>
+    @endif
 
     <!-- Filter Card -->
     <div class="bg-white rounded-2xl border border-slate-200/90 shadow-2xs p-5">
@@ -108,9 +114,36 @@
                             <span>Partidos</span>
                         </div>
                     </div>
+
+                    @if(auth()->user()?->isSuperAdmin())
+                        <div class="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between gap-2">
+                            <span class="text-[11px] font-bold text-slate-500 uppercase tracking-wider flex items-center gap-1 shrink-0">
+                                <svg class="size-3.5 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                                <span>Admin:</span>
+                            </span>
+                            <form method="POST" action="{{ route('super-admin.tournaments.assign-admin', $tournament) }}" class="flex-1 max-w-[210px]">
+                                @csrf
+                                @method('PATCH')
+                                <select name="admin_id" onchange="this.form.submit()" 
+                                        class="w-full text-[11px] font-semibold rounded-lg border {{ $tournament->admin ? 'border-slate-200 bg-white text-slate-800' : 'border-amber-300 bg-amber-50 text-amber-900 font-bold' }} py-1.5 px-2 focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] transition cursor-pointer">
+                                    <option value="" @selected(!$tournament->admin_id)>⚠️ Sin Asignar</option>
+                                    @foreach($activeAdmins as $admin)
+                                        <option value="{{ $admin->id }}" @selected($tournament->admin_id === $admin->id)>
+                                            {{ $admin->name }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </form>
+                        </div>
+                    @elseif($tournament->admin)
+                        <div class="mt-3.5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
+                            <span class="font-medium">Director / Admin:</span>
+                            <span class="font-bold text-slate-800">{{ $tournament->admin->name }}</span>
+                        </div>
+                    @endif
                 </div>
 
-                <div class="mt-6 pt-2 flex items-center justify-between">
+                <div class="mt-5 pt-2 flex items-center justify-between">
                     <a href="{{ route('tournaments.show', $tournament) }}" class="text-xs font-bold text-emerald-700 hover:text-emerald-800 inline-flex items-center gap-1 transition">
                         <span>Administrar Torneo</span>
                         <span>&rarr;</span>

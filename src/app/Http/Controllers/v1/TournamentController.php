@@ -4,6 +4,7 @@ namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\v1\StoreTournamentRequest;
+use App\Models\User;
 use App\Models\v1\Sport;
 use App\Models\v1\Tournament;
 use App\Models\v1\TournamentRule;
@@ -40,10 +41,15 @@ class TournamentController extends Controller
             ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('start_date', '>=', $date))
             ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('end_date', '<=', $date));
 
+        $activeAdmins = $user->isSuperAdmin()
+            ? User::where('role', 'admin')->where('is_active', true)->orderBy('name')->get()
+            : collect();
+
         return view('v1.tournaments.index', [
             'tournaments' => $query->paginate(12)->withQueryString(),
             'sports' => Sport::orderBy('name')->get(),
             'filters' => $filters,
+            'activeAdmins' => $activeAdmins,
         ]);
     }
 
@@ -53,9 +59,13 @@ class TournamentController extends Controller
         abort_unless($user && ($user->isSuperAdmin() || $user->isAdmin()), 403);
 
         $sports = Sport::orderBy('name')->get();
+        $activeAdmins = $user->isSuperAdmin()
+            ? User::where('role', 'admin')->where('is_active', true)->orderBy('name')->get()
+            : collect();
 
         return view('v1.tournaments.create', [
             'sports' => $sports,
+            'activeAdmins' => $activeAdmins,
         ]);
     }
 
@@ -74,7 +84,10 @@ class TournamentController extends Controller
             'points_draw' => ['nullable', 'integer'],
             'points_loss' => ['nullable', 'integer'],
             'bonus_goals' => ['nullable', 'boolean'],
+            'admin_id' => ['nullable', 'exists:users,id'],
         ]);
+
+        $adminId = $user->isAdmin() ? $user->id : ($data['admin_id'] ?? null);
 
         $tournament = Tournament::create([
             'name' => $data['name'],
@@ -82,7 +95,7 @@ class TournamentController extends Controller
             'start_date' => $data['start_date'] ?? now(),
             'end_date' => $data['end_date'] ?? now()->addMonths(3),
             'status' => 'active',
-            'admin_id' => $user->isAdmin() ? $user->id : null,
+            'admin_id' => $adminId,
             'super_admin_id' => $user->isSuperAdmin() ? $user->id : null,
         ]);
 
@@ -116,16 +129,28 @@ class TournamentController extends Controller
     {
         $this->authorizeOrganizer($tournament);
 
+        $user = auth()->user();
+        $activeAdmins = $user && $user->isSuperAdmin()
+            ? User::where('role', 'admin')->where('is_active', true)->orderBy('name')->get()
+            : collect();
+
         return view('v1.tournaments.edit', [
             'tournament' => $tournament,
             'sports' => Sport::orderBy('name')->get(),
+            'activeAdmins' => $activeAdmins,
         ]);
     }
 
     public function update(StoreTournamentRequest $request, Tournament $tournament): RedirectResponse
     {
         $this->authorizeOrganizer($tournament, $request);
-        $tournament->update($request->validated());
+        $data = $request->validated();
+
+        if ($request->user()?->isSuperAdmin() && $request->has('admin_id')) {
+            $data['admin_id'] = $request->input('admin_id') ?: null;
+        }
+
+        $tournament->update($data);
 
         return redirect()->route('tournaments.show', $tournament);
     }
