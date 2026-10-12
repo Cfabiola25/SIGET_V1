@@ -1,4 +1,4 @@
-﻿@extends('v1.layouts.public')
+@extends('v1.layouts.public')
 
 @section('title', 'El Torneo en Tus Manos')
 
@@ -428,13 +428,13 @@
             <!-- ================= COLUMNA DERECHA: TABLA DE POSICIONES (lg:col-span-4) ================= -->
             <div id="seccion-posiciones" class="lg:col-span-4 space-y-6">
                 
-                <!-- TARJETA TABLA DE POSICIONES (IDÉNTICA A LA MAQUETA DEL USUARIO) -->
-                <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden sticky top-24">
+                <!-- TARJETA TABLA DE POSICIONES (ESTÁTICA, SIN OVERLAP CON LAS DEMÁS TARJETAS) -->
+                <div class="bg-white rounded-2xl border border-slate-200/90 shadow-xs overflow-hidden">
                     
                     <!-- Encabezado de la Tabla -->
                     <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <x-reicon name="clipboard-list" class="size-5 text-emerald-600" />
+                            <x-reicon name="clipboard-list" class="size-5 text-[#2790b0]" />
                             <h3 class="font-display text-base font-bold text-slate-900">Tabla de Posiciones</h3>
                         </div>
                     </div>
@@ -511,7 +511,7 @@
                 @if($upcomingMatches->count() > 0)
                     <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs">
                         <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
-                            <x-reicon name="calendar" class="size-4 text-emerald-600" />
+                            <x-reicon name="calendar" class="size-4 text-[#2790b0]" />
                             <h4 class="font-display text-sm font-bold text-slate-900">Próximas Fechas</h4>
                         </div>
                         <div class="space-y-2.5">
@@ -533,7 +533,7 @@
                 <!-- Ficha del Torneo -->
                 <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs text-xs space-y-3">
                     <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
-                        <x-reicon name="file-text" class="size-4 text-emerald-600" />
+                        <x-reicon name="file-text" class="size-4 text-[#2790b0]" />
                         <h4 class="font-display font-bold text-sm text-slate-900">Ficha del Torneo</h4>
                     </div>
                     <div class="space-y-2 text-slate-600">
@@ -543,7 +543,7 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-400">Estado:</span>
-                            <span class="font-bold text-emerald-700 uppercase">{{ $tournament?->status ?? 'Activo' }}</span>
+                            <span class="font-bold text-[#94ba65] uppercase">{{ $tournament?->status ?? 'Activo' }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-400">Equipos:</span>
@@ -556,7 +556,7 @@
                     </div>
                     @if($tournament?->rules)
                         <div class="pt-2 border-t border-slate-100">
-                            <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="text-emerald-700 font-bold hover:underline block text-center">
+                            <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="text-[#2790b0] font-bold hover:underline block text-center">
                                 Consultar Reglamento Oficial &rarr;
                             </a>
                         </div>
