@@ -44,7 +44,7 @@
             <x-reicon name="alert-triangle" class="size-10 text-amber-500 mx-auto block mb-3" />
             <h3 class="text-base font-bold text-slate-900">Insuficientes Equipos</h3>
             <p class="text-xs text-slate-500 max-w-md mx-auto mt-1">Se requieren al menos 2 equipos confirmados para generar un calendario de competición.</p>
-            <a href="{{ route('tournaments.show', $tournament) }}" class="mt-4 inline-block px-4 py-2 rounded-lg bg-[#2b4e72] text-white font-bold text-xs hover:bg-[#2790b0] transition">
+            <a href="{{ route('tournaments.show', $tournament) }}" class="mt-4 inline-block px-4 py-2 rounded-lg bg-[#1e3a8a] text-white font-bold text-xs hover:bg-[#0284c7] transition">
                 Ir a Gestión de Equipos
             </a>
         </div>
@@ -107,16 +107,16 @@
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Franjas Horarias Disponibles</label>
                         <div class="grid grid-cols-2 gap-2 text-xs">
                             <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700">
-                                <input type="checkbox" name="time_slots[]" value="09:00" checked class="rounded border-slate-300 accent-[#2b4e72]"> 09:00 AM
+                                <input type="checkbox" name="time_slots[]" value="09:00" checked class="rounded border-slate-300 accent-[#1e3a8a]"> 09:00 AM
                             </label>
                             <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700">
-                                <input type="checkbox" name="time_slots[]" value="11:00" checked class="rounded border-slate-300 accent-[#2b4e72]"> 11:00 AM
+                                <input type="checkbox" name="time_slots[]" value="11:00" checked class="rounded border-slate-300 accent-[#1e3a8a]"> 11:00 AM
                             </label>
                             <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700">
-                                <input type="checkbox" name="time_slots[]" value="14:00" checked class="rounded border-slate-300 accent-[#2b4e72]"> 02:00 PM
+                                <input type="checkbox" name="time_slots[]" value="14:00" checked class="rounded border-slate-300 accent-[#1e3a8a]"> 02:00 PM
                             </label>
                             <label class="flex items-center gap-2 p-2 rounded-lg bg-slate-50 border border-slate-200 text-slate-700">
-                                <input type="checkbox" name="time_slots[]" value="16:00" checked class="rounded border-slate-300 accent-[#2b4e72]"> 04:00 PM
+                                <input type="checkbox" name="time_slots[]" value="16:00" checked class="rounded border-slate-300 accent-[#1e3a8a]"> 04:00 PM
                             </label>
                         </div>
                     </div>
@@ -131,7 +131,7 @@
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
                             @foreach ($venues as $venue)
                                 <label class="flex items-center gap-2 p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-xs text-slate-800">
-                                    <input type="checkbox" name="venue_ids[]" value="{{ $venue->id }}" checked class="rounded border-slate-300 accent-[#2b4e72]">
+                                    <input type="checkbox" name="venue_ids[]" value="{{ $venue->id }}" checked class="rounded border-slate-300 accent-[#1e3a8a]">
                                     <div>
                                         <strong>{{ $venue->name }}</strong>
                                         <span class="block text-[10px] text-slate-500">{{ $venue->city }} &bull; {{ $venue->field_count }} canchas</span>
@@ -162,7 +162,7 @@
                 <a href="{{ route('tournaments.show', $tournament) }}" class="px-4 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 font-semibold text-xs hover:bg-slate-50 transition">
                     Cancelar
                 </a>
-                <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white font-bold text-xs transition shadow-xs flex items-center gap-2 cursor-pointer">
+                <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] text-white font-bold text-xs transition shadow-xs flex items-center gap-2 cursor-pointer">
                     <x-reicon name="calendar" class="size-4 text-white inline-block mr-1" /> Generar Fixture Oficial
                 </button>
             </div>

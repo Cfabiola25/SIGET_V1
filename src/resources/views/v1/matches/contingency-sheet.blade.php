@@ -132,7 +132,7 @@
             z-index: 9999;
         }
         .btn-print a, .btn-print button {
-            background: #2b4e72;
+            background: #1e3a8a;
             color: white;
             border: none;
             padding: 8px 16px;
@@ -206,7 +206,7 @@
                                 <td style="text-align: center; font-weight: bold;">{{ $p->jersey_number ?? '-' }}</td>
                                 <td>{{ $p->name }}</td>
                                 <td style="text-align: center; font-size: 8px;">{{ $p->profile?->document_number ?? 'OK' }}</td>
-                                <td style="text-align: center; font-weight: bold; color: #2b4e72;">OK</td>
+                                <td style="text-align: center; font-weight: bold; color: #1e3a8a;">OK</td>
                                 <td></td>
                             </tr>
                         @empty
@@ -239,7 +239,7 @@
                                 <td style="text-align: center; font-weight: bold;">{{ $p->jersey_number ?? '-' }}</td>
                                 <td>{{ $p->name }}</td>
                                 <td style="text-align: center; font-size: 8px;">{{ $p->profile?->document_number ?? 'OK' }}</td>
-                                <td style="text-align: center; font-weight: bold; color: #2b4e72;">OK</td>
+                                <td style="text-align: center; font-weight: bold; color: #1e3a8a;">OK</td>
                                 <td></td>
                             </tr>
                         @empty

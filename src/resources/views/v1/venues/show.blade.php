@@ -6,7 +6,7 @@
 <div class="mx-auto max-w-4xl space-y-6">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <a href="{{ route('venues.index') }}" class="text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline flex items-center gap-1">
+            <a href="{{ route('venues.index') }}" class="text-xs font-semibold uppercase tracking-wider text-[#1e3a8a] hover:underline flex items-center gap-1">
                 <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Volver a Sedes
             </a>
@@ -17,7 +17,7 @@
         <div class="flex items-center gap-2.5">
             @if ($venue->navigation_url)
                 <a href="{{ $venue->navigation_url }}" target="_blank" rel="noopener noreferrer"
-                   class="inline-flex items-center gap-2 rounded-lg bg-[#2b4e72] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#2790b0]">
+                   class="inline-flex items-center gap-2 rounded-lg bg-[#1e3a8a] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#0284c7]">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/></svg>
                     <span>Abrir en Google Maps / Waze</span>
                 </a>

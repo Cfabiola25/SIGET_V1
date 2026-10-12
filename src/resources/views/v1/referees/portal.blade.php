@@ -7,7 +7,7 @@
 <div class="space-y-8">
     
     <!-- BANNER DE PERFIL DEL ÁRBITRO -->
-    <div class="bg-gradient-to-r from-[#353432] to-[#4e4d4a] rounded-3xl p-6 sm:p-8 text-white shadow-lg border border-slate-700/60 relative overflow-hidden">
+    <div class="bg-gradient-to-r from-[#0b132b] to-[#2a385b] rounded-3xl p-6 sm:p-8 text-white shadow-lg border border-slate-700/60 relative overflow-hidden">
         <div class="absolute -right-10 -bottom-10 size-60 bg-emerald-500/10 rounded-full blur-3xl pointer-events-none"></div>
 
         <div class="relative z-10 flex flex-col sm:flex-row sm:items-center justify-between gap-6">
@@ -159,7 +159,7 @@
 
                         <!-- Consola Match Day -->
                         <a href="{{ route('matches.console', $match) }}" 
-                           class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#2b4e72] hover:bg-[#2790b0] text-white font-bold text-xs transition shadow-xs" 
+                           class="flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl bg-[#1e3a8a] hover:bg-[#0284c7] text-white font-bold text-xs transition shadow-xs" 
                            title="Llevar cronómetro, goles y tarjetas">
                             <x-reicon name="clock" class="size-3.5 text-slate-400" />
                             <span>Consola Partido</span>

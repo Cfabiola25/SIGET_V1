@@ -1,4 +1,4 @@
-@extends('v1.layouts.public')
+﻿@extends('v1.layouts.public')
 
 @section('title', 'El Torneo en Tus Manos')
 
@@ -47,7 +47,7 @@
             <!-- Botón de Acción Principal (Pill Verde como en la maqueta) -->
             <div class="mt-8 flex flex-wrap justify-center items-center gap-4">
                 <a href="#seccion-partidos" 
-                   class="inline-flex items-center gap-2.5 rounded-full bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] px-8 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xl shadow-emerald-950/40 transition transform hover:-translate-y-0.5 group">
+                   class="inline-flex items-center gap-2.5 rounded-full bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] px-8 py-3.5 text-xs sm:text-sm font-extrabold uppercase tracking-wider text-white shadow-xl shadow-emerald-950/40 transition transform hover:-translate-y-0.5 group">
                     <span>VER CALENDARIO</span>
                     <svg class="size-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/></svg>
                 </a>
@@ -107,7 +107,7 @@
                             <span>{{ $tournament?->name ?? 'Torneo Activo' }}</span>
                         </span>
                         @if($allTournaments->where('is_featured', true)->isNotEmpty())
-                            <a href="{{ url('/') }}" class="text-xs text-[#2b4e72] font-bold hover:underline ml-1">
+                            <a href="{{ url('/') }}" class="text-xs text-[#1e3a8a] font-bold hover:underline ml-1">
                                 (Volver al Principal)
                             </a>
                         @endif
@@ -241,7 +241,7 @@
                                 <div class="mt-4 pt-3 border-t border-slate-100">
                                     <button type="button" 
                                             onclick="openMatchLiveModal({{ $match->id }}, '{{ addslashes($match->homeTeam?->name ?? 'Local') }}', '{{ addslashes($match->awayTeam?->name ?? 'Visitante') }}', {{ $match->home_score ?? 0 }}, {{ $match->away_score ?? 0 }}, '{{ $match->status }}', '{{ $match->formatted_clock ?? '00:00' }}')"
-                                            class="w-full rounded-xl bg-slate-50 hover:bg-[#2b4e72] text-slate-700 hover:text-white px-3 py-2 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#2b4e72]">
+                                            class="w-full rounded-xl bg-slate-50 hover:bg-[#1e3a8a] text-slate-700 hover:text-white px-3 py-2 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#1e3a8a]">
                                         <x-reicon name="star" variant="filled" class="size-3.5 text-amber-400 group-hover:text-amber-300" />
                                         <span>Detalles / Votar MVP</span>
                                     </button>
@@ -293,7 +293,7 @@
 
                                     <!-- Contenido de la Crónica -->
                                     <div class="flex-1 space-y-2">
-                                        <div class="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-[#2b4e72]">
+                                        <div class="flex items-center gap-2 text-[11px] font-black uppercase tracking-wider text-[#1e3a8a]">
                                             <span>{{ $chronicle->tournament?->name ?? 'Fútbol Oficial' }}</span>
                                             <span class="text-slate-300">&bull;</span>
                                             <span class="text-slate-500 font-mono">{{ $chronicle->homeTeam?->name }} vs {{ $chronicle->awayTeam?->name }}</span>
@@ -311,7 +311,7 @@
 
                                         <div class="pt-2 flex items-center justify-between text-xs text-slate-400 font-medium border-t border-slate-100">
                                             <span>{{ $chronicle->chronicle_generated_at ? $chronicle->chronicle_generated_at->format('d M, Y • H:i') : ($chronicle->match_date ? $chronicle->match_date->format('d M, Y') : date('d M, Y')) }}</span>
-                                            <a href="{{ route('matches.show', $chronicle) }}" class="font-bold text-[#2b4e72] hover:underline flex items-center gap-1">
+                                            <a href="{{ route('matches.show', $chronicle) }}" class="font-bold text-[#1e3a8a] hover:underline flex items-center gap-1">
                                                 <span>Leer Crónica Completa</span>
                                                 <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                                             </a>
@@ -434,7 +434,7 @@
                     <!-- Encabezado de la Tabla -->
                     <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
                         <div class="flex items-center gap-2">
-                            <x-reicon name="clipboard-list" class="size-5 text-[#2790b0]" />
+                            <x-reicon name="clipboard-list" class="size-5 text-[#0284c7]" />
                             <h3 class="font-display text-base font-bold text-slate-900">Tabla de Posiciones</h3>
                         </div>
                     </div>
@@ -501,7 +501,7 @@
                     <!-- Botón VER TABLA COMPLETA al Pie (Igual que la maqueta) -->
                     <div class="p-4 border-t border-slate-100 text-center bg-slate-50/50">
                         <a href="{{ route('standings.index') }}" 
-                           class="inline-block text-xs font-black uppercase tracking-wider text-[#2b4e72] hover:text-[#2790b0] hover:underline transition py-1">
+                           class="inline-block text-xs font-black uppercase tracking-wider text-[#1e3a8a] hover:text-[#0284c7] hover:underline transition py-1">
                             VER TABLA COMPLETA
                         </a>
                     </div>
@@ -511,7 +511,7 @@
                 @if($upcomingMatches->count() > 0)
                     <div class="bg-white rounded-2xl border border-slate-200/90 p-4 shadow-xs">
                         <div class="flex items-center gap-2 mb-3 pb-2 border-b border-slate-100">
-                            <x-reicon name="calendar" class="size-4 text-[#2790b0]" />
+                            <x-reicon name="calendar" class="size-4 text-[#0284c7]" />
                             <h4 class="font-display text-sm font-bold text-slate-900">Próximas Fechas</h4>
                         </div>
                         <div class="space-y-2.5">
@@ -533,7 +533,7 @@
                 <!-- Ficha del Torneo -->
                 <div class="bg-white rounded-2xl border border-slate-200/90 p-5 shadow-xs text-xs space-y-3">
                     <div class="flex items-center gap-2 pb-2 border-b border-slate-100">
-                        <x-reicon name="file-text" class="size-4 text-[#2790b0]" />
+                        <x-reicon name="file-text" class="size-4 text-[#0284c7]" />
                         <h4 class="font-display font-bold text-sm text-slate-900">Ficha del Torneo</h4>
                     </div>
                     <div class="space-y-2 text-slate-600">
@@ -543,7 +543,7 @@
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-400">Estado:</span>
-                            <span class="font-bold text-[#94ba65] uppercase">{{ $tournament?->status ?? 'Activo' }}</span>
+                            <span class="font-bold text-[#16a34a] uppercase">{{ $tournament?->status ?? 'Activo' }}</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-slate-400">Equipos:</span>
@@ -556,7 +556,7 @@
                     </div>
                     @if($tournament?->rules)
                         <div class="pt-2 border-t border-slate-100">
-                            <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="text-[#2790b0] font-bold hover:underline block text-center">
+                            <a href="{{ route('tournaments.rules.edit', $tournament) }}" class="text-[#0284c7] font-bold hover:underline block text-center">
                                 Consultar Reglamento Oficial &rarr;
                             </a>
                         </div>
@@ -607,7 +607,7 @@
                         <select id="mvpPlayerSelect" name="player_id" required class="flex-1 rounded-lg border border-slate-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-emerald-600 focus:outline-none">
                             <option value="">Selecciona el jugador para el MVP...</option>
                         </select>
-                        <button type="submit" id="btnSubmitMvp" class="rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] text-white font-bold px-5 py-2 text-xs uppercase tracking-wider transition shadow-sm active:scale-95">
+                        <button type="submit" id="btnSubmitMvp" class="rounded-lg bg-[#1e3a8a] hover:bg-[#0284c7] text-white font-bold px-5 py-2 text-xs uppercase tracking-wider transition shadow-sm active:scale-95">
                             Votar
                         </button>
                     </div>

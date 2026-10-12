@@ -8,11 +8,11 @@
     <div class="rounded-2xl border border-slate-200/90 bg-white p-6 md:p-8 shadow-2xs">
         <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div class="flex items-center gap-5">
-                <span class="grid size-16 place-items-center rounded-2xl bg-emerald-50 text-3xl font-black text-[#2b4e72] border border-emerald-100 shadow-2xs">
+                <span class="grid size-16 place-items-center rounded-2xl bg-emerald-50 text-3xl font-black text-[#1e3a8a] border border-emerald-100 shadow-2xs">
                     <x-reicon name="shield-check" class="size-6 text-emerald-600 inline-block" />
                 </span>
                 <div>
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2b4e72]">
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#1e3a8a]">
                         <a href="{{ route('tournaments.show', $team->tournament) }}" class="hover:underline">← {{ $team->tournament->name }}</a>
                         <span class="text-slate-300">•</span>
                         <span class="rounded-full bg-emerald-50 px-2.5 py-0.5 text-[10px] font-bold text-emerald-800 border border-emerald-200">
@@ -33,7 +33,7 @@
 
             <div class="flex flex-wrap items-center gap-2.5">
                 @if (auth()->check() && (auth()->id() === $team->captain_id || auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $team->tournament->admin_id === auth()->id())))
-                    <a href="{{ route('dt.dashboard', $team) }}" class="rounded-lg bg-[#2b4e72] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#2790b0] flex items-center gap-1.5">
+                    <a href="{{ route('dt.dashboard', $team) }}" class="rounded-lg bg-[#1e3a8a] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#0284c7] flex items-center gap-1.5">
                         <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
                         <span>Panel de DT</span>
                     </a>
@@ -71,7 +71,7 @@
                     <x-reicon name="clipboard-list" class="size-4 text-slate-500 inline-block mr-1" /> Copiar Enlace
                 </button>
                 <a href="{{ $invite['whatsapp_url'] }}" target="_blank" rel="noopener noreferrer"
-                   class="rounded-lg bg-[#2b4e72] px-4 py-2 text-xs font-semibold text-white hover:bg-[#2790b0] transition shrink-0 shadow-2xs">
+                   class="rounded-lg bg-[#1e3a8a] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0284c7] transition shrink-0 shadow-2xs">
                     <x-reicon name="chat" class="size-4 text-emerald-600 inline-block mr-1" /> Enviar por WhatsApp
                 </a>
             </div>
@@ -93,14 +93,14 @@
                 @csrf
                 <div>
                     <label for="recipient_name" class="block text-xs font-semibold text-slate-700 mb-1">Nombre del DT</label>
-                    <input type="text" id="recipient_name" name="recipient_name" placeholder="Ej: Profe Juan Gómez" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none" />
+                    <input type="text" id="recipient_name" name="recipient_name" placeholder="Ej: Profe Juan Gómez" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none" />
                 </div>
                 <div>
                     <label for="recipient_phone" class="block text-xs font-semibold text-slate-700 mb-1">Teléfono / WhatsApp</label>
-                    <input type="text" id="recipient_phone" name="recipient_phone" placeholder="Ej: 3101234567" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none" />
+                    <input type="text" id="recipient_phone" name="recipient_phone" placeholder="Ej: 3101234567" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none" />
                 </div>
                 <div class="flex items-end">
-                    <button type="submit" class="w-full rounded-lg bg-[#2b4e72] py-2 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
+                    <button type="submit" class="w-full rounded-lg bg-[#1e3a8a] py-2 text-xs font-semibold text-white hover:bg-[#0284c7] transition shadow-2xs">
                         Generar Magic Link
                     </button>
                 </div>

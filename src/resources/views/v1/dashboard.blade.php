@@ -63,7 +63,7 @@
                             <h4 class="font-bold text-slate-900 text-sm">{{ $team->name }}</h4>
                             <p class="text-xs text-slate-400">{{ $team->tournament?->name ?? 'Sin torneo asignado' }}</p>
                         </div>
-                        <a href="{{ route('dt.dashboard', $team) }}" class="text-xs font-bold text-[#2b4e72] hover:underline">
+                        <a href="{{ route('dt.dashboard', $team) }}" class="text-xs font-bold text-[#1e3a8a] hover:underline">
                             Panel DT &rarr;
                         </a>
                     </div>

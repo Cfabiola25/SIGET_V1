@@ -8,7 +8,7 @@
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('admin.scouting.index') }}" class="text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline flex items-center gap-1">
+                <a href="{{ route('admin.scouting.index') }}" class="text-xs font-semibold uppercase tracking-wider text-[#1e3a8a] hover:underline flex items-center gap-1">
                     <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     Volver al Radar de Scouting
                 </a>
@@ -18,7 +18,7 @@
         </div>
 
         <div class="flex items-center gap-3">
-            <a href="{{ route('admin.scouting.index') }}" class="inline-flex items-center gap-2 rounded-lg bg-[#2b4e72] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
+            <a href="{{ route('admin.scouting.index') }}" class="inline-flex items-center gap-2 rounded-lg bg-[#1e3a8a] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#0284c7] transition shadow-2xs">
                 <x-reicon name="search" class="size-4" />
                 <span>Explorar Agentes Libres</span>
             </a>
@@ -69,7 +69,7 @@
                                         {{ strtoupper(substr($req->player->name, 0, 2)) }}
                                     </span>
                                     <div>
-                                        <a href="{{ route('scouting.show', $req->player) }}" class="hover:text-[#2b4e72] hover:underline">
+                                        <a href="{{ route('scouting.show', $req->player) }}" class="hover:text-[#1e3a8a] hover:underline">
                                             {{ $req->player->name }}
                                         </a>
                                         <div class="text-[10px] text-slate-400 font-normal">
@@ -122,7 +122,7 @@
                                     <div class="flex items-center justify-end gap-2">
                                         <form method="POST" action="{{ route('scouting.requests.accept', $req) }}" onsubmit="return confirm('¿Aceptar propuesta y oficializar el fichaje de {{ $req->player->name }} por el club {{ $req->team->name }}?');">
                                             @csrf
-                                            <button type="submit" class="px-3 py-1.5 bg-[#2b4e72] hover:bg-[#2790b0] text-white rounded-lg text-xs font-bold transition shadow-2xs">
+                                            <button type="submit" class="px-3 py-1.5 bg-[#1e3a8a] hover:bg-[#0284c7] text-white rounded-lg text-xs font-bold transition shadow-2xs">
                                                 Aceptar Fichaje
                                             </button>
                                         </form>

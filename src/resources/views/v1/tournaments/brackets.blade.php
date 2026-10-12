@@ -86,7 +86,7 @@
                 </div>
 
                 <div class="pt-4 flex justify-end">
-                    <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white font-bold text-xs transition shadow-xs flex items-center gap-2 cursor-pointer">
+                    <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] text-white font-bold text-xs transition shadow-xs flex items-center gap-2 cursor-pointer">
                         <x-reicon name="bolt" class="size-4 text-amber-500 inline-block mr-1" /> Activar Llaves de Eliminación Directa
                     </button>
                 </div>

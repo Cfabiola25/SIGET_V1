@@ -39,7 +39,7 @@
             <!-- Torneo -->
             <div class="sm:col-span-5">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Filtrar por Torneo</label>
-                <select name="tournament_id" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition" onchange="this.form.submit()">
+                <select name="tournament_id" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todos los Torneos</option>
                     @foreach($tournaments as $t)
                         <option value="{{ $t->id }}" @selected(($tournamentId ?? '') == $t->id)>
@@ -56,13 +56,13 @@
                        name="search" 
                        value="{{ $search ?? '' }}" 
                        placeholder="Ej: América, Ancelotti, Millonarios..." 
-                       class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition">
+                       class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition">
             </div>
 
             <!-- Botones -->
             <div class="sm:col-span-2 flex items-center gap-2">
                 <button type="submit" 
-                        class="w-full rounded-xl bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs font-bold py-2.5 px-4 shadow-2xs transition text-center">
+                        class="w-full rounded-xl bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] text-white text-xs font-bold py-2.5 px-4 shadow-2xs transition text-center">
                     Buscar
                 </button>
                 @if(!empty($search) || !empty($tournamentId))
@@ -94,10 +94,10 @@
 
                 <!-- Escudo y Nombre Central -->
                 <div class="p-6 flex flex-col items-center text-center">
-                    <div class="size-20 rounded-2xl bg-emerald-50 border border-emerald-200 text-[#2b4e72] font-black text-2xl flex items-center justify-center shadow-2xs group-hover:scale-105 transition">
-                        <x-reicon name="shield-check" class="size-9 text-[#2b4e72]" />
+                    <div class="size-20 rounded-2xl bg-emerald-50 border border-emerald-200 text-[#1e3a8a] font-black text-2xl flex items-center justify-center shadow-2xs group-hover:scale-105 transition">
+                        <x-reicon name="shield-check" class="size-9 text-[#1e3a8a]" />
                     </div>
-                    <h3 class="mt-3.5 font-display text-lg font-bold text-slate-900 group-hover:text-[#2b4e72] transition leading-snug">
+                    <h3 class="mt-3.5 font-display text-lg font-bold text-slate-900 group-hover:text-[#1e3a8a] transition leading-snug">
                         {{ $team->name }}
                     </h3>
                     
@@ -122,7 +122,7 @@
                 <!-- Botón de Acción -->
                 <div class="p-4 pt-0">
                     <a href="{{ route('teams.show', $team) }}" 
-                       class="w-full rounded-xl bg-slate-50 hover:bg-[#2b4e72] text-slate-700 hover:text-white px-4 py-2.5 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#2b4e72] shadow-2xs">
+                       class="w-full rounded-xl bg-slate-50 hover:bg-[#1e3a8a] text-slate-700 hover:text-white px-4 py-2.5 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#1e3a8a] shadow-2xs">
                         <span>Ver Plantel & Perfil</span>
                         <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                     </a>

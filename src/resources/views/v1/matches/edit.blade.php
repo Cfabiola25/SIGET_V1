@@ -6,7 +6,7 @@
 <div class="max-w-2xl mx-auto space-y-6">
     <div class="flex items-center justify-between">
         <div>
-            <a href="{{ route('matches.show', $match) }}" class="text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline flex items-center gap-1">
+            <a href="{{ route('matches.show', $match) }}" class="text-xs font-semibold uppercase tracking-wider text-[#1e3a8a] hover:underline flex items-center gap-1">
                 <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Volver al Partido
             </a>
@@ -41,7 +41,7 @@
                                min="0" 
                                value="{{ old('home_score', $match->home_score ?? 0) }}" 
                                required 
-                               class="w-24 text-center text-3xl font-black font-mono rounded-xl border border-slate-300 bg-white py-2 text-slate-900 shadow-inner focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72] focus:outline-none">
+                               class="w-24 text-center text-3xl font-black font-mono rounded-xl border border-slate-300 bg-white py-2 text-slate-900 shadow-inner focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] focus:outline-none">
                     </div>
                 </div>
 
@@ -55,7 +55,7 @@
                                min="0" 
                                value="{{ old('away_score', $match->away_score ?? 0) }}" 
                                required 
-                               class="w-24 text-center text-3xl font-black font-mono rounded-xl border border-slate-300 bg-white py-2 text-slate-900 shadow-inner focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72] focus:outline-none">
+                               class="w-24 text-center text-3xl font-black font-mono rounded-xl border border-slate-300 bg-white py-2 text-slate-900 shadow-inner focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a] focus:outline-none">
                     </div>
                 </div>
             </div>
@@ -63,7 +63,7 @@
             <!-- Match Status Selector -->
             <div>
                 <label for="status" class="block text-xs font-semibold text-slate-700 mb-1.5">Estado del Encuentro</label>
-                <select name="status" id="status" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 font-medium focus:border-[#2b4e72] focus:outline-none">
+                <select name="status" id="status" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 font-medium focus:border-[#1e3a8a] focus:outline-none">
                     <option value="played" {{ old('status', $match->status) === 'played' ? 'selected' : '' }}>Finalizado (Jugado con resultado oficial)</option>
                     <option value="scheduled" {{ old('status', $match->status) === 'scheduled' ? 'selected' : '' }}>Programado</option>
                     <option value="in_progress" {{ old('status', $match->status) === 'in_progress' ? 'selected' : '' }}>En Progreso / Disputándose</option>
@@ -75,7 +75,7 @@
                 <a href="{{ route('matches.show', $match) }}" class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                     Cancelar
                 </a>
-                <button type="submit" class="rounded-lg bg-[#2b4e72] px-6 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-[#2790b0] transition flex items-center gap-1.5">
+                <button type="submit" class="rounded-lg bg-[#1e3a8a] px-6 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-[#0284c7] transition flex items-center gap-1.5">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     <span>Guardar Marcador</span>
                 </button>

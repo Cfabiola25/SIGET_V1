@@ -3,10 +3,10 @@
 @php
     $styles = match ($variant) {
         'secondary' => 'border border-slate-300 bg-white text-slate-700 hover:bg-slate-50 shadow-xs',
-        'coral', 'primary' => 'bg-[#2b4e72] text-white shadow-xs hover:bg-[#2790b0] active:bg-[#1e3852]',
+        'coral', 'primary' => 'bg-[#1e3a8a] text-white shadow-xs hover:bg-[#0284c7] active:bg-[#172554]',
         'danger' => 'bg-rose-600 text-white shadow-xs hover:bg-rose-700 active:bg-rose-800',
         'ghost' => 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
-        default => 'bg-[#2b4e72] text-white shadow-xs hover:bg-[#2790b0] active:bg-[#1e3852]',
+        default => 'bg-[#1e3a8a] text-white shadow-xs hover:bg-[#0284c7] active:bg-[#172554]',
     };
 @endphp
 

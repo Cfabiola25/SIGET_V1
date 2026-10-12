@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -34,12 +34,12 @@
 </head>
 <body class="min-h-screen bg-[#f4f6fa] text-slate-900 font-sans antialiased">
     <main class="grid min-h-screen lg:grid-cols-[480px_1fr]">
-        <!-- Left Brand Sidebar (Dark Navy #353432 matching sidebar) -->
-        <section class="hidden lg:flex flex-col justify-between bg-[#353432] p-12 text-white border-r border-[#4e4d4a]">
+        <!-- Left Brand Sidebar (Dark Navy #0b132b matching sidebar) -->
+        <section class="hidden lg:flex flex-col justify-between bg-[#0b132b] p-12 text-white border-r border-[#2a385b]">
             <div>
                 <!-- Brand Logo & Badge -->
                 <div class="flex items-center gap-3">
-                    <span class="grid size-10 place-items-center rounded-xl bg-[#2b4e72] text-base font-extrabold text-white shadow-md">
+                    <span class="grid size-10 place-items-center rounded-xl bg-[#1e3a8a] text-base font-extrabold text-white shadow-md">
                         S
                     </span>
                     <div>
@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="mt-20 space-y-6">
-                    <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#2b4e72]/20 text-emerald-400 border border-[#2b4e72]/40">
+                    <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#1e3a8a]/20 text-emerald-400 border border-[#1e3a8a]/40">
                         Panel Administrativo Oficial
                     </span>
                     <h1 class="text-3xl font-extrabold tracking-tight text-white leading-tight">
@@ -90,7 +90,7 @@
             <div class="w-full max-w-md">
                 <!-- Mobile Logo -->
                 <div class="flex items-center gap-3 mb-8 lg:hidden">
-                    <span class="grid size-9 place-items-center rounded-xl bg-[#2b4e72] text-sm font-extrabold text-white">S</span>
+                    <span class="grid size-9 place-items-center rounded-xl bg-[#1e3a8a] text-sm font-extrabold text-white">S</span>
                     <div>
                         <span class="text-base font-black text-slate-900">SIGET</span>
                         <p class="text-[10px] text-slate-500">Director de Torneo</p>
@@ -125,7 +125,7 @@
                                    autocomplete="email" 
                                    required 
                                    autofocus
-                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72]"
+                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
                                    placeholder="director@siget.com">
                         </div>
 
@@ -138,19 +138,19 @@
                                    type="password" 
                                    autocomplete="current-password" 
                                    required
-                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72]"
+                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#1e3a8a] focus:ring-1 focus:ring-[#1e3a8a]"
                                    placeholder="••••••••">
                         </div>
 
                         <div class="flex items-center justify-between pt-1">
                             <label for="remember" class="flex cursor-pointer items-center gap-2 text-xs text-slate-600">
-                                <input id="remember" name="remember" type="checkbox" value="1" class="size-4 rounded border-slate-300 text-[#2b4e72] focus:ring-[#2b4e72]">
+                                <input id="remember" name="remember" type="checkbox" value="1" class="size-4 rounded border-slate-300 text-[#1e3a8a] focus:ring-[#1e3a8a]">
                                 <span>Recordar mi sesión</span>
                             </label>
                         </div>
 
                         <div class="pt-2">
-                            <button type="submit" class="w-full rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] py-2.5 text-xs font-semibold text-white shadow-2xs transition">
+                            <button type="submit" class="w-full rounded-lg bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] py-2.5 text-xs font-semibold text-white shadow-2xs transition">
                                 Entrar a SIGET
                             </button>
                         </div>
@@ -158,7 +158,7 @@
 
                     <div class="mt-6 border-t border-slate-100 pt-5 text-center text-xs text-slate-500">
                         ¿No tienes una cuenta aún?
-                        <a href="{{ route('register') }}" class="font-semibold text-[#2b4e72] hover:underline ml-1">Crear Cuenta</a>
+                        <a href="{{ route('register') }}" class="font-semibold text-[#1e3a8a] hover:underline ml-1">Crear Cuenta</a>
                     </div>
                 </div>
             </div>

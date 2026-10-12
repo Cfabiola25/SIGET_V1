@@ -21,7 +21,7 @@
     </div>
 
     <!-- Escáner Activo de Carnet QR -->
-    <div class="rounded-3xl border border-slate-800 bg-[#353432] p-6 shadow-xl text-white">
+    <div class="rounded-3xl border border-slate-800 bg-[#0b132b] p-6 shadow-xl text-white">
         <div class="text-center">
             <x-reicon name="camera" class="size-8 text-emerald-400 mx-auto" />
             <h2 class="mt-2 text-lg font-black text-white">Escaneo Rápido de Carnet</h2>

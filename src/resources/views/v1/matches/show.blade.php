@@ -8,7 +8,7 @@
     <div class="rounded-2xl border border-slate-200/90 bg-white p-6 md:p-8 shadow-2xs">
         <div class="flex items-center justify-between border-b border-slate-100 pb-4">
             <div class="flex items-center gap-2">
-                <a href="{{ route('matches.index') }}" class="text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline flex items-center gap-1">
+                <a href="{{ route('matches.index') }}" class="text-xs font-semibold uppercase tracking-wider text-[#1e3a8a] hover:underline flex items-center gap-1">
                     <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     Partidos
                 </a>
@@ -34,8 +34,8 @@
         <div class="my-6 grid grid-cols-3 items-center text-center">
             <!-- Equipo Local -->
             <div class="space-y-2">
-                <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-emerald-50 text-[#2b4e72] border border-emerald-100 shadow-2xs">
-                    <x-reicon name="football" class="size-8 text-[#2b4e72]" />
+                <div class="mx-auto grid size-16 place-items-center rounded-2xl bg-emerald-50 text-[#1e3a8a] border border-emerald-100 shadow-2xs">
+                    <x-reicon name="football" class="size-8 text-[#1e3a8a]" />
                 </div>
                 <h2 class="text-lg font-bold text-slate-900 md:text-2xl">{{ $match->homeTeam?->name ?? 'Por definir' }}</h2>
                 <span class="inline-block text-[11px] font-bold text-slate-400 uppercase tracking-wider">Local</span>
@@ -57,7 +57,7 @@
                         <span>{{ $match->venue->name }}</span>
                         @if ($match->field_number) <span>(Cancha {{ $match->field_number }})</span> @endif
                         @if ($match->venue->navigation_url)
-                            • <a href="{{ $match->venue->navigation_url }}" target="_blank" class="text-[#2b4e72] font-semibold hover:underline">GPS</a>
+                            • <a href="{{ $match->venue->navigation_url }}" target="_blank" class="text-[#1e3a8a] font-semibold hover:underline">GPS</a>
                         @endif
                     </p>
                 @endif
@@ -85,7 +85,7 @@
                 @auth
                     @if (auth()->user()->isSuperAdmin() || (auth()->user()->isAdmin() && $match->tournament->admin_id === auth()->id()))
                         @if (! $match->isLocked())
-                            <a href="{{ route('matches.console', $match) }}" class="inline-flex items-center gap-1.5 rounded-lg bg-[#2b4e72] px-4 py-2 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
+                            <a href="{{ route('matches.console', $match) }}" class="inline-flex items-center gap-1.5 rounded-lg bg-[#1e3a8a] px-4 py-2 text-xs font-semibold text-white hover:bg-[#0284c7] transition shadow-2xs">
                                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                                 <span>Consola Arbitral</span>
                             </a>
@@ -371,7 +371,7 @@
                     <div class="grid grid-cols-1 gap-4 sm:grid-cols-4">
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Desempeño General</label>
-                            <select name="score_overall" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-amber-600 focus:border-[#2b4e72] focus:outline-none">
+                            <select name="score_overall" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-bold text-amber-600 focus:border-[#1e3a8a] focus:outline-none">
                                 <option value="5">5 estrellas (Excelente)</option>
                                 <option value="4">4 estrellas (Bueno)</option>
                                 <option value="3">3 estrellas (Regular)</option>
@@ -381,7 +381,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Aplicación del Reglamento</label>
-                            <select name="score_rule_enforcement" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                            <select name="score_rule_enforcement" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                                 <option value="5">5/5 - Rigor perfecto</option>
                                 <option value="4">4/5 - Adecuado</option>
                                 <option value="3">3/5 - Dudas en faltas</option>
@@ -391,7 +391,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Imparcialidad y Criterio</label>
-                            <select name="score_fairness" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                            <select name="score_fairness" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                                 <option value="5">5/5 - Totalmente neutral</option>
                                 <option value="4">4/5 - Buen criterio</option>
                                 <option value="3">3/5 - Criterio dispar</option>
@@ -401,7 +401,7 @@
                         </div>
                         <div>
                             <label class="block text-xs font-semibold text-slate-600 mb-1">Puntualidad y Presentación</label>
-                            <select name="score_punctuality" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                            <select name="score_punctuality" class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                                 <option value="5">5/5 - Impecable</option>
                                 <option value="4">4/5 - A tiempo</option>
                                 <option value="3">3/5 - Justo al inicio</option>
@@ -412,10 +412,10 @@
                     </div>
 
                     <div>
-                        <textarea name="comments" rows="2" placeholder="Observaciones técnicas para el comité de arbitraje (opcional)..." class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none"></textarea>
+                        <textarea name="comments" rows="2" placeholder="Observaciones técnicas para el comité de arbitraje (opcional)..." class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none"></textarea>
                     </div>
 
-                    <button type="submit" class="rounded-lg bg-[#2b4e72] px-5 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-[#2790b0] transition">
+                    <button type="submit" class="rounded-lg bg-[#1e3a8a] px-5 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-[#0284c7] transition">
                         Enviar Calificación Arbitral Oficial
                     </button>
                 </form>

@@ -39,7 +39,7 @@
             <!-- Torneo -->
             <div class="lg:col-span-4">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Torneo</label>
-                <select name="tournament_id" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition" onchange="this.form.submit()">
+                <select name="tournament_id" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todos los Torneos</option>
                     @foreach($tournaments as $t)
                         <option value="{{ $t->id }}" @selected(($selectedTournamentId ?? '') == $t->id)>
@@ -52,7 +52,7 @@
             <!-- Estado -->
             <div class="lg:col-span-3">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Estado del Encuentro</label>
-                <select name="status" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition" onchange="this.form.submit()">
+                <select name="status" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todos los Estados</option>
                     <option value="scheduled" @selected(($filters['status'] ?? '') === 'scheduled')>Programados</option>
                     <option value="live" @selected(($filters['status'] ?? '') === 'live')>En Vivo</option>
@@ -68,13 +68,13 @@
                        name="search" 
                        value="{{ $filters['search'] ?? '' }}" 
                        placeholder="Ej: Nacional, Millonarios..." 
-                       class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition">
+                       class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition">
             </div>
 
             <!-- Botones -->
             <div class="lg:col-span-2 flex items-center gap-2">
                 <button type="submit" 
-                        class="w-full rounded-xl bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs font-bold py-2.5 px-4 shadow-2xs transition text-center">
+                        class="w-full rounded-xl bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] text-white text-xs font-bold py-2.5 px-4 shadow-2xs transition text-center">
                     Filtrar
                 </button>
                 @if(!empty($filters['search']) || !empty($filters['status']) || !empty($selectedTournamentId))
@@ -147,7 +147,7 @@
                     
                     <!-- Equipo Local -->
                     <div class="flex-1 flex flex-col items-center text-center">
-                        <div class="size-13 rounded-2xl bg-emerald-50 border border-emerald-200 text-[#2b4e72] font-black text-sm flex items-center justify-center shadow-2xs group-hover:scale-105 transition">
+                        <div class="size-13 rounded-2xl bg-emerald-50 border border-emerald-200 text-[#1e3a8a] font-black text-sm flex items-center justify-center shadow-2xs group-hover:scale-105 transition">
                             {{ strtoupper(substr($match->homeTeam?->name ?? 'LOC', 0, 2)) }}
                         </div>
                         <h3 class="mt-2 text-xs font-bold text-slate-900 line-clamp-1 max-w-[120px]" title="{{ $match->homeTeam?->name }}">
@@ -201,7 +201,7 @@
 
                     <!-- Botón a la Ficha del Partido -->
                     <a href="{{ route('matches.show', $match) }}" 
-                       class="w-full rounded-xl bg-slate-50 hover:bg-[#2b4e72] text-slate-700 hover:text-white px-4 py-2.5 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#2b4e72] shadow-2xs">
+                       class="w-full rounded-xl bg-slate-50 hover:bg-[#1e3a8a] text-slate-700 hover:text-white px-4 py-2.5 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#1e3a8a] shadow-2xs">
                         <span>Ver Ficha de Partido & Estadísticas</span>
                         <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                     </a>
@@ -214,7 +214,7 @@
                 <h3 class="text-base font-bold text-slate-800">No se encontraron partidos</h3>
                 <p class="text-xs text-slate-500 mt-1">Intenta ajustando los filtros de torneo, estado o búsqueda.</p>
                 <div class="mt-4">
-                    <a href="{{ route('matches.index') }}" class="inline-block text-xs font-bold text-[#2b4e72] hover:underline">
+                    <a href="{{ route('matches.index') }}" class="inline-block text-xs font-bold text-[#1e3a8a] hover:underline">
                         Limpiar todos los filtros
                     </a>
                 </div>

@@ -39,7 +39,7 @@
             <!-- Posición -->
             <div class="lg:col-span-3">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Posición</label>
-                <select name="position" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition" onchange="this.form.submit()">
+                <select name="position" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todas las Posiciones</option>
                     <option value="goalkeeper" @selected(($filters['position'] ?? '') === 'goalkeeper')>Portero</option>
                     <option value="defender" @selected(($filters['position'] ?? '') === 'defender')>Defensa</option>
@@ -51,7 +51,7 @@
             <!-- Pierna Hábil -->
             <div class="lg:col-span-3">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Pierna Hábil</label>
-                <select name="preferred_foot" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition" onchange="this.form.submit()">
+                <select name="preferred_foot" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition" onchange="this.form.submit()">
                     <option value="">Cualquier perfil</option>
                     <option value="right" @selected(($filters['preferred_foot'] ?? '') === 'right')>Diestro</option>
                     <option value="left" @selected(($filters['preferred_foot'] ?? '') === 'left')>Zurdo</option>
@@ -62,7 +62,7 @@
             <!-- Calificación Mínima -->
             <div class="lg:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Rating Mínimo</label>
-                <select name="min_rating" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition" onchange="this.form.submit()">
+                <select name="min_rating" class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition" onchange="this.form.submit()">
                     <option value="">Todos</option>
                     <option value="8.0" @selected(($filters['min_rating'] ?? '') == '8.0')>8.0 o más</option>
                     <option value="8.5" @selected(($filters['min_rating'] ?? '') == '8.5')>8.5 o más</option>
@@ -74,13 +74,13 @@
             <div class="lg:col-span-2">
                 <label class="block text-xs font-bold text-slate-700 mb-1.5">Nombre</label>
                 <input type="text" name="search" value="{{ $filters['search'] ?? '' }}" placeholder="Buscar talento..." 
-                       class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#2b4e72] outline-none transition">
+                       class="w-full text-xs font-medium px-3.5 py-2.5 bg-slate-50 border border-slate-200 rounded-xl focus:bg-white focus:border-[#1e3a8a] outline-none transition">
             </div>
 
             <!-- Botones -->
             <div class="lg:col-span-2 flex items-center gap-2">
                 <button type="submit" 
-                        class="w-full rounded-xl bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs font-bold py-2.5 px-4 shadow-2xs transition text-center">
+                        class="w-full rounded-xl bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] text-white text-xs font-bold py-2.5 px-4 shadow-2xs transition text-center">
                     Explorar
                 </button>
                 @if(!empty($filters))
@@ -117,7 +117,7 @@
                         {{ strtoupper(substr($agent->name, 0, 2)) }}
                     </div>
 
-                    <h3 class="mt-3.5 font-display text-base font-bold text-slate-900 group-hover:text-[#2b4e72] transition line-clamp-1">
+                    <h3 class="mt-3.5 font-display text-base font-bold text-slate-900 group-hover:text-[#1e3a8a] transition line-clamp-1">
                         {{ $agent->name }}
                     </h3>
 
@@ -141,7 +141,7 @@
                 <!-- Botón de Ficha de Scouting -->
                 <div class="p-4 pt-0">
                     <a href="{{ route('scouting.show', $agent) }}" 
-                       class="w-full rounded-xl bg-slate-50 hover:bg-[#2b4e72] text-slate-700 hover:text-white px-4 py-2.5 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#2b4e72] shadow-2xs">
+                       class="w-full rounded-xl bg-slate-50 hover:bg-[#1e3a8a] text-slate-700 hover:text-white px-4 py-2.5 text-xs font-bold transition flex items-center justify-center gap-1.5 border border-slate-200 hover:border-[#1e3a8a] shadow-2xs">
                         <span>Ver Radar & Ficha Técnica</span>
                         <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                     </a>

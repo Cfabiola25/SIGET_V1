@@ -16,7 +16,7 @@ class WidgetController extends Controller
     public function embedStandings(Request $request, Tournament $tournament): View
     {
         $theme = $request->query('theme', 'light'); // light, dark, emerald, slate
-        $primaryColor = $request->query('color', '#057a55');
+        $primaryColor = $request->query('color', '#1e3a8a');
         $showTitle = filter_var($request->query('title', true), FILTER_VALIDATE_BOOLEAN);
 
         $standings = $tournament->standings()
@@ -35,7 +35,7 @@ class WidgetController extends Controller
     public function embedFixture(Request $request, Tournament $tournament): View
     {
         $theme = $request->query('theme', 'light');
-        $primaryColor = $request->query('color', '#057a55');
+        $primaryColor = $request->query('color', '#1e3a8a');
 
         $matches = $tournament->matches()
             ->with(['homeTeam', 'awayTeam', 'venue'])

@@ -55,7 +55,7 @@
 
     <!-- Acciones de Impresión y Descarga -->
     <div class="mt-4 flex justify-center gap-3 no-print">
-        <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 rounded-xl bg-[#2b4e72] px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#2790b0] transition active:scale-95">
+        <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 rounded-xl bg-[#1e3a8a] px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#0284c7] transition active:scale-95">
             🖨️ Imprimir / Guardar Carnet PDF
         </button>
     </div>

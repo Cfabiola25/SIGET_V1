@@ -4,8 +4,8 @@
   "description": "Plataforma oficial de torneos, partidos en vivo, actas arbitrales y estadísticas deportivas.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#0f172a",
-  "theme_color": "#057a55",
+  "background_color": "#0b132b",
+  "theme_color": "#1e3a8a",
   "orientation": "any",
   "icons": [
     {

@@ -60,7 +60,7 @@
         <!-- Botones de Modo: Hoy, Día, Semana -->
         <div class="flex items-center rounded-xl bg-slate-100 p-1 text-xs font-semibold text-slate-600">
             <a href="{{ route('matches.schedule', ['date' => now()->format('Y-m-d'), 'view' => 'today']) }}" 
-               class="px-4 py-1.5 rounded-lg transition {{ $viewMode === 'today' || $date === now()->format('Y-m-d') ? 'bg-[#2b4e72] text-white font-bold shadow-2xs' : 'hover:text-slate-900' }}">
+               class="px-4 py-1.5 rounded-lg transition {{ $viewMode === 'today' || $date === now()->format('Y-m-d') ? 'bg-[#1e3a8a] text-white font-bold shadow-2xs' : 'hover:text-slate-900' }}">
                 Hoy
             </a>
             <a href="{{ route('matches.schedule', ['date' => $date, 'view' => 'day']) }}" 
@@ -131,7 +131,7 @@
                             @else
                                 <button type="button" 
                                         onclick="prefillTime('{{ $slot }}', 1)" 
-                                        class="w-full h-full min-h-12 border border-dashed border-slate-200 rounded-xl text-slate-400 hover:text-[#2b4e72] hover:border-emerald-300 hover:bg-emerald-50/30 transition text-xs flex items-center justify-center gap-1 font-medium">
+                                        class="w-full h-full min-h-12 border border-dashed border-slate-200 rounded-xl text-slate-400 hover:text-[#1e3a8a] hover:border-emerald-300 hover:bg-emerald-50/30 transition text-xs flex items-center justify-center gap-1 font-medium">
                                     <span>+ Disponible</span>
                                 </button>
                             @endif
@@ -173,7 +173,7 @@
             
             <!-- Encabezado -->
             <div class="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
-                <div class="size-9 rounded-xl bg-emerald-50 text-[#2b4e72] border border-emerald-200 flex items-center justify-center font-bold text-xl shadow-2xs">
+                <div class="size-9 rounded-xl bg-emerald-50 text-[#1e3a8a] border border-emerald-200 flex items-center justify-center font-bold text-xl shadow-2xs">
                     +
                 </div>
                 <div>
@@ -191,7 +191,7 @@
                 <!-- Fila de Equipos -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Equipo Local *</label>
-                    <select name="home_team_id" id="home_team_id" required class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#2b4e72] focus:outline-none">
+                    <select name="home_team_id" id="home_team_id" required class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#1e3a8a] focus:outline-none">
                         <option value="">Seleccionar Equipo Local...</option>
                         @foreach ($teams as $team)
                             <option value="{{ $team->id }}" {{ old('home_team_id') == $team->id ? 'selected' : '' }}>
@@ -203,7 +203,7 @@
 
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Equipo Visitante *</label>
-                    <select name="away_team_id" id="away_team_id" required class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#2b4e72] focus:outline-none">
+                    <select name="away_team_id" id="away_team_id" required class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#1e3a8a] focus:outline-none">
                         <option value="">Seleccionar Equipo Visitante...</option>
                         @foreach ($teams as $team)
                             <option value="{{ $team->id }}" {{ old('away_team_id') == $team->id ? 'selected' : '' }}>
@@ -218,20 +218,20 @@
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Fecha *</label>
                         <input type="date" name="date" id="match_date_input" value="{{ old('date', $date) }}" required 
-                               class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#2b4e72] focus:outline-none">
+                               class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#1e3a8a] focus:outline-none">
                     </div>
 
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Hora *</label>
                         <input type="time" name="time" id="match_time_input" value="{{ old('time', '09:00') }}" required 
-                               class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#2b4e72] focus:outline-none">
+                               class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#1e3a8a] focus:outline-none">
                     </div>
                 </div>
 
                 <!-- Sede Deportiva -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Sede Deportiva *</label>
-                    <select name="venue_id" id="venue_id" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#2b4e72] focus:outline-none">
+                    <select name="venue_id" id="venue_id" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#1e3a8a] focus:outline-none">
                         @foreach ($venues as $v)
                             <option value="{{ $v->id }}" {{ old('venue_id') == $v->id ? 'selected' : '' }}>
                                 {{ $v->name }} ({{ $v->city ?? 'Principal' }} - {{ $v->field_count }} canchas)
@@ -243,7 +243,7 @@
                 <!-- Número de Cancha -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Cancha *</label>
-                    <select name="field_number" id="field_number_select" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#2b4e72] focus:outline-none">
+                    <select name="field_number" id="field_number_select" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#1e3a8a] focus:outline-none">
                         <option value="1" {{ old('field_number') == '1' ? 'selected' : '' }}>Cancha 1 (Principal)</option>
                         <option value="2" {{ old('field_number') == '2' ? 'selected' : '' }}>Cancha 2 (Alterna)</option>
                         <option value="3" {{ old('field_number') == '3' ? 'selected' : '' }}>Cancha 3</option>
@@ -254,7 +254,7 @@
                 <!-- Árbitro Asignado -->
                 <div>
                     <label class="block text-xs font-semibold text-slate-700 mb-1">Colegiado Arbitral</label>
-                    <select name="referee_id" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#2b4e72] focus:outline-none">
+                    <select name="referee_id" class="w-full text-xs px-3 py-2.5 bg-slate-50 border border-slate-200 rounded-lg focus:bg-white focus:border-[#1e3a8a] focus:outline-none">
                         <option value="auto">Asignación Automática (Sistema de Desempeño)</option>
                         @foreach ($referees as $referee)
                             <option value="{{ $referee->id }}" {{ old('referee_id') == $referee->id ? 'selected' : '' }}>
@@ -269,7 +269,7 @@
                     <button type="reset" class="w-full py-2.5 px-4 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-semibold rounded-lg transition text-center cursor-pointer">
                         Limpiar
                     </button>
-                    <button type="submit" class="w-full py-2.5 px-4 bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs font-bold rounded-lg shadow-xs transition text-center cursor-pointer">
+                    <button type="submit" class="w-full py-2.5 px-4 bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] text-white text-xs font-bold rounded-lg shadow-xs transition text-center cursor-pointer">
                         Programar Partido
                     </button>
                 </div>

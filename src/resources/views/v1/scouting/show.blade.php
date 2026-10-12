@@ -7,7 +7,7 @@
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('scouting.index') }}" class="text-xs font-semibold text-[#2b4e72] hover:underline flex items-center gap-1">
+                <a href="{{ route('scouting.index') }}" class="text-xs font-semibold text-[#1e3a8a] hover:underline flex items-center gap-1">
                     <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                     Radar de Talentos
                 </a>
@@ -79,12 +79,12 @@
                     @endfor
 
                     <!-- Radar Polygon Area -->
-                    <polygon points="{{ $polyPoints }}" fill="rgba(5, 122, 85, 0.2)" stroke="#2b4e72" stroke-width="2.5"/>
+                    <polygon points="{{ $polyPoints }}" fill="rgba(5, 122, 85, 0.2)" stroke="#1e3a8a" stroke-width="2.5"/>
 
                     <!-- Vertex Dots -->
                     @foreach($points as $pt)
                         @php [$px, $py] = explode(',', $pt); @endphp
-                        <circle cx="{{ $px }}" cy="{{ $py }}" r="4.5" fill="#2b4e72" stroke="#ffffff" stroke-width="2"/>
+                        <circle cx="{{ $px }}" cy="{{ $py }}" r="4.5" fill="#1e3a8a" stroke="#ffffff" stroke-width="2"/>
                     @endforeach
                 </svg>
             </div>
@@ -173,7 +173,7 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs">
                         <div class="p-3 rounded-xl bg-slate-50 border border-slate-200/80 flex items-center justify-between">
                             <div class="flex items-center gap-2.5">
-                                <div class="size-7 rounded-lg bg-emerald-100 text-[#2b4e72] flex items-center justify-center font-bold">
+                                <div class="size-7 rounded-lg bg-emerald-100 text-[#1e3a8a] flex items-center justify-center font-bold">
                                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
                                 </div>
                                 <div>
@@ -182,7 +182,7 @@
                                 </div>
                             </div>
                             @if($player->profile?->contact_phone)
-                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $player->profile->contact_phone) }}" target="_blank" class="px-2.5 py-1 rounded bg-[#2b4e72] text-white text-[10px] font-bold hover:bg-[#2790b0] transition">
+                                <a href="https://wa.me/{{ preg_replace('/[^0-9]/', '', $player->profile->contact_phone) }}" target="_blank" class="px-2.5 py-1 rounded bg-[#1e3a8a] text-white text-[10px] font-bold hover:bg-[#0284c7] transition">
                                     WhatsApp
                                 </a>
                             @endif
@@ -226,7 +226,7 @@
                         </div>
                         <div class="mt-4 flex items-center justify-between pt-3 border-t border-amber-200/60 text-xs">
                             <span class="text-amber-800 font-medium">En espera de aceptación formal.</span>
-                            <a href="{{ route('scouting.requests.index') }}" class="font-bold text-[#2b4e72] hover:underline">
+                            <a href="{{ route('scouting.requests.index') }}" class="font-bold text-[#1e3a8a] hover:underline">
                                 Ver Mis Solicitudes &rarr;
                             </a>
                         </div>
@@ -238,7 +238,7 @@
                                 <h3 class="text-sm font-bold text-emerald-950">Contactar y Solicitar Fichaje</h3>
                                 <p class="text-xs text-emerald-800 mt-0.5">Ponte en contacto con el jugador y remítele una propuesta formal de incorporación.</p>
                             </div>
-                            <span class="text-[11px] font-bold bg-[#2b4e72] text-white px-2.5 py-1 rounded-lg">
+                            <span class="text-[11px] font-bold bg-[#1e3a8a] text-white px-2.5 py-1 rounded-lg">
                                 Protocolo Oficial
                             </span>
                         </div>
@@ -248,7 +248,7 @@
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-700 mb-1">Club Destino</label>
-                                    <select name="team_id" required class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                                    <select name="team_id" required class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                                         @foreach($availableTeams as $t)
                                             <option value="{{ $t->id }}">Fichar en {{ $t->name }}</option>
                                         @endforeach
@@ -256,29 +256,29 @@
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-700 mb-1">Dorsal Propuesto (1-99)</label>
-                                    <input type="number" name="proposed_jersey_number" placeholder="Ej: 10" min="1" max="99" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                                    <input type="number" name="proposed_jersey_number" placeholder="Ej: 10" min="1" max="99" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                                 </div>
                             </div>
 
                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-700 mb-1">Teléfono de Contacto del Club / DT</label>
-                                    <input type="text" name="contact_phone" value="{{ auth()->user()->phone ?? '' }}" placeholder="+57 300 000 0000" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                                    <input type="text" name="contact_phone" value="{{ auth()->user()->phone ?? '' }}" placeholder="+57 300 000 0000" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                                 </div>
                                 <div>
                                     <label class="block text-[11px] font-bold text-slate-700 mb-1">Correo de Contacto</label>
-                                    <input type="email" name="contact_email" value="{{ auth()->user()->email }}" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                                    <input type="email" name="contact_email" value="{{ auth()->user()->email }}" class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                                 </div>
                             </div>
 
                             <div>
                                 <label class="block text-[11px] font-bold text-slate-700 mb-1">Mensaje / Propuesta al Jugador</label>
-                                <textarea name="message" rows="2" required placeholder="Hola {{ $player->name }}, nos gustaría que te unas a nuestro club para disputar el torneo..." class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none"></textarea>
+                                <textarea name="message" rows="2" required placeholder="Hola {{ $player->name }}, nos gustaría que te unas a nuestro club para disputar el torneo..." class="w-full rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none"></textarea>
                             </div>
 
                             <div class="flex items-center justify-between pt-2">
                                 <span class="text-[11px] text-slate-500">Se notificará la propuesta para su debida aceptación.</span>
-                                <button type="submit" class="rounded-lg bg-[#2b4e72] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
+                                <button type="submit" class="rounded-lg bg-[#1e3a8a] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#0284c7] transition shadow-2xs">
                                     Enviar Propuesta Formal de Fichaje
                                 </button>
                             </div>
@@ -290,20 +290,20 @@
                 <div class="rounded-2xl border border-emerald-200 bg-emerald-50/70 p-6 shadow-2xs">
                     <div class="flex items-center justify-between mb-2">
                         <h3 class="text-sm font-bold text-emerald-950">Asignar Jugador a un Club (Gestión Administrativa)</h3>
-                        <a href="{{ route('scouting.requests.index') }}" class="text-xs font-bold text-[#2b4e72] hover:underline">
+                        <a href="{{ route('scouting.requests.index') }}" class="text-xs font-bold text-[#1e3a8a] hover:underline">
                             Ver Solicitudes Pendientes &rarr;
                         </a>
                     </div>
                     <p class="text-xs text-emerald-800 mb-4">Como administrador puedes formalizar el fichaje inmediato en un club del torneo.</p>
                     <form method="POST" action="{{ route('scouting.recruit', $player) }}" class="flex flex-col gap-3 sm:flex-row sm:items-center">
                         @csrf
-                        <select name="team_id" required class="flex-1 rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                        <select name="team_id" required class="flex-1 rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
                             @foreach($availableTeams as $t)
                                 <option value="{{ $t->id }}">Asignar a {{ $t->name }}</option>
                             @endforeach
                         </select>
-                        <input type="number" name="jersey_number" placeholder="Dorsal (1-99)" min="1" max="99" class="w-32 rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
-                        <button type="submit" class="rounded-lg bg-[#2b4e72] px-5 py-2 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
+                        <input type="number" name="jersey_number" placeholder="Dorsal (1-99)" min="1" max="99" class="w-32 rounded-lg border border-emerald-300 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
+                        <button type="submit" class="rounded-lg bg-[#1e3a8a] px-5 py-2 text-xs font-semibold text-white hover:bg-[#0284c7] transition shadow-2xs">
                             Formalizar Fichaje
                         </button>
                     </form>

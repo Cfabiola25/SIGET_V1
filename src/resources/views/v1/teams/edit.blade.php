@@ -6,7 +6,7 @@
 <div class="max-w-2xl mx-auto space-y-6">
     <div class="flex items-center justify-between">
         <div>
-            <a href="{{ route('teams.show', $team) }}" class="text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline flex items-center gap-1">
+            <a href="{{ route('teams.show', $team) }}" class="text-xs font-semibold uppercase tracking-wider text-[#1e3a8a] hover:underline flex items-center gap-1">
                 <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Volver al Equipo
             </a>
@@ -33,7 +33,7 @@
                        id="name" 
                        value="{{ old('name', $team->name) }}" 
                        required 
-                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
             </div>
 
             <div>
@@ -42,14 +42,14 @@
                        name="logo_path" 
                        id="logo_path" 
                        value="{{ old('logo_path', $team->logo_path) }}" 
-                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
+                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-800 focus:border-[#1e3a8a] focus:outline-none">
             </div>
 
             <div class="border-t border-slate-100 pt-5 flex items-center justify-end gap-3">
                 <a href="{{ route('teams.show', $team) }}" class="rounded-lg border border-slate-200 bg-white px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                     Cancelar
                 </a>
-                <button type="submit" class="rounded-lg bg-[#2b4e72] px-6 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-[#2790b0] transition flex items-center gap-1.5">
+                <button type="submit" class="rounded-lg bg-[#1e3a8a] px-6 py-2 text-xs font-semibold text-white shadow-2xs hover:bg-[#0284c7] transition flex items-center gap-1.5">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                     <span>Guardar Cambios</span>
                 </button>

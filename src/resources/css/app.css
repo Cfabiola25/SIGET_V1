@@ -4,53 +4,63 @@
 @source '../../storage/framework/views/*.php';
 
 /* ========================================================
-   SIGET COLOR PALETTE CONFIGURATION
-   .color1: #4e4d4a (Charcoal Slate)
-   .color2: #353432 (Deep Dark Charcoal / Sidebar & Base)
-   .color3: #94ba65 (Sports Grass Green / Accent & Success)
-   .color4: #2790b0 (Electric Ocean Teal / Interactive Cyan)
-   .color5: #2b4e72 (Slate Navy Blue / Primary Brand Action)
+   SIGET COLOR PALETTE - OPTION 1: CHAMPIONS LEAGUE TECH
+   .color1: #2a385b (Midnight Slate Border)
+   .color2: #0b132b (Deep Midnight Sapphire / Sidebar & Base)
+   .color3: #16a34a (Sports Turf Green / Accent & Goals)
+   .color4: #0284c7 (Electric Cyan Sky / Interactive Link)
+   .color5: #1e3a8a (Royal Slate Navy / Primary Action Brand)
    ======================================================== */
 
 :root {
-    --color1: #4e4d4a;
-    --color2: #353432;
-    --color3: #94ba65;
-    --color4: #2790b0;
-    --color5: #2b4e72;
+    --color1: #2a385b;
+    --color2: #0b132b;
+    --color3: #16a34a;
+    --color4: #0284c7;
+    --color5: #1e3a8a;
 
-    --siget-primary: #2b4e72;
-    --siget-primary-hover: #2790b0;
-    --siget-secondary: #2790b0;
-    --siget-accent: #94ba65;
-    --siget-sidebar: #353432;
-    --siget-dark: #353432;
-    --siget-slate: #4e4d4a;
+    --siget-primary: #1e3a8a;
+    --siget-primary-hover: #0284c7;
+    --siget-secondary: #0284c7;
+    --siget-accent: #16a34a;
+    --siget-sidebar: #0b132b;
+    --siget-dark: #0b132b;
+    --siget-slate: #2a385b;
+}
+
+html.dark {
+    --siget-primary: #38bdf8;
+    --siget-primary-hover: #60a5fa;
+    --siget-secondary: #38bdf8;
+    --siget-accent: #4ade80;
+    --siget-sidebar: #0b132b;
+    --siget-dark: #0b132b;
+    --siget-slate: #2a385b;
 }
 
 @theme {
     --font-sans: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-display: 'Outfit', 'Plus Jakarta Sans', sans-serif;
-    --color-color1: #4e4d4a;
-    --color-color2: #353432;
-    --color-color3: #94ba65;
-    --color-color4: #2790b0;
-    --color-color5: #2b4e72;
-    --color-siget-primary: #2b4e72;
-    --color-siget-secondary: #2790b0;
-    --color-siget-accent: #94ba65;
-    --color-siget-sidebar: #353432;
-    --color-siget-bg: #f4f6fa;
+    --color-color1: #2a385b;
+    --color-color2: #0b132b;
+    --color-color3: #16a34a;
+    --color-color4: #0284c7;
+    --color-color5: #1e3a8a;
+    --color-siget-primary: #1e3a8a;
+    --color-siget-secondary: #0284c7;
+    --color-siget-accent: #16a34a;
+    --color-siget-sidebar: #0b132b;
+    --color-siget-bg: #f8fafc;
     --color-siget-card: #ffffff;
-    --color-siget-text: #353432;
-    --color-siget-muted: #4e4d4a;
+    --color-siget-text: #0f172a;
+    --color-siget-muted: #64748b;
     --color-siget-border: #e2e8f0;
 }
 
 @layer base {
     body {
-        background-color: #f4f6fa;
-        color: #353432;
+        background-color: #f8fafc;
+        color: #0f172a;
         font-family: var(--font-sans);
         -webkit-font-smoothing: antialiased;
     }
@@ -61,7 +71,7 @@
         border: 1px solid #cbd5e1;
         border-radius: 0.5rem;
         background-color: #ffffff;
-        color: #353432;
+        color: #0f172a;
         transition: border-color 0.15s ease, box-shadow 0.15s ease;
     }
 
@@ -69,8 +79,8 @@
     select:focus,
     textarea:focus {
         outline: none;
-        border-color: #2790b0;
-        box-shadow: 0 0 0 3px rgba(39, 144, 176, 0.2);
+        border-color: #0284c7;
+        box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.2);
     }
 
     input::placeholder,
@@ -79,8 +89,8 @@
     }
 
     thead {
-        background-color: #edf2f9;
-        color: #4e4d4a;
+        background-color: #f1f5f9;
+        color: #334155;
     }
 
     tbody tr {
@@ -89,29 +99,29 @@
 }
 
 @layer components {
-    /* Utility classes as requested by user */
-    .color1 { color: #4e4d4a; }
-    .bg-color1 { background-color: #4e4d4a; }
-    .border-color1 { border-color: #4e4d4a; }
+    /* Utility classes for palette tokens */
+    .color1 { color: #2a385b; }
+    .bg-color1 { background-color: #2a385b; }
+    .border-color1 { border-color: #2a385b; }
 
-    .color2 { color: #353432; }
-    .bg-color2 { background-color: #353432; }
-    .border-color2 { border-color: #353432; }
+    .color2 { color: #0b132b; }
+    .bg-color2 { background-color: #0b132b; }
+    .border-color2 { border-color: #0b132b; }
 
-    .color3 { color: #94ba65; }
-    .bg-color3 { background-color: #94ba65; }
-    .border-color3 { border-color: #94ba65; }
+    .color3 { color: #16a34a; }
+    .bg-color3 { background-color: #16a34a; }
+    .border-color3 { border-color: #16a34a; }
 
-    .color4 { color: #2790b0; }
-    .bg-color4 { background-color: #2790b0; }
-    .border-color4 { border-color: #2790b0; }
+    .color4 { color: #0284c7; }
+    .bg-color4 { background-color: #0284c7; }
+    .border-color4 { border-color: #0284c7; }
 
-    .color5 { color: #2b4e72; }
-    .bg-color5 { background-color: #2b4e72; }
-    .border-color5 { border-color: #2b4e72; }
+    .color5 { color: #1e3a8a; }
+    .bg-color5 { background-color: #1e3a8a; }
+    .border-color5 { border-color: #1e3a8a; }
 
     .siget-sidebar {
-        background-color: #353432;
+        background-color: #0b132b;
         color: #cbd5e1;
     }
 
@@ -123,9 +133,9 @@
     }
 
     .siget-badge-active {
-        background-color: rgba(148, 186, 101, 0.2);
-        color: #42651b;
-        border: 1px solid rgba(148, 186, 101, 0.4);
+        background-color: rgba(22, 163, 74, 0.15);
+        color: #15803d;
+        border: 1px solid rgba(22, 163, 74, 0.35);
         font-weight: 700;
         font-size: 0.6875rem;
         padding: 0.25rem 0.75rem;
@@ -157,9 +167,9 @@
     }
 
     .siget-badge-info {
-        background-color: rgba(39, 144, 176, 0.15);
-        color: #1a6f88;
-        border: 1px solid rgba(39, 144, 176, 0.3);
+        background-color: rgba(2, 132, 199, 0.12);
+        color: #0369a1;
+        border: 1px solid rgba(2, 132, 199, 0.25);
         font-weight: 700;
         font-size: 0.6875rem;
         padding: 0.25rem 0.75rem;
@@ -169,7 +179,7 @@
     }
 
     .siget-btn-primary {
-        background-color: #2b4e72;
+        background-color: #1e3a8a;
         color: #ffffff;
         font-weight: 600;
         padding: 0.5rem 1rem;
@@ -178,13 +188,13 @@
     }
 
     .siget-btn-primary:hover {
-        background-color: #2790b0;
-        box-shadow: 0 4px 12px rgba(39, 144, 176, 0.25);
+        background-color: #0284c7;
+        box-shadow: 0 4px 14px rgba(2, 132, 199, 0.3);
     }
 
     .siget-btn-secondary {
         background-color: #ffffff;
-        color: #353432;
+        color: #0f172a;
         border: 1px solid #cbd5e1;
         font-weight: 600;
         padding: 0.5rem 1rem;
@@ -194,34 +204,35 @@
 
     .siget-btn-secondary:hover {
         background-color: #f8fafc;
-        border-color: #2790b0;
-        color: #2790b0;
+        border-color: #0284c7;
+        color: #0284c7;
     }
 }
 
 /* ========================================================
    SIGET DARK THEME SYSTEM & HIGH-CONTRAST STYLES
+   CHAMPIONS LEAGUE TECH PALETTE
    ======================================================== */
 html.dark {
     color-scheme: dark;
-    background-color: #353432;
+    background-color: #0b132b;
 }
 
 html.dark body {
-    background-color: #353432 !important;
-    color: #f1f5f9 !important;
+    background-color: #0b132b !important;
+    color: #f8fafc !important;
 }
 
 /* Header & Navigation in Dark Mode */
 html.dark header.bg-white,
 html.dark header.bg-white\/95 {
-    background-color: #2a2927 !important;
-    border-color: #4e4d4a !important;
+    background-color: #141d38 !important;
+    border-color: #2a385b !important;
 }
 
 html.dark footer.bg-white {
-    background-color: #2a2927 !important;
-    border-color: #4e4d4a !important;
+    background-color: #141d38 !important;
+    border-color: #2a385b !important;
     color: #94a3b8 !important;
 }
 
@@ -230,17 +241,17 @@ html.dark .siget-card,
 html.dark main .bg-white,
 html.dark .bg-white.rounded-xl,
 html.dark .bg-white.rounded-2xl {
-    background-color: #2a2927 !important;
-    border-color: #4e4d4a !important;
-    color: #f1f5f9 !important;
+    background-color: #1c2541 !important;
+    border-color: #2a385b !important;
+    color: #f8fafc !important;
 }
 
 /* Modals */
 html.dark dialog,
 html.dark .bg-white.rounded-2xl.border {
-    background-color: #2a2927 !important;
-    border-color: #4e4d4a !important;
-    color: #f1f5f9 !important;
+    background-color: #1c2541 !important;
+    border-color: #2a385b !important;
+    color: #f8fafc !important;
 }
 
 /* Text Overrides for High Contrast Legibility in Dark Mode */
@@ -262,66 +273,66 @@ html.dark .text-slate-500 {
 html.dark input:not([type='checkbox']):not([type='radio']),
 html.dark select,
 html.dark textarea {
-    background-color: #1f1e1d !important;
-    border-color: #4e4d4a !important;
+    background-color: #131b31 !important;
+    border-color: #2a385b !important;
     color: #f8fafc !important;
 }
 
 html.dark input:not([type='checkbox']):not([type='radio']):focus,
 html.dark select:focus,
 html.dark textarea:focus {
-    border-color: #2790b0 !important;
-    box-shadow: 0 0 0 3px rgba(39, 144, 176, 0.3) !important;
+    border-color: #38bdf8 !important;
+    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.3) !important;
 }
 
 /* Tables in Dark Mode */
 html.dark thead {
-    background-color: #1f1e1d !important;
+    background-color: #131b31 !important;
     color: #cbd5e1 !important;
 }
 
 html.dark tbody tr:hover {
-    background-color: #353432 !important;
+    background-color: #222d4d !important;
 }
 
 html.dark tr.border-b,
 html.dark td.border-b,
 html.dark th.border-b {
-    border-color: #4e4d4a !important;
+    border-color: #2a385b !important;
 }
 
 /* Borders and Background Accents */
 html.dark .border-slate-200,
 html.dark .border-slate-200\/80 {
-    border-color: #4e4d4a !important;
+    border-color: #2a385b !important;
 }
 
 html.dark .bg-slate-50,
 html.dark .bg-slate-100 {
-    background-color: #2a2927 !important;
+    background-color: #141d38 !important;
 }
 
 html.dark .hover\:bg-slate-100:hover,
 html.dark .hover\:bg-slate-50:hover {
-    background-color: #353432 !important;
+    background-color: #222d4d !important;
 }
 
 html.dark .siget-btn-secondary {
-    background-color: #2a2927 !important;
-    color: #f1f5f9 !important;
-    border-color: #4e4d4a !important;
+    background-color: #1c2541 !important;
+    color: #f8fafc !important;
+    border-color: #2a385b !important;
 }
 
 html.dark .siget-btn-secondary:hover {
-    background-color: #353432 !important;
-    border-color: #2790b0 !important;
-    color: #2790b0 !important;
+    background-color: #222d4d !important;
+    border-color: #38bdf8 !important;
+    color: #38bdf8 !important;
 }
 
 html.dark .siget-badge-active {
-    background-color: rgba(148, 186, 101, 0.25) !important;
-    color: #94ba65 !important;
-    border-color: rgba(148, 186, 101, 0.5) !important;
+    background-color: rgba(74, 222, 128, 0.2) !important;
+    color: #4ade80 !important;
+    border-color: rgba(74, 222, 128, 0.4) !important;
 }
 
 /* ========================================================
