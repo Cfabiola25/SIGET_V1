@@ -1,0 +1,11 @@
+.git
+.github
+.agents
+*.md
+docs
+scripts
+src/node_modules
+src/storage/framework/cache/*
+src/storage/framework/sessions/*
+src/storage/framework/views/*
+src/storage/logs/*
