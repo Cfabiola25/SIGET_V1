@@ -1,10 +1,10 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', $tournament->name)
 @section('header_title', $tournament->name)
 
 @section('header_badge')
-<span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+<span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
     {{ $tournament->status === 'active' ? 'Activo' : ($tournament->status === 'completed' ? 'Finalizado' : 'Pendiente') }}
 </span>
 @endsection
@@ -30,7 +30,7 @@
 
             <!-- Botones de Acción Rápida -->
             <div class="flex flex-wrap items-center gap-2.5">
-                <a href="{{ route('matches.schedule') }}" class="px-4 py-2 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs font-bold shadow-xs transition flex items-center gap-1.5">
+                <a href="{{ route('matches.schedule') }}" class="px-4 py-2 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs font-bold shadow-xs transition flex items-center gap-1.5">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     <span>Programar Partidos</span>
                 </a>

@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Panel Super Admin')
 
@@ -80,7 +80,7 @@
                                         @csrf
                                         @method('PATCH')
                                         <input type="hidden" name="is_active" value="{{ $admin->is_active ? 0 : 1 }}">
-                                        <button class="text-xs font-semibold {{ $admin->is_active ? 'text-rose-600 hover:underline' : 'text-[#057a55] hover:underline' }}" type="submit">
+                                        <button class="text-xs font-semibold {{ $admin->is_active ? 'text-rose-600 hover:underline' : 'text-[#2b4e72] hover:underline' }}" type="submit">
                                             {{ $admin->is_active ? 'Desactivar' : 'Reactivar' }}
                                         </button>
                                     </form>
@@ -184,7 +184,7 @@
                                 </td>
                                 <td class="py-3.5 px-5 text-right">
                                     <div class="flex items-center justify-end gap-2">
-                                        <a class="text-xs font-semibold text-[#057a55] hover:underline" href="{{ route('tournaments.edit', $tournament) }}">Editar</a>
+                                        <a class="text-xs font-semibold text-[#2b4e72] hover:underline" href="{{ route('tournaments.edit', $tournament) }}">Editar</a>
                                         <form method="POST" action="{{ route('tournaments.destroy', $tournament) }}" onsubmit="return confirm('¿Eliminar este torneo y sus datos asociados?')">
                                             @csrf
                                             @method('DELETE')
@@ -209,11 +209,11 @@
                 <h2 class="text-sm font-bold text-slate-900">Crear Nuevo Administrador</h2>
                 <form class="mt-4 space-y-3" method="POST" action="{{ route('super-admin.admins.store') }}">
                     @csrf 
-                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="name" placeholder="Nombre completo" required>
-                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="email" type="email" placeholder="Correo electrónico" required>
-                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="password" type="password" placeholder="Contraseña (mín. 8 caracteres)" required>
-                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="password_confirmation" type="password" placeholder="Confirmar contraseña" required>
-                    <button class="w-full rounded-lg bg-[#057a55] py-2 text-xs font-semibold text-white transition hover:bg-[#046c4b] shadow-2xs" type="submit">Crear Administrador</button>
+                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#2b4e72] focus:outline-none" name="name" placeholder="Nombre completo" required>
+                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#2b4e72] focus:outline-none" name="email" type="email" placeholder="Correo electrónico" required>
+                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#2b4e72] focus:outline-none" name="password" type="password" placeholder="Contraseña (mín. 8 caracteres)" required>
+                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#2b4e72] focus:outline-none" name="password_confirmation" type="password" placeholder="Confirmar contraseña" required>
+                    <button class="w-full rounded-lg bg-[#2b4e72] py-2 text-xs font-semibold text-white transition hover:bg-[#2790b0] shadow-2xs" type="submit">Crear Administrador</button>
                 </form>
             </section>
 
@@ -221,24 +221,24 @@
                 <h2 class="text-sm font-bold text-slate-900">Crear Torneo Directo</h2>
                 <form class="mt-4 space-y-3" method="POST" action="{{ route('super-admin.tournaments.store') }}">
                     @csrf 
-                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="name" placeholder="Nombre del torneo" required>
-                    <select class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none" name="sport_type" required>
+                    <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#2b4e72] focus:outline-none" name="name" placeholder="Nombre del torneo" required>
+                    <select class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none" name="sport_type" required>
                         <option value="">Selecciona disciplina</option>
                         @foreach ($sports as $sport)
                             <option value="{{ $sport->name }}">{{ $sport->name }}</option>
                         @endforeach
                     </select>
                     <div class="grid gap-2 sm:grid-cols-2">
-                        <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none" name="start_date" type="date" required>
-                        <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none" name="end_date" type="date" required>
+                        <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none" name="start_date" type="date" required>
+                        <input class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none" name="end_date" type="date" required>
                     </div>
-                    <select class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none" name="admin_id" required>
+                    <select class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none" name="admin_id" required>
                         <option value="">Selecciona admin responsable</option>
                         @foreach ($activeAdmins as $admin)
                             <option value="{{ $admin->id }}">{{ $admin->name }} ({{ $admin->email }})</option>
                         @endforeach
                     </select>
-                    <button class="w-full rounded-lg bg-[#057a55] py-2 text-xs font-semibold text-white transition hover:bg-[#046c4b] shadow-2xs" type="submit">Crear Torneo</button>
+                    <button class="w-full rounded-lg bg-[#2b4e72] py-2 text-xs font-semibold text-white transition hover:bg-[#2790b0] shadow-2xs" type="submit">Crear Torneo</button>
                 </form>
             </section>
         </div>
@@ -253,8 +253,8 @@
             </div>
             <form class="flex w-full gap-2 sm:max-w-md" method="POST" action="{{ route('super-admin.sports.store') }}">
                 @csrf 
-                <input class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#057a55] focus:outline-none" name="name" placeholder="Nueva modalidad de fútbol (ej: Fútbol 7)" maxlength="100" required>
-                <button class="rounded-lg bg-[#057a55] px-4 py-2 text-xs font-semibold text-white hover:bg-[#046c4b] shadow-2xs" type="submit">Agregar</button>
+                <input class="min-w-0 flex-1 rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 placeholder:text-slate-400 focus:border-[#2b4e72] focus:outline-none" name="name" placeholder="Nueva modalidad de fútbol (ej: Fútbol 7)" maxlength="100" required>
+                <button class="rounded-lg bg-[#2b4e72] px-4 py-2 text-xs font-semibold text-white hover:bg-[#2790b0] shadow-2xs" type="submit">Agregar</button>
             </form>
         </div>
 

@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Transmisión en Vivo - Marcador en Tiempo Real')
 
@@ -26,7 +26,7 @@
             <x-reicon name="football" class="size-10 text-slate-300 mx-auto block mb-2" />
             <h2 class="mt-3 text-lg font-bold text-slate-900">No hay partidos en disputa en este momento</h2>
             <p class="mt-1 text-sm text-slate-500">Los partidos activos aparecerán aquí automáticamente en cuanto el árbitro inicie el cronómetro.</p>
-            <a href="{{ route('matches.index') }}" class="mt-4 inline-block rounded-xl bg-[#057a55] px-4 py-2 text-xs font-bold text-white hover:bg-[#046c4b] transition shadow-xs">
+            <a href="{{ route('matches.index') }}" class="mt-4 inline-block rounded-xl bg-[#2b4e72] px-4 py-2 text-xs font-bold text-white hover:bg-[#2790b0] transition shadow-xs">
                 Ver fixture programado &rarr;
             </a>
         </div>

@@ -1,4 +1,4 @@
-@extends('v1.layouts.public')
+﻿@extends('v1.layouts.public')
 
 @section('title', 'Tabla de Posiciones Oficial')
 
@@ -40,7 +40,7 @@
             <div class="flex items-center gap-2 overflow-x-auto">
                 @forelse($tournaments as $t)
                     <a href="{{ route('standings.index', ['tournament_id' => $t->id]) }}" 
-                       class="px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap inline-flex items-center gap-1.5 {{ ($selectedTournamentId ?? '') == $t->id ? 'bg-[#057a55] text-white shadow-xs' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200' }}">
+                       class="px-4 py-2 rounded-xl text-xs font-bold transition whitespace-nowrap inline-flex items-center gap-1.5 {{ ($selectedTournamentId ?? '') == $t->id ? 'bg-[#2b4e72] text-white shadow-xs' : 'bg-slate-50 hover:bg-slate-100 text-slate-700 border border-slate-200' }}">
                         <x-reicon name="trophy" class="size-3.5 {{ ($selectedTournamentId ?? '') == $t->id ? 'text-white' : 'text-emerald-600' }} shrink-0" />
                         <span>{{ $t->name }}</span>
                         @if($t->is_featured)
@@ -91,11 +91,11 @@
                             <!-- Equipo -->
                             <td class="py-4 px-4 font-bold text-slate-900">
                                 <div class="flex items-center gap-3">
-                                    <div class="size-8 rounded-xl bg-slate-100 border border-slate-200 text-[#057a55] font-black text-xs flex items-center justify-center">
+                                    <div class="size-8 rounded-xl bg-slate-100 border border-slate-200 text-[#2b4e72] font-black text-xs flex items-center justify-center">
                                         {{ strtoupper(substr($s->team?->name ?? 'EQ', 0, 2)) }}
                                     </div>
                                     <div>
-                                        <a href="{{ route('teams.show', $s->team) }}" class="text-slate-900 hover:text-[#057a55] transition hover:underline">
+                                        <a href="{{ route('teams.show', $s->team) }}" class="text-slate-900 hover:text-[#2b4e72] transition hover:underline">
                                             {{ $s->team?->name ?? 'Equipo' }}
                                         </a>
                                         <div class="text-[10px] text-slate-400 font-normal">
@@ -106,7 +106,7 @@
                             </td>
 
                             <!-- Puntos -->
-                            <td class="py-4 px-3 text-center font-black text-sm text-[#057a55] bg-emerald-50/40 font-mono">
+                            <td class="py-4 px-3 text-center font-black text-sm text-[#2b4e72] bg-emerald-50/40 font-mono">
                                 {{ $s->points }}
                             </td>
 
@@ -129,7 +129,7 @@
 
                             <!-- Enlace a Club -->
                             <td class="py-4 pr-6 pl-4 text-right">
-                                <a href="{{ route('teams.show', $s->team) }}" class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500 hover:text-[#057a55] group-hover:translate-x-0.5 transition">
+                                <a href="{{ route('teams.show', $s->team) }}" class="inline-flex items-center gap-1 text-[11px] font-bold text-slate-500 hover:text-[#2b4e72] group-hover:translate-x-0.5 transition">
                                     <span>Ver Club</span>
                                     <svg class="size-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M9 5l7 7-7 7"/></svg>
                                 </a>

@@ -1,4 +1,4 @@
-@extends('v1.layouts.public')
+﻿@extends('v1.layouts.public')
 
 @section('title', 'Club ' . $team->name)
 
@@ -7,7 +7,7 @@
 
     <!-- Migas de Pan & Acceso Rápido -->
     <div class="flex items-center justify-between text-xs">
-        <a href="{{ route('teams.index') }}" class="font-bold text-[#057a55] hover:underline flex items-center gap-1">
+        <a href="{{ route('teams.index') }}" class="font-bold text-[#2b4e72] hover:underline flex items-center gap-1">
             <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
             <span>Volver al Directorio de Equipos</span>
         </a>
@@ -30,8 +30,8 @@
     <div class="bg-white rounded-3xl border border-slate-200/90 shadow-sm overflow-hidden">
         <div class="p-6 sm:p-10 flex flex-col md:flex-row items-center md:items-start gap-6 border-b border-slate-100">
             <!-- Escudo Gigante -->
-            <div class="size-24 sm:size-28 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-[#057a55] font-black text-4xl flex items-center justify-center shadow-xs shrink-0">
-                <x-reicon name="shield-check" class="size-12 text-[#057a55]" />
+            <div class="size-24 sm:size-28 rounded-3xl bg-emerald-50 border-2 border-emerald-200 text-[#2b4e72] font-black text-4xl flex items-center justify-center shadow-xs shrink-0">
+                <x-reicon name="shield-check" class="size-12 text-[#2b4e72]" />
             </div>
 
             <!-- Datos del Club -->
@@ -111,7 +111,7 @@
                     <div>
                         <!-- Encabezado Tarjeta Jugador -->
                         <div class="flex items-center justify-between pb-3 border-b border-slate-100">
-                            <span class="size-8 rounded-lg bg-emerald-50 text-[#057a55] font-mono font-black text-sm flex items-center justify-center border border-emerald-200">
+                            <span class="size-8 rounded-lg bg-emerald-50 text-[#2b4e72] font-mono font-black text-sm flex items-center justify-center border border-emerald-200">
                                 #{{ $player->jersey_number }}
                             </span>
                             <span class="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-slate-100 text-slate-600">
@@ -121,7 +121,7 @@
 
                         <!-- Nombre e info -->
                         <div class="mt-3.5 space-y-1">
-                            <h3 class="font-display font-bold text-sm text-slate-900 group-hover:text-[#057a55] transition line-clamp-1">
+                            <h3 class="font-display font-bold text-sm text-slate-900 group-hover:text-[#2b4e72] transition line-clamp-1">
                                 {{ $player->name }}
                             </h3>
                             <p class="text-[11px] text-slate-500 flex items-center gap-2">
@@ -145,7 +145,7 @@
                     <!-- Enlaces al Cromo y Carnet -->
                     <div class="mt-4 pt-3 border-t border-slate-100 flex items-center gap-2">
                         <a href="{{ route('players.cromo', $player) }}" target="_blank" 
-                           class="flex-1 rounded-lg bg-emerald-50 hover:bg-[#057a55] text-emerald-800 hover:text-white py-1.5 text-center text-[11px] font-bold transition">
+                           class="flex-1 rounded-lg bg-emerald-50 hover:bg-[#2b4e72] text-emerald-800 hover:text-white py-1.5 text-center text-[11px] font-bold transition">
                             Cromo Digital
                         </a>
                         <a href="{{ route('players.carnet', $player) }}" target="_blank" 
@@ -191,7 +191,7 @@
                             @else
                                 <span class="text-[11px] font-bold text-slate-500 uppercase">Programado</span>
                             @endif
-                            <a href="{{ route('matches.show', $m) }}" class="text-[#057a55] font-bold hover:underline">
+                            <a href="{{ route('matches.show', $m) }}" class="text-[#2b4e72] font-bold hover:underline">
                                 Ficha
                             </a>
                         </div>

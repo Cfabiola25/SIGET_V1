@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Radar de Talentos & Bolsa de Fichajes')
 
@@ -31,7 +31,7 @@
             </a>
 
             @if(auth()->user()?->isSuperAdmin() || auth()->user()?->isAdmin())
-                <button type="button" onclick="document.getElementById('modal-add-free-agent').classList.remove('hidden')" class="inline-flex items-center gap-2 rounded-lg bg-[#057a55] px-4 py-2 text-xs font-semibold text-white hover:bg-[#046c4b] transition shadow-2xs">
+                <button type="button" onclick="document.getElementById('modal-add-free-agent').classList.remove('hidden')" class="inline-flex items-center gap-2 rounded-lg bg-[#2b4e72] px-4 py-2 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                     <span>Registrar Jugador Libre</span>
                 </button>
@@ -55,7 +55,7 @@
         <form method="GET" action="{{ route('scouting.index') }}" class="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-5">
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1.5">Posición</label>
-                <select name="position" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 focus:border-[#057a55] focus:outline-none">
+                <select name="position" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                     <option value="">Todas las posiciones</option>
                     <option value="goalkeeper" {{ ($filters['position'] ?? '') === 'goalkeeper' ? 'selected' : '' }}>Portero</option>
                     <option value="defender" {{ ($filters['position'] ?? '') === 'defender' ? 'selected' : '' }}>Defensa</option>
@@ -66,7 +66,7 @@
 
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1.5">Pie Hábil</label>
-                <select name="preferred_foot" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 focus:border-[#057a55] focus:outline-none">
+                <select name="preferred_foot" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                     <option value="">Cualquier pie</option>
                     <option value="right" {{ ($filters['preferred_foot'] ?? '') === 'right' ? 'selected' : '' }}>Diestro</option>
                     <option value="left" {{ ($filters['preferred_foot'] ?? '') === 'left' ? 'selected' : '' }}>Zurdo</option>
@@ -76,7 +76,7 @@
 
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1.5">Rating Mínimo</label>
-                <select name="min_rating" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 focus:border-[#057a55] focus:outline-none">
+                <select name="min_rating" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs font-medium text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                     <option value="">Cualquier calificación</option>
                     <option value="6.0" {{ ($filters['min_rating'] ?? '') === '6.0' ? 'selected' : '' }}>6.0 o superior</option>
                     <option value="7.0" {{ ($filters['min_rating'] ?? '') === '7.0' ? 'selected' : '' }}>7.0 o superior</option>
@@ -87,11 +87,11 @@
 
             <div>
                 <label class="block text-xs font-semibold text-slate-700 mb-1.5">Buscar</label>
-                <input type="text" name="search" value="{{ $filters['search'] ?? '' }}" placeholder="Nombre o documento..." class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none placeholder:text-slate-400">
+                <input type="text" name="search" value="{{ $filters['search'] ?? '' }}" placeholder="Nombre o documento..." class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none placeholder:text-slate-400">
             </div>
 
             <div class="flex items-end gap-2">
-                <button type="submit" class="flex-1 rounded-lg bg-[#057a55] py-2 text-xs font-semibold text-white transition hover:bg-[#046c4b] shadow-2xs">
+                <button type="submit" class="flex-1 rounded-lg bg-[#2b4e72] py-2 text-xs font-semibold text-white transition hover:bg-[#2790b0] shadow-2xs">
                     Filtrar Radar
                 </button>
                 <a href="{{ route('scouting.index') }}" class="rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
@@ -137,7 +137,7 @@
                                 {{ mb_substr($player->name, 0, 2) }}
                             </div>
                             <div>
-                                <h3 class="text-sm font-bold text-slate-900 hover:text-[#057a55] transition">
+                                <h3 class="text-sm font-bold text-slate-900 hover:text-[#2b4e72] transition">
                                     <a href="{{ route('scouting.show', $player) }}">{{ $player->name }}</a>
                                 </h3>
                                 <p class="text-[11px] text-slate-500">
@@ -181,11 +181,11 @@
                         @if(auth()->check() && (auth()->user()->isCoach() || auth()->user()->isCaptain() || auth()->user()->isSuperAdmin() || auth()->user()->isAdmin()))
                             <button type="button" 
                                     onclick="openRecruitModal({{ $player->id }}, '{{ addslashes($player->name) }}', '{{ $posMap[$profile?->position] ?? 'Jugador' }}')"
-                                    class="rounded-lg bg-[#057a55] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#046c4b] transition shadow-2xs">
+                                    class="rounded-lg bg-[#2b4e72] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
                                 Contactar y Fichar
                             </button>
                         @else
-                            <a href="{{ route('login') }}" class="rounded-lg bg-[#057a55] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#046c4b] transition shadow-2xs">
+                            <a href="{{ route('login') }}" class="rounded-lg bg-[#2b4e72] px-3.5 py-1.5 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
                                 Iniciar Sesión para Fichar
                             </a>
                         @endif
@@ -218,7 +218,7 @@
 
             <div>
                 <label for="recruit_team_id" class="block text-xs font-semibold text-slate-700 mb-1">Club que realiza la propuesta *</label>
-                <select name="team_id" id="recruit_team_id" required class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#057a55] focus:outline-none">
+                <select name="team_id" id="recruit_team_id" required class="w-full rounded-lg border border-slate-200 bg-slate-50 px-3.5 py-2 text-xs text-slate-800 focus:bg-white focus:border-[#2b4e72] focus:outline-none">
                     @auth
                         @php
                             $user = auth()->user();
@@ -236,22 +236,22 @@
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label for="proposed_jersey_number" class="block text-xs font-semibold text-slate-700 mb-1">Dorsal Propuesto (1 - 99)</label>
-                    <input type="number" name="proposed_jersey_number" id="proposed_jersey_number" min="1" max="99" placeholder="Ej: 9" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                    <input type="number" name="proposed_jersey_number" id="proposed_jersey_number" min="1" max="99" placeholder="Ej: 9" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                 </div>
                 <div>
                     <label for="contact_phone" class="block text-xs font-semibold text-slate-700 mb-1">Teléfono de Contacto (DT)</label>
-                    <input type="text" name="contact_phone" id="contact_phone" placeholder="+57 300 123 4567" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                    <input type="text" name="contact_phone" id="contact_phone" placeholder="+57 300 123 4567" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                 </div>
             </div>
 
             <div>
                 <label for="contact_email" class="block text-xs font-semibold text-slate-700 mb-1">Correo Electrónico de Contacto</label>
-                <input type="email" name="contact_email" id="contact_email" value="{{ auth()->user()?->email }}" placeholder="dt@miclub.com" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                <input type="email" name="contact_email" id="contact_email" value="{{ auth()->user()?->email }}" placeholder="dt@miclub.com" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
             </div>
 
             <div>
                 <label for="message" class="block text-xs font-semibold text-slate-700 mb-1">Mensaje y Propuesta Deportiva para el Jugador *</label>
-                <textarea name="message" id="message" rows="3" required placeholder="Hola, te vimos en el radar de talentos de SIGET y queremos invitarte a sumarte a nuestro plantel como titular. Te garantizamos minutos y uniforme oficial..." class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none"></textarea>
+                <textarea name="message" id="message" rows="3" required placeholder="Hola, te vimos en el radar de talentos de SIGET y queremos invitarte a sumarte a nuestro plantel como titular. Te garantizamos minutos y uniforme oficial..." class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none"></textarea>
                 <p class="text-[10px] text-slate-400 mt-1">El jugador o la comisión deportiva revisará tu mensaje y contactará contigo antes de formalizar la incorporación.</p>
             </div>
 
@@ -259,7 +259,7 @@
                 <button type="button" onclick="document.getElementById('modal-recruit').classList.add('hidden')" class="px-4 py-2 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                     Cancelar
                 </button>
-                <button type="submit" class="px-5 py-2 rounded-lg bg-[#057a55] hover:bg-[#046c4b] text-xs font-bold text-white transition shadow-2xs">
+                <button type="submit" class="px-5 py-2 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] text-xs font-bold text-white transition shadow-2xs">
                     Enviar Solicitud de Fichaje
                 </button>
             </div>
@@ -286,17 +286,17 @@
 
             <div>
                 <label for="fa_name" class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo *</label>
-                <input type="text" name="name" id="fa_name" required placeholder="Ej: Santiago Arias" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                <input type="text" name="name" id="fa_name" required placeholder="Ej: Santiago Arias" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
             </div>
 
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label for="fa_doc" class="block text-xs font-semibold text-slate-700 mb-1">Documento de Identidad *</label>
-                    <input type="text" name="identification_document" id="fa_doc" required placeholder="CC-12345678" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                    <input type="text" name="identification_document" id="fa_doc" required placeholder="CC-12345678" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                 </div>
                 <div>
                     <label for="fa_pos" class="block text-xs font-semibold text-slate-700 mb-1">Posición Principal *</label>
-                    <select name="position" id="fa_pos" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                    <select name="position" id="fa_pos" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                         <option value="forward">Delantero</option>
                         <option value="midfielder">Mediocampista</option>
                         <option value="defender">Defensa</option>
@@ -308,7 +308,7 @@
             <div class="grid grid-cols-2 gap-3">
                 <div>
                     <label for="fa_foot" class="block text-xs font-semibold text-slate-700 mb-1">Pie Hábil</label>
-                    <select name="preferred_foot" id="fa_foot" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                    <select name="preferred_foot" id="fa_foot" class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                         <option value="right">Diestro</option>
                         <option value="left">Zurdo</option>
                         <option value="ambidextrous">Ambidiestro</option>
@@ -316,20 +316,20 @@
                 </div>
                 <div>
                     <label for="fa_phone" class="block text-xs font-semibold text-slate-700 mb-1">Teléfono de Contacto</label>
-                    <input type="text" name="contact_phone" id="fa_phone" placeholder="+57 310 987 6543" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                    <input type="text" name="contact_phone" id="fa_phone" placeholder="+57 310 987 6543" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                 </div>
             </div>
 
             <div>
                 <label for="fa_notes" class="block text-xs font-semibold text-slate-700 mb-1">Notas de Scouting / Trayectoria</label>
-                <textarea name="scouting_notes" id="fa_notes" rows="2" placeholder="Experiencia en torneos departamentales, velocidad en desmarque y buen juego aéreo..." class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none"></textarea>
+                <textarea name="scouting_notes" id="fa_notes" rows="2" placeholder="Experiencia en torneos departamentales, velocidad en desmarque y buen juego aéreo..." class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none"></textarea>
             </div>
 
             <div class="pt-3 border-t border-slate-100 flex items-center justify-end gap-2">
                 <button type="button" onclick="document.getElementById('modal-add-free-agent').classList.add('hidden')" class="px-4 py-2 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                     Cancelar
                 </button>
-                <button type="submit" class="px-5 py-2 rounded-lg bg-[#057a55] hover:bg-[#046c4b] text-xs font-bold text-white transition shadow-2xs">
+                <button type="submit" class="px-5 py-2 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] text-xs font-bold text-white transition shadow-2xs">
                     Registrar en Bolsa de Talentos
                 </button>
             </div>

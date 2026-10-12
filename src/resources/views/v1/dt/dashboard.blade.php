@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Panel de DT - ' . $team->name)
 
@@ -8,11 +8,11 @@
     <div class="rounded-2xl border border-slate-200/90 bg-white p-6 md:p-8 shadow-2xs">
         <div class="flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
             <div class="flex items-center gap-5">
-                <span class="grid size-16 place-items-center rounded-2xl bg-emerald-50 text-[#057a55] border border-emerald-100 shadow-2xs">
-                    <x-reicon name="clipboard-list" class="size-8 text-[#057a55]" />
+                <span class="grid size-16 place-items-center rounded-2xl bg-emerald-50 text-[#2b4e72] border border-emerald-100 shadow-2xs">
+                    <x-reicon name="clipboard-list" class="size-8 text-[#2b4e72]" />
                 </span>
                 <div>
-                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#057a55]">
+                    <div class="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-[#2b4e72]">
                         <span>Panel de Director Técnico (DT)</span>
                         <span class="text-slate-300">•</span>
                         <span>{{ $team->tournament->name }}</span>
@@ -25,7 +25,7 @@
             </div>
 
             <div class="flex flex-wrap items-center gap-3">
-                <a href="{{ route('dt.roster', $team) }}" class="rounded-lg bg-[#057a55] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#046c4b] flex items-center gap-2">
+                <a href="{{ route('dt.roster', $team) }}" class="rounded-lg bg-[#2b4e72] px-4 py-2.5 text-xs font-semibold text-white shadow-2xs transition hover:bg-[#2790b0] flex items-center gap-2">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/></svg>
                     <span>Gestionar Plantilla ({{ $team->players->count() }})</span>
                 </a>
@@ -68,7 +68,7 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs">
             <span class="text-xs font-semibold text-slate-500">Jugadores Inscritos</span>
             <div class="mt-2 text-3xl font-extrabold text-slate-900">{{ $team->players->count() }}</div>
-            <a href="{{ route('dt.roster', $team) }}" class="mt-4 inline-block text-xs font-semibold text-[#057a55] hover:underline">
+            <a href="{{ route('dt.roster', $team) }}" class="mt-4 inline-block text-xs font-semibold text-[#2b4e72] hover:underline">
                 Ver plantilla o subir CSV →
             </a>
         </div>
@@ -82,7 +82,7 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs">
             <span class="text-xs font-semibold text-slate-500">Partidos Disputados</span>
             <div class="mt-2 text-3xl font-extrabold text-slate-900">{{ $recentMatches->count() }}</div>
-            <a href="{{ route('standings.index') }}" class="mt-4 inline-block text-xs font-semibold text-[#057a55] hover:underline">
+            <a href="{{ route('standings.index') }}" class="mt-4 inline-block text-xs font-semibold text-[#2b4e72] hover:underline">
                 Ver tabla de posiciones →
             </a>
         </div>
@@ -108,7 +108,7 @@
                             <p class="mt-1 text-xs text-slate-500">
                                 <x-reicon name="pin" class="size-3.5 text-slate-400 inline-block mr-1" /> Sede: <span class="text-slate-800 font-semibold">{{ $nextMatch->venue->name }}</span>
                                 @if ($nextMatch->venue->navigation_url)
-                                    • <a href="{{ $nextMatch->venue->navigation_url }}" target="_blank" class="text-[#057a55] hover:underline font-semibold">Ver Mapa GPS</a>
+                                    • <a href="{{ $nextMatch->venue->navigation_url }}" target="_blank" class="text-[#2b4e72] hover:underline font-semibold">Ver Mapa GPS</a>
                                 @endif
                             </p>
                         @endif

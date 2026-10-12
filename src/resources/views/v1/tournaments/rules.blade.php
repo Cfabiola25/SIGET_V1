@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Reglamento de Competición - ' . $tournament->name)
 @section('header_title', 'Reglamento y Configuración de Competición')
@@ -161,7 +161,7 @@
             <a href="{{ route('tournaments.show', $tournament) }}" class="px-5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs md:text-sm font-semibold hover:bg-slate-50 transition">
                 Cancelar
             </a>
-            <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs md:text-sm font-bold shadow-xs transition cursor-pointer">
+            <button type="submit" class="px-6 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs md:text-sm font-bold shadow-xs transition cursor-pointer">
                 Guardar Reglamento
             </button>
         </div>

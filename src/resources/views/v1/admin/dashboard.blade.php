@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Panel de Control')
 @section('header_title', 'Panel de Control')
@@ -168,7 +168,7 @@
                                 </td>
                                 <td class="py-4 px-5 text-center">
                                     @if ($m->status === 'played')
-                                        <span class="inline-block bg-[#057a55] text-white text-[11px] font-bold px-3 py-0.5 rounded-full">
+                                        <span class="inline-block bg-[#2b4e72] text-white text-[11px] font-bold px-3 py-0.5 rounded-full">
                                             Finalizado
                                         </span>
                                     @elseif ($m->status === 'in_progress')
@@ -210,7 +210,7 @@
                     <p class="text-xs text-slate-600 leading-relaxed">
                         Revisar {{ $pendingResultsCount }} resultados pendientes del fin de semana.
                     </p>
-                    <a href="{{ route('matches.index') }}" class="block w-full py-2.5 px-4 bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs font-bold rounded-lg transition text-center shadow-xs">
+                    <a href="{{ route('matches.index') }}" class="block w-full py-2.5 px-4 bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs font-bold rounded-lg transition text-center shadow-xs">
                         Revisar Resultados
                     </a>
                 </div>
@@ -227,7 +227,7 @@
                         <path class="text-slate-100" stroke-width="3.5" stroke="currentColor" fill="none"
                               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
                         <!-- Progress Arc -->
-                        <path class="text-[#057a55]" stroke-width="3.5" stroke-dasharray="{{ $progressPercentage }}, 100" stroke-linecap="round" stroke="currentColor" fill="none"
+                        <path class="text-[#2b4e72]" stroke-width="3.5" stroke-dasharray="{{ $progressPercentage }}, 100" stroke-linecap="round" stroke="currentColor" fill="none"
                               d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
                     </svg>
                     <div class="absolute text-3xl font-black text-slate-900">

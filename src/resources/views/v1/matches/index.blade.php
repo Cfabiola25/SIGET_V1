@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Partidos & Calendario')
 @section('header_title', 'Gestión de Partidos')
@@ -26,7 +26,7 @@
                 <span class="size-2 rounded-full bg-rose-500 animate-pulse"></span>
                 <span>Partidos En Vivo</span>
             </a>
-            <a href="{{ route('matches.schedule') }}" class="px-4 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs md:text-sm font-bold shadow-xs transition">
+            <a href="{{ route('matches.schedule') }}" class="px-4 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs md:text-sm font-bold shadow-xs transition">
                 + Programar Partido
             </a>
         </div>
@@ -123,7 +123,7 @@
                         </div>
                         <div class="mt-1">
                             @if ($match->status === 'played')
-                                <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Finalizado</span>
+                                <span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Finalizado</span>
                             @elseif ($match->status === 'in_progress')
                                 <span class="inline-block bg-sky-100 text-sky-800 text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">En Juego</span>
                             @else
@@ -136,7 +136,7 @@
                         <a href="{{ route('matches.show', $match) }}" class="px-3.5 py-2 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs font-semibold hover:bg-slate-50 transition">
                             Detalles
                         </a>
-                        <a href="{{ route('matches.console', $match) }}" class="px-3.5 py-2 rounded-lg bg-[#057a55] hover:bg-[#046c4b] text-white text-xs font-bold transition">
+                        <a href="{{ route('matches.console', $match) }}" class="px-3.5 py-2 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] text-white text-xs font-bold transition">
                             Consola
                         </a>
                     </div>

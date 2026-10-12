@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Gestión de Jugadores')
 @section('header_title', 'Gestión de Jugadores')
@@ -26,7 +26,7 @@
 
             <!-- Botón Agregar Nuevo Jugador -->
             <button type="button" onclick="document.getElementById('add-player-modal').showModal()" 
-                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs md:text-sm font-bold shadow-xs transition cursor-pointer">
+                    class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs md:text-sm font-bold shadow-xs transition cursor-pointer">
                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
                 <span>Agregar Jugador</span>
             </button>
@@ -154,7 +154,7 @@
                                         SUSPENDIDO
                                     </span>
                                 @else
-                                    <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
+                                    <span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">
                                         ACTIVO
                                     </span>
                                 @endif

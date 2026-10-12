@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
@@ -8,12 +8,12 @@
 </head>
 <body class="min-h-screen bg-[#f4f6fa] text-slate-900 font-sans antialiased">
     <main class="grid min-h-screen lg:grid-cols-[480px_1fr]">
-        <!-- Left Brand Sidebar (Dark Navy #182232) -->
-        <section class="hidden lg:flex flex-col justify-between bg-[#182232] p-12 text-white border-r border-[#223147]">
+        <!-- Left Brand Sidebar (Dark Navy #353432) -->
+        <section class="hidden lg:flex flex-col justify-between bg-[#353432] p-12 text-white border-r border-[#4e4d4a]">
             <div>
                 <!-- Brand Logo & Badge -->
                 <div class="flex items-center gap-3">
-                    <span class="grid size-10 place-items-center rounded-xl bg-[#057a55] text-base font-extrabold text-white shadow-md">
+                    <span class="grid size-10 place-items-center rounded-xl bg-[#2b4e72] text-base font-extrabold text-white shadow-md">
                         S
                     </span>
                     <div>
@@ -26,7 +26,7 @@
                 </div>
 
                 <div class="mt-20 space-y-6">
-                    <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#057a55]/20 text-emerald-400 border border-[#057a55]/40">
+                    <span class="inline-block px-2.5 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#2b4e72]/20 text-emerald-400 border border-[#2b4e72]/40">
                         Nuevo Registro
                     </span>
                     <h1 class="text-3xl font-extrabold tracking-tight text-white leading-tight">
@@ -68,7 +68,7 @@
                                    type="text" 
                                    value="{{ old('name') }}" 
                                    required 
-                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#057a55] focus:ring-1 focus:ring-[#057a55]"
+                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72]"
                                    placeholder="Juan Pérez">
                         </div>
 
@@ -79,13 +79,13 @@
                                    type="email" 
                                    value="{{ old('email') }}" 
                                    required 
-                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#057a55] focus:ring-1 focus:ring-[#057a55]"
+                                   class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition placeholder:text-slate-400 focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72]"
                                    placeholder="usuario@correo.com">
                         </div>
 
                         <div>
                             <label for="role" class="block text-xs font-semibold text-slate-700 mb-1.5">Rol en la Plataforma</label>
-                            <select id="role" name="role" required class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-[#057a55] focus:ring-1 focus:ring-[#057a55]">
+                            <select id="role" name="role" required class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72]">
                                 <option value="admin">Administrador de Torneo / Director</option>
                                 <option value="captain">Director Técnico (DT) / Capitán</option>
                                 <option value="player">Jugador Registrado</option>
@@ -99,7 +99,7 @@
                                        name="password" 
                                        type="password" 
                                        required
-                                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-[#057a55] focus:ring-1 focus:ring-[#057a55]"
+                                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72]"
                                        placeholder="••••••••">
                             </div>
 
@@ -109,13 +109,13 @@
                                        name="password_confirmation" 
                                        type="password" 
                                        required
-                                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-[#057a55] focus:ring-1 focus:ring-[#057a55]"
+                                       class="w-full rounded-lg border border-slate-200 bg-white px-3.5 py-2.5 text-xs text-slate-900 outline-none transition focus:border-[#2b4e72] focus:ring-1 focus:ring-[#2b4e72]"
                                        placeholder="••••••••">
                             </div>
                         </div>
 
                         <div class="pt-2">
-                            <button type="submit" class="w-full rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] py-2.5 text-xs font-semibold text-white shadow-2xs transition">
+                            <button type="submit" class="w-full rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] py-2.5 text-xs font-semibold text-white shadow-2xs transition">
                                 Completar Registro
                             </button>
                         </div>
@@ -123,7 +123,7 @@
 
                     <div class="mt-6 border-t border-slate-100 pt-5 text-center text-xs text-slate-500">
                         ¿Ya tienes una cuenta?
-                        <a href="{{ route('login') }}" class="font-semibold text-[#057a55] hover:underline ml-1">Iniciar Sesión</a>
+                        <a href="{{ route('login') }}" class="font-semibold text-[#2b4e72] hover:underline ml-1">Iniciar Sesión</a>
                     </div>
                 </div>
             </div>

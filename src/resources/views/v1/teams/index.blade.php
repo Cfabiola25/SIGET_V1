@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Gestión de Equipos')
 @section('header_title', 'Gestión de Equipos')
@@ -35,7 +35,7 @@
 
         <!-- Botón Inscribir Nuevo Equipo -->
         <button type="button" onclick="document.getElementById('add-team-modal').showModal()" 
-                class="bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white rounded-2xl p-5 shadow-sm transition-all duration-150 flex flex-col items-center justify-center gap-2 group cursor-pointer text-center">
+                class="bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white rounded-2xl p-5 shadow-sm transition-all duration-150 flex flex-col items-center justify-center gap-2 group cursor-pointer text-center">
             <svg class="size-8 text-white group-hover:scale-110 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <circle cx="12" cy="12" r="9" stroke-width="2"/>
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v8m-4-4h8"/>
@@ -105,7 +105,7 @@
                                 </td>
                                 <td class="py-3.5 px-5 text-center">
                                     @if ($team->status === 'approved' || $team->status === 'active')
-                                        <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
+                                        <span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">
                                             ACTIVO
                                         </span>
                                     @else
@@ -137,7 +137,7 @@
                                 <td class="py-3.5 px-5 text-slate-600 font-medium">David O'Connor</td>
                                 <td class="py-3.5 px-5 text-center font-bold text-slate-800">18</td>
                                 <td class="py-3.5 px-5 text-center">
-                                    <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">ACTIVO</span>
+                                    <span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">ACTIVO</span>
                                 </td>
                                 <td class="py-3.5 px-5 text-right">
                                     <div class="flex items-center justify-end gap-2 text-slate-400">
@@ -156,7 +156,7 @@
                                 <td class="py-3.5 px-5 text-slate-600 font-medium">Sarah Jenkins</td>
                                 <td class="py-3.5 px-5 text-center font-bold text-slate-800">22</td>
                                 <td class="py-3.5 px-5 text-center">
-                                    <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">ACTIVO</span>
+                                    <span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">ACTIVO</span>
                                 </td>
                                 <td class="py-3.5 px-5 text-right">
                                     <div class="flex items-center justify-end gap-2 text-slate-400">
@@ -194,7 +194,7 @@
                                 <td class="py-3.5 px-5 text-slate-600 font-medium">Elena Rodriguez</td>
                                 <td class="py-3.5 px-5 text-center font-bold text-slate-800">20</td>
                                 <td class="py-3.5 px-5 text-center">
-                                    <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">ACTIVO</span>
+                                    <span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-extrabold px-2.5 py-0.5 rounded-full uppercase tracking-wider">ACTIVO</span>
                                 </td>
                                 <td class="py-3.5 px-5 text-right">
                                     <div class="flex items-center justify-end gap-2 text-slate-400">

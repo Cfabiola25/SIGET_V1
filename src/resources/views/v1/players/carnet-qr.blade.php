@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Carnet Digital QR: ' . $player->name)
 
@@ -55,7 +55,7 @@
 
     <!-- Acciones de Impresión y Descarga -->
     <div class="mt-4 flex justify-center gap-3 no-print">
-        <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 rounded-xl bg-[#057a55] px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#046c4b] transition active:scale-95">
+        <button type="button" onclick="window.print()" class="inline-flex items-center gap-2 rounded-xl bg-[#2b4e72] px-5 py-2.5 text-xs font-bold text-white shadow-md hover:bg-[#2790b0] transition active:scale-95">
             🖨️ Imprimir / Guardar Carnet PDF
         </button>
     </div>

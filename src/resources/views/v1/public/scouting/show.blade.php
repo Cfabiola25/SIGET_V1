@@ -1,4 +1,4 @@
-@extends('v1.layouts.public')
+﻿@extends('v1.layouts.public')
 
 @section('title', 'Radar de Talento: ' . $player->name)
 
@@ -7,14 +7,14 @@
 
     <!-- Migas de Pan -->
     <div class="flex items-center justify-between text-xs">
-        <a href="{{ route('scouting.index') }}" class="font-bold text-[#057a55] hover:underline flex items-center gap-1">
+        <a href="{{ route('scouting.index') }}" class="font-bold text-[#2b4e72] hover:underline flex items-center gap-1">
             <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M15 19l-7-7 7-7"/></svg>
             <span>Volver al Radar de Talentos</span>
         </a>
 
         <div class="flex items-center gap-2">
             <a href="{{ route('players.cromo', $player) }}" target="_blank" 
-               class="rounded-lg bg-emerald-50 hover:bg-[#057a55] text-emerald-800 hover:text-white px-3 py-1.5 text-xs font-bold transition">
+               class="rounded-lg bg-emerald-50 hover:bg-[#2b4e72] text-emerald-800 hover:text-white px-3 py-1.5 text-xs font-bold transition">
                 Cromo Coleccionable
             </a>
             <a href="{{ route('players.carnet', $player) }}" target="_blank" 
@@ -110,7 +110,7 @@
                         <polygon points="{{ implode(' ', $gridPts) }}" fill="none" stroke="#e2e8f0" stroke-width="1"/>
                     @endfor
 
-                    <polygon points="{{ $polyPoints }}" fill="rgba(5, 122, 85, 0.25)" stroke="#057a55" stroke-width="2.5"/>
+                    <polygon points="{{ $polyPoints }}" fill="rgba(5, 122, 85, 0.25)" stroke="#2b4e72" stroke-width="2.5"/>
 
                     @for($i = 0; $i < 5; $i++)
                         @php

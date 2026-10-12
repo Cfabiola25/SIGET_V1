@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Alineación Digital: ' . $team->name)
 
@@ -6,7 +6,7 @@
 <div class="mx-auto max-w-5xl space-y-6">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <a href="{{ route('matches.show', $match) }}" class="text-xs font-semibold uppercase tracking-wider text-[#057a55] hover:underline flex items-center gap-1">
+            <a href="{{ route('matches.show', $match) }}" class="text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline flex items-center gap-1">
                 <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
                 Volver al Partido
             </a>
@@ -68,7 +68,7 @@
             @if ($players->isEmpty())
                 <div class="p-8 text-center text-xs text-slate-500">
                     No tienes jugadores registrados en el plantel de {{ $team->name }}.
-                    <a href="{{ route('dt.roster', $team) }}" class="text-[#057a55] font-bold hover:underline block mt-2">Ir a registrar jugadores &rarr;</a>
+                    <a href="{{ route('dt.roster', $team) }}" class="text-[#2b4e72] font-bold hover:underline block mt-2">Ir a registrar jugadores &rarr;</a>
                 </div>
             @else
                 <div class="overflow-x-auto">
@@ -91,7 +91,7 @@
                                     $isSub = in_array($player->id, old('substitutes', $currentSubs), true);
                                 @endphp
                                 <tr class="hover:bg-slate-50/80 transition-colors {{ ! $isEligible ? 'bg-rose-50/40 text-slate-400' : '' }}">
-                                    <td class="px-4 py-3 font-mono font-black text-[#057a55]">
+                                    <td class="px-4 py-3 font-mono font-black text-[#2b4e72]">
                                         #{{ $player->jersey_number }}
                                     </td>
                                     <td class="px-4 py-3">
@@ -120,7 +120,7 @@
                                         <input type="checkbox" name="starters[]" value="{{ $player->id }}"
                                                {{ $isStarter ? 'checked' : '' }}
                                                {{ ! $isEligible || $isLocked ? 'disabled' : '' }}
-                                               class="size-4 rounded border-slate-300 text-[#057a55] focus:ring-[#057a55]">
+                                               class="size-4 rounded border-slate-300 text-[#2b4e72] focus:ring-[#2b4e72]">
                                     </td>
                                     <td class="px-4 py-3 text-center">
                                         <input type="checkbox" name="substitutes[]" value="{{ $player->id }}"
@@ -141,7 +141,7 @@
                 <a href="{{ route('matches.show', $match) }}" class="rounded-lg border border-slate-200 bg-white px-4 py-2.5 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition shadow-2xs">
                     Cancelar
                 </a>
-                <button type="submit" class="rounded-lg bg-[#057a55] px-6 py-2.5 text-xs font-bold text-white shadow-2xs hover:bg-[#046c4b] transition cursor-pointer">
+                <button type="submit" class="rounded-lg bg-[#2b4e72] px-6 py-2.5 text-xs font-bold text-white shadow-2xs hover:bg-[#2790b0] transition cursor-pointer">
                     Confirmar y Enviar Alineación Oficial
                 </button>
             </div>

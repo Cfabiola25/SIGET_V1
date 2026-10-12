@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Acta Oficial de Partido')
 
@@ -7,7 +7,7 @@
         <!-- Action Toolbar (hidden on print) -->
         <div class="print:hidden flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-white p-5 rounded-2xl border border-slate-200/90 shadow-2xs">
             <div>
-                <a href="{{ route('matches.show', $match) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#057a55] hover:underline transition">
+                <a href="{{ route('matches.show', $match) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline transition">
                     <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                     Volver al Detalle del Partido
                 </a>
@@ -19,7 +19,7 @@
                     <svg class="size-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
                     Tribunal Disciplinario
                 </a>
-                <button onclick="window.print()" class="px-4 py-2 rounded-lg bg-[#057a55] hover:bg-[#046c4b] text-white text-xs font-semibold transition shadow-2xs flex items-center gap-1.5">
+                <button onclick="window.print()" class="px-4 py-2 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] text-white text-xs font-semibold transition shadow-2xs flex items-center gap-1.5">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/></svg>
                     Imprimir / Exportar PDF
                 </button>

@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Panel Principal')
 @section('header_title', 'Panel Principal')
@@ -63,7 +63,7 @@
                             <h4 class="font-bold text-slate-900 text-sm">{{ $team->name }}</h4>
                             <p class="text-xs text-slate-400">{{ $team->tournament?->name ?? 'Sin torneo asignado' }}</p>
                         </div>
-                        <a href="{{ route('dt.dashboard', $team) }}" class="text-xs font-bold text-[#057a55] hover:underline">
+                        <a href="{{ route('dt.dashboard', $team) }}" class="text-xs font-bold text-[#2b4e72] hover:underline">
                             Panel DT &rarr;
                         </a>
                     </div>

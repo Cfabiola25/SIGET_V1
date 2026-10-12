@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Gestión de Torneos')
 @section('header_title', 'Torneos')
@@ -17,7 +17,7 @@
             </p>
         </div>
 
-        <a href="{{ route('tournaments.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs md:text-sm font-bold shadow-xs transition">
+        <a href="{{ route('tournaments.create') }}" class="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs md:text-sm font-bold shadow-xs transition">
             <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/></svg>
             <span>+ Nuevo Torneo</span>
         </a>
@@ -72,7 +72,7 @@
                 <div>
                     <div class="flex items-center justify-between gap-2">
                         @if ($tournament->status === 'active')
-                            <span class="inline-block bg-[#d1fae5] text-[#065f46] text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider">
+                            <span class="inline-block bg-[#eaf3de] text-[#42651b] text-[10px] font-extrabold px-3 py-0.5 rounded-full uppercase tracking-wider">
                                 ACTIVO
                             </span>
                         @elseif ($tournament->status === 'completed')

@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Crear Nuevo Torneo')
 @section('header_title', 'Crear Nuevo Torneo')
@@ -22,7 +22,7 @@
             <a href="{{ route('tournaments.index') }}" class="px-5 py-2.5 rounded-lg border border-slate-300 bg-white text-slate-700 text-xs md:text-sm font-semibold hover:bg-slate-50 shadow-2xs transition">
                 Cancelar
             </a>
-            <button type="submit" class="px-5 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs md:text-sm font-bold shadow-xs transition cursor-pointer">
+            <button type="submit" class="px-5 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs md:text-sm font-bold shadow-xs transition cursor-pointer">
                 Guardar Torneo
             </button>
         </div>
@@ -89,7 +89,7 @@
                 <!-- Win Row -->
                 <div class="flex items-center justify-between p-3 rounded-xl bg-slate-50/70 border border-slate-100">
                     <div class="flex items-center gap-3">
-                        <div class="size-7 rounded-full bg-[#057a55] text-white font-black text-xs flex items-center justify-center">
+                        <div class="size-7 rounded-full bg-[#2b4e72] text-white font-black text-xs flex items-center justify-center">
                             V
                         </div>
                         <span class="text-sm font-semibold text-slate-800">Victoria</span>
@@ -125,7 +125,7 @@
                 <!-- Bonus Point Checkbox -->
                 <div class="pt-2">
                     <label class="flex items-start gap-2.5 text-xs text-slate-600 cursor-pointer">
-                        <input type="checkbox" name="bonus_goals" value="1" class="size-4 mt-0.5 rounded border-slate-300 accent-[#057a55]">
+                        <input type="checkbox" name="bonus_goals" value="1" class="size-4 mt-0.5 rounded border-slate-300 accent-[#2b4e72]">
                         <span>Otorgar punto de bonificación por goles anotados (ej: >3 goles)</span>
                     </label>
                 </div>
@@ -156,7 +156,7 @@
                 <!-- Phase Header -->
                 <div class="flex items-center justify-between">
                     <div class="flex items-center gap-2.5">
-                        <div class="size-6 rounded-md bg-[#057a55] text-white font-bold text-xs flex items-center justify-center">
+                        <div class="size-6 rounded-md bg-[#2b4e72] text-white font-bold text-xs flex items-center justify-center">
                             1
                         </div>
                         <h4 class="font-bold text-sm text-slate-900">Fase de Grupos</h4>
@@ -246,7 +246,7 @@
                 <!-- Third place checkbox -->
                 <div>
                     <label class="flex items-center gap-2.5 text-xs font-semibold text-slate-700 cursor-pointer">
-                        <input type="checkbox" name="include_third_place" value="1" checked class="size-4 rounded border-slate-300 accent-[#057a55]">
+                        <input type="checkbox" name="include_third_place" value="1" checked class="size-4 rounded border-slate-300 accent-[#2b4e72]">
                         <span>Incluir Partido por el Tercer Puesto</span>
                     </label>
                 </div>

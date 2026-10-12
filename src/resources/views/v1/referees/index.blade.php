@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Gestión de Árbitros')
 
@@ -15,7 +15,7 @@
                 <svg class="size-4 text-amber-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
                 <span>Evaluaciones y Anti-Conflicto</span>
             </a>
-            <button type="button" onclick="document.getElementById('modal-add-referee').classList.remove('hidden')" class="inline-flex items-center gap-2 rounded-lg bg-[#057a55] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#046c4b] transition shadow-2xs">
+            <button type="button" onclick="document.getElementById('modal-add-referee').classList.remove('hidden')" class="inline-flex items-center gap-2 rounded-lg bg-[#2b4e72] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#2790b0] transition shadow-2xs">
                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
                 <span>Agregar Nuevo Árbitro</span>
             </button>
@@ -73,11 +73,11 @@
                            name="search" 
                            value="{{ request('search') }}" 
                            placeholder="Buscar árbitros por nombre o credencial..." 
-                           class="w-full pl-10 pr-4 py-2 text-xs border border-slate-200 rounded-lg bg-slate-50/60 focus:bg-white focus:border-[#057a55] focus:outline-none placeholder:text-slate-400">
+                           class="w-full pl-10 pr-4 py-2 text-xs border border-slate-200 rounded-lg bg-slate-50/60 focus:bg-white focus:border-[#2b4e72] focus:outline-none placeholder:text-slate-400">
                 </div>
 
                 <div class="w-full sm:w-44">
-                    <select name="status" class="w-full py-2 px-3 text-xs border border-slate-200 rounded-lg bg-white focus:border-[#057a55] focus:outline-none">
+                    <select name="status" class="w-full py-2 px-3 text-xs border border-slate-200 rounded-lg bg-white focus:border-[#2b4e72] focus:outline-none">
                         <option value="">Todos los Estados</option>
                         <option value="active" {{ request('status') === 'active' ? 'selected' : '' }}>Solo Activos</option>
                         <option value="inactive" {{ request('status') === 'inactive' ? 'selected' : '' }}>Solo Inactivos</option>
@@ -191,16 +191,16 @@
 
             <div>
                 <label for="name" class="block text-xs font-semibold text-slate-700 mb-1">Nombre Completo *</label>
-                <input type="text" name="name" id="name" required placeholder="Ej: David O'Connor" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                <input type="text" name="name" id="name" required placeholder="Ej: David O'Connor" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
             </div>
 
             <div>
                 <label for="license_number" class="block text-xs font-semibold text-slate-700 mb-1">N° Licencia / Credencial *</label>
-                <input type="text" name="license_number" id="license_number" required placeholder="Ej: ARB-2026-009" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                <input type="text" name="license_number" id="license_number" required placeholder="Ej: ARB-2026-009" class="w-full rounded-lg border border-slate-200 px-3.5 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
             </div>
 
             <div class="flex items-center gap-2 pt-1">
-                <input type="checkbox" name="is_active" id="is_active" value="1" checked class="size-4 rounded text-[#057a55] focus:ring-[#057a55] border-slate-300">
+                <input type="checkbox" name="is_active" id="is_active" value="1" checked class="size-4 rounded text-[#2b4e72] focus:ring-[#2b4e72] border-slate-300">
                 <label for="is_active" class="text-xs font-semibold text-slate-700">Marcar como activo y disponible para designaciones</label>
             </div>
 
@@ -208,7 +208,7 @@
                 <button type="button" onclick="document.getElementById('modal-add-referee').classList.add('hidden')" class="px-4 py-2 rounded-lg border border-slate-200 bg-white text-xs font-semibold text-slate-700 hover:bg-slate-50 transition">
                     Cancelar
                 </button>
-                <button type="submit" class="px-5 py-2 rounded-lg bg-[#057a55] hover:bg-[#046c4b] text-xs font-semibold text-white transition shadow-2xs">
+                <button type="submit" class="px-5 py-2 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] text-xs font-semibold text-white transition shadow-2xs">
                     Guardar Árbitro
                 </button>
             </div>

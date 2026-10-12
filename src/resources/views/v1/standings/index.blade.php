@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Tabla de Posiciones')
 
@@ -76,7 +76,7 @@
                                         <x-reicon name="football" class="size-4 text-emerald-600 inline-block" />
                                     </div>
                                     <div>
-                                        <a href="{{ route('teams.show', $standing->team) }}" class="font-bold text-slate-900 hover:text-[#057a55] transition hover:underline">
+                                        <a href="{{ route('teams.show', $standing->team) }}" class="font-bold text-slate-900 hover:text-[#2b4e72] transition hover:underline">
                                             {{ $standing->team->name }}
                                         </a>
                                         <p class="text-[10px] text-slate-400">{{ $standing->tournament->name }}</p>

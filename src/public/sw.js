@@ -1,9 +1,9 @@
 // SIGET Service Worker - PWA & Offline Support
-const CACHE_NAME = 'siget-cache-v2';
+const CACHE_NAME = 'siget-cache-v4';
 const PRECACHE_ASSETS = [
   '/',
   '/manifest.json',
-  '/build/assets/app-DAxmSOyj.css',
+  '/build/assets/app-Cb47yZTa.css',
   '/build/assets/app-CMmoNCLt.js',
   '/images/stadium_hero.jpg'
 ];

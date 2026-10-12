@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Cierre y Firma de Acta Digital')
 
@@ -7,7 +7,7 @@
     <!-- Back Navigation & Title -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-            <a href="{{ route('matches.console', $match) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#057a55] hover:underline transition">
+            <a href="{{ route('matches.console', $match) }}" class="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-[#2b4e72] hover:underline transition">
                 <svg class="size-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"/></svg>
                 Volver a Consola Arbitral
             </a>
@@ -130,7 +130,7 @@
 
                     <div class="mt-3">
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre y Apellido</label>
-                        <input type="text" name="referee_name" id="referee_name" value="{{ old('referee_name', $match->referee?->name ?? auth()->user()->name) }}" required class="w-full rounded-lg bg-white border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#057a55] focus:outline-none">
+                        <input type="text" name="referee_name" id="referee_name" value="{{ old('referee_name', $match->referee?->name ?? auth()->user()->name) }}" required class="w-full rounded-lg bg-white border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#2b4e72] focus:outline-none">
                     </div>
 
                     <div class="mt-3">
@@ -158,7 +158,7 @@
 
                     <div class="mt-3">
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre del DT / Capitán</label>
-                        <input type="text" name="home_coach_name" id="home_coach_name" value="{{ old('home_coach_name', $match->homeTeam->coach_name) }}" required class="w-full rounded-lg bg-white border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#057a55] focus:outline-none">
+                        <input type="text" name="home_coach_name" id="home_coach_name" value="{{ old('home_coach_name', $match->homeTeam->coach_name) }}" required class="w-full rounded-lg bg-white border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#2b4e72] focus:outline-none">
                     </div>
 
                     <div class="mt-3">
@@ -186,7 +186,7 @@
 
                     <div class="mt-3">
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Nombre del DT / Capitán</label>
-                        <input type="text" name="away_coach_name" id="away_coach_name" value="{{ old('away_coach_name', $match->awayTeam->coach_name) }}" required class="w-full rounded-lg bg-white border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#057a55] focus:outline-none">
+                        <input type="text" name="away_coach_name" id="away_coach_name" value="{{ old('away_coach_name', $match->awayTeam->coach_name) }}" required class="w-full rounded-lg bg-white border border-slate-200 px-3 py-2 text-xs text-slate-900 focus:border-[#2b4e72] focus:outline-none">
                     </div>
 
                     <div class="mt-3">
@@ -205,7 +205,7 @@
         <div class="rounded-2xl border border-slate-200/90 bg-white p-6 shadow-2xs space-y-3">
             <label for="match_sheet_notes" class="block text-sm font-bold text-slate-900">Observaciones e Informe Arbitral Adicional</label>
             <p class="text-xs text-slate-500">Describe conducta antideportiva, reclamaciones formales, lesiones de gravedad o anomalías ocurridas durante o después del cotejo.</p>
-            <textarea name="match_sheet_notes" id="match_sheet_notes" rows="3" class="w-full rounded-lg bg-white border border-slate-200 px-3.5 py-2.5 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none" placeholder="Sin observaciones extraordinarias. El encuentro transcurrió bajo las reglas de juego IFAB.">{{ old('match_sheet_notes', $match->match_sheet_notes) }}</textarea>
+            <textarea name="match_sheet_notes" id="match_sheet_notes" rows="3" class="w-full rounded-lg bg-white border border-slate-200 px-3.5 py-2.5 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none" placeholder="Sin observaciones extraordinarias. El encuentro transcurrió bajo las reglas de juego IFAB.">{{ old('match_sheet_notes', $match->match_sheet_notes) }}</textarea>
         </div>
 
         <!-- Legal Warning & Submit Button -->
@@ -220,7 +220,7 @@
             <a href="{{ route('matches.console', $match) }}" class="px-5 py-2.5 rounded-lg border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 text-xs font-semibold transition">
                 Cancelar
             </a>
-            <button type="submit" id="btn-submit-closure" class="px-6 py-2.5 rounded-lg bg-[#057a55] hover:bg-[#046c4b] text-white font-semibold text-xs transition shadow-2xs flex items-center gap-2">
+            <button type="submit" id="btn-submit-closure" class="px-6 py-2.5 rounded-lg bg-[#2b4e72] hover:bg-[#2790b0] text-white font-semibold text-xs transition shadow-2xs flex items-center gap-2">
                 <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/></svg>
                 Certificar Acta y Bloquear Partido
             </button>
@@ -246,7 +246,7 @@
 
             const ctx = canvas.getContext('2d');
             ctx.scale(2, 2);
-            ctx.strokeStyle = '#057a55';
+            ctx.strokeStyle = '#2b4e72';
             ctx.lineWidth = 2.5;
             ctx.lineCap = 'round';
             ctx.lineJoin = 'round';

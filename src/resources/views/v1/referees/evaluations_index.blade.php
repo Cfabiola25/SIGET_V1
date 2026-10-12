@@ -1,4 +1,4 @@
-@extends('v1.layouts.app')
+﻿@extends('v1.layouts.app')
 
 @section('title', 'Profesionalización Arbitral & Asignación Algorítmica')
 
@@ -52,7 +52,7 @@
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Torneo</label>
-                        <select name="tournament_id" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                        <select name="tournament_id" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                             @foreach($tournaments as $tourn)
                                 <option value="{{ $tourn->id }}">{{ $tourn->name }}</option>
                             @endforeach
@@ -60,10 +60,10 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Número de Jornada</label>
-                        <input type="number" name="round_number" value="1" min="1" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                        <input type="number" name="round_number" value="1" min="1" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                     </div>
                 </div>
-                <button type="submit" class="w-full rounded-lg bg-[#057a55] py-2.5 text-xs font-semibold text-white shadow-2xs hover:bg-[#046c4b] transition">
+                <button type="submit" class="w-full rounded-lg bg-[#2b4e72] py-2.5 text-xs font-semibold text-white shadow-2xs hover:bg-[#2790b0] transition">
                     Ejecutar Motor Algorítmico de Asignación
                 </button>
             </form>
@@ -86,7 +86,7 @@
                 <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Árbitro</label>
-                        <select name="referee_id" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                        <select name="referee_id" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                             @foreach($referees as $r)
                                 <option value="{{ $r->id }}">{{ $r->name }} ({{ number_format($r->rating_average, 2) }} pts)</option>
                             @endforeach
@@ -94,7 +94,7 @@
                     </div>
                     <div>
                         <label class="block text-xs font-semibold text-slate-700 mb-1">Club con Conflicto</label>
-                        <select name="team_id" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                        <select name="team_id" required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                             @foreach($teams as $t)
                                 <option value="{{ $t->id }}">{{ $t->name }}</option>
                             @endforeach
@@ -102,7 +102,7 @@
                     </div>
                 </div>
                 <div>
-                    <input type="text" name="reason" placeholder="Motivo (ej: Vínculo familiar, incidente previo, club de origen)..." required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#057a55] focus:outline-none">
+                    <input type="text" name="reason" placeholder="Motivo (ej: Vínculo familiar, incidente previo, club de origen)..." required class="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-xs text-slate-800 focus:border-[#2b4e72] focus:outline-none">
                 </div>
                 <button type="submit" class="w-full rounded-lg border border-amber-300 bg-amber-50 py-2.5 text-xs font-semibold text-amber-900 hover:bg-amber-100 transition">
                     Registrar Bloqueo de Conflicto

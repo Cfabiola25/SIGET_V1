@@ -6,7 +6,7 @@
     <title>@yield('title', 'SIGET') | Portal Oficial de Torneos</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <meta name="theme-color" content="#057a55">
+    <meta name="theme-color" content="#2b4e72">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <link rel="manifest" href="/manifest.json">
@@ -60,10 +60,10 @@
                 <!-- Logo & Marca Principal -->
                 <div class="flex items-center gap-8">
                     <a href="{{ url('/') }}" class="flex items-center gap-2.5 group">
-                        <span class="size-9 rounded-xl bg-[#057a55] flex items-center justify-center text-white font-black text-base shadow-sm group-hover:bg-[#046c4b] transition transform group-hover:scale-105">
+                        <span class="size-9 rounded-xl bg-[#2b4e72] flex items-center justify-center text-white font-black text-base shadow-sm group-hover:bg-[#2790b0] transition transform group-hover:scale-105">
                             S
                         </span>
-                        <span class="font-display text-xl sm:text-2xl font-black tracking-tight text-[#057a55]">
+                        <span class="font-display text-xl sm:text-2xl font-black tracking-tight text-[#2b4e72]">
                             SIGET
                         </span>
                     </a>
@@ -71,15 +71,15 @@
                     <!-- Enlaces de Navegación del Portal Público -->
                     <nav class="hidden md:flex items-center gap-1 sm:gap-2">
                         <a href="{{ url('/') }}" 
-                           class="px-3.5 py-2 text-sm font-bold transition rounded-lg relative {{ request()->is('/') ? 'text-[#057a55] after:absolute after:bottom-0 after:left-3.5 after:right-3.5 after:h-0.5 after:bg-[#057a55]' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                           class="px-3.5 py-2 text-sm font-bold transition rounded-lg relative {{ request()->is('/') ? 'text-[#2b4e72] after:absolute after:bottom-0 after:left-3.5 after:right-3.5 after:h-0.5 after:bg-[#2b4e72]' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                             Inicio
                         </a>
                         <a href="{{ route('standings.index') }}" 
-                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('standings.*') ? 'text-[#057a55] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('standings.*') ? 'text-[#2b4e72] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                             Posiciones
                         </a>
                         <a href="{{ route('matches.index') }}" 
-                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('matches.*') ? 'text-[#057a55] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('matches.*') ? 'text-[#2b4e72] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                             Partidos
                         </a>
                         <a href="{{ url('/#seccion-estadisticas') }}" 
@@ -87,11 +87,11 @@
                             Estadísticas
                         </a>
                         <a href="{{ route('teams.index') }}" 
-                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('teams.*') ? 'text-[#057a55] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('teams.*') ? 'text-[#2b4e72] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                             Equipos
                         </a>
                         <a href="{{ route('scouting.index') }}" 
-                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('scouting.*') ? 'text-[#057a55] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
+                           class="px-3.5 py-2 text-sm font-semibold transition rounded-lg {{ request()->routeIs('scouting.*') ? 'text-[#2b4e72] font-bold' : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70' }}">
                             Scouting
                         </a>
                     </nav>
@@ -116,7 +116,7 @@
                         <!-- Usuario Ya Autenticado: Muestra perfil y acceso a panel interno -->
                         <div class="flex items-center gap-2 sm:gap-3 pl-2 border-l border-slate-200">
                             <a href="{{ auth()->user()->isReferee() ? route('referees.portal') : route('dashboard') }}" 
-                               class="inline-flex items-center gap-2 bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs sm:text-sm font-bold py-2 px-3.5 sm:px-4 rounded-full shadow-xs transition transform hover:-translate-y-0.5" 
+                               class="inline-flex items-center gap-2 bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs sm:text-sm font-bold py-2 px-3.5 sm:px-4 rounded-full shadow-xs transition transform hover:-translate-y-0.5" 
                                title="Ir a tu panel">
                                 <span class="hidden sm:inline">{{ auth()->user()->isReferee() ? 'Panel Arbitral' : 'Mi Panel' }}</span>
                                 <span class="sm:hidden">{{ auth()->user()->isReferee() ? 'Árbitro' : 'Panel' }}</span>
@@ -134,7 +134,7 @@
                     @else
                         <!-- Usuario Visitante: Botón Login llamativo y limpio como en la maqueta -->
                         <a href="{{ route('login') }}" 
-                           class="inline-flex items-center justify-center bg-[#057a55] hover:bg-[#046c4b] active:bg-[#03543a] text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 px-5 sm:px-6 rounded-full shadow-xs transition-all duration-150 transform hover:-translate-y-0.5">
+                           class="inline-flex items-center justify-center bg-[#2b4e72] hover:bg-[#2790b0] active:bg-[#1e3852] text-white text-xs sm:text-sm font-bold py-2 sm:py-2.5 px-5 sm:px-6 rounded-full shadow-xs transition-all duration-150 transform hover:-translate-y-0.5">
                             Iniciar Sesión
                         </a>
                     @endauth
@@ -151,7 +151,7 @@
 
         <!-- Menú Móvil Desplegable -->
         <div id="mobile-public-nav" class="hidden md:hidden border-t border-slate-200/80 bg-white px-4 py-3 space-y-1 shadow-lg">
-            <a href="{{ url('/') }}" class="block px-3 py-2 text-sm font-bold text-[#057a55] rounded-lg bg-emerald-50">Inicio</a>
+            <a href="{{ url('/') }}" class="block px-3 py-2 text-sm font-bold text-[#2b4e72] rounded-lg bg-emerald-50">Inicio</a>
             <a href="{{ route('standings.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Posiciones</a>
             <a href="{{ route('matches.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Partidos</a>
             <a href="{{ url('/#seccion-estadisticas') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Estadísticas</a>
@@ -159,7 +159,7 @@
             <a href="{{ route('scouting.index') }}" class="block px-3 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-100 rounded-lg">Scouting</a>
             @guest
                 <div class="pt-2 border-t border-slate-100 flex gap-2">
-                    <a href="{{ route('login') }}" class="flex-1 text-center bg-[#057a55] text-white font-bold py-2 rounded-lg text-sm">Iniciar Sesión</a>
+                    <a href="{{ route('login') }}" class="flex-1 text-center bg-[#2b4e72] text-white font-bold py-2 rounded-lg text-sm">Iniciar Sesión</a>
                     <a href="{{ route('register') }}" class="flex-1 text-center border border-slate-300 text-slate-700 font-bold py-2 rounded-lg text-sm">Registrarse</a>
                 </div>
             @endguest
@@ -200,7 +200,7 @@
     <footer class="mt-auto bg-[#dbe7f6] text-slate-600 py-6 px-4 sm:px-6 lg:px-8 border-t border-slate-300/50">
         <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4 text-xs">
             <!-- Brand -->
-            <div class="flex items-center gap-2 font-display font-black text-base text-[#057a55]">
+            <div class="flex items-center gap-2 font-display font-black text-base text-[#2b4e72]">
                 <span>SIGET</span>
             </div>
 

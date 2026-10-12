@@ -1,4 +1,4 @@
-@extends('v1.layouts.public')
+﻿@extends('v1.layouts.public')
 
 @section('title', $tournament->name . ' | Torneo Oficial')
 
@@ -6,7 +6,7 @@
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
     
     <!-- Hero / Tournament Header -->
-    <div class="rounded-3xl bg-gradient-to-br from-slate-900 via-[#182232] to-[#0f172a] text-white p-6 sm:p-10 shadow-lg relative overflow-hidden">
+    <div class="rounded-3xl bg-gradient-to-br from-slate-900 via-[#353432] to-[#0f172a] text-white p-6 sm:p-10 shadow-lg relative overflow-hidden">
         <div class="absolute -right-10 -bottom-10 opacity-10 pointer-events-none">
             <x-reicon name="trophy" class="size-72 text-white" />
         </div>
@@ -29,7 +29,7 @@
             </div>
 
             <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3">
-                <span class="rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-wider {{ $tournament->status === 'active' ? 'bg-[#057a55] text-white' : ($tournament->status === 'completed' ? 'bg-slate-700 text-slate-200' : 'bg-amber-600 text-white') }}">
+                <span class="rounded-xl px-4 py-2 text-xs font-bold uppercase tracking-wider {{ $tournament->status === 'active' ? 'bg-[#2b4e72] text-white' : ($tournament->status === 'completed' ? 'bg-slate-700 text-slate-200' : 'bg-amber-600 text-white') }}">
                     {{ $tournament->status === 'active' ? 'Torneo Activo' : ($tournament->status === 'completed' ? 'Finalizado' : 'Próximamente') }}
                 </span>
                 <a href="{{ route('standings.index', ['tournament_id' => $tournament->id]) }}" class="inline-flex items-center gap-2 rounded-xl bg-white text-slate-900 px-4 py-2 text-xs font-bold shadow-sm hover:bg-slate-100 transition">
@@ -50,7 +50,7 @@
                     <h2 class="text-lg font-bold text-slate-900">Calendario & Partidos</h2>
                     <p class="text-xs text-slate-500">Encuentros oficiales programados y resultados finales.</p>
                 </div>
-                <a href="{{ route('matches.index', ['tournament_id' => $tournament->id]) }}" class="text-xs font-bold text-[#057a55] hover:underline">
+                <a href="{{ route('matches.index', ['tournament_id' => $tournament->id]) }}" class="text-xs font-bold text-[#2b4e72] hover:underline">
                     Ver todos &rarr;
                 </a>
             </div>
@@ -105,7 +105,7 @@
                     <h2 class="text-lg font-bold text-slate-900">Tabla de Clasificación</h2>
                     <p class="text-xs text-slate-500">Puntajes al día del torneo.</p>
                 </div>
-                <a href="{{ route('standings.index', ['tournament_id' => $tournament->id]) }}" class="text-xs font-bold text-[#057a55] hover:underline">
+                <a href="{{ route('standings.index', ['tournament_id' => $tournament->id]) }}" class="text-xs font-bold text-[#2b4e72] hover:underline">
                     Tabla completa &rarr;
                 </a>
             </div>
@@ -132,7 +132,7 @@
                                 <td class="py-3 px-2 text-center font-mono font-medium {{ ($standing->goals_for - $standing->goals_against) > 0 ? 'text-emerald-700' : '' }}">
                                     {{ $standing->goals_for - $standing->goals_against }}
                                 </td>
-                                <td class="py-3 px-3 text-center font-mono font-extrabold text-[#057a55]">
+                                <td class="py-3 px-3 text-center font-mono font-extrabold text-[#2b4e72]">
                                     {{ $standing->points }}
                                 </td>
                             </tr>
@@ -153,7 +153,7 @@
                 <div class="grid grid-cols-2 gap-2">
                     @foreach($tournament->teams as $team)
                         <a href="{{ route('teams.show', $team) }}" class="p-2.5 rounded-xl border border-slate-100 hover:border-emerald-300 hover:bg-emerald-50/30 transition text-xs font-bold text-slate-800 flex items-center gap-2 truncate">
-                            <span class="size-6 rounded-lg bg-emerald-50 text-[#057a55] font-black text-[10px] flex items-center justify-center shrink-0">
+                            <span class="size-6 rounded-lg bg-emerald-50 text-[#2b4e72] font-black text-[10px] flex items-center justify-center shrink-0">
                                 {{ strtoupper(substr($team->name, 0, 2)) }}
                             </span>
                             <span class="truncate">{{ $team->name }}</span>
