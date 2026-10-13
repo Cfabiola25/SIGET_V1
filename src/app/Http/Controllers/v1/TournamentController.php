@@ -15,10 +15,14 @@ use Illuminate\View\View;
 
 class TournamentController extends Controller
 {
-    public function index(Request $request): View
+    public function index(Request $request): View|RedirectResponse
     {
         $user = request()->user();
         abort_unless($user && in_array($user->role, ['super_admin', 'admin'], true), 403);
+
+        if ($user->isAdmin() && ! $user->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador aún no tiene torneos asignados.');
+        }
 
         $filters = $request->validate([
             'search' => ['nullable', 'string', 'max:100'],
@@ -56,7 +60,7 @@ class TournamentController extends Controller
     public function create(): View
     {
         $user = auth()->user();
-        abort_unless($user && ($user->isSuperAdmin() || $user->isAdmin()), 403);
+        abort_unless($user && ($user->isSuperAdmin() || ($user->isAdmin() && $user->hasManagedTournaments())), 403);
 
         $sports = Sport::orderBy('name')->get();
         $activeAdmins = $user->isSuperAdmin()
@@ -72,7 +76,7 @@ class TournamentController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $user = $request->user();
-        abort_unless($user && ($user->isSuperAdmin() || $user->isAdmin()), 403);
+        abort_unless($user && ($user->isSuperAdmin() || ($user->isAdmin() && $user->hasManagedTournaments())), 403);
 
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],

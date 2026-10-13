@@ -10,18 +10,26 @@ use Illuminate\View\View;
 
 class VenueController extends Controller
 {
-    public function index(): View
+    public function index(): View|RedirectResponse
     {
         abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
 
         $venues = Venue::withCount('matches')->latest()->paginate(15);
 
         return view('v1.venues.index', compact('venues'));
     }
 
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
         abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados para registrar sedes.');
+        }
 
         return view('v1.venues.create');
     }
@@ -29,6 +37,10 @@ class VenueController extends Controller
     public function store(Request $request): RedirectResponse
     {
         abort_unless(in_array($request->user()->role, ['super_admin', 'admin'], true), 403);
+
+        if ($request->user() && $request->user()->isAdmin() && ! $request->user()->hasManagedTournaments()) {
+            abort(403, 'No tienes torneos asignados para registrar sedes.');
+        }
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],

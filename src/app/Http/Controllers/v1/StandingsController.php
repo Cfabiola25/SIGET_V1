@@ -5,6 +5,7 @@ namespace App\Http\Controllers\v1;
 use App\Http\Controllers\Controller;
 use App\Models\v1\Standings;
 use App\Models\v1\Tournament;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 
@@ -36,9 +37,13 @@ class StandingsController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request): View
+    public function adminIndex(Request $request): View|RedirectResponse
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
 
         $query = Standings::with(['team', 'tournament'])->orderByDesc('points');
 

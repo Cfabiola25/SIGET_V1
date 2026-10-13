@@ -19,6 +19,14 @@ class DashboardController extends Controller
             return redirect()->route('referees.portal');
         }
 
+        if ($user->isAdmin()) {
+            return redirect()->route('admin.dashboard');
+        }
+
+        if ($user->isDT() && $user->managedTeams()->doesntExist()) {
+            return view('v1.dt.unassigned', compact('user'));
+        }
+
         $baseData = [
             'tournamentsCount' => Tournament::count(),
             'teamsCount' => Team::count(),

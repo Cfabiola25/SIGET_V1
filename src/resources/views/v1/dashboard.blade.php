@@ -1,4 +1,4 @@
-﻿@extends('v1.layouts.app')
+@extends('v1.layouts.app')
 
 @section('title', 'Panel Principal')
 @section('header_title', 'Panel Principal')
@@ -74,38 +74,64 @@
 
     <!-- Actions & Shortcuts -->
     <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        @if(auth()->user()?->isSuperAdmin() || (auth()->user()?->isAdmin() && auth()->user()?->hasManagedTournaments()))
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-2xs flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">Agendador de Partidos</h3>
+                    <p class="text-xs text-slate-500 mt-1">Organiza horarios, árbitros y canchas de cada fecha.</p>
+                </div>
+                <a href="{{ route('matches.schedule') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                    <span>Ir al Agendador</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+        @else
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-2xs flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">Calendario de Partidos</h3>
+                    <p class="text-xs text-slate-500 mt-1">Consulta fechas, resultados y horarios oficiales.</p>
+                </div>
+                <a href="{{ route('matches.index') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                    <span>Ver Calendario</span>
+                    <span>&rarr;</span>
+                </a>
+            </div>
+        @endif
+
         <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-2xs flex flex-col justify-between">
             <div>
-                <h3 class="font-bold text-slate-900 text-base">Agendador de Partidos</h3>
-                <p class="text-xs text-slate-500 mt-1">Organiza horarios, árbitros y canchas de cada fecha.</p>
+                <h3 class="font-bold text-slate-900 text-base">Tabla de Posiciones</h3>
+                <p class="text-xs text-slate-500 mt-1">Puntos, diferencia de gol y estadísticas en tiempo real.</p>
             </div>
-            <a href="{{ route('matches.schedule') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
-                <span>Ir al Agendador</span>
+            <a href="{{ route('standings.index') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                <span>Ver Clasificación</span>
                 <span>&rarr;</span>
             </a>
         </div>
 
-        <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-2xs flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-slate-900 text-base">Gestión de Jugadores</h3>
-                <p class="text-xs text-slate-500 mt-1">Administra fichas, posiciones, dorsales y estado de sanciones.</p>
+        @if(auth()->user()?->isSuperAdmin())
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-2xs flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">Crear Torneo</h3>
+                    <p class="text-xs text-slate-500 mt-1">Configura fases de grupos, playoffs y modalidades deportivas.</p>
+                </div>
+                <a href="{{ route('tournaments.create') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                    <span>Crear Torneo</span>
+                    <span>&rarr;</span>
+                </a>
             </div>
-            <a href="{{ route('players.index') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
-                <span>Ver Jugadores</span>
-                <span>&rarr;</span>
-            </a>
-        </div>
-
-        <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-2xs flex flex-col justify-between">
-            <div>
-                <h3 class="font-bold text-slate-900 text-base">Crear Torneo</h3>
-                <p class="text-xs text-slate-500 mt-1">Configura fases de grupos, playoffs y sistemas de puntuación.</p>
+        @else
+            <div class="bg-white rounded-2xl border border-slate-200/90 p-6 shadow-2xs flex flex-col justify-between">
+                <div>
+                    <h3 class="font-bold text-slate-900 text-base">Radar de Talentos</h3>
+                    <p class="text-xs text-slate-500 mt-1">Explora jugadores destacados y estadísticas individuales.</p>
+                </div>
+                <a href="{{ route('scouting.index') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
+                    <span>Explorar Scouting</span>
+                    <span>&rarr;</span>
+                </a>
             </div>
-            <a href="{{ route('tournaments.create') }}" class="mt-5 inline-flex items-center gap-2 text-xs font-bold text-emerald-700 hover:text-emerald-800">
-                <span>Crear Torneo</span>
-                <span>&rarr;</span>
-            </a>
-        </div>
+        @endif
     </div>
 
 </div>

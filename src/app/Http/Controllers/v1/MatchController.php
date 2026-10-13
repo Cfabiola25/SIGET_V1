@@ -91,9 +91,13 @@ class MatchController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request): View
+    public function adminIndex(Request $request): View|RedirectResponse
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
 
         $filters = $request->validate([
             'search' => ['nullable', 'string', 'max:100'],
@@ -224,9 +228,14 @@ class MatchController extends Controller
         return view('v1.matches.live', ['matches' => $query->get()]);
     }
 
-    public function schedule(Request $request): View
+    public function schedule(Request $request): View|RedirectResponse
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        $user = $request->user();
+        if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados para programar partidos.');
+        }
 
         $date = $request->query('date', now()->format('Y-m-d'));
         if ($request->has('today')) {
@@ -234,7 +243,6 @@ class MatchController extends Controller
         }
 
         $viewMode = $request->query('view', 'day'); // today, day, week
-        $user = $request->user();
 
         if ($user && $user->isAdmin()) {
             $tournaments = Tournament::where('admin_id', $user->id)->get();
@@ -271,6 +279,10 @@ class MatchController extends Controller
     public function storeSchedule(Request $request): RedirectResponse
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        if ($request->user() && $request->user()->isAdmin() && ! $request->user()->hasManagedTournaments()) {
+            abort(403, 'No tienes torneos asignados para programar partidos.');
+        }
 
         $data = $request->validate([
             'home_team_id' => ['required', 'exists:teams,id', 'different:away_team_id'],

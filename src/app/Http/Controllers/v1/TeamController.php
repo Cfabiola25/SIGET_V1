@@ -47,9 +47,13 @@ class TeamController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request): View
+    public function adminIndex(Request $request): View|RedirectResponse
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
 
         $search = $request->query('search');
 
@@ -96,9 +100,14 @@ class TeamController extends Controller
         ]);
     }
 
-    public function create(): View
+    public function create(): View|RedirectResponse
     {
         abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin', 'captain'], true), 403);
+
+        $user = auth()->user();
+        if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados para registrar equipos.');
+        }
 
         $query = Tournament::whereIn('status', ['pending', 'active']);
 
@@ -112,6 +121,11 @@ class TeamController extends Controller
     public function store(Request $request): RedirectResponse
     {
         abort_unless(in_array($request->user()->role, ['super_admin', 'admin', 'captain'], true), 403);
+
+        $user = $request->user();
+        if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
+            abort(403, 'No tienes torneos asignados para registrar equipos.');
+        }
 
         $data = $request->validate([
             'tournament_id' => ['required', 'exists:tournaments,id'],

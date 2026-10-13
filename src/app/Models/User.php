@@ -55,6 +55,21 @@ class User extends Authenticatable
         return in_array($this->role, ['captain', 'coach'], true);
     }
 
+    public function isDT(): bool
+    {
+        return in_array($this->role, ['captain', 'coach'], true);
+    }
+
+    public function hasManagedTournaments(): bool
+    {
+        return $this->managedTournaments()->exists();
+    }
+
+    public function hasManagedTeams(): bool
+    {
+        return $this->managedTeams()->exists();
+    }
+
     public function isPlayer(): bool
     {
         return $this->role === 'player';

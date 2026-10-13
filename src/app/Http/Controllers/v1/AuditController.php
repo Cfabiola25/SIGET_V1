@@ -14,6 +14,10 @@ class AuditController extends Controller
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
 
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
+
         $pendingMatches = MatchGame::with(['homeTeam', 'awayTeam', 'referee'])
             ->where('status', 'played')
             ->where('is_locked', false)

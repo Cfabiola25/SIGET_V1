@@ -15,6 +15,10 @@ class RefereeController extends Controller
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
 
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
+
         $query = Referee::withCount('matches');
 
         if ($request->filled('search')) {
@@ -60,6 +64,10 @@ class RefereeController extends Controller
     public function store(Request $request)
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            abort(403, 'No tienes torneos asignados para registrar árbitros.');
+        }
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],

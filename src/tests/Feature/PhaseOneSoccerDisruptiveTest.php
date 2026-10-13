@@ -87,6 +87,7 @@ class PhaseOneSoccerDisruptiveTest extends TestCase
     public function test_admin_can_create_venues_with_geolocation(): void
     {
         $admin = User::factory()->create(['role' => 'admin']);
+        Tournament::factory()->create(['admin_id' => $admin->id]);
 
         $this->actingAs($admin)
             ->post(route('venues.store'), [

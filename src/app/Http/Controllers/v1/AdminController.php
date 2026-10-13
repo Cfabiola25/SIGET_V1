@@ -15,6 +15,11 @@ class AdminController extends Controller
     {
         $user = $request->user();
         $tournaments = $user->managedTournaments()->withCount(['teams', 'matches'])->latest()->get();
+
+        if ($tournaments->isEmpty()) {
+            return view('v1.admin.unassigned', compact('user'));
+        }
+
         $tournamentIds = $tournaments->pluck('id');
 
         $totalTeamsCount = Team::whereIn('tournament_id', $tournamentIds)->count();

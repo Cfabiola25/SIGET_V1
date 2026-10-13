@@ -38,9 +38,13 @@ class ScoutingController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request): View
+    public function adminIndex(Request $request): View|RedirectResponse
     {
         abort_unless(auth()->check(), 403);
+
+        if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
 
         $filters = $request->validate([
             'position' => ['nullable', 'string', 'in:goalkeeper,defender,midfielder,forward'],
@@ -160,10 +164,18 @@ class ScoutingController extends Controller
     /**
      * Muestra las solicitudes de fichaje recibidas y enviadas.
      */
-    public function recruitmentRequests(Request $request): View
+    public function recruitmentRequests(Request $request): View|RedirectResponse
     {
         abort_unless(auth()->check(), 403);
         $user = auth()->user();
+
+        if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
+            return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
+        }
+
+        if ($user && ($user->isCoach() || $user->isCaptain()) && ! $user->hasManagedTeams()) {
+            return redirect()->route('dashboard')->with('warning', 'Tu cuenta de Director Técnico no tiene un equipo asignado.');
+        }
 
         $query = PlayerRecruitmentRequest::with(['player.profile', 'team.tournament', 'requester'])
             ->latest();

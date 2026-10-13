@@ -22,6 +22,8 @@ class PlayerController extends Controller
             if ($myTeam) {
                 return redirect()->route('dt.roster', $myTeam);
             }
+
+            return redirect()->route('dashboard')->with('warning', 'Tu cuenta de Director Técnico no tiene un equipo asignado.');
         }
 
         $search = $request->query('search');
@@ -36,6 +38,9 @@ class PlayerController extends Controller
             ->latest('id');
 
         if ($user && $user->isAdmin()) {
+            if (! $user->hasManagedTournaments()) {
+                return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados para gestionar jugadores.');
+            }
             $adminTournamentIds = Tournament::where('admin_id', $user->id)->pluck('id');
             $query->where(function ($q) use ($adminTournamentIds) {
                 $q->whereHas('team', fn ($t) => $t->whereIn('tournament_id', $adminTournamentIds))
@@ -173,6 +178,15 @@ class PlayerController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
+        $user = $request->user();
+        if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
+            abort(403, 'No tienes torneos asignados para registrar jugadores.');
+        }
+
+        if ($user && in_array($user->role, ['captain', 'coach'], true)) {
+            abort(403, 'Los Directores Técnicos deben registrar futbolistas a través de su portal oficial de plantilla.');
+        }
+
         $data = $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'team_id' => ['nullable', 'exists:teams,id'],
