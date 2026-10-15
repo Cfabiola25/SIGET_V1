@@ -6,9 +6,15 @@
 <div class="mx-auto max-w-4xl space-y-8">
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-            <a href="{{ route('dt.roster', $player->team) }}" class="text-xs font-semibold uppercase tracking-wider text-emerald-400 hover:underline">
-                ← Volver a Nómina de {{ $player->team->name }}
-            </a>
+            @if(auth()->user()?->isDT() && $player->team && $player->team->isManagedBy(auth()->user()))
+                <a href="{{ route('dt.roster', $player->team) }}" class="text-xs font-semibold uppercase tracking-wider text-emerald-400 hover:underline">
+                    ← Volver a Nómina de {{ $player->team->name }}
+                </a>
+            @else
+                <a href="{{ route('dashboard') }}" class="text-xs font-semibold uppercase tracking-wider text-emerald-400 hover:underline">
+                    ← Volver al Panel
+                </a>
+            @endif
             <h1 class="mt-1 text-2xl font-black text-white md:text-3xl">Ficha Oficial del Jugador</h1>
             <p class="text-sm text-slate-400">Hoja de vida deportiva pública y estadísticas oficiales en {{ $player->team->tournament->name }}.</p>
         </div>
@@ -17,14 +23,14 @@
             <a href="{{ route('players.carnet', $player) }}" class="inline-flex items-center gap-2 rounded-xl bg-emerald-500 px-4 py-2 text-sm font-black text-slate-950 shadow-lg shadow-emerald-500/20 transition hover:bg-emerald-400">
                 <x-reicon name="mobile" class="size-4 text-slate-500 inline-block mr-1" /> Ver Carnet Digital QR
             </a>
-            @auth
+            @if(auth()->check() && (auth()->user()->isSuperAdmin() || ($player->team && auth()->user()->isAdmin() && $player->team->tournament?->admin_id === auth()->id()) || ($player->team && $player->team->isManagedBy(auth()->user())) || auth()->id() === $player->user_id))
                 <a href="{{ route('players.medical.edit', $player) }}" class="rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 transition">
                     🩺 Ficha Médica
                 </a>
                 <a href="{{ route('players.profile.edit', $player) }}" class="rounded-xl border border-slate-700 bg-slate-800 px-3.5 py-2 text-xs font-bold text-slate-200 hover:bg-slate-700 transition">
                     <x-reicon name="pen" class="size-3.5 text-slate-500 inline-block mr-1" /> Editar Perfil
                 </a>
-            @endauth
+            @endif
         </div>
     </div>
 

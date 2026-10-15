@@ -27,6 +27,27 @@ class DashboardController extends Controller
             return view('v1.dt.unassigned', compact('user'));
         }
 
+        if ($user->isPlayer()) {
+            $player = $user->playerProfiles()->with(['team.tournament', 'profile', 'medicalRecord'])->first();
+            $team = $player?->team;
+            $upcomingMatches = collect();
+            if ($team) {
+                $upcomingMatches = MatchGame::with(['homeTeam', 'awayTeam', 'venue', 'referee'])
+                    ->where(fn ($q) => $q->where('home_team_id', $team->id)->orWhere('away_team_id', $team->id))
+                    ->where('status', 'scheduled')
+                    ->orderBy('match_date')
+                    ->take(5)
+                    ->get();
+            }
+
+            return view('v1.dashboard', [
+                'user' => $user,
+                'player' => $player,
+                'team' => $team,
+                'upcomingMatches' => $upcomingMatches,
+            ]);
+        }
+
         $baseData = [
             'tournamentsCount' => Tournament::count(),
             'teamsCount' => Team::count(),

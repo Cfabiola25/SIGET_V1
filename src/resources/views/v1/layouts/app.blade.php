@@ -65,6 +65,8 @@
         $isAdmin = $authUser?->isAdmin() ?? false;
         $isDT = ($authUser?->isCaptain() || $authUser?->isCoach()) ?? false;
         $isReferee = $authUser?->isReferee() ?? false;
+        $isPlayer = $authUser?->isPlayer() ?? false;
+        $playerProfile = $isPlayer ? $authUser->playerProfiles()->first() : null;
         $hasManagedTournaments = $isAdmin ? $authUser->hasManagedTournaments() : false;
         $hasManagedTeams = $isDT ? $authUser->hasManagedTeams() : false;
         $myTeam = $isDT ? $authUser->managedTeams()->first() : null;
@@ -74,6 +76,7 @@
             $isAdmin => 'Director de Torneo',
             $isDT => 'Director Técnico (DT)',
             $isReferee => 'Árbitro Oficial',
+            $isPlayer => 'Jugador Oficial',
             default => 'Usuario de Sistema',
         };
 
@@ -82,6 +85,7 @@
             $isAdmin => 'ORGANIZADOR',
             $isDT => 'DT CLUB',
             $isReferee => 'ÁRBITRO',
+            $isPlayer => 'JUGADOR',
             default => 'INVITADO',
         };
     @endphp
@@ -166,6 +170,11 @@
                 <a href="{{ route('referees.portal') }}" class="w-full flex items-center justify-center gap-2 bg-[#1e3a8a] hover:bg-[#0284c7] active:bg-[#172554] text-white text-xs font-semibold py-2.5 px-4 rounded-lg shadow-sm transition-all duration-150">
                     <svg class="size-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"/></svg>
                     <span>Consola & Escáner QR</span>
+                </a>
+            @elseif($isPlayer && $playerProfile)
+                <a href="{{ route('players.carnet', $playerProfile) }}" class="w-full flex items-center justify-center gap-2 bg-emerald-600 hover:bg-emerald-500 active:bg-emerald-700 text-white text-xs font-bold py-2.5 px-4 rounded-lg shadow-sm transition-all duration-150 transform active:scale-[0.99] group">
+                    <x-reicon name="mobile" class="size-4" />
+                    <span>Mi Carnet Digital QR</span>
                 </a>
             @endif
         </div>
@@ -379,6 +388,44 @@
                    class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('matches.*') ? 'bg-[#1e3a8a] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#2a385b]/70' }}">
                     <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
                     <span>Calendario General</span>
+                </a>
+            @elseif($isPlayer)
+                <!-- ================= VISTA JUGADOR OFICIAL ================= -->
+                <!-- Panel del Jugador -->
+                <a href="{{ route('dashboard') }}" 
+                   class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('dashboard') ? 'bg-[#1e3a8a] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#2a385b]/70' }}">
+                    <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"/></svg>
+                    <span>Mi Panel</span>
+                </a>
+
+                @if($playerProfile)
+                    <!-- Mi Carnet Digital QR -->
+                    <a href="{{ route('players.carnet', $playerProfile) }}" 
+                       class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('players.carnet') ? 'bg-[#1e3a8a] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#2a385b]/70' }}">
+                        <x-reicon name="mobile" class="size-5 shrink-0 text-emerald-400" />
+                        <span>Mi Carnet Digital QR</span>
+                    </a>
+
+                    <!-- Mi Cromo / Ficha Deportiva -->
+                    <a href="{{ route('players.cromo', $playerProfile) }}" 
+                       class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('players.cromo') ? 'bg-[#1e3a8a] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#2a385b]/70' }}">
+                        <x-reicon name="shield-check" class="size-5 shrink-0 text-emerald-400" />
+                        <span>Mi Ficha Deportiva</span>
+                    </a>
+                @endif
+
+                <!-- Calendario de Partidos de Mi Equipo -->
+                <a href="{{ route('matches.index') }}" 
+                   class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('matches.*') ? 'bg-[#1e3a8a] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#2a385b]/70' }}">
+                    <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                    <span>Partidos & Calendario</span>
+                </a>
+
+                <!-- Tabla de Posiciones -->
+                <a href="{{ route('standings.index') }}" 
+                   class="flex items-center gap-3.5 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors duration-150 {{ request()->routeIs('standings.index') ? 'bg-[#1e3a8a] text-white font-semibold shadow-sm' : 'text-slate-300 hover:text-white hover:bg-[#2a385b]/70' }}">
+                    <svg class="size-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12"/></svg>
+                    <span>Tabla de Posiciones</span>
                 </a>
             @else
                 <!-- Vista por defecto para usuarios estándar / visitantes -->
