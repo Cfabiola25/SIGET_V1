@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\v1\DisciplinarySanction;
 use App\Models\v1\MatchGame;
 use App\Models\v1\Player;
@@ -11,6 +12,7 @@ use App\Models\v1\TeamInvitation;
 use App\Models\v1\Tournament;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class TeamController extends Controller
@@ -87,7 +89,16 @@ class TeamController extends Controller
             ->take(5)
             ->get();
 
-        $tournaments = Tournament::whereIn('status', ['pending', 'active'])->get();
+        $tournamentsQuery = Tournament::whereIn('status', ['pending', 'active']);
+        if (auth()->user()?->isAdmin()) {
+            $tournamentsQuery->where('admin_id', auth()->id());
+        }
+        $tournaments = $tournamentsQuery->orderBy('name')->get();
+
+        $coaches = User::whereIn('role', ['coach', 'captain'])
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
 
         return view('v1.teams.index', [
             'teams' => $teams,
@@ -96,11 +107,12 @@ class TeamController extends Controller
             'pendingRegistrationsCount' => $pendingRegistrationsCount,
             'pendingSanctions' => $pendingSanctions,
             'tournaments' => $tournaments,
+            'coaches' => $coaches,
             'search' => $search,
         ]);
     }
 
-    public function create(): View|RedirectResponse
+    public function create(Request $request): View|RedirectResponse
     {
         abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin', 'captain'], true), 403);
 
@@ -111,11 +123,21 @@ class TeamController extends Controller
 
         $query = Tournament::whereIn('status', ['pending', 'active']);
 
-        if (auth()->user()?->isAdmin()) {
-            $query->where('admin_id', auth()->id());
+        if ($user?->isAdmin()) {
+            $query->where('admin_id', $user->id);
         }
 
-        return view('v1.teams.create', ['tournaments' => $query->get()]);
+        $tournaments = $query->orderBy('name')->get();
+        $coaches = User::whereIn('role', ['coach', 'captain'])
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
+        return view('v1.teams.create', [
+            'tournaments' => $tournaments,
+            'coaches' => $coaches,
+            'selectedTournamentId' => $request->query('tournament_id'),
+        ]);
     }
 
     public function store(Request $request): RedirectResponse
@@ -132,57 +154,82 @@ class TeamController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'logo_path' => ['nullable', 'string', 'max:255'],
             'captain_id' => ['nullable', 'exists:users,id'],
+            'dt_mode' => ['nullable', 'string', 'in:new,existing,none'],
+            'existing_dt_id' => ['nullable', 'exists:users,id'],
             'coach_name' => ['nullable', 'string', 'max:255'],
             'coach_email' => ['nullable', 'email', 'max:255'],
-            'coach_phone' => ['nullable', 'string', 'max:20'],
+            'coach_phone' => ['nullable', 'string', 'max:30'],
+            'coach_password' => ['nullable', 'string', 'min:4', 'max:100'],
+            'redirect_to' => ['nullable', 'string'],
         ]);
 
         $tournament = Tournament::findOrFail($data['tournament_id']);
-        if ($request->user()->isAdmin()) {
-            abort_unless($tournament->admin_id === $request->user()->id, 403);
-            $team = Team::create([
-                'tournament_id' => $data['tournament_id'],
-                'name' => $data['name'],
-                'logo_path' => $data['logo_path'] ?? null,
-                'captain_id' => $data['captain_id'] ?? null,
-                'status' => 'approved',
-            ]);
-        } elseif ($request->user()->isSuperAdmin()) {
-            $team = Team::create([
-                'tournament_id' => $data['tournament_id'],
-                'name' => $data['name'],
-                'logo_path' => $data['logo_path'] ?? null,
-                'captain_id' => $data['captain_id'] ?? null,
-                'status' => 'approved',
-            ]);
-        } else {
-            $team = $request->user()->captainedTeams()->create([
-                'tournament_id' => $data['tournament_id'],
-                'name' => $data['name'],
-                'logo_path' => $data['logo_path'] ?? null,
-                'status' => 'pending',
-            ]);
+        
+        // El super admin puede en todos los torneos; el admin solo en su respectivo torneo
+        if ($user->isAdmin()) {
+            abort_unless($tournament->admin_id === $user->id, 403, 'No tienes autorización para inscribir equipos en este torneo.');
         }
 
-        if (! $team->captain_id && in_array($request->user()->role, ['super_admin', 'admin'], true)) {
-            $invitation = TeamInvitation::createForTeam(
+        $team = Team::create([
+            'tournament_id' => $data['tournament_id'],
+            'name' => $data['name'],
+            'logo_path' => $data['logo_path'] ?? null,
+            'status' => in_array($user->role, ['super_admin', 'admin'], true) ? 'approved' : 'pending',
+            'captain_id' => $data['captain_id'] ?? null,
+        ]);
+
+        $dtDetails = '';
+        $dtUser = null;
+
+        // Asignación o creación del Director Técnico directamente
+        if (($data['dt_mode'] ?? 'new') === 'existing' && ! empty($data['existing_dt_id'])) {
+            $dtUser = User::find($data['existing_dt_id']);
+            if ($dtUser) {
+                $team->captain_id = $dtUser->id;
+                $team->save();
+                $dtDetails = " Asignado al DT {$dtUser->name}.";
+            }
+        } elseif (! empty($data['coach_name']) && ! empty($data['coach_email'])) {
+            $coachEmail = strtolower(trim($data['coach_email']));
+            $dtUser = User::where('email', $coachEmail)->first();
+            $rawPassword = $data['coach_password'] ?: 'password';
+
+            if (! $dtUser) {
+                $dtUser = User::create([
+                    'name' => trim($data['coach_name']),
+                    'email' => $coachEmail,
+                    'password' => Hash::make($rawPassword),
+                    'role' => 'captain',
+                    'is_active' => true,
+                ]);
+                $dtDetails = " Se creó la cuenta de DT para {$dtUser->name} (Email: {$dtUser->email} / Clave: {$rawPassword}).";
+            } else {
+                if (! in_array($dtUser->role, ['super_admin', 'admin'], true)) {
+                    $dtUser->update(['role' => 'captain']);
+                }
+                $dtDetails = " Asignado al DT {$dtUser->name}.";
+            }
+
+            $team->captain_id = $dtUser->id;
+            $team->save();
+
+            // Guardar invitación oficial compartible por WhatsApp
+            TeamInvitation::createForTeam(
                 team: $team,
-                invitedBy: $request->user(),
-                recipientName: $data['coach_name'] ?? null,
-                recipientEmail: $data['coach_email'] ?? null,
+                invitedBy: $user,
+                recipientName: $dtUser->name,
+                recipientEmail: $dtUser->email,
                 recipientPhone: $data['coach_phone'] ?? null,
             );
-
-            return redirect()->route('teams.show', $team)->with('invitation_created', [
-                'token' => $invitation->token,
-                'claim_url' => $invitation->getClaimUrl(),
-                'whatsapp_url' => $invitation->getWhatsAppShareUrl(),
-                'recipient_name' => $invitation->recipient_name,
-                'recipient_phone' => $invitation->recipient_phone,
-            ]);
         }
 
-        return redirect()->route('teams.show', $team);
+        $successMsg = "Equipo '{$team->name}' inscrito exitosamente en {$tournament->name}.{$dtDetails}";
+
+        if (! empty($data['redirect_to'])) {
+            return redirect($data['redirect_to'])->with('status', $successMsg);
+        }
+
+        return redirect()->route('teams.show', $team)->with('status', $successMsg);
     }
 
     public function show(Team $team): View

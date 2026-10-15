@@ -1,4 +1,4 @@
-﻿@extends('v1.layouts.app')
+@extends('v1.layouts.app')
 
 @section('title', 'Gestión de Equipos')
 @section('header_title', 'Gestión de Equipos')
@@ -314,38 +314,131 @@
 </div>
 
 <!-- Modal: Inscribir Nuevo Equipo -->
-<x-modal id="add-team-modal" title="Inscribir Nuevo Equipo">
+<x-modal id="add-team-modal" title="Inscribir Nuevo Equipo" maxWidth="max-w-xl">
     <form method="POST" action="{{ route('teams.store') }}" class="space-y-4">
         @csrf
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre del Equipo *</label>
-            <input type="text" name="name" required placeholder="Ej: Metro City Strikers" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre del Club / Equipo *</label>
+            <input type="text" name="name" required placeholder="Ej: Real Metropolitan FC" class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
         </div>
 
         <div>
-            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Torneo Asignado *</label>
-            <select name="tournament_id" required class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg focus:border-emerald-600">
-                @foreach ($tournaments as $tournament)
+            <div class="flex items-center justify-between mb-1">
+                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider">Torneo Oficial *</label>
+                @if(auth()->user()?->isAdmin())
+                    <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">Tus Torneos Asignados</span>
+                @else
+                    <span class="text-[10px] font-bold text-sky-700 bg-sky-50 px-2 py-0.5 rounded-full border border-sky-200">Todos los Torneos (Super Admin)</span>
+                @endif
+            </div>
+            <select name="tournament_id" required class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+                @forelse ($tournaments as $tournament)
                     <option value="{{ $tournament->id }}">{{ $tournament->name }} ({{ $tournament->sport_type }})</option>
-                @endforeach
+                @empty
+                    <option value="" disabled>No tienes torneos activos asignados</option>
+                @endforelse
             </select>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre Director Técnico</label>
-                <input type="text" name="coach_name" placeholder="David O'Connor" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg">
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Escudo / Logo (Opcional)</label>
+            <input type="text" name="logo_path" placeholder="https://... o /logos/team.png" class="w-full px-3 py-2 text-xs sm:text-sm bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+        </div>
+
+        <!-- Sección de Asignación y Creación de Director Técnico (DT) -->
+        <div class="space-y-3 p-4 bg-slate-50/80 border border-slate-200/90 rounded-xl">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-1.5">
+                    <svg class="size-4 text-[#1e3a8a]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/></svg>
+                    <span class="text-xs font-bold text-slate-800 uppercase tracking-wider">Director Técnico (DT)</span>
+                </div>
+                <span class="text-[10px] bg-sky-100 text-sky-900 border border-sky-300 font-extrabold px-2 py-0.5 rounded-full">Acceso Exclusivo</span>
             </div>
-            <div>
-                <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">Email del DT</label>
-                <input type="email" name="coach_email" placeholder="dt@equipo.com" class="w-full px-3 py-2 text-sm bg-white border border-slate-300 rounded-lg">
+
+            <!-- Selector de Modo de DT -->
+            <div class="grid grid-cols-3 gap-1 bg-slate-200/70 p-1 rounded-lg text-xs font-semibold text-slate-600">
+                <label class="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md cursor-pointer transition has-[:checked]:bg-white has-[:checked]:text-[#1e3a8a] has-[:checked]:shadow-2xs">
+                    <input type="radio" name="dt_mode" value="new" checked class="sr-only" onchange="toggleTeamModalDtMode(this.value)">
+                    <span>+ Crear DT</span>
+                </label>
+                <label class="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md cursor-pointer transition has-[:checked]:bg-white has-[:checked]:text-[#1e3a8a] has-[:checked]:shadow-2xs">
+                    <input type="radio" name="dt_mode" value="existing" class="sr-only" onchange="toggleTeamModalDtMode(this.value)">
+                    <span>Existente</span>
+                </label>
+                <label class="flex items-center justify-center gap-1.5 py-1.5 px-2 rounded-md cursor-pointer transition has-[:checked]:bg-white has-[:checked]:text-[#1e3a8a] has-[:checked]:shadow-2xs">
+                    <input type="radio" name="dt_mode" value="none" class="sr-only" onchange="toggleTeamModalDtMode(this.value)">
+                    <span>Sin DT</span>
+                </label>
+            </div>
+
+            <!-- Modo 1: Registrar Nuevo DT Aquí Mismo -->
+            <div id="team-modal-dt-new-fields" class="space-y-3 pt-1">
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Nombre Completo del DT *</label>
+                        <input type="text" name="coach_name" placeholder="Ej: Marcelo Gallardo" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Email del DT (Login) *</label>
+                        <input type="email" name="coach_email" placeholder="dt.gallardo@siget.com" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Contraseña de Acceso</label>
+                        <input type="text" name="coach_password" value="password" placeholder="Mínimo 6 caracteres" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+                        <span class="text-[10px] text-slate-500">Predeterminada: password</span>
+                    </div>
+                    <div>
+                        <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Teléfono / WhatsApp (Opcional)</label>
+                        <input type="text" name="coach_phone" placeholder="+57 300 123 4567" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+                    </div>
+                </div>
+
+                <div class="rounded-lg bg-blue-50/80 border border-blue-200/80 p-2.5 text-[11px] text-blue-900 flex items-start gap-2">
+                    <svg class="size-4 text-blue-700 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    <span><strong>Seguridad & Permisos:</strong> La cuenta se creará con rol de Director Técnico. Tendrá acceso <em>únicamente</em> a la gestión de este equipo (plantel y alineaciones) y al contacto/fichaje de agentes libres en el Radar de Talentos.</span>
+                </div>
+            </div>
+
+            <!-- Modo 2: Seleccionar DT Existente -->
+            <div id="team-modal-dt-existing-fields" class="space-y-2 pt-1 hidden">
+                <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Seleccionar DT Registrado</label>
+                <select name="existing_dt_id" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+                    <option value="">-- Elige un Director Técnico registrado --</option>
+                    @if(isset($coaches))
+                        @foreach($coaches as $coach)
+                            <option value="{{ $coach->id }}">{{ $coach->name }} ({{ $coach->email }})</option>
+                        @endforeach
+                    @endif
+                </select>
+                <span class="text-[10px] text-slate-500 block">Se le asignará la dirección técnica de este equipo con sus credenciales actuales.</span>
+            </div>
+
+            <!-- Modo 3: Sin DT -->
+            <div id="team-modal-dt-none-fields" class="pt-1 text-[11px] text-slate-500 hidden">
+                El equipo se inscribirá sin DT por ahora. Podrás asignarle un Director Técnico más adelante.
             </div>
         </div>
 
         <div class="flex items-center justify-end gap-3 pt-3 border-t border-slate-100">
             <x-button variant="secondary" onclick="document.getElementById('add-team-modal').close()">Cancelar</x-button>
-            <x-button type="submit">Guardar Equipo</x-button>
+            <x-button type="submit">Inscribir Equipo</x-button>
         </div>
     </form>
 </x-modal>
+
+<script>
+function toggleTeamModalDtMode(mode) {
+    const newFields = document.getElementById('team-modal-dt-new-fields');
+    const existingFields = document.getElementById('team-modal-dt-existing-fields');
+    const noneFields = document.getElementById('team-modal-dt-none-fields');
+    if (!newFields || !existingFields || !noneFields) return;
+
+    newFields.classList.toggle('hidden', mode !== 'new');
+    existingFields.classList.toggle('hidden', mode !== 'existing');
+    noneFields.classList.toggle('hidden', mode !== 'none');
+}
+</script>
 @endsection
