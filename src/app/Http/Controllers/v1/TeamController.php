@@ -189,10 +189,10 @@ class TeamController extends Controller
                 $team->save();
                 $dtDetails = " Asignado al DT {$dtUser->name}.";
             }
-        } elseif (! empty($data['coach_name']) && ! empty($data['coach_email'])) {
+        } elseif (($data['dt_mode'] ?? null) === 'new' && ! empty($data['coach_name']) && ! empty($data['coach_email'])) {
             $coachEmail = strtolower(trim($data['coach_email']));
             $dtUser = User::where('email', $coachEmail)->first();
-            $rawPassword = $data['coach_password'] ?: 'password';
+            $rawPassword = ! empty($data['coach_password']) ? $data['coach_password'] : 'password';
 
             if (! $dtUser) {
                 $dtUser = User::create([
@@ -219,6 +219,15 @@ class TeamController extends Controller
                 invitedBy: $user,
                 recipientName: $dtUser->name,
                 recipientEmail: $dtUser->email,
+                recipientPhone: $data['coach_phone'] ?? null,
+            );
+        } elseif (! empty($data['coach_name']) || ! empty($data['coach_email'])) {
+            // Guardar invitación oficial compartible por WhatsApp sin vincular capitán aún
+            TeamInvitation::createForTeam(
+                team: $team,
+                invitedBy: $user,
+                recipientName: $data['coach_name'] ?? 'Director Técnico',
+                recipientEmail: $data['coach_email'] ?? null,
                 recipientPhone: $data['coach_phone'] ?? null,
             );
         }

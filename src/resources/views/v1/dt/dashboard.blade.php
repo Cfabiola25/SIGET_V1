@@ -1,7 +1,7 @@
 @extends('v1.layouts.app')
 
 @section('title', 'Panel de DT - ' . $team->name)
-@section('header_title', 'Panel de Director Técnico')
+@section('header_title', 'Panel de Director Técnico (DT)')
 
 @section('header_badge')
 <div class="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 border border-emerald-200 text-xs font-semibold text-emerald-800">
