@@ -26,6 +26,15 @@ class PlayerController extends Controller
             return redirect()->route('dashboard')->with('warning', 'Tu cuenta de Director Técnico no tiene un equipo asignado.');
         }
 
+        if ($user && $user->isPlayer()) {
+            $player = $user->playerProfiles()->first();
+            if ($player) {
+                return redirect()->route('players.cromo', $player);
+            }
+
+            return redirect()->route('dashboard');
+        }
+
         $search = $request->query('search');
         $teamId = $request->query('team_id');
         $position = $request->query('position');
@@ -98,6 +107,8 @@ class PlayerController extends Controller
 
     public function exportCsv(Request $request): StreamedResponse
     {
+        $user = $request->user();
+        abort_unless($user && in_array($user->role, ['super_admin', 'admin'], true), 403, 'Acción restringida a administradores.');
         $search = $request->query('search');
         $teamId = $request->query('team_id');
         $position = $request->query('position');
@@ -179,11 +190,17 @@ class PlayerController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $user = $request->user();
-        if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
+        abort_if(! $user, 401);
+
+        if ($user->isPlayer() || ! in_array($user->role, ['super_admin', 'admin'], true)) {
+            abort(403, 'Los jugadores no tienen permisos para crear ni inscribir futbolistas.');
+        }
+
+        if ($user->isAdmin() && ! $user->hasManagedTournaments()) {
             abort(403, 'No tienes torneos asignados para registrar jugadores.');
         }
 
-        if ($user && in_array($user->role, ['captain', 'coach'], true)) {
+        if (in_array($user->role, ['captain', 'coach'], true)) {
             abort(403, 'Los Directores Técnicos deben registrar futbolistas a través de su portal oficial de plantilla.');
         }
 
@@ -198,6 +215,11 @@ class PlayerController extends Controller
             'contact_email' => ['nullable', 'email', 'max:150'],
             'scouting_notes' => ['nullable', 'string', 'max:1000'],
         ]);
+
+        if ($user->isAdmin() && ! empty($data['team_id'])) {
+            $team = Team::find($data['team_id']);
+            abort_unless($team && $team->tournament?->admin_id === $user->id, 403, 'Solo puedes registrar jugadores en equipos pertenecientes a tu torneo asignado.');
+        }
 
         $posMap = [
             'FW' => 'forward',

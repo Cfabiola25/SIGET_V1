@@ -124,8 +124,14 @@ class TournamentController extends Controller
     {
         $this->authorizeTournament($tournament);
 
+        $coaches = User::whereIn('role', ['coach', 'captain'])
+            ->where('is_active', true)
+            ->orderBy('name')
+            ->get(['id', 'name', 'email']);
+
         return view('v1.tournaments.show', [
-            'tournament' => $tournament->load(['teams', 'matches.homeTeam', 'matches.awayTeam', 'standings.team']),
+            'tournament' => $tournament->load(['teams.captain', 'matches.homeTeam', 'matches.awayTeam', 'standings.team']),
+            'coaches' => $coaches,
         ]);
     }
 

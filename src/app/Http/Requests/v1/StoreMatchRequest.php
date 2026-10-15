@@ -12,7 +12,22 @@ class StoreMatchRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return true;
+        $user = $this->user();
+        if (! $user) {
+            return false;
+        }
+
+        if ($user->isSuperAdmin()) {
+            return true;
+        }
+
+        if ($user->isAdmin()) {
+            $tournamentId = (int) $this->input('tournament_id');
+
+            return \App\Models\v1\Tournament::where('id', $tournamentId)->where('admin_id', $user->id)->exists();
+        }
+
+        return false;
     }
 
     public function rules(): array

@@ -297,10 +297,13 @@ class MatchController extends Controller
         $homeTeam = Team::findOrFail($data['home_team_id']);
         $awayTeam = Team::findOrFail($data['away_team_id']);
 
+        abort_if($homeTeam->tournament_id !== $awayTeam->tournament_id, 422, 'Ambos equipos deben pertenecer al mismo torneo.');
+
         $user = auth()->user();
         if ($user->isAdmin()) {
             $adminTournamentIds = Tournament::where('admin_id', $user->id)->pluck('id');
             abort_unless($adminTournamentIds->contains($homeTeam->tournament_id), 403, 'Solo puedes programar partidos dentro de tus torneos asignados.');
+            abort_unless($adminTournamentIds->contains($awayTeam->tournament_id), 403, 'Ambos equipos deben pertenecer a tu torneo asignado.');
         }
 
         $tournamentId = $homeTeam->tournament_id ?? Tournament::value('id') ?? 1;
