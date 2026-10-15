@@ -1,4 +1,4 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="es" class="h-full bg-[#f4f6fa] scroll-smooth">
 <head>
     <meta charset="UTF-8">
@@ -219,7 +219,7 @@
     </footer>
 
     <!-- MODAL EXPLORADOR DE TORNEOS -->
-    <dialog id="quickTournamentModal" class="rounded-2xl p-0 backdrop:bg-slate-950/70 border-0 shadow-2xl max-w-lg w-full">
+    <dialog id="quickTournamentModal" class="fixed inset-0 m-auto rounded-2xl p-0 backdrop:bg-slate-950/70 border-0 shadow-2xl max-w-lg w-[min(94vw,32rem)]">
         <div class="bg-white p-6 rounded-2xl">
             <div class="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div class="flex items-center gap-2 font-display font-bold text-lg text-slate-900">

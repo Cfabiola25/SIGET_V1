@@ -552,3 +552,26 @@ html.dark .switch__input {
 .switch__input:checked ~ .switch__icon .switch__icon-part--11 {
     transform: translateX(-50%) rotate(315deg) translateY(0.625em) scale(0);
 }
+
+/* ========================================================
+   UNIVERSAL MODAL & DIALOG CENTERING (SIGET)
+   Garantiza que todas las modales del sistema queden
+   centradas en pantalla vertical y horizontalmente.
+   ======================================================== */
+dialog {
+    margin: auto !important;
+}
+
+dialog[open] {
+    position: fixed !important;
+    inset: 0 !important;
+    margin: auto !important;
+    display: flex !important;
+    flex-direction: column !important;
+}
+
+dialog::backdrop {
+    background-color: rgba(11, 19, 43, 0.72) !important;
+    backdrop-filter: blur(5px) !important;
+    -webkit-backdrop-filter: blur(5px) !important;
+}
