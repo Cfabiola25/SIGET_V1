@@ -17,17 +17,30 @@ class TeamPortalController extends Controller
     {
         $this->authorizeTeamCoach($team);
 
-        $team->load(['tournament.rules', 'players', 'homeMatches.awayTeam', 'awayMatches.homeTeam']);
+        $team->load([
+            'tournament.rules',
+            'players.profile',
+            'players.medicalRecord',
+            'homeMatches.awayTeam',
+            'homeMatches.venue',
+            'homeMatches.referee',
+            'homeMatches.lineups',
+            'awayMatches.homeTeam',
+            'awayMatches.venue',
+            'awayMatches.referee',
+            'awayMatches.lineups',
+        ]);
 
-        $upcomingMatches = $team->homeMatches->concat($team->awayMatches)
+        $allMatches = $team->homeMatches->concat($team->awayMatches)->sortBy('match_date');
+
+        $upcomingMatches = $allMatches
             ->where('status', 'scheduled')
-            ->sortBy('match_date')
-            ->take(5);
+            ->values();
 
-        $recentMatches = $team->homeMatches->concat($team->awayMatches)
+        $recentMatches = $allMatches
             ->where('status', 'played')
             ->sortByDesc('match_date')
-            ->take(5);
+            ->values();
 
         return view('v1.dt.dashboard', compact('team', 'upcomingMatches', 'recentMatches'));
     }
