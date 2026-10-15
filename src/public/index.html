@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="es" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SIGET - Sistema Integral de Gestión de Torneos Deportivos</title>
+    <meta name="description" content="Plataforma SaaS deportiva de alto rendimiento para arbitraje federativo, actas digitales, control de acceso QR y difusión pública en tiempo real.">
+    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS CDN for instant, zero-dependency Vercel rendering -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        color1: '#2a385b',
+                        color2: '#0b132b',
+                        color3: '#16a34a',
+                        color4: '#0284c7',
+                        color5: '#1e3a8a',
+                    },
+                    fontFamily: {
+                        display: ['Outfit', 'sans-serif'],
+                        sans: ['Plus Jakarta Sans', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        :root {
+            --color1: #2a385b;
+            --color2: #0b132b;
+            --color3: #16a34a;
+            --color4: #0284c7;
+            --color5: #1e3a8a;
+        }
+        body {
+            background-color: #0b132b;
+            color: #f8fafc;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+        }
+        .glow-radial {
+            background: radial-gradient(circle at 50% 0%, rgba(2, 132, 199, 0.18), transparent 70%);
+        }
+        .glow-accent {
+            background: radial-gradient(circle at 100% 50%, rgba(22, 163, 74, 0.12), transparent 50%);
+        }
+        .glass-card {
+            background: rgba(20, 29, 56, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(42, 56, 91, 0.8);
+        }
+        .glass-card:hover {
+            border-color: rgba(2, 132, 199, 0.5);
+        }
+        .pulse-live {
+            animation: pulse-ring 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        }
+        @keyframes pulse-ring {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(1.08); }
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-[#0b132b] text-slate-100 flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <!-- Glow background accents -->
+    <div class="fixed inset-0 glow-radial pointer-events-none z-0"></div>
+    <div class="fixed inset-0 glow-accent pointer-events-none z-0"></div>
+
+    <!-- Navigation Header -->
+    <header class="relative z-20 border-b border-[#2a385b] bg-[#0b132b]/85 backdrop-blur-md sticky top-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-[#1e3a8a] to-[#0284c7] p-0.5 shadow-lg shadow-sky-950 flex items-center justify-center">
+                    <svg class="w-6 h-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M16 8v8m-4-5v5m-4-2v2m-2 4h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <span class="text-2xl font-black tracking-tight text-white font-['Outfit']">SIGET</span>
+                        <span class="px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full flex items-center gap-1.5">
+                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 pulse-live"></span>
+                            v1.0 Producción
+                        </span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 font-medium hidden sm:block">Sistema Integral de Gestión de Torneos Deportivos</p>
+                </div>
+            </div>
+
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-300">
+                <a href="#partidos" class="hover:text-sky-400 transition-colors">Partidos en Vivo</a>
+                <a href="#escaner" class="hover:text-sky-400 transition-colors">Check-in QR</a>
+                <a href="#posiciones" class="hover:text-sky-400 transition-colors">Posiciones</a>
+                <a href="#arquitectura" class="hover:text-sky-400 transition-colors">Arquitectura Docker</a>
+            </nav>
+
+            <div class="flex items-center gap-3">
+                <a href="https://github.com/Cfabiola25/SIGET_V1" target="_blank" rel="noopener noreferrer" 
+                   class="inline-flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold bg-[#141d38] hover:bg-[#1e2a52] text-slate-200 border border-[#2a385b] transition-all hover:border-sky-500 shadow-sm">
+                    <svg class="w-4 h-4 fill-current" viewBox="0 0 24 24">
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0022 12.017C22 6.484 17.522 2 12 2z" />
+                    </svg>
+                    <span>GitHub Repo</span>
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="relative z-10 flex-grow">
+        
+        <!-- HERO SECTION -->
+        <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-24 text-center">
+            <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#1e3a8a]/40 border border-[#0284c7]/40 text-sky-300 text-xs font-semibold mb-6 shadow-inner">
+                <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+                <span>Champions League Tech Platform &middot; Laravel 13 & Tailwind v4</span>
+            </div>
+
+            <h1 class="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight font-['Outfit'] leading-none text-white max-w-5xl mx-auto">
+                Control Arbitral, Fixture y <br class="hidden sm:inline">
+                <span class="bg-gradient-to-r from-sky-400 via-emerald-400 to-teal-300 bg-clip-text text-transparent">Check-in QR en Tiempo Real</span>
+            </h1>
+
+            <p class="mt-6 text-lg sm:text-xl text-slate-300 max-w-3xl mx-auto font-normal leading-relaxed">
+                Plataforma oficial para la administración federativa de torneos de fútbol. Validación biométrica y disciplinaria en cancha en 1 segundo, actas con firma digital tripartita y streaming en vivo.
+            </p>
+
+            <div class="mt-10 flex flex-wrap items-center justify-center gap-4">
+                <a href="#partidos" class="px-6 py-3.5 rounded-xl font-bold text-sm bg-gradient-to-r from-[#1e3a8a] to-[#0284c7] hover:from-[#1b347e] hover:to-[#0275b1] text-white shadow-lg shadow-sky-950/60 transition-transform active:scale-95 flex items-center gap-2">
+                    <svg class="w-4 h-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    <span>Ver Simulador de Partido</span>
+                </a>
+                <a href="#escaner" class="px-6 py-3.5 rounded-xl font-bold text-sm bg-[#141d38] hover:bg-[#1c274a] text-slate-200 border border-[#2a385b] hover:border-sky-500/50 transition-colors flex items-center gap-2">
+                    <svg class="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                    </svg>
+                    <span>Probar Carnet y Escáner QR</span>
+                </a>
+            </div>
+
+            <!-- Stats badges -->
+            <div class="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
+                <div class="glass-card p-5 rounded-2xl text-center">
+                    <div class="text-3xl font-black text-white font-['Outfit']">100%</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider">Cero Suplantación</div>
+                </div>
+                <div class="glass-card p-5 rounded-2xl text-center">
+                    <div class="text-3xl font-black text-sky-400 font-['Outfit']">&lt; 1s</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider">Filtro Tripartito QR</div>
+                </div>
+                <div class="glass-card p-5 rounded-2xl text-center">
+                    <div class="text-3xl font-black text-emerald-400 font-['Outfit']">IFAB</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider">Reglas Oficiales</div>
+                </div>
+                <div class="glass-card p-5 rounded-2xl text-center">
+                    <div class="text-3xl font-black text-amber-400 font-['Outfit']">Docker</div>
+                    <div class="text-xs font-semibold text-slate-400 mt-1 uppercase tracking-wider">Multi-Contenedor</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- LIVE MATCH SECTION -->
+        <section id="partidos" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#2a385b]">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Consola Match Day Oficial</span>
+                    <h2 class="text-3xl font-black text-white font-['Outfit'] tracking-tight mt-1">Transmisión del Partido en Vivo</h2>
+                    <p class="text-slate-400 text-sm">Eventos en tiempo real mediante Server-Sent Events (SSE) y reloj sincronizado con el árbitro central.</p>
+                </div>
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-red-500/10 border border-red-500/30 text-red-400 text-xs font-bold w-fit">
+                    <span class="w-2 h-2 rounded-full bg-red-500 pulse-live"></span>
+                    <span>2T EN CURSO (SSE ACTIVO)</span>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <!-- Scoreboard Card -->
+                <div class="lg:col-span-2 glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+                    <div class="flex items-center justify-between text-xs text-slate-400 border-b border-[#2a385b] pb-4">
+                        <span class="font-bold text-slate-200">Torneo Apertura 2026 &middot; Fecha 4</span>
+                        <span>Sede: Estadio Centenario &middot; Árbitro: M. Robledo</span>
+                    </div>
+
+                    <div class="grid grid-cols-3 items-center text-center my-8">
+                        <!-- Local -->
+                        <div class="space-y-2">
+                            <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-2xl bg-gradient-to-br from-emerald-600 to-emerald-950 p-1 flex items-center justify-center shadow-lg border border-emerald-400/40">
+                                <span class="text-2xl font-black text-white font-['Outfit']">ASF</span>
+                            </div>
+                            <div class="font-extrabold text-white text-base sm:text-lg">Atlético San Fermín</div>
+                            <span class="text-[11px] font-bold text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded-full border border-emerald-500/30 uppercase">Local</span>
+                        </div>
+
+                        <!-- Clock & Score -->
+                        <div class="space-y-2">
+                            <div class="inline-block px-3 py-1 rounded-lg bg-[#0b132b] border border-[#2a385b] font-mono text-xs font-bold text-sky-400" id="liveMatchClock">
+                                67:40
+                            </div>
+                            <div class="text-5xl sm:text-7xl font-black font-['Outfit'] tracking-tight text-white flex items-center justify-center gap-3">
+                                <span id="scoreHome">2</span>
+                                <span class="text-slate-500 text-4xl">:</span>
+                                <span id="scoreAway">1</span>
+                            </div>
+                            <div class="text-xs text-slate-400 font-medium">Segundo Tiempo</div>
+                        </div>
+
+                        <!-- Visitante -->
+                        <div class="space-y-2">
+                            <div class="w-16 h-16 sm:w-20 sm:h-20 mx-auto rounded-2xl bg-gradient-to-br from-sky-600 to-sky-950 p-1 flex items-center justify-center shadow-lg border border-sky-400/40">
+                                <span class="text-2xl font-black text-white font-['Outfit']">RSC</span>
+                            </div>
+                            <div class="font-extrabold text-white text-base sm:text-lg">Real Sporting Club</div>
+                            <span class="text-[11px] font-bold text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-full border border-sky-500/30 uppercase">Visitante</span>
+                        </div>
+                    </div>
+
+                    <!-- MVP Vote Interactive Widget -->
+                    <div class="bg-[#0b132b]/80 border border-[#2a385b] rounded-2xl p-4 flex flex-col sm:flex-row items-center justify-between gap-4">
+                        <div class="flex items-center gap-3 text-left">
+                            <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center shrink-0">
+                                ⭐
+                            </div>
+                            <div>
+                                <h4 class="text-xs font-extrabold text-white uppercase tracking-wider">Votación en Vivo: Jugador Más Valioso (MVP)</h4>
+                                <p class="text-[11px] text-slate-400">Participación pública de los aficionados durante el encuentro</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="voteMvp('ASF')" id="btnVoteAsf" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#141d38] hover:bg-emerald-600 text-white border border-[#2a385b] transition-all">
+                                J. Pérez (#10) (<span id="countAsf">42</span>)
+                            </button>
+                            <button onclick="voteMvp('RSC')" id="btnVoteRsc" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-[#141d38] hover:bg-sky-600 text-white border border-[#2a385b] transition-all">
+                                M. Ramírez (#9) (<span id="countRsc">38</span>)
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Match Events Feed -->
+                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between">
+                    <div>
+                        <h3 class="text-sm font-extrabold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+                            <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                            Minuto a Minuto del Árbitro
+                        </h3>
+                        <div class="space-y-3.5 text-xs">
+                            <div class="flex items-start gap-3 p-2.5 rounded-xl bg-[#0b132b]/60 border border-[#2a385b]">
+                                <span class="font-mono font-bold text-emerald-400 shrink-0">65'</span>
+                                <div>
+                                    <div class="font-bold text-white">⚽ ¡GOL DE SAN FERMÍN!</div>
+                                    <div class="text-slate-400 text-[11px]">Juan David Pérez (#10) anota tiro libre directo al ángulo superior.</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-2.5 rounded-xl bg-[#0b132b]/60 border border-[#2a385b]">
+                                <span class="font-mono font-bold text-sky-400 shrink-0">58'</span>
+                                <div>
+                                    <div class="font-bold text-white">⚽ ¡GOL DE SPORTING!</div>
+                                    <div class="text-slate-400 text-[11px]">Mateo Ramírez (#9) define cruzado tras asistencia al espacio.</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-2.5 rounded-xl bg-[#0b132b]/60 border border-[#2a385b]">
+                                <span class="font-mono font-bold text-amber-400 shrink-0">41'</span>
+                                <div>
+                                    <div class="font-bold text-white">🟨 Tarjeta Amarilla</div>
+                                    <div class="text-slate-400 text-[11px]">Carlos Mendoza (#4) sancionado por conducta antideportiva.</div>
+                                </div>
+                            </div>
+                            <div class="flex items-start gap-3 p-2.5 rounded-xl bg-[#0b132b]/60 border border-[#2a385b]">
+                                <span class="font-mono font-bold text-emerald-400 shrink-0">23'</span>
+                                <div>
+                                    <div class="font-bold text-white">⚽ ¡GOL DE SAN FERMÍN!</div>
+                                    <div class="text-slate-400 text-[11px]">Juan David Pérez (#10) abre la cuenta de penal tras falta.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-[#2a385b] text-[11px] text-slate-400 flex items-center justify-between">
+                        <span>Estado: Acta Oficial Abierta</span>
+                        <span class="text-emerald-400 font-bold">Filtro IFAB 100% OK</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QR CHECK-IN & CARNET SECTION -->
+        <section id="escaner" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#2a385b]">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-emerald-400 uppercase tracking-widest">Control Biométrico y Antifraude</span>
+                <h2 class="text-3xl font-black text-white font-['Outfit'] tracking-tight mt-1">Check-in de Jugadores con Carnet QR</h2>
+                <p class="text-slate-400 text-sm mt-2">
+                    En cancha, el árbitro escanea el carnet dinámico del futbolista antes de cada partido. El <b>Filtro Tripartito</b> evalúa validez del token, ficha médica obligatoria y sanciones disciplinarias en menos de 1 segundo.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+                <!-- Carnet Digital Preview -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 border border-sky-500/40 relative overflow-hidden">
+                    <div class="absolute top-0 right-0 w-32 h-32 bg-sky-500/10 rounded-full blur-2xl pointer-events-none"></div>
+                    <div class="flex items-center justify-between border-b border-[#2a385b] pb-4 mb-6">
+                        <div class="flex items-center gap-2">
+                            <span class="w-3 h-3 rounded-full bg-emerald-400"></span>
+                            <span class="text-xs font-bold uppercase tracking-wider text-white">Carnet Federativo Digital</span>
+                        </div>
+                        <div class="text-[11px] font-mono font-bold text-sky-400 bg-sky-500/10 px-2.5 py-1 rounded-md border border-sky-500/30" id="antiFraudClock">
+                            12:45:10
+                        </div>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-6">
+                        <!-- SVG QR Code -->
+                        <div class="bg-white p-3 rounded-2xl shadow-xl shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" class="w-36 h-36">
+                                <rect width="160" height="160" fill="#ffffff" rx="8"/>
+                                <!-- Top-Left Finder Pattern -->
+                                <rect x="10" y="10" width="40" height="40" fill="#0b132b" rx="4"/>
+                                <rect x="18" y="18" width="24" height="24" fill="#ffffff" rx="2"/>
+                                <rect x="24" y="24" width="12" height="12" fill="#0b132b" rx="2"/>
+                                <!-- Top-Right Finder Pattern -->
+                                <rect x="110" y="10" width="40" height="40" fill="#0b132b" rx="4"/>
+                                <rect x="118" y="18" width="24" height="24" fill="#ffffff" rx="2"/>
+                                <rect x="124" y="24" width="12" height="12" fill="#0b132b" rx="2"/>
+                                <!-- Bottom-Left Finder Pattern -->
+                                <rect x="10" y="110" width="40" height="40" fill="#0b132b" rx="4"/>
+                                <rect x="18" y="118" width="24" height="24" fill="#ffffff" rx="2"/>
+                                <rect x="24" y="124" width="12" height="12" fill="#0b132b" rx="2"/>
+                                <!-- Sample Data Modules -->
+                                <rect x="60" y="20" width="10" height="10" fill="#0b132b"/>
+                                <rect x="80" y="20" width="10" height="10" fill="#0b132b"/>
+                                <rect x="60" y="40" width="10" height="10" fill="#0b132b"/>
+                                <rect x="90" y="40" width="10" height="10" fill="#0b132b"/>
+                                <rect x="20" y="60" width="10" height="10" fill="#0b132b"/>
+                                <rect x="40" y="70" width="10" height="10" fill="#0b132b"/>
+                                <rect x="60" y="60" width="10" height="10" fill="#0b132b"/>
+                                <rect x="80" y="80" width="10" height="10" fill="#0b132b"/>
+                                <rect x="100" y="70" width="10" height="10" fill="#0b132b"/>
+                                <rect x="130" y="70" width="10" height="10" fill="#0b132b"/>
+                                <rect x="60" y="100" width="10" height="10" fill="#0b132b"/>
+                                <rect x="80" y="110" width="10" height="10" fill="#0b132b"/>
+                                <rect x="100" y="110" width="10" height="10" fill="#0b132b"/>
+                                <rect x="130" y="130" width="10" height="10" fill="#0b132b"/>
+                            </svg>
+                        </div>
+
+                        <!-- Player Data -->
+                        <div class="space-y-2 text-left w-full">
+                            <div class="flex items-center justify-between">
+                                <span class="text-xs font-bold text-sky-400">DORSAL #10 &middot; MEDIOCAMPISTA</span>
+                                <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">TITULAR</span>
+                            </div>
+                            <h3 class="text-xl font-black text-white font-['Outfit']">Juan David Pérez Gómez</h3>
+                            <div class="text-xs text-slate-300">Club: <b class="text-white">Atlético San Fermín</b></div>
+                            <div class="grid grid-cols-2 gap-2 text-[11px] text-slate-400 pt-2 border-t border-[#2a385b]">
+                                <div>Doc: <span class="text-slate-200 font-mono">1.090.876.543</span></div>
+                                <div>Grupo Sanguíneo: <span class="text-emerald-400 font-bold font-mono">O+</span></div>
+                                <div>Ficha Médica: <span class="text-emerald-400 font-bold">Aval Firmado</span></div>
+                                <div>Sanciones: <span class="text-emerald-400 font-bold">Habilitado</span></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Referee QR Simulator Terminal -->
+                <div class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-extrabold text-white uppercase tracking-wider flex items-center gap-2">
+                                <svg class="w-4 h-4 text-sky-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                                </svg>
+                                Consola de Verificación en Cancha
+                            </h3>
+                            <span class="text-xs text-slate-400">Prueba interactiva</span>
+                        </div>
+
+                        <p class="text-xs text-slate-300 mb-6">
+                            Selecciona un caso para probar cómo reacciona el motor de reglas de SIGET en tiempo real:
+                        </p>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 mb-6">
+                            <button onclick="simulateScan('ok')" class="px-3 py-2 rounded-xl text-xs font-bold bg-emerald-600/20 hover:bg-emerald-600/30 text-emerald-300 border border-emerald-500/40 transition-all text-center">
+                                ✅ Caso Apto
+                            </button>
+                            <button onclick="simulateScan('red_card')" class="px-3 py-2 rounded-xl text-xs font-bold bg-red-600/20 hover:bg-red-600/30 text-red-300 border border-red-500/40 transition-all text-center">
+                                ⛔ Roja Directa
+                            </button>
+                            <button onclick="simulateScan('medical_fail')" class="px-3 py-2 rounded-xl text-xs font-bold bg-amber-600/20 hover:bg-amber-600/30 text-amber-300 border border-amber-500/40 transition-all text-center">
+                                ⚠️ Sin Ficha Médica
+                            </button>
+                        </div>
+
+                        <!-- Result Screen Box -->
+                        <div id="scanFeedback" class="p-4 rounded-2xl bg-[#0b132b] border border-emerald-500/40 transition-all">
+                            <div class="flex items-center gap-3">
+                                <div id="scanIcon" class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 text-xl font-bold">
+                                    ✓
+                                </div>
+                                <div class="text-left">
+                                    <div id="scanTitle" class="text-xs font-extrabold text-emerald-400 uppercase tracking-wider">
+                                        JUGADOR HABILITADO EN CANCHA
+                                    </div>
+                                    <div id="scanDetail" class="text-[11px] text-slate-300 mt-0.5">
+                                        Juan David Pérez (#10) &middot; Exoneración médica vigente &middot; 0 sanciones disciplinarias.
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-4 border-t border-[#2a385b] text-[11px] text-slate-400">
+                        Criptografía: Payload firmado <code class="text-sky-300 bg-sky-950/60 px-1 py-0.5 rounded font-mono">siget:player:10:uuid-token</code>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- STANDINGS TABLE SECTION -->
+        <section id="posiciones" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#2a385b]">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-8 gap-4">
+                <div>
+                    <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Clasificación Dinámica Oficial</span>
+                    <h2 class="text-3xl font-black text-white font-['Outfit'] tracking-tight mt-1">Tabla de Posiciones</h2>
+                    <p class="text-slate-400 text-sm">Criterios de desempate IFAB aplicados automáticamente tras el cierre y firma de actas.</p>
+                </div>
+                <div class="text-xs text-slate-400 font-medium">
+                    Actualizado: Jornada 4 Oficial
+                </div>
+            </div>
+
+            <div class="glass-card rounded-3xl overflow-hidden border border-[#2a385b]">
+                <div class="overflow-x-auto">
+                    <table class="w-full text-left text-xs sm:text-sm">
+                        <thead class="bg-[#141d38] text-slate-300 uppercase tracking-wider font-extrabold text-[11px] border-b border-[#2a385b]">
+                            <tr>
+                                <th class="py-3.5 px-4">Pos</th>
+                                <th class="py-3.5 px-4">Equipo</th>
+                                <th class="py-3.5 px-3 text-center">PJ</th>
+                                <th class="py-3.5 px-3 text-center">G</th>
+                                <th class="py-3.5 px-3 text-center">E</th>
+                                <th class="py-3.5 px-3 text-center">P</th>
+                                <th class="py-3.5 px-3 text-center">GF</th>
+                                <th class="py-3.5 px-3 text-center">GC</th>
+                                <th class="py-3.5 px-3 text-center">DG</th>
+                                <th class="py-3.5 px-4 text-center font-black text-sky-400">PTS</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-[#2a385b]/60">
+                            <tr class="hover:bg-[#1a2546]/50 transition-colors">
+                                <td class="py-3.5 px-4 font-bold text-emerald-400">1</td>
+                                <td class="py-3.5 px-4 font-bold text-white flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                    Atlético San Fermín
+                                </td>
+                                <td class="py-3.5 px-3 text-center font-mono">4</td>
+                                <td class="py-3.5 px-3 text-center font-mono">3</td>
+                                <td class="py-3.5 px-3 text-center font-mono">1</td>
+                                <td class="py-3.5 px-3 text-center font-mono">0</td>
+                                <td class="py-3.5 px-3 text-center font-mono">9</td>
+                                <td class="py-3.5 px-3 text-center font-mono">3</td>
+                                <td class="py-3.5 px-3 text-center font-mono text-emerald-400 font-bold">+6</td>
+                                <td class="py-3.5 px-4 text-center font-black text-base text-white">10</td>
+                            </tr>
+                            <tr class="hover:bg-[#1a2546]/50 transition-colors">
+                                <td class="py-3.5 px-4 font-bold text-emerald-400">2</td>
+                                <td class="py-3.5 px-4 font-bold text-white flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                                    Titanes de Cúcuta FC
+                                </td>
+                                <td class="py-3.5 px-3 text-center font-mono">4</td>
+                                <td class="py-3.5 px-3 text-center font-mono">2</td>
+                                <td class="py-3.5 px-3 text-center font-mono">2</td>
+                                <td class="py-3.5 px-3 text-center font-mono">0</td>
+                                <td class="py-3.5 px-3 text-center font-mono">7</td>
+                                <td class="py-3.5 px-3 text-center font-mono">4</td>
+                                <td class="py-3.5 px-3 text-center font-mono text-emerald-400 font-bold">+3</td>
+                                <td class="py-3.5 px-4 text-center font-black text-base text-white">8</td>
+                            </tr>
+                            <tr class="hover:bg-[#1a2546]/50 transition-colors">
+                                <td class="py-3.5 px-4 font-bold text-slate-400">3</td>
+                                <td class="py-3.5 px-4 font-bold text-white flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
+                                    Real Sporting Club
+                                </td>
+                                <td class="py-3.5 px-3 text-center font-mono">4</td>
+                                <td class="py-3.5 px-3 text-center font-mono">1</td>
+                                <td class="py-3.5 px-3 text-center font-mono">1</td>
+                                <td class="py-3.5 px-3 text-center font-mono">2</td>
+                                <td class="py-3.5 px-3 text-center font-mono">5</td>
+                                <td class="py-3.5 px-3 text-center font-mono">6</td>
+                                <td class="py-3.5 px-3 text-center font-mono text-slate-400 font-bold">-1</td>
+                                <td class="py-3.5 px-4 text-center font-black text-base text-white">4</td>
+                            </tr>
+                            <tr class="hover:bg-[#1a2546]/50 transition-colors">
+                                <td class="py-3.5 px-4 font-bold text-slate-400">4</td>
+                                <td class="py-3.5 px-4 font-bold text-white flex items-center gap-2">
+                                    <span class="w-2.5 h-2.5 rounded-full bg-slate-500"></span>
+                                    Halcones Dorados
+                                </td>
+                                <td class="py-3.5 px-3 text-center font-mono">4</td>
+                                <td class="py-3.5 px-3 text-center font-mono">0</td>
+                                <td class="py-3.5 px-3 text-center font-mono">0</td>
+                                <td class="py-3.5 px-3 text-center font-mono">4</td>
+                                <td class="py-3.5 px-3 text-center font-mono">2</td>
+                                <td class="py-3.5 px-3 text-center font-mono">10</td>
+                                <td class="py-3.5 px-3 text-center font-mono text-red-400 font-bold">-8</td>
+                                <td class="py-3.5 px-4 text-center font-black text-base text-white">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- DOCKER ARCHITECTURE SECTION -->
+        <section id="arquitectura" class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 border-t border-[#2a385b]">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+                <span class="text-xs font-bold text-sky-400 uppercase tracking-widest">Infraestructura y Despliegue</span>
+                <h2 class="text-3xl font-black text-white font-['Outfit'] tracking-tight mt-1">Arquitectura Docker Multi-Contenedor</h2>
+                <p class="text-slate-400 text-sm mt-2">
+                    Diseñado para ejecutarse en entornos de alta disponibilidad con balanceo de carga, proxy inverso Nginx y base de datos relacional MySQL 8.0 aislada.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="glass-card p-6 rounded-3xl">
+                    <div class="w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center font-bold mb-4">
+                        01
+                    </div>
+                    <h3 class="text-base font-extrabold text-white">siget_web (Nginx)</h3>
+                    <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                        Proxy inverso en Alpine Linux (Puerto 80:80). Compresión Gzip, streaming SSE para eventos en vivo y distribución optimizada de assets estáticos.
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl">
+                    <div class="w-10 h-10 rounded-xl bg-sky-500/20 text-sky-400 border border-sky-500/30 flex items-center justify-center font-bold mb-4">
+                        02
+                    </div>
+                    <h3 class="text-base font-extrabold text-white">siget_app (PHP 8.5)</h3>
+                    <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                        Entorno Laravel 13 con extensiones nativas <code class="text-sky-300">pdo_mysql</code>, <code class="text-sky-300">intl</code>, <code class="text-sky-300">gd</code>, <code class="text-sky-300">zip</code> y aceleración Opcache.
+                    </p>
+                </div>
+
+                <div class="glass-card p-6 rounded-3xl">
+                    <div class="w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center font-bold mb-4">
+                        03
+                    </div>
+                    <h3 class="text-base font-extrabold text-white">siget_db (MySQL 8.0)</h3>
+                    <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                        Base de datos transaccional en Puerto 3306 con volumen persistente <code class="text-amber-300">db_data</code>, healthchecks automáticos y claves foráneas en cascada.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Run Command Snippet -->
+            <div class="mt-8 bg-[#070c1b] border border-[#2a385b] rounded-2xl p-4 sm:p-6 text-left">
+                <div class="flex items-center justify-between text-xs text-slate-400 mb-3 border-b border-[#2a385b]/60 pb-2">
+                    <span class="font-mono font-bold text-slate-300">🚀 Comandos de Inicialización (Producción / Local)</span>
+                    <span class="text-[10px] text-emerald-400 uppercase font-bold">Bash / Terminal</span>
+                </div>
+                <pre class="font-mono text-xs sm:text-sm text-sky-300 overflow-x-auto leading-relaxed"><code><span class="text-slate-500"># 1. Levantar la infraestructura completa en segundo plano</span>
+docker compose up -d --build
+
+<span class="text-slate-500"># 2. Generar llave criptográfica y migrar base de datos con seeders oficiales</span>
+docker compose exec -T app php artisan key:generate
+docker compose exec -T app php artisan migrate:fresh --seed</code></pre>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 border-t border-[#2a385b] bg-[#070c1b] py-10 text-xs text-slate-400">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-2">
+                <span class="font-extrabold text-white font-['Outfit']">SIGET</span>
+                <span>&middot; Desarrollado por <b>Nelly Fabiola Cano Oviedo</b> (Cfabiola25)</span>
+            </div>
+            <div>
+                FESC 2026 &middot; Ingeniería de Software &middot; Desplegado en Vercel
+            </div>
+        </div>
+    </footer>
+
+    <!-- Interactive Client Scripts -->
+    <script>
+        // Anti-Fraud Live Digital Clock
+        function updateAntiFraudClock() {
+            const clockEl = document.getElementById('antiFraudClock');
+            if (clockEl) {
+                const now = new Date();
+                clockEl.textContent = now.toTimeString().split(' ')[0];
+            }
+        }
+        setInterval(updateAntiFraudClock, 1000);
+        updateAntiFraudClock();
+
+        // Match Live Clock Simulation
+        let matchMinutes = 67;
+        let matchSeconds = 40;
+        function updateMatchClock() {
+            matchSeconds++;
+            if (matchSeconds >= 60) {
+                matchMinutes++;
+                matchSeconds = 0;
+            }
+            const el = document.getElementById('liveMatchClock');
+            if (el) {
+                el.textContent = `${matchMinutes}:${matchSeconds < 10 ? '0' : ''}${matchSeconds}`;
+            }
+        }
+        setInterval(updateMatchClock, 1000);
+
+        // MVP Voting
+        function voteMvp(team) {
+            if (team === 'ASF') {
+                const el = document.getElementById('countAsf');
+                el.textContent = parseInt(el.textContent) + 1;
+                document.getElementById('btnVoteAsf').classList.add('bg-emerald-600');
+            } else {
+                const el = document.getElementById('countRsc');
+                el.textContent = parseInt(el.textContent) + 1;
+                document.getElementById('btnVoteRsc').classList.add('bg-sky-600');
+            }
+        }
+
+        // QR Scan Simulation
+        function simulateScan(type) {
+            const box = document.getElementById('scanFeedback');
+            const icon = document.getElementById('scanIcon');
+            const title = document.getElementById('scanTitle');
+            const detail = document.getElementById('scanDetail');
+
+            if (type === 'ok') {
+                box.className = 'p-4 rounded-2xl bg-[#0b132b] border border-emerald-500/40 transition-all';
+                icon.className = 'w-10 h-10 rounded-xl bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 flex items-center justify-center shrink-0 text-xl font-bold';
+                icon.textContent = '✓';
+                title.className = 'text-xs font-extrabold text-emerald-400 uppercase tracking-wider';
+                title.textContent = 'JUGADOR HABILITADO EN CANCHA';
+                detail.textContent = 'Juan David Pérez (#10) · Exoneración médica vigente · 0 sanciones disciplinarias.';
+            } else if (type === 'red_card') {
+                box.className = 'p-4 rounded-2xl bg-[#0b132b] border border-red-500/40 transition-all';
+                icon.className = 'w-10 h-10 rounded-xl bg-red-500/20 text-red-400 border border-red-500/30 flex items-center justify-center shrink-0 text-xl font-bold';
+                icon.textContent = '⛔';
+                title.className = 'text-xs font-extrabold text-red-400 uppercase tracking-wider';
+                title.textContent = 'JUGADOR INHABILITADO: SANCIÓN DISCIPLINARIA';
+                detail.textContent = 'Carlos Mendoza (#4) · Tarjeta roja directa en la fecha anterior (1 fecha pendiente).';
+            } else if (type === 'medical_fail') {
+                box.className = 'p-4 rounded-2xl bg-[#0b132b] border border-amber-500/40 transition-all';
+                icon.className = 'w-10 h-10 rounded-xl bg-amber-500/20 text-amber-400 border border-amber-500/30 flex items-center justify-center shrink-0 text-xl font-bold';
+                icon.textContent = '⚠️';
+                title.className = 'text-xs font-extrabold text-amber-400 uppercase tracking-wider';
+                title.textContent = 'INHABILITACIÓN MÉDICA / ADMINISTRATIVA';
+                detail.textContent = 'Ficha médica incompleta: pendiente firma digital de exoneración de responsabilidades.';
+            }
+        }
+    </script>
+</body>
+</html>
