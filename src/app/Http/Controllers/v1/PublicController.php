@@ -151,4 +151,9 @@ class PublicController extends Controller
 
         return view('v1.public.tournament', compact('tournament'));
     }
+
+    public function privacy()
+    {
+        return view('v1.public.privacy');
+    }
 }

@@ -34,6 +34,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [PublicController::class, 'home']);
 Route::get('/tournament', [PublicController::class, 'tournament'])->name('public.tournament');
+Route::get('/privacy', [PublicController::class, 'privacy'])->name('public.privacy');
 Route::get('/teams/invitations/{token}', [TeamInvitationController::class, 'showClaim'])->name('teams.invitations.claim');
 Route::post('/teams/invitations/{token}/claim', [TeamInvitationController::class, 'claim'])->name('teams.invitations.accept');
 Route::get('/players/{player}/cromo', [PlayerProfileController::class, 'showCromo'])->name('players.cromo');

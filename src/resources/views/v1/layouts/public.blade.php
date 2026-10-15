@@ -210,10 +210,10 @@
             </div>
 
             <!-- Links -->
-            <div class="flex items-center gap-5 text-slate-600 font-medium">
-                <a href="#" class="hover:text-slate-900 hover:underline">Política de Privacidad</a>
-                <a href="#" class="hover:text-slate-900 hover:underline">Términos de Servicio</a>
-                <a href="#" class="hover:text-slate-900 hover:underline">Contacto</a>
+            <div class="flex flex-wrap items-center gap-4 sm:gap-5 text-slate-600 font-medium">
+                <a href="{{ route('public.privacy') }}" class="hover:text-slate-900 hover:underline">Política de Privacidad</a>
+                <button type="button" onclick="openSigetCookieSettings()" class="hover:text-slate-900 hover:underline cursor-pointer">Preferencias de Cookies</button>
+                <a href="mailto:contacto@siget.online" class="hover:text-slate-900 hover:underline">Contacto</a>
             </div>
         </div>
     </footer>
@@ -258,6 +258,9 @@
             </div>
         </div>
     </dialog>
+
+    <!-- BANNER Y GESTIÓN DE COOKIES -->
+    <x-cookie-banner />
 
 </body>
 </html>

@@ -607,5 +607,8 @@
         </div>
     </x-modal>
 
+    <!-- BANNER Y GESTIÓN DE COOKIES -->
+    <x-cookie-banner />
+
 </body>
 </html>
