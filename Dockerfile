@@ -28,7 +28,7 @@ RUN apt-get update && apt-get install -y \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Instalar extensiones requeridas por Laravel
-RUN docker-php-ext-install pdo_mysql exif pcntl bcmath gd intl zip opcache
+RUN docker-php-ext-install pdo_mysql exif pcntl bcmath gd intl zip
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
