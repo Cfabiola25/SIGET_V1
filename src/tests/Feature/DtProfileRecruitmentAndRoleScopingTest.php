@@ -3,8 +3,10 @@
 namespace Tests\Feature;
 
 use App\Models\User;
+use App\Models\v1\MatchGame;
 use App\Models\v1\Player;
 use App\Models\v1\PlayerRecruitmentRequest;
+use App\Models\v1\Referee;
 use App\Models\v1\Team;
 use App\Models\v1\Tournament;
 use App\Models\v1\Venue;
@@ -227,5 +229,135 @@ class DtProfileRecruitmentAndRoleScopingTest extends TestCase
         ]);
 
         $scheduleRes->assertForbidden();
+    }
+
+    public function test_dt_can_see_assigned_fixture_with_venue_referee_opponent_and_lineup_action(): void
+    {
+        $tournament = Tournament::factory()->create(['name' => 'Copa Élite 2026']);
+        $coach = User::factory()->create(['role' => 'captain', 'name' => 'Profesor Pekerman']);
+        $team = Team::factory()->create([
+            'tournament_id' => $tournament->id,
+            'captain_id' => $coach->id,
+            'name' => 'Club Deportivo Halcones',
+        ]);
+        $opponent = Team::factory()->create([
+            'tournament_id' => $tournament->id,
+            'name' => 'Huracán FC',
+        ]);
+        $venue = Venue::create([
+            'name' => 'Complejo Deportivo El Campín',
+            'field_count' => 3,
+            'surface_type' => 'grass',
+            'is_active' => true,
+        ]);
+        $referee = Referee::create([
+            'name' => 'Wilmar Roldán',
+            'badge_level' => 'fifa',
+            'is_active' => true,
+        ]);
+
+        $match = MatchGame::create([
+            'tournament_id' => $tournament->id,
+            'home_team_id' => $team->id,
+            'away_team_id' => $opponent->id,
+            'match_date' => now()->addDays(2)->setHour(16)->setMinute(30),
+            'venue_id' => $venue->id,
+            'field_number' => 2,
+            'referee_id' => $referee->id,
+            'status' => 'scheduled',
+            'round_number' => 1,
+        ]);
+
+        // El DT entra a su dashboard
+        $res = $this->actingAs($coach)->get(route('dt.dashboard', $team));
+
+        $res->assertOk();
+        $res->assertSee('Club Deportivo Halcones');
+        $res->assertSee('Huracán FC');
+        $res->assertSee('Complejo Deportivo El Campín');
+        $res->assertSee('Cancha #2');
+        $res->assertSee('Wilmar Roldán');
+        $res->assertSee('16:30');
+        // Enlace para nominar / alinear a sus jugadores
+        $res->assertSee(route('matches.lineup.edit', ['match' => $match->id, 'team' => $team->id]));
+    }
+
+    public function test_players_are_strictly_forbidden_from_creating_or_storing_players(): void
+    {
+        $tournament = Tournament::factory()->create();
+        $team = Team::factory()->create(['tournament_id' => $tournament->id]);
+        $playerUser = User::factory()->create(['role' => 'player', 'name' => 'Juancho Futbolero']);
+
+        // Jugador intenta crear otro jugador por POST
+        $res = $this->actingAs($playerUser)->post(route('players.store'), [
+            'name' => 'Nuevo Jugador Ilegal',
+            'team_id' => $team->id,
+            'jersey_number' => 9,
+            'identification_document' => 'CC-112233',
+        ]);
+
+        $res->assertForbidden();
+
+        // Jugador que visita /players es redirigido a su panel
+        $indexRes = $this->actingAs($playerUser)->get(route('players.index'));
+        $indexRes->assertRedirect(route('dashboard'));
+
+        // Jugador no puede exportar CSV de jugadores
+        $exportRes = $this->actingAs($playerUser)->get(route('players.export'));
+        $exportRes->assertForbidden();
+    }
+
+    public function test_admin_cannot_create_matches_outside_their_assigned_tournament_in_store(): void
+    {
+        $admin1 = User::factory()->create(['role' => 'admin']);
+        $admin2 = User::factory()->create(['role' => 'admin']);
+
+        $tournament1 = Tournament::factory()->create(['admin_id' => $admin1->id]);
+        $tournament2 = Tournament::factory()->create(['admin_id' => $admin2->id]);
+
+        $teamT2_A = Team::factory()->create(['tournament_id' => $tournament2->id]);
+        $teamT2_B = Team::factory()->create(['tournament_id' => $tournament2->id]);
+
+        // Admin 1 intenta crear partido en el torneo de Admin 2 usando StoreMatchRequest
+        $res = $this->actingAs($admin1)->post(route('matches.store'), [
+            'tournament_id' => $tournament2->id,
+            'home_team_id' => $teamT2_A->id,
+            'away_team_id' => $teamT2_B->id,
+            'match_date' => now()->addDays(3)->format('Y-m-d H:i:s'),
+        ]);
+
+        $res->assertForbidden();
+    }
+
+    public function test_player_dashboard_shows_strictly_player_identity_carnet_and_team_matches(): void
+    {
+        $tournament = Tournament::factory()->create(['name' => 'Liga Premier Juvenil']);
+        $team = Team::factory()->create(['tournament_id' => $tournament->id, 'name' => 'Estrellas FC']);
+        $playerUser = User::factory()->create(['role' => 'player', 'name' => 'Santiago Giraldo']);
+
+        $player = Player::factory()->create([
+            'user_id' => $playerUser->id,
+            'team_id' => $team->id,
+            'name' => 'Santiago Giraldo',
+            'jersey_number' => 10,
+            'identification_document' => 'CC-1098765432',
+        ]);
+
+        $player->profile()->update([
+            'position' => 'midfielder',
+        ]);
+
+        $res = $this->actingAs($playerUser)->get(route('dashboard'));
+
+        $res->assertOk();
+        $res->assertSee('Santiago Giraldo');
+        $res->assertSee('#10');
+        $res->assertSee('Estrellas FC');
+        $res->assertSee('Liga Premier Juvenil');
+        $res->assertSee(route('players.carnet', $player));
+        $res->assertSee(route('players.cromo', $player));
+        // No debe mostrar accesos administrativos como Agendador o Crear Torneo
+        $res->assertDontSee('Agendador de Partidos');
+        $res->assertDontSee('Crear Torneo');
     }
 }
