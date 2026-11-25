@@ -6,7 +6,6 @@ use App\Models\v1\DisciplinarySanction;
 use App\Models\v1\MatchEvent;
 use App\Models\v1\MatchGame;
 use App\Models\v1\TournamentRule;
-use App\Services\StandingService;
 use Illuminate\Support\Facades\DB;
 
 class PostMatchClosureService
