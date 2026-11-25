@@ -1,0 +1,146 @@
+PHPUnit 12.5.35 by Sebastian Bergmann and contributors.
+
+Runtime:       PHP 8.3.6
+Configuration: src/phpunit.xml
+
+Time: 00:02.110, Memory: 72.50 MB
+
+Dt Profile Recruitment And Role Scoping (Tests\Feature\DtProfileRecruitmentAndRoleScoping)
+ ✔ Dt adding player automatically initializes athletic and medical profiles
+ ✔ Dt can release player to free agency for other teams to scout
+ ✔ Super admin can register free agent with contact info
+ ✔ Recruitment flow requires proposal and acceptance before joining team
+ ✔ Dt has strict role based isolation and cannot access backoffice admin routes
+ ✔ Admin is strictly scoped to their managed tournaments
+ ✔ Dt can see assigned fixture with venue referee opponent and lineup action
+ ✔ Players are strictly forbidden from creating or storing players
+ ✔ Admin cannot create matches outside their assigned tournament in store
+ ✔ Player dashboard shows strictly player identity carnet and team matches
+
+Match Live Feed And Scouting (Tests\Feature\Calidad\MatchLiveFeedAndScouting)
+ ✔ Live feed returns match state with events
+ ✔ Sse stream emits same match state
+ ✔ Admin scouting lists only teams from managed tournaments
+
+Next Gen Viral Ai Scouting Disruptive (Tests\Feature\NextGenViralAiScoutingDisruptive)
+ ✔ Live public fan mvp voting registers vote and updates live stats
+ ✔ Post match closure automatically crowns mvp and generates ai sports chronicle
+ ✔ Free agency transfer market and talent radar scouting
+ ✔ Algorithmic referee assignment avoids conflicts of interest
+ ✔ Post match referee evaluation by dt updates referee average
+
+Phase Five Fixtures And Brackets Disruptive (Tests\Feature\PhaseFiveFixturesAndBracketsDisruptive)
+ ✔ Berger algorithm generates correct round robin for even and odd teams
+ ✔ Fixture generator respects cross constraints venues and dates
+ ✔ Fixture generator controller generates and persists matches
+ ✔ Bracket service transitions top four teams to semifinals and final
+ ✔ Bracket service transitions top eight teams to quarterfinals
+ ✔ Closing playoff match automatically advances winner to next round
+ ✔ Brackets controller renders visual bracket tree
+
+Phase Four Post Match Disruptive (Tests\Feature\PhaseFourPostMatchDisruptive)
+ ✔ Post match closure screen loads with lineups and events
+ ✔ Submitting closure saves tripartite signatures and locks match
+ ✔ Inmutability locked match rejects subsequent event recording and timer changes
+ ✔ Disciplinary engine generates automatic sanction for direct red card
+ ✔ Disciplinary engine generates automatic sanction for yellow card accumulation
+ ✔ Standings are automatically recalculated on match closure
+ ✔ Official match sheet renders with embedded signatures and verification hash
+ ✔ Disciplinary tribunal dashboard displays sanctions and allows pardon
+
+Phase One Soccer Disruptive (Tests\Feature\PhaseOneSoccerDisruptive)
+ ✔ Tournament automatically creates default soccer rules
+ ✔ Admin can update tournament competition rules
+ ✔ Admin can create venues with geolocation
+ ✔ Admin creates team and auto generates magic link invitation
+ ✔ Coach can claim team via magic link and access dt portal
+ ✔ Coach can manage roster and import via csv
+
+Phase Three Match Day Disruptive (Tests\Feature\PhaseThreeMatchDayDisruptive)
+ ✔ Referee can access match day console
+ ✔ Referee can control match stopwatch
+ ✔ Recording goal event automatically updates scoreboard and broadcasts
+ ✔ Recording yellow card and substitution events
+ ✔ Public live feed endpoint returns match state
+
+Phase Two Soccer Disruptive (Tests\Feature\PhaseTwoSoccerDisruptive)
+ ✔ Player automatically initializes profile and medical records
+ ✔ Public cromo and qr carnet are accessible
+ ✔ Player medical record can be updated with waiver signature
+ ✔ Tripartite filter blocks ineligible player with disciplinary sanction
+ ✔ Financial debt does not block lineup when gateway disabled
+ ✔ Coach can submit valid digital lineup
+ ✔ Lineup submission is locked when cutoff time expires
+ ✔ Referee can scan qr carnet and instantly verify player in field
+
+Reicon (Tests\Unit\Reicon)
+ ✔ Reicon can render outline and filled icons
+ ✔ Blade component renders reicon
+ ✔ Reicon resolves aliases
+
+Siget Feature (Tests\Feature\SigetFeature)
+ ✔ Home page loads
+ ✔ Users of each role can sign in with data set "super admin"
+ ✔ Users of each role can sign in with data set "admin"
+ ✔ Users of each role can sign in with data set "captain"
+ ✔ Users of each role can sign in with data set "player"
+ ✔ Role dashboards are isolated
+ ✔ Admin only sees assigned tournaments
+ ✔ Admin cannot open another admins tournament
+ ✔ Admin cannot open resources from another tournament
+ ✔ Super admin creates admins and assigns tournaments
+ ✔ Super admin can create tournament and then assign admin from tournaments view
+ ✔ Team cannot be scheduled twice on the same day
+ ✔ Super admin can deactivate admin and deactivated admin cannot sign in
+ ✔ Super admin can edit admin details and reset password
+ ✔ Super admin can edit tournament dates
+ ✔ Tournament and match lists apply search sport status and date filters
+ ✔ Super admin can manage sports without removing sports used by tournaments
+
+Staff Authorization (Tests\Feature\Calidad\StaffAuthorization)
+ ✔ Non staff user is forbidden from backoffice with data set "equipos"
+ ✔ Non staff user is forbidden from backoffice with data set "partidos"
+ ✔ Non staff user is forbidden from backoffice with data set "posiciones"
+ ✔ Non staff user is forbidden from backoffice with data set "auditoría"
+ ✔ Non staff user is forbidden from backoffice with data set "sedes"
+ ✔ Non staff user is forbidden from backoffice with data set "árbitros"
+ ✔ Super admin can access backoffice with data set "equipos"
+ ✔ Super admin can access backoffice with data set "partidos"
+ ✔ Super admin can access backoffice with data set "posiciones"
+ ✔ Super admin can access backoffice with data set "auditoría"
+ ✔ Super admin can access backoffice with data set "sedes"
+ ✔ Super admin can access backoffice with data set "árbitros"
+ ✔ Admin match list applies filters within own tournaments
+
+Standing Recalculation (Tests\Feature\Calidad\StandingRecalculation)
+ ✔ Home win assigns standard points and goals
+ ✔ Draw assigns one point to each team
+ ✔ Recalculation uses points configured in tournament rules
+ ✔ Only played matches are counted
+
+Team Registration Security (Tests\Feature\Calidad\TeamRegistrationSecurity)
+ ✔ Registering team with new coach creates linked coach account
+ ✔ New coach without password does not receive predictable password
+ ✔ External redirect target is ignored when registering team
+ ✔ Internal redirect target is preserved
+ ✔ Player profile update ignores external redirect target
+
+Unassigned Roles Restriction (Tests\Feature\UnassignedRolesRestriction)
+ ✔ Unassigned admin can login and access dashboard with waiting screen
+ ✔ Unassigned admin cannot create tournaments
+ ✔ Unassigned admin cannot access backoffice or schedule matches
+ ✔ Assigned admin can access full admin dashboard and features
+ ✔ Unassigned dt can login and sees waiting screen
+ ✔ Unassigned dt cannot manage players or rosters
+ ✔ Assigned dt redirects to dt dashboard
+
+User Role (Tests\Unit\UserRole)
+ ✔ Role permissions are resolved from a single source with data set "super_admin"
+ ✔ Role permissions are resolved from a single source with data set "admin"
+ ✔ Role permissions are resolved from a single source with data set "captain"
+ ✔ Role permissions are resolved from a single source with data set "coach"
+ ✔ Role permissions are resolved from a single source with data set "referee"
+ ✔ Role permissions are resolved from a single source with data set "player"
+
+OK (107 tests, 618 assertions)
+{"tool":"phpunit","result":"passed","tests":107,"passed":107,"assertions":618,"duration_ms":2111}

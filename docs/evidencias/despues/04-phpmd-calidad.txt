@@ -1,0 +1,162 @@
+src/app/Http/Controllers/v1/AdminController.php:39            LongVariable           Avoid excessively long variable names like $completedMatchesCount. Keep variable name length under 20.
+src/app/Http/Controllers/v1/AuthController.php:27             StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Auth' in method 'authenticate'.
+src/app/Http/Controllers/v1/AuthController.php:46             StaticAccess           Avoid using static access to class '\Illuminate\Validation\Rules\Password' in method 'store'.
+src/app/Http/Controllers/v1/AuthController.php:50             StaticAccess           Avoid using static access to class '\App\Models\User' in method 'store'.
+src/app/Http/Controllers/v1/AuthController.php:51             StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Auth' in method 'store'.
+src/app/Http/Controllers/v1/AuthController.php:59             StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Auth' in method 'logout'.
+src/app/Http/Controllers/v1/DashboardController.php:52        StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'index'.
+src/app/Http/Controllers/v1/DashboardController.php:53        StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'index'.
+src/app/Http/Controllers/v1/DashboardController.php:54        StaticAccess           Avoid using static access to class '\App\Models\v1\MatchGame' in method 'index'.
+src/app/Http/Controllers/v1/DashboardController.php:55        StaticAccess           Avoid using static access to class '\App\Models\v1\Venue' in method 'index'.
+src/app/Http/Controllers/v1/MatchController.php:28            StaticAccess           Avoid using static access to class '\Illuminate\Validation\Rule' in method 'index'.
+src/app/Http/Controllers/v1/MatchController.php:53            StaticAccess           Avoid using static access to class '\App\Models\v1\MatchGame' in method 'index'.
+src/app/Http/Controllers/v1/MatchController.php:59            LongVariable           Avoid excessively long variable names like $scheduledMatchesCount. Keep variable name length under 20.
+src/app/Http/Controllers/v1/MatchController.php:85            StaticAccess           Avoid using static access to class '\Illuminate\Validation\Rule' in method 'adminIndex'.
+src/app/Http/Controllers/v1/MatchController.php:141           StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'store'.
+src/app/Http/Controllers/v1/MatchController.php:143           StaticAccess           Avoid using static access to class '\App\Models\v1\MatchGame' in method 'store'.
+src/app/Http/Controllers/v1/MatchController.php:225           ElseExpression         The method schedule uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/MatchController.php:266           StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'storeSchedule'.
+src/app/Http/Controllers/v1/MatchController.php:267           StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'storeSchedule'.
+src/app/Http/Controllers/v1/MatchController.php:278           StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'storeSchedule'.
+src/app/Http/Controllers/v1/MatchController.php:280           StaticAccess           Avoid using static access to class '\Carbon\Carbon' in method 'storeSchedule'.
+src/app/Http/Controllers/v1/MatchController.php:292           ElseExpression         The method storeSchedule uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/MatchController.php:293           StaticAccess           Avoid using static access to class '\App\Models\v1\Venue' in method 'storeSchedule'.
+src/app/Http/Controllers/v1/MatchController.php:296           StaticAccess           Avoid using static access to class '\App\Models\v1\MatchGame' in method 'storeSchedule'.
+src/app/Http/Controllers/v1/MatchDayController.php:125        ElseExpression         The method recordEvent uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/MatchDayController.php:130        StaticAccess           Avoid using static access to class '\App\Models\v1\MatchEvent' in method 'recordEvent'.
+src/app/Http/Controllers/v1/MatchDayController.php:237        StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'syncBatch'.
+src/app/Http/Controllers/v1/MatchDayController.php:254        ElseExpression         The method syncBatch uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/MatchDayController.php:261        StaticAccess           Avoid using static access to class '\App\Models\v1\MatchEvent' in method 'syncBatch'.
+src/app/Http/Controllers/v1/MatchLineupController.php:100     StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'store'.
+src/app/Http/Controllers/v1/MatchLineupController.php:108     StaticAccess           Avoid using static access to class '\App\Models\v1\MatchLineup' in method 'store'.
+src/app/Http/Controllers/v1/MatchLineupController.php:120     StaticAccess           Avoid using static access to class '\App\Models\v1\MatchLineup' in method 'store'.
+src/app/Http/Controllers/v1/PlayerController.php:59           ElseExpression         The method index uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/PlayerController.php:220          StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'store'.
+src/app/Http/Controllers/v1/PlayerController.php:237          StaticAccess           Avoid using static access to class '\App\Models\v1\Player' in method 'store'.
+src/app/Http/Controllers/v1/PostMatchController.php:59        ShortVariable          Avoid variables with short names like $ip. Configured minimum length is 3.
+src/app/Http/Controllers/v1/PostMatchController.php:62        StaticAccess           Avoid using static access to class '\App\Models\v1\MatchSignature' in method 'saveSignaturesAndClose'.
+src/app/Http/Controllers/v1/PostMatchController.php:73        StaticAccess           Avoid using static access to class '\App\Models\v1\MatchSignature' in method 'saveSignaturesAndClose'.
+src/app/Http/Controllers/v1/PostMatchController.php:84        StaticAccess           Avoid using static access to class '\App\Models\v1\MatchSignature' in method 'saveSignaturesAndClose'.
+src/app/Http/Controllers/v1/PublicController.php:39           ElseExpression         The method home uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/RefereeController.php:22          StaticAccess           Avoid using static access to class '\App\Models\v1\Referee' in method 'index'.
+src/app/Http/Controllers/v1/RefereeController.php:43          StaticAccess           Avoid using static access to class '\App\Models\v1\Referee' in method 'index'.
+src/app/Http/Controllers/v1/RefereeController.php:46          StaticAccess           Avoid using static access to class '\App\Models\v1\Referee' in method 'index'.
+src/app/Http/Controllers/v1/RefereeController.php:50          ElseExpression         The method index uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/RefereeController.php:82          StaticAccess           Avoid using static access to class '\App\Models\User' in method 'store'.
+src/app/Http/Controllers/v1/RefereeController.php:85          StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Hash' in method 'store'.
+src/app/Http/Controllers/v1/RefereeController.php:91          StaticAccess           Avoid using static access to class '\App\Models\v1\Referee' in method 'store'.
+src/app/Http/Controllers/v1/ScoutingController.php:114        StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'requestRecruitment'.
+src/app/Http/Controllers/v1/ScoutingController.php:124        StaticAccess           Avoid using static access to class '\App\Models\v1\PlayerRecruitmentRequest' in method 'requestRecruitment'.
+src/app/Http/Controllers/v1/ScoutingController.php:253        StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'recruit'.
+src/app/Http/Controllers/v1/StatisticsController.php:16       StaticAccess           Avoid using static access to class '\App\Models\v1\MatchGame' in method 'show'.
+src/app/Http/Controllers/v1/SuperAdminController.php:38       StaticAccess           Avoid using static access to class '\App\Models\User' in method 'storeAdmin'.
+src/app/Http/Controllers/v1/SuperAdminController.php:41       StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Hash' in method 'storeAdmin'.
+src/app/Http/Controllers/v1/SuperAdminController.php:83       StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Hash' in method 'resetAdminPassword'.
+src/app/Http/Controllers/v1/SuperAdminController.php:97       StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'storeTournament'.
+src/app/Http/Controllers/v1/SuperAdminController.php:103      StaticAccess           Avoid using static access to class '\App\Models\v1\TournamentRule' in method 'storeTournament'.
+src/app/Http/Controllers/v1/SuperAdminController.php:104      StaticAccess           Avoid using static access to class '\App\Models\v1\TournamentRule' in method 'storeTournament'.
+src/app/Http/Controllers/v1/SuperAdminController.php:137      StaticAccess           Avoid using static access to class '\App\Models\v1\Sport' in method 'storeSport'.
+src/app/Http/Controllers/v1/TeamController.php:78             StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'adminIndex'.
+src/app/Http/Controllers/v1/TeamController.php:79             StaticAccess           Avoid using static access to class '\App\Models\v1\Player' in method 'adminIndex'.
+src/app/Http/Controllers/v1/TeamController.php:80             LongVariable           Avoid excessively long variable names like $pendingRegistrationsCount. Keep variable name length under 20.
+src/app/Http/Controllers/v1/TeamController.php:91             StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'adminIndex'.
+src/app/Http/Controllers/v1/TeamController.php:123            StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'create'.
+src/app/Http/Controllers/v1/TeamController.php:166            StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'store'.
+src/app/Http/Controllers/v1/TeamController.php:175            StaticAccess           Avoid using static access to class '\App\Models\v1\Team' in method 'store'.
+src/app/Http/Controllers/v1/TeamInvitationController.php:35   StaticAccess           Avoid using static access to class '\App\Models\v1\TeamInvitation' in method 'store'.
+src/app/Http/Controllers/v1/TeamInvitationController.php:79   StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Auth' in method 'claim'.
+src/app/Http/Controllers/v1/TeamInvitationController.php:80   StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Auth' in method 'claim'.
+src/app/Http/Controllers/v1/TeamInvitationController.php:84   ElseExpression         The method claim uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Http/Controllers/v1/TeamInvitationController.php:88   StaticAccess           Avoid using static access to class '\Illuminate\Validation\Rules\Password' in method 'claim'.
+src/app/Http/Controllers/v1/TeamInvitationController.php:92   StaticAccess           Avoid using static access to class '\App\Models\User' in method 'claim'.
+src/app/Http/Controllers/v1/TeamInvitationController.php:95   StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Hash' in method 'claim'.
+src/app/Http/Controllers/v1/TeamInvitationController.php:100  StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Auth' in method 'claim'.
+src/app/Http/Controllers/v1/TeamPortalController.php:115      StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'importRoster'.
+src/app/Http/Controllers/v1/TeamPortalController.php:146      StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'importRoster'.
+src/app/Http/Controllers/v1/TeamPortalController.php:148      StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'importRoster'.
+src/app/Http/Controllers/v1/TournamentController.php:30       StaticAccess           Avoid using static access to class '\Illuminate\Validation\Rule' in method 'index'.
+src/app/Http/Controllers/v1/TournamentController.php:96       StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'store'.
+src/app/Http/Controllers/v1/TournamentController.php:107      StaticAccess           Avoid using static access to class '\App\Models\v1\TournamentRule' in method 'store'.
+src/app/Http/Controllers/v1/TournamentController.php:117      StaticAccess           Avoid using static access to class '\App\Models\v1\TournamentRule' in method 'store'.
+src/app/Http/Controllers/v1/TournamentRuleController.php:19   StaticAccess           Avoid using static access to class '\App\Models\v1\TournamentRule' in method 'edit'.
+src/app/Http/Controllers/v1/VenueController.php:57            StaticAccess           Avoid using static access to class '\App\Models\v1\Venue' in method 'store'.
+src/app/Http/Middleware/EnsureUserIsActive.php:15             StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Auth' in method 'handle'.
+src/app/Http/Requests/v1/StoreTournamentRequest.php:19        StaticAccess           Avoid using static access to class '\Illuminate\Validation\Rule' in method 'rules'.
+src/app/Models/v1/MatchGame.php:20                            StaticAccess           Avoid using static access to class '\Database\Factories\MatchGameFactory' in method 'newFactory'.
+src/app/Models/v1/Player.php:20                               StaticAccess           Avoid using static access to class '\Database\Factories\PlayerFactory' in method 'newFactory'.
+src/app/Models/v1/Player.php:124                              StaticAccess           Avoid using static access to class 'App\Models\v1\PlayerProfile' in method 'booted'.
+src/app/Models/v1/Player.php:127                              StaticAccess           Avoid using static access to class 'App\Models\v1\PlayerMedicalRecord' in method 'booted'.
+src/app/Models/v1/PlayerProfile.php:108                       StaticAccess           Avoid using static access to class '\Illuminate\Support\Str' in method 'createDefault'.
+src/app/Models/v1/Standings.php:17                            StaticAccess           Avoid using static access to class '\Database\Factories\StandingsFactory' in method 'newFactory'.
+src/app/Models/v1/Team.php:20                                 StaticAccess           Avoid using static access to class '\Database\Factories\TeamFactory' in method 'newFactory'.
+src/app/Models/v1/TeamInvitation.php:70                       StaticAccess           Avoid using static access to class '\Illuminate\Support\Str' in method 'createForTeam'.
+src/app/Models/v1/Tournament.php:20                           StaticAccess           Avoid using static access to class '\Database\Factories\TournamentFactory' in method 'newFactory'.
+src/app/Models/v1/Tournament.php:92                           StaticAccess           Avoid using static access to class 'App\Models\v1\TournamentRule' in method 'booted'.
+src/app/Providers/AppServiceProvider.php:25                   StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Blade' in method 'boot'.
+src/app/Services/v1/AuditService.php:23                       StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Request' in method 'log'.
+src/app/Services/v1/AuditService.php:23                       ShortVariable          Avoid variables with short names like $ip. Configured minimum length is 3.
+src/app/Services/v1/AuditService.php:24                       StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Request' in method 'log'.
+src/app/Services/v1/AuditService.php:51                       StaticAccess           Avoid using static access to class '\App\Models\v1\AuditLog' in method 'log'.
+src/app/Services/v1/BracketService.php:30                     StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'transitionFromStandings'.
+src/app/Services/v1/BracketService.php:33                     StaticAccess           Avoid using static access to class '\Carbon\Carbon' in method 'transitionFromStandings'.
+src/app/Services/v1/BracketService.php:55                     MissingImport          Missing class import via use statement (line '55', column '27').
+src/app/Services/v1/BracketService.php:137                    StaticAccess           Avoid using static access to class '\App\Models\v1\MatchGame' in method 'createKnockoutMatch'.
+src/app/Services/v1/FixtureGeneratorService.php:47            StaticAccess           Avoid using static access to class '\App\Models\v1\Venue' in method 'preview'.
+src/app/Services/v1/FixtureGeneratorService.php:51            StaticAccess           Avoid using static access to class '\Carbon\Carbon' in method 'preview'.
+src/app/Services/v1/FixtureGeneratorService.php:98            ElseExpression         The method preview uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/FixtureGeneratorService.php:163           StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'generateAndPersist'.
+src/app/Services/v1/FixtureGeneratorService.php:169           StaticAccess           Avoid using static access to class '\App\Models\v1\MatchGame' in method 'generateAndPersist'.
+src/app/Services/v1/MatchMvpService.php:36                    StaticAccess           Avoid using static access to class '\App\Models\v1\MatchMvpVote' in method 'vote'.
+src/app/Services/v1/MatchMvpService.php:58                    StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'getLiveVoteStats'.
+src/app/Services/v1/MatchMvpService.php:82                    IfStatementAssignment  Avoid assigning values to variables in if clauses and the like (line '144', column '17').
+src/app/Services/v1/MatchMvpService.php:100                   StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'crownOfficialMvp'.
+src/app/Services/v1/MatchMvpService.php:122                   StaticAccess           Avoid using static access to class '\App\Models\v1\Player' in method 'crownOfficialMvp'.
+src/app/Services/v1/MatchMvpService.php:139                   StaticAccess           Avoid using static access to class '\App\Models\v1\Player' in method 'crownOfficialMvp'.
+src/app/Services/v1/NotificationDispatcherService.php:158     StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Log' in method 'dispatchOmnichannel'.
+src/app/Services/v1/NotificationDispatcherService.php:160     ElseExpression         The method dispatchOmnichannel uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/NotificationDispatcherService.php:161     StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Log' in method 'dispatchOmnichannel'.
+src/app/Services/v1/NotificationDispatcherService.php:168     StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Log' in method 'dispatchOmnichannel'.
+src/app/Services/v1/PlayerEligibilityService.php:47           ElseExpression         The method check uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/PostMatchClosureService.php:32            StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'closeMatch'.
+src/app/Services/v1/PostMatchClosureService.php:63            StaticAccess           Avoid using static access to class '\App\Models\v1\DisciplinarySanction' in method 'closeMatch'.
+src/app/Services/v1/PostMatchClosureService.php:85            StaticAccess           Avoid using static access to class '\App\Models\v1\DisciplinarySanction' in method 'closeMatch'.
+src/app/Services/v1/PostMatchClosureService.php:96            ElseExpression         The method closeMatch uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/PostMatchClosureService.php:106           StaticAccess           Avoid using static access to class '\App\Models\v1\DisciplinarySanction' in method 'closeMatch'.
+src/app/Services/v1/QrCarnetService.php:94                    ShortVariable          Avoid variables with short names like $x. Configured minimum length is 3.
+src/app/Services/v1/QrCarnetService.php:95                    ShortVariable          Avoid variables with short names like $y. Configured minimum length is 3.
+src/app/Services/v1/QrCarnetService.php:96                    ShortVariable          Avoid variables with short names like $w. Configured minimum length is 3.
+src/app/Services/v1/QrCarnetService.php:97                    ShortVariable          Avoid variables with short names like $h. Configured minimum length is 3.
+src/app/Services/v1/QrCarnetService.php:114                   ElseExpression         The method addFinderPattern uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/QrCarnetService.php:121                   ShortVariable          Avoid variables with short names like $r. Configured minimum length is 3.
+src/app/Services/v1/QrCarnetService.php:121                   ShortVariable          Avoid variables with short names like $c. Configured minimum length is 3.
+src/app/Services/v1/RefereeAssignmentEngine.php:89            ElseExpression         The method bulkAssignForRound uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/RefereeAssignmentEngine.php:112           StaticAccess           Avoid using static access to class '\App\Models\v1\RefereeConflictRecord' in method 'registerConflict'.
+src/app/Services/v1/RefereeAssignmentEngine.php:143           StaticAccess           Avoid using static access to class '\App\Models\v1\RefereeEvaluation' in method 'submitEvaluation'.
+src/app/Services/v1/ScheduleService.php:36                    StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'rescheduleCascade'.
+src/app/Services/v1/ScheduleService.php:37                    StaticAccess           Avoid using static access to class '\App\Models\v1\Tournament' in method 'rescheduleCascade'.
+src/app/Services/v1/ScheduleService.php:58                    ElseExpression         The method rescheduleCascade uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/ScoutingRatingService.php:130             ElseExpression         The method recruitPlayer uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/SportsChronicleService.php:47             StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Log' in method 'generateChronicle'.
+src/app/Services/v1/SportsChronicleService.php:58             StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Log' in method 'generateChronicle'.
+src/app/Services/v1/SportsChronicleService.php:99             ElseExpression         The method generateAlgorithmicChronicle uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/SportsChronicleService.php:106            ElseExpression         The method generateAlgorithmicChronicle uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/SportsChronicleService.php:111            ShortVariable          Avoid variables with short names like $p1. Configured minimum length is 3.
+src/app/Services/v1/SportsChronicleService.php:122            ShortVariable          Avoid variables with short names like $p2. Configured minimum length is 3.
+src/app/Services/v1/SportsChronicleService.php:123            ElseExpression         The method generateAlgorithmicChronicle uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/SportsChronicleService.php:129            ShortVariable          Avoid variables with short names like $p3. Configured minimum length is 3.
+src/app/Services/v1/SportsChronicleService.php:130            ElseExpression         The method generateAlgorithmicChronicle uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/SportsChronicleService.php:138            ElseExpression         The method generateAlgorithmicChronicle uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/SportsChronicleService.php:142            ShortVariable          Avoid variables with short names like $p4. Configured minimum length is 3.
+src/app/Services/v1/StandingService.php:23                    StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\DB' in method 'recalculate'.
+src/app/Services/v1/StandingService.php:104                   StaticAccess           Avoid using static access to class '\App\Models\v1\Standings' in method 'persist'.
+src/app/Services/v1/TeamDirectorAssignmentService.php:49      StaticAccess           Avoid using static access to class '\App\Models\User' in method 'assignExisting'.
+src/app/Services/v1/TeamDirectorAssignmentService.php:62      StaticAccess           Avoid using static access to class '\Illuminate\Support\Str' in method 'assignNew'.
+src/app/Services/v1/TeamDirectorAssignmentService.php:70      ElseExpression         The method assignNew uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Services/v1/TeamDirectorAssignmentService.php:72      StaticAccess           Avoid using static access to class '\Illuminate\Support\Str' in method 'assignNew'.
+src/app/Services/v1/TeamDirectorAssignmentService.php:73      StaticAccess           Avoid using static access to class '\App\Models\User' in method 'assignNew'.
+src/app/Services/v1/TeamDirectorAssignmentService.php:76      StaticAccess           Avoid using static access to class '\Illuminate\Support\Facades\Hash' in method 'assignNew'.
+src/app/Services/v1/TeamDirectorAssignmentService.php:92      StaticAccess           Avoid using static access to class '\App\Models\v1\TeamInvitation' in method 'invite'.
+src/app/Support/Reicon.php:151                                ElseExpression         The method loadIndex uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Support/Reicon.php:168                                ElseExpression         The method loadCategory uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/Support/Reicon.php:180                                ElseExpression         The method buildAttributes uses an else expression. Else clauses are basically not necessary and you can simplify the code by not using them.
+src/app/helpers.php:12                                        StaticAccess           Avoid using static access to class '\App\Support\Reicon' in method 'reicon'.

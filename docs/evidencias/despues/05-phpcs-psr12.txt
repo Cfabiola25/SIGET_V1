@@ -1,0 +1,58 @@
+
+PHP CODE SNIFFER REPORT SUMMARY
+----------------------------------------------------------------------
+FILE                                                  ERRORS  WARNINGS
+----------------------------------------------------------------------
+...siget_v1/src/app/Events/v1/MatchEventOccurred.php  4       0
+.../siget_v1/src/app/Events/v1/MatchTimerUpdated.php  4       0
+...1/src/app/Http/Controllers/v1/AdminController.php  0       3
+...1/src/app/Http/Controllers/v1/AuditController.php  0       2
+...src/app/Http/Controllers/v1/BracketController.php  0       1
+...pp/Http/Controllers/v1/DisciplinaryController.php  6       1
+...ttp/Controllers/v1/FixtureGeneratorController.php  0       1
+...1/src/app/Http/Controllers/v1/MatchController.php  4       7
+...rc/app/Http/Controllers/v1/MatchDayController.php  6       3
+...app/Http/Controllers/v1/MatchLineupController.php  10      6
+...rc/app/Http/Controllers/v1/MatchMvpController.php  5       0
+.../src/app/Http/Controllers/v1/PlayerController.php  12      8
+...c/app/Http/Controllers/v1/PostMatchController.php  0       1
+.../src/app/Http/Controllers/v1/PublicController.php  0       2
+...src/app/Http/Controllers/v1/RefereeController.php  0       1
+...tp/Controllers/v1/RefereeEvaluationController.php  1       5
+...c/app/Http/Controllers/v1/RefereeQrController.php  2       1
+...rc/app/Http/Controllers/v1/ScoutingController.php  1       5
+...c/app/Http/Controllers/v1/StandingsController.php  0       2
+.../app/Http/Controllers/v1/SuperAdminController.php  0       3
+...v1/src/app/Http/Controllers/v1/TeamController.php  0       4
+.../Http/Controllers/v1/TeamInvitationController.php  0       2
+.../app/Http/Controllers/v1/TeamPortalController.php  4       4
+.../app/Http/Controllers/v1/TournamentController.php  0       3
+.../Http/Controllers/v1/TournamentRuleController.php  0       1
+...1/src/app/Http/Controllers/v1/VenueController.php  0       2
+.../src/app/Http/Controllers/v1/WidgetController.php  0       1
+...laude/cfabiola25/siget_v1/src/app/Models/User.php  2       0
+...abiola25/siget_v1/src/app/Models/v1/MatchGame.php  0       2
+...a25/siget_v1/src/app/Models/v1/TeamInvitation.php  12      3
+...biola25/siget_v1/src/app/Models/v1/Tournament.php  0       2
+...siget_v1/src/app/Providers/AppServiceProvider.php  2       0
+...a25/siget_v1/src/app/Services/v1/AuditService.php  0       1
+...5/siget_v1/src/app/Services/v1/BracketService.php  0       3
+.../siget_v1/src/app/Services/v1/MatchMvpService.php  0       2
+...app/Services/v1/NotificationDispatcherService.php  24      2
+...1/src/app/Services/v1/PostMatchClosureService.php  0       4
+.../siget_v1/src/app/Services/v1/QrCarnetService.php  0       1
+.../siget_v1/src/app/Services/v1/ScheduleService.php  4       9
+..._v1/src/app/Services/v1/ScoutingRatingService.php  4       3
+...v1/src/app/Services/v1/SportsChronicleService.php  8       19
+.../siget_v1/src/app/Services/v1/StandingService.php  0       2
+...app/Services/v1/TeamDirectorAssignmentService.php  0       1
+...de/cfabiola25/siget_v1/src/app/Support/Reicon.php  14      2
+src/routes/web.php   0       39
+----------------------------------------------------------------------
+A TOTAL OF 129 ERRORS AND 164 WARNINGS WERE FOUND IN 45 FILES
+----------------------------------------------------------------------
+PHPCBF CAN FIX 128 OF THESE SNIFF VIOLATIONS AUTOMATICALLY
+----------------------------------------------------------------------
+
+Time: 739ms; Memory: 12MB
+

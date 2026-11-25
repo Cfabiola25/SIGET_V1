@@ -1,0 +1,2464 @@
+{
+ "antes": {
+  "files": 80,
+  "blank": 1388,
+  "comment": 478,
+  "loc": 6909,
+  "methods": 380,
+  "ccn_avg": 2.62,
+  "ccn_max": 18,
+  "ccn_total": 994,
+  "ccn_gt10": 14,
+  "ccn_6_10": 31,
+  "ccn_gt20": 0,
+  "long_methods_60": 14,
+  "lizard_warn": 25,
+  "clones": 4,
+  "dup_lines": 63,
+  "dup_pct": 0.74,
+  "phpcpd_total_lines": 8533,
+  "phpmd_design": 43,
+  "phpmd_clean": 173,
+  "md_CyclomaticComplexity": 16,
+  "md_NPathComplexity": 7,
+  "md_ExcessiveMethodLength": 5,
+  "md_TooManyPublicMethods": 5,
+  "md_CouplingBetweenObjects": 3,
+  "md_UnusedFormalParameter": 3,
+  "md_UnusedLocalVariable": 2,
+  "md_UnusedPrivateMethod": 0,
+  "md_ExcessiveClassComplexity": 1,
+  "md_NumberOfChildren": 1,
+  "mdc_StaticAccess": 128,
+  "mdc_ElseExpression": 28,
+  "mdc_BooleanArgumentFlag": 0,
+  "mdc_ShortVariable": 12,
+  "mdc_LongVariable": 3,
+  "mdc_MissingImport": 1,
+  "mdc_IfStatementAssignment": 1,
+  "mdc_UndefinedVariable": 0,
+  "mdc_ShortMethodName": 0,
+  "mdc_CamelCase": 0,
+  "psr12_err": 132,
+  "psr12_warn": 166,
+  "psr12_files": 43,
+  "psr12_fixable": 131,
+  "pint_files": 7,
+  "npm_vulns": 4,
+  "pd_classes": 77,
+  "pd_methods": 379,
+  "pd_ccn": 743,
+  "pd_fanout": 397,
+  "cbo_avg": 5.13,
+  "cbo_max": 15,
+  "wmc_max": 51,
+  "per_file": {
+   "app/Models/v1/Player.php": {
+    "nom": 19,
+    "ccn_max": 3,
+    "ccn_sum": 24,
+    "loc": 107
+   },
+   "app/Models/v1/Team.php": {
+    "nom": 15,
+    "ccn_max": 3,
+    "ccn_sum": 17,
+    "loc": 81
+   },
+   "app/Models/v1/Venue.php": {
+    "nom": 4,
+    "ccn_max": 6,
+    "ccn_sum": 9,
+    "loc": 55
+   },
+   "app/Models/v1/MatchGame.php": {
+    "nom": 26,
+    "ccn_max": 8,
+    "ccn_sum": 41,
+    "loc": 188
+   },
+   "app/Models/v1/PlayerMedicalRecord.php": {
+    "nom": 4,
+    "ccn_max": 2,
+    "ccn_sum": 5,
+    "loc": 47
+   },
+   "app/Models/v1/MatchSignature.php": {
+    "nom": 3,
+    "ccn_max": 2,
+    "ccn_sum": 4,
+    "loc": 36
+   },
+   "app/Models/v1/MatchMvpVote.php": {
+    "nom": 3,
+    "ccn_max": 1,
+    "ccn_sum": 3,
+    "loc": 28
+   },
+   "app/Models/v1/TeamInvitation.php": {
+    "nom": 10,
+    "ccn_max": 5,
+    "ccn_sum": 16,
+    "loc": 76
+   },
+   "app/Models/v1/RefereeEvaluation.php": {
+    "nom": 5,
+    "ccn_max": 1,
+    "ccn_sum": 5,
+    "loc": 46
+   },
+   "app/Models/v1/MatchLineup.php": {
+    "nom": 5,
+    "ccn_max": 1,
+    "ccn_sum": 5,
+    "loc": 47
+   },
+   "app/Models/v1/PlayerRecruitmentRequest.php": {
+    "nom": 7,
+    "ccn_max": 1,
+    "ccn_sum": 7,
+    "loc": 53
+   },
+   "app/Models/v1/TournamentRule.php": {
+    "nom": 4,
+    "ccn_max": 3,
+    "ccn_sum": 6,
+    "loc": 76
+   },
+   "app/Models/v1/Referee.php": {
+    "nom": 7,
+    "ccn_max": 2,
+    "ccn_sum": 8,
+    "loc": 54
+   },
+   "app/Models/v1/DisciplinarySanction.php": {
+    "nom": 6,
+    "ccn_max": 2,
+    "ccn_sum": 7,
+    "loc": 46
+   },
+   "app/Models/v1/MatchEvent.php": {
+    "nom": 8,
+    "ccn_max": 2,
+    "ccn_sum": 10,
+    "loc": 69
+   },
+   "app/Models/v1/RefereeConflictRecord.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 22
+   },
+   "app/Models/v1/Standings.php": {
+    "nom": 8,
+    "ccn_max": 1,
+    "ccn_sum": 8,
+    "loc": 54
+   },
+   "app/Models/v1/AuditLog.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 19
+   },
+   "app/Models/v1/Tournament.php": {
+    "nom": 12,
+    "ccn_max": 2,
+    "ccn_sum": 14,
+    "loc": 74
+   },
+   "app/Models/v1/PlayerProfile.php": {
+    "nom": 8,
+    "ccn_max": 2,
+    "ccn_sum": 10,
+    "loc": 94
+   },
+   "app/Models/User.php": {
+    "nom": 16,
+    "ccn_max": 1,
+    "ccn_sum": 16,
+    "loc": 87
+   },
+   "app/Events/v1/MatchTimerUpdated.php": {
+    "nom": 4,
+    "ccn_max": 7,
+    "ccn_sum": 11,
+    "loc": 36
+   },
+   "app/Events/v1/MatchEventOccurred.php": {
+    "nom": 4,
+    "ccn_max": 7,
+    "ccn_sum": 11,
+    "loc": 51
+   },
+   "app/Support/Reicon.php": {
+    "nom": 7,
+    "ccn_max": 7,
+    "ccn_sum": 21,
+    "loc": 136
+   },
+   "app/Providers/AppServiceProvider.php": {
+    "nom": 2,
+    "ccn_max": 2,
+    "ccn_sum": 3,
+    "loc": 19
+   },
+   "app/Services/v1/MatchMvpService.php": {
+    "nom": 3,
+    "ccn_max": 12,
+    "ccn_sum": 18,
+    "loc": 105
+   },
+   "app/Services/v1/StandingsService.php": {
+    "nom": 1,
+    "ccn_max": 1,
+    "ccn_sum": 1,
+    "loc": 9
+   },
+   "app/Services/v1/AuditService.php": {
+    "nom": 2,
+    "ccn_max": 4,
+    "ccn_sum": 5,
+    "loc": 80
+   },
+   "app/Services/v1/PostMatchClosureService.php": {
+    "nom": 2,
+    "ccn_max": 13,
+    "ccn_sum": 16,
+    "loc": 119
+   },
+   "app/Services/v1/BracketService.php": {
+    "nom": 2,
+    "ccn_max": 5,
+    "ccn_sum": 6,
+    "loc": 174
+   },
+   "app/Services/v1/SportsChronicleService.php": {
+    "nom": 6,
+    "ccn_max": 15,
+    "ccn_sum": 36,
+    "loc": 194
+   },
+   "app/Services/v1/FixtureGeneratorService.php": {
+    "nom": 2,
+    "ccn_max": 15,
+    "ccn_sum": 18,
+    "loc": 131
+   },
+   "app/Services/v1/ScoutingRatingService.php": {
+    "nom": 4,
+    "ccn_max": 8,
+    "ccn_sum": 20,
+    "loc": 125
+   },
+   "app/Services/v1/ScheduleService.php": {
+    "nom": 2,
+    "ccn_max": 15,
+    "ccn_sum": 24,
+    "loc": 137
+   },
+   "app/Services/v1/QrCarnetService.php": {
+    "nom": 4,
+    "ccn_max": 11,
+    "ccn_sum": 38,
+    "loc": 101
+   },
+   "app/Services/v1/RefereeAssignmentEngine.php": {
+    "nom": 4,
+    "ccn_max": 4,
+    "ccn_sum": 11,
+    "loc": 119
+   },
+   "app/Services/v1/NotificationDispatcherService.php": {
+    "nom": 4,
+    "ccn_max": 6,
+    "ccn_sum": 12,
+    "loc": 124
+   },
+   "app/Services/v1/StatisticsService.php": {
+    "nom": 1,
+    "ccn_max": 1,
+    "ccn_sum": 1,
+    "loc": 13
+   },
+   "app/Services/v1/PlayerEligibilityService.php": {
+    "nom": 1,
+    "ccn_max": 8,
+    "ccn_sum": 8,
+    "loc": 37
+   },
+   "app/Services/StandingService.php": {
+    "nom": 1,
+    "ccn_max": 5,
+    "ccn_sum": 5,
+    "loc": 64
+   },
+   "app/Http/Controllers/v1/AuditController.php": {
+    "nom": 1,
+    "ccn_max": 5,
+    "ccn_sum": 5,
+    "loc": 50
+   },
+   "app/Http/Controllers/v1/RefereeQrController.php": {
+    "nom": 2,
+    "ccn_max": 11,
+    "ccn_sum": 12,
+    "loc": 85
+   },
+   "app/Http/Controllers/v1/TeamController.php": {
+    "nom": 10,
+    "ccn_max": 18,
+    "ccn_sum": 49,
+    "loc": 246
+   },
+   "app/Http/Controllers/v1/TeamPortalController.php": {
+    "nom": 7,
+    "ccn_max": 13,
+    "ccn_sum": 25,
+    "loc": 148
+   },
+   "app/Http/Controllers/v1/MatchController.php": {
+    "nom": 14,
+    "ccn_max": 11,
+    "ccn_sum": 48,
+    "loc": 301
+   },
+   "app/Http/Controllers/v1/TournamentController.php": {
+    "nom": 9,
+    "ccn_max": 9,
+    "ccn_sum": 34,
+    "loc": 152
+   },
+   "app/Http/Controllers/v1/StandingsController.php": {
+    "nom": 2,
+    "ccn_max": 5,
+    "ccn_sum": 7,
+    "loc": 47
+   },
+   "app/Http/Controllers/v1/MatchDayController.php": {
+    "nom": 7,
+    "ccn_max": 7,
+    "ccn_sum": 23,
+    "loc": 298
+   },
+   "app/Http/Controllers/v1/RefereeController.php": {
+    "nom": 3,
+    "ccn_max": 9,
+    "ccn_sum": 16,
+    "loc": 91
+   },
+   "app/Http/Controllers/v1/BracketController.php": {
+    "nom": 3,
+    "ccn_max": 4,
+    "ccn_sum": 8,
+    "loc": 47
+   },
+   "app/Http/Controllers/v1/TournamentRuleController.php": {
+    "nom": 3,
+    "ccn_max": 4,
+    "ccn_sum": 6,
+    "loc": 48
+   },
+   "app/Http/Controllers/v1/WidgetController.php": {
+    "nom": 3,
+    "ccn_max": 1,
+    "ccn_sum": 3,
+    "loc": 64
+   },
+   "app/Http/Controllers/v1/FixtureGeneratorController.php": {
+    "nom": 3,
+    "ccn_max": 4,
+    "ccn_sum": 6,
+    "loc": 49
+   },
+   "app/Http/Controllers/v1/ScoutingController.php": {
+    "nom": 11,
+    "ccn_max": 11,
+    "ccn_sum": 51,
+    "loc": 236
+   },
+   "app/Http/Controllers/v1/AuthController.php": {
+    "nom": 5,
+    "ccn_max": 2,
+    "ccn_sum": 6,
+    "loc": 52
+   },
+   "app/Http/Controllers/v1/PlayerProfileController.php": {
+    "nom": 7,
+    "ccn_max": 8,
+    "ccn_sum": 17,
+    "loc": 105
+   },
+   "app/Http/Controllers/v1/MatchLineupController.php": {
+    "nom": 3,
+    "ccn_max": 10,
+    "ccn_sum": 18,
+    "loc": 120
+   },
+   "app/Http/Controllers/v1/AdminController.php": {
+    "nom": 1,
+    "ccn_max": 3,
+    "ccn_sum": 3,
+    "loc": 44
+   },
+   "app/Http/Controllers/v1/MatchMvpController.php": {
+    "nom": 4,
+    "ccn_max": 5,
+    "ccn_sum": 13,
+    "loc": 91
+   },
+   "app/Http/Controllers/v1/PostMatchController.php": {
+    "nom": 4,
+    "ccn_max": 4,
+    "ccn_sum": 8,
+    "loc": 111
+   },
+   "app/Http/Controllers/v1/StatisticsController.php": {
+    "nom": 1,
+    "ccn_max": 2,
+    "ccn_sum": 2,
+    "loc": 49
+   },
+   "app/Http/Controllers/v1/DashboardController.php": {
+    "nom": 1,
+    "ccn_max": 8,
+    "ccn_sum": 8,
+    "loc": 56
+   },
+   "app/Http/Controllers/v1/RefereeEvaluationController.php": {
+    "nom": 6,
+    "ccn_max": 8,
+    "ccn_sum": 25,
+    "loc": 133
+   },
+   "app/Http/Controllers/v1/PlayerController.php": {
+    "nom": 4,
+    "ccn_max": 15,
+    "ccn_sum": 40,
+    "loc": 236
+   },
+   "app/Http/Controllers/v1/VenueController.php": {
+    "nom": 7,
+    "ccn_max": 4,
+    "ccn_sum": 15,
+    "loc": 90
+   },
+   "app/Http/Controllers/v1/RefereePortalController.php": {
+    "nom": 1,
+    "ccn_max": 2,
+    "ccn_sum": 2,
+    "loc": 49
+   },
+   "app/Http/Controllers/v1/SuperAdminController.php": {
+    "nom": 10,
+    "ccn_max": 3,
+    "ccn_sum": 13,
+    "loc": 125
+   },
+   "app/Http/Controllers/v1/PublicController.php": {
+    "nom": 3,
+    "ccn_max": 7,
+    "ccn_sum": 10,
+    "loc": 132
+   },
+   "app/Http/Controllers/v1/DisciplinaryController.php": {
+    "nom": 2,
+    "ccn_max": 5,
+    "ccn_sum": 6,
+    "loc": 72
+   },
+   "app/Http/Controllers/v1/TeamInvitationController.php": {
+    "nom": 3,
+    "ccn_max": 5,
+    "ccn_sum": 10,
+    "loc": 97
+   },
+   "app/Http/Middleware/EnsureUserIsActive.php": {
+    "nom": 1,
+    "ccn_max": 3,
+    "ccn_sum": 3,
+    "loc": 19
+   },
+   "app/Http/Middleware/CheckRole.php": {
+    "nom": 1,
+    "ccn_max": 2,
+    "ccn_sum": 2,
+    "loc": 13
+   },
+   "app/Http/Requests/v1/StoreMatchRequest.php": {
+    "nom": 3,
+    "ccn_max": 6,
+    "ccn_sum": 11,
+    "loc": 74
+   },
+   "app/Http/Requests/v1/UpdateScoreRequest.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 18
+   },
+   "app/Http/Requests/v1/StoreTournamentRequest.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 22
+   },
+   "app/helpers.php": {
+    "nom": 1,
+    "ccn_max": 1,
+    "ccn_sum": 1,
+    "loc": 9
+   },
+   "routes/web.php": {
+    "nom": 0,
+    "ccn_max": 0,
+    "ccn_sum": 0,
+    "loc": 160
+   },
+   "routes/console.php": {
+    "nom": 0,
+    "ccn_max": 0,
+    "ccn_sum": 0,
+    "loc": 25
+   },
+   "app/Models/v1/Sport.php": {
+    "nom": 0,
+    "ccn_max": 0,
+    "ccn_sum": 0,
+    "loc": 7
+   },
+   "app/Http/Controllers/Controller.php": {
+    "nom": 0,
+    "ccn_max": 0,
+    "ccn_sum": 0,
+    "loc": 5
+   }
+  },
+  "classes": {
+   "MatchEventOccurred": {
+    "loc": "46",
+    "eloc": "32",
+    "nom": "4",
+    "wmc": "4",
+    "cbo": "3",
+    "ca": "1",
+    "ce": "3"
+   },
+   "MatchTimerUpdated": {
+    "loc": "32",
+    "eloc": "18",
+    "nom": "4",
+    "wmc": "4",
+    "cbo": "2",
+    "ca": "1",
+    "ce": "2"
+   },
+   "Controller": {
+    "loc": "4",
+    "eloc": "0",
+    "nom": "0",
+    "wmc": "0",
+    "cbo": "0",
+    "ca": "0",
+    "ce": "0"
+   },
+   "AdminController": {
+    "loc": "42",
+    "eloc": "32",
+    "nom": "1",
+    "wmc": "3",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "AuditController": {
+    "loc": "52",
+    "eloc": "39",
+    "nom": "1",
+    "wmc": "5",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "AuthController": {
+    "loc": "53",
+    "eloc": "35",
+    "nom": "5",
+    "wmc": "6",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "BracketController": {
+    "loc": "46",
+    "eloc": "30",
+    "nom": "3",
+    "wmc": "8",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "DashboardController": {
+    "loc": "56",
+    "eloc": "44",
+    "nom": "1",
+    "wmc": "7",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "DisciplinaryController": {
+    "loc": "73",
+    "eloc": "59",
+    "nom": "2",
+    "wmc": "6",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "FixtureGeneratorController": {
+    "loc": "47",
+    "eloc": "31",
+    "nom": "3",
+    "wmc": "6",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "MatchController": {
+    "loc": "342",
+    "eloc": "267",
+    "nom": "14",
+    "wmc": "48",
+    "cbo": "14",
+    "ca": "0",
+    "ce": "14"
+   },
+   "MatchDayController": {
+    "loc": "336",
+    "eloc": "277",
+    "nom": "7",
+    "wmc": "21",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "MatchLineupController": {
+    "loc": "134",
+    "eloc": "102",
+    "nom": "3",
+    "wmc": "18",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "MatchMvpController": {
+    "loc": "108",
+    "eloc": "75",
+    "nom": "4",
+    "wmc": "13",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "PlayerController": {
+    "loc": "268",
+    "eloc": "218",
+    "nom": "4",
+    "wmc": "39",
+    "cbo": "8",
+    "ca": "0",
+    "ce": "8"
+   },
+   "PlayerProfileController": {
+    "loc": "118",
+    "eloc": "87",
+    "nom": "7",
+    "wmc": "17",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "PostMatchController": {
+    "loc": "121",
+    "eloc": "92",
+    "nom": "4",
+    "wmc": "8",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "PublicController": {
+    "loc": "149",
+    "eloc": "119",
+    "nom": "3",
+    "wmc": "10",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "RefereeController": {
+    "loc": "100",
+    "eloc": "77",
+    "nom": "3",
+    "wmc": "16",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "RefereeEvaluationController": {
+    "loc": "165",
+    "eloc": "111",
+    "nom": "6",
+    "wmc": "25",
+    "cbo": "10",
+    "ca": "0",
+    "ce": "10"
+   },
+   "RefereePortalController": {
+    "loc": "54",
+    "eloc": "39",
+    "nom": "1",
+    "wmc": "2",
+    "cbo": "3",
+    "ca": "0",
+    "ce": "3"
+   },
+   "RefereeQrController": {
+    "loc": "89",
+    "eloc": "66",
+    "nom": "2",
+    "wmc": "11",
+    "cbo": "7",
+    "ca": "0",
+    "ce": "7"
+   },
+   "ScoutingController": {
+    "loc": "303",
+    "eloc": "211",
+    "nom": "11",
+    "wmc": "51",
+    "cbo": "8",
+    "ca": "0",
+    "ce": "8"
+   },
+   "StandingsController": {
+    "loc": "48",
+    "eloc": "34",
+    "nom": "2",
+    "wmc": "7",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "StatisticsController": {
+    "loc": "50",
+    "eloc": "38",
+    "nom": "1",
+    "wmc": "2",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "SuperAdminController": {
+    "loc": "146",
+    "eloc": "99",
+    "nom": "10",
+    "wmc": "13",
+    "cbo": "11",
+    "ca": "0",
+    "ce": "11"
+   },
+   "TeamController": {
+    "loc": "286",
+    "eloc": "219",
+    "nom": "10",
+    "wmc": "49",
+    "cbo": "11",
+    "ca": "0",
+    "ce": "11"
+   },
+   "TeamInvitationController": {
+    "loc": "101",
+    "eloc": "79",
+    "nom": "3",
+    "wmc": "10",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "TeamPortalController": {
+    "loc": "174",
+    "eloc": "128",
+    "nom": "7",
+    "wmc": "25",
+    "cbo": "8",
+    "ca": "0",
+    "ce": "8"
+   },
+   "TournamentController": {
+    "loc": "171",
+    "eloc": "128",
+    "nom": "9",
+    "wmc": "34",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "TournamentRuleController": {
+    "loc": "47",
+    "eloc": "34",
+    "nom": "3",
+    "wmc": "6",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "VenueController": {
+    "loc": "106",
+    "eloc": "73",
+    "nom": "7",
+    "wmc": "15",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "WidgetController": {
+    "loc": "73",
+    "eloc": "51",
+    "nom": "3",
+    "wmc": "3",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "CheckRole": {
+    "loc": "9",
+    "eloc": "4",
+    "nom": "1",
+    "wmc": "2",
+    "cbo": "3",
+    "ca": "0",
+    "ce": "3"
+   },
+   "EnsureUserIsActive": {
+    "loc": "15",
+    "eloc": "9",
+    "nom": "1",
+    "wmc": "3",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "StoreMatchRequest": {
+    "loc": "77",
+    "eloc": "61",
+    "nom": "3",
+    "wmc": "11",
+    "cbo": "5",
+    "ca": "1",
+    "ce": "5"
+   },
+   "StoreTournamentRequest": {
+    "loc": "19",
+    "eloc": "13",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "1",
+    "ca": "2",
+    "ce": "1"
+   },
+   "UpdateScoreRequest": {
+    "loc": "16",
+    "eloc": "10",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "0",
+    "ca": "1",
+    "ce": "0"
+   },
+   "User": {
+    "loc": "96",
+    "eloc": "52",
+    "nom": "16",
+    "wmc": "16",
+    "cbo": "6",
+    "ca": "16",
+    "ce": "6"
+   },
+   "AuditLog": {
+    "loc": "16",
+    "eloc": "8",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "2",
+    "ca": "2",
+    "ce": "2"
+   },
+   "DisciplinarySanction": {
+    "loc": "48",
+    "eloc": "21",
+    "nom": "6",
+    "wmc": "7",
+    "cbo": "4",
+    "ca": "6",
+    "ce": "4"
+   },
+   "MatchEvent": {
+    "loc": "73",
+    "eloc": "41",
+    "nom": "8",
+    "wmc": "8",
+    "cbo": "4",
+    "ca": "8",
+    "ce": "4"
+   },
+   "MatchGame": {
+    "loc": "217",
+    "eloc": "120",
+    "nom": "26",
+    "wmc": "38",
+    "cbo": "15",
+    "ca": "36",
+    "ce": "15"
+   },
+   "MatchLineup": {
+    "loc": "48",
+    "eloc": "23",
+    "nom": "5",
+    "wmc": "5",
+    "cbo": "4",
+    "ca": "4",
+    "ce": "4"
+   },
+   "MatchMvpVote": {
+    "loc": "26",
+    "eloc": "9",
+    "nom": "3",
+    "wmc": "3",
+    "cbo": "4",
+    "ca": "3",
+    "ce": "4"
+   },
+   "MatchSignature": {
+    "loc": "35",
+    "eloc": "16",
+    "nom": "3",
+    "wmc": "3",
+    "cbo": "2",
+    "ca": "2",
+    "ce": "2"
+   },
+   "Player": {
+    "loc": "118",
+    "eloc": "73",
+    "nom": "19",
+    "wmc": "23",
+    "cbo": "15",
+    "ca": "23",
+    "ce": "15"
+   },
+   "PlayerMedicalRecord": {
+    "loc": "47",
+    "eloc": "22",
+    "nom": "4",
+    "wmc": "5",
+    "cbo": "2",
+    "ca": "1",
+    "ce": "2"
+   },
+   "PlayerProfile": {
+    "loc": "102",
+    "eloc": "58",
+    "nom": "8",
+    "wmc": "10",
+    "cbo": "3",
+    "ca": "1",
+    "ce": "3"
+   },
+   "PlayerRecruitmentRequest": {
+    "loc": "55",
+    "eloc": "24",
+    "nom": "7",
+    "wmc": "7",
+    "cbo": "4",
+    "ca": "3",
+    "ce": "4"
+   },
+   "Referee": {
+    "loc": "55",
+    "eloc": "28",
+    "nom": "7",
+    "wmc": "8",
+    "cbo": "6",
+    "ca": "9",
+    "ce": "6"
+   },
+   "RefereeConflictRecord": {
+    "loc": "20",
+    "eloc": "6",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "3",
+    "ca": "2",
+    "ce": "3"
+   },
+   "RefereeEvaluation": {
+    "loc": "46",
+    "eloc": "20",
+    "nom": "5",
+    "wmc": "5",
+    "cbo": "5",
+    "ca": "3",
+    "ce": "5"
+   },
+   "Sport": {
+    "loc": "4",
+    "eloc": "0",
+    "nom": "0",
+    "wmc": "0",
+    "cbo": "0",
+    "ca": "3",
+    "ce": "0"
+   },
+   "Standings": {
+    "loc": "56",
+    "eloc": "24",
+    "nom": "8",
+    "wmc": "8",
+    "cbo": "5",
+    "ca": "4",
+    "ce": "5"
+   },
+   "Team": {
+    "loc": "88",
+    "eloc": "51",
+    "nom": "15",
+    "wmc": "16",
+    "cbo": "12",
+    "ca": "25",
+    "ce": "12"
+   },
+   "TeamInvitation": {
+    "loc": "81",
+    "eloc": "44",
+    "nom": "10",
+    "wmc": "12",
+    "cbo": "4",
+    "ca": "3",
+    "ce": "4"
+   },
+   "Tournament": {
+    "loc": "83",
+    "eloc": "47",
+    "nom": "12",
+    "wmc": "13",
+    "cbo": "11",
+    "ca": "26",
+    "ce": "11"
+   },
+   "TournamentRule": {
+    "loc": "77",
+    "eloc": "50",
+    "nom": "4",
+    "wmc": "5",
+    "cbo": "2",
+    "ca": "5",
+    "ce": "2"
+   },
+   "Venue": {
+    "loc": "57",
+    "eloc": "27",
+    "nom": "4",
+    "wmc": "8",
+    "cbo": "4",
+    "ca": "7",
+    "ce": "4"
+   },
+   "AppServiceProvider": {
+    "loc": "22",
+    "eloc": "10",
+    "nom": "2",
+    "wmc": "3",
+    "cbo": "1",
+    "ca": "0",
+    "ce": "1"
+   },
+   "StandingService": {
+    "loc": "65",
+    "eloc": "54",
+    "nom": "1",
+    "wmc": "5",
+    "cbo": "4",
+    "ca": "2",
+    "ce": "4"
+   },
+   "AuditService": {
+    "loc": "114",
+    "eloc": "71",
+    "nom": "2",
+    "wmc": "5",
+    "cbo": "2",
+    "ca": "0",
+    "ce": "2"
+   },
+   "BracketService": {
+    "loc": "220",
+    "eloc": "162",
+    "nom": "2",
+    "wmc": "6",
+    "cbo": "5",
+    "ca": "1",
+    "ce": "5"
+   },
+   "FixtureGeneratorService": {
+    "loc": "179",
+    "eloc": "118",
+    "nom": "2",
+    "wmc": "18",
+    "cbo": "6",
+    "ca": "1",
+    "ce": "6"
+   },
+   "MatchMvpService": {
+    "loc": "142",
+    "eloc": "91",
+    "nom": "3",
+    "wmc": "16",
+    "cbo": "6",
+    "ca": "2",
+    "ce": "6"
+   },
+   "NotificationDispatcherService": {
+    "loc": "164",
+    "eloc": "110",
+    "nom": "4",
+    "wmc": "11",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "PlayerEligibilityService": {
+    "loc": "50",
+    "eloc": "29",
+    "nom": "1",
+    "wmc": "7",
+    "cbo": "2",
+    "ca": "2",
+    "ce": "2"
+   },
+   "PostMatchClosureService": {
+    "loc": "145",
+    "eloc": "103",
+    "nom": "2",
+    "wmc": "13",
+    "cbo": "8",
+    "ca": "1",
+    "ce": "8"
+   },
+   "QrCarnetService": {
+    "loc": "136",
+    "eloc": "91",
+    "nom": "4",
+    "wmc": "37",
+    "cbo": "1",
+    "ca": "2",
+    "ce": "1"
+   },
+   "RefereeAssignmentEngine": {
+    "loc": "154",
+    "eloc": "101",
+    "nom": "4",
+    "wmc": "10",
+    "cbo": "5",
+    "ca": "1",
+    "ce": "5"
+   },
+   "ScheduleService": {
+    "loc": "191",
+    "eloc": "125",
+    "nom": "2",
+    "wmc": "24",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "ScoutingRatingService": {
+    "loc": "164",
+    "eloc": "112",
+    "nom": "4",
+    "wmc": "17",
+    "cbo": "4",
+    "ca": "2",
+    "ce": "4"
+   },
+   "SportsChronicleService": {
+    "loc": "248",
+    "eloc": "180",
+    "nom": "6",
+    "wmc": "33",
+    "cbo": "4",
+    "ca": "1",
+    "ce": "4"
+   },
+   "StandingsService": {
+    "loc": "7",
+    "eloc": "3",
+    "nom": "1",
+    "wmc": "1",
+    "cbo": "0",
+    "ca": "0",
+    "ce": "0"
+   },
+   "StatisticsService": {
+    "loc": "11",
+    "eloc": "7",
+    "nom": "1",
+    "wmc": "1",
+    "cbo": "0",
+    "ca": "0",
+    "ce": "0"
+   },
+   "Reicon": {
+    "loc": "185",
+    "eloc": "75",
+    "nom": "7",
+    "wmc": "24",
+    "cbo": "1",
+    "ca": "1",
+    "ce": "1"
+   }
+  }
+ },
+ "despues": {
+  "files": 80,
+  "blank": 1412,
+  "comment": 529,
+  "loc": 6880,
+  "methods": 399,
+  "ccn_avg": 2.51,
+  "ccn_max": 15,
+  "ccn_total": 1002,
+  "ccn_gt10": 12,
+  "ccn_6_10": 30,
+  "ccn_gt20": 0,
+  "long_methods_60": 11,
+  "lizard_warn": 21,
+  "clones": 0,
+  "dup_lines": 0,
+  "dup_pct": 0.0,
+  "phpcpd_total_lines": null,
+  "phpmd_design": 32,
+  "phpmd_clean": 162,
+  "md_CyclomaticComplexity": 14,
+  "md_NPathComplexity": 6,
+  "md_ExcessiveMethodLength": 3,
+  "md_TooManyPublicMethods": 5,
+  "md_CouplingBetweenObjects": 3,
+  "md_UnusedFormalParameter": 0,
+  "md_UnusedLocalVariable": 0,
+  "md_UnusedPrivateMethod": 0,
+  "md_ExcessiveClassComplexity": 0,
+  "md_NumberOfChildren": 1,
+  "mdc_StaticAccess": 120,
+  "mdc_ElseExpression": 25,
+  "mdc_BooleanArgumentFlag": 0,
+  "mdc_ShortVariable": 12,
+  "mdc_LongVariable": 3,
+  "mdc_MissingImport": 1,
+  "mdc_IfStatementAssignment": 1,
+  "mdc_UndefinedVariable": 0,
+  "mdc_ShortMethodName": 0,
+  "mdc_CamelCase": 0,
+  "psr12_err": 129,
+  "psr12_warn": 164,
+  "psr12_files": 45,
+  "psr12_fixable": 128,
+  "pint_files": 0,
+  "npm_vulns": 0,
+  "pd_classes": 77,
+  "pd_methods": 398,
+  "pd_ccn": 753,
+  "pd_fanout": 407,
+  "cbo_avg": 5.26,
+  "cbo_max": 16,
+  "wmc_max": 44,
+  "per_file": {
+   "app/Models/v1/Player.php": {
+    "nom": 19,
+    "ccn_max": 3,
+    "ccn_sum": 24,
+    "loc": 107
+   },
+   "app/Models/v1/Team.php": {
+    "nom": 15,
+    "ccn_max": 3,
+    "ccn_sum": 17,
+    "loc": 81
+   },
+   "app/Models/v1/Venue.php": {
+    "nom": 4,
+    "ccn_max": 6,
+    "ccn_sum": 9,
+    "loc": 55
+   },
+   "app/Models/v1/MatchGame.php": {
+    "nom": 28,
+    "ccn_max": 8,
+    "ccn_sum": 44,
+    "loc": 212
+   },
+   "app/Models/v1/PlayerMedicalRecord.php": {
+    "nom": 4,
+    "ccn_max": 2,
+    "ccn_sum": 5,
+    "loc": 47
+   },
+   "app/Models/v1/MatchSignature.php": {
+    "nom": 3,
+    "ccn_max": 2,
+    "ccn_sum": 4,
+    "loc": 36
+   },
+   "app/Models/v1/MatchMvpVote.php": {
+    "nom": 3,
+    "ccn_max": 1,
+    "ccn_sum": 3,
+    "loc": 28
+   },
+   "app/Models/v1/TeamInvitation.php": {
+    "nom": 10,
+    "ccn_max": 5,
+    "ccn_sum": 16,
+    "loc": 76
+   },
+   "app/Models/v1/RefereeEvaluation.php": {
+    "nom": 5,
+    "ccn_max": 1,
+    "ccn_sum": 5,
+    "loc": 46
+   },
+   "app/Models/v1/MatchLineup.php": {
+    "nom": 5,
+    "ccn_max": 1,
+    "ccn_sum": 5,
+    "loc": 47
+   },
+   "app/Models/v1/PlayerRecruitmentRequest.php": {
+    "nom": 7,
+    "ccn_max": 1,
+    "ccn_sum": 7,
+    "loc": 53
+   },
+   "app/Models/v1/TournamentRule.php": {
+    "nom": 4,
+    "ccn_max": 3,
+    "ccn_sum": 6,
+    "loc": 76
+   },
+   "app/Models/v1/Referee.php": {
+    "nom": 7,
+    "ccn_max": 2,
+    "ccn_sum": 8,
+    "loc": 54
+   },
+   "app/Models/v1/DisciplinarySanction.php": {
+    "nom": 6,
+    "ccn_max": 2,
+    "ccn_sum": 7,
+    "loc": 46
+   },
+   "app/Models/v1/MatchEvent.php": {
+    "nom": 8,
+    "ccn_max": 2,
+    "ccn_sum": 10,
+    "loc": 69
+   },
+   "app/Models/v1/RefereeConflictRecord.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 22
+   },
+   "app/Models/v1/Standings.php": {
+    "nom": 8,
+    "ccn_max": 1,
+    "ccn_sum": 8,
+    "loc": 54
+   },
+   "app/Models/v1/AuditLog.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 19
+   },
+   "app/Models/v1/Tournament.php": {
+    "nom": 12,
+    "ccn_max": 2,
+    "ccn_sum": 14,
+    "loc": 74
+   },
+   "app/Models/v1/PlayerProfile.php": {
+    "nom": 8,
+    "ccn_max": 2,
+    "ccn_sum": 10,
+    "loc": 94
+   },
+   "app/Models/User.php": {
+    "nom": 18,
+    "ccn_max": 2,
+    "ccn_sum": 19,
+    "loc": 101
+   },
+   "app/Events/v1/MatchTimerUpdated.php": {
+    "nom": 4,
+    "ccn_max": 7,
+    "ccn_sum": 11,
+    "loc": 36
+   },
+   "app/Events/v1/MatchEventOccurred.php": {
+    "nom": 4,
+    "ccn_max": 7,
+    "ccn_sum": 11,
+    "loc": 51
+   },
+   "app/Support/Reicon.php": {
+    "nom": 7,
+    "ccn_max": 7,
+    "ccn_sum": 21,
+    "loc": 136
+   },
+   "app/Providers/AppServiceProvider.php": {
+    "nom": 2,
+    "ccn_max": 2,
+    "ccn_sum": 3,
+    "loc": 19
+   },
+   "app/Services/v1/MatchMvpService.php": {
+    "nom": 3,
+    "ccn_max": 12,
+    "ccn_sum": 18,
+    "loc": 105
+   },
+   "app/Services/v1/StandingService.php": {
+    "nom": 6,
+    "ccn_max": 3,
+    "ccn_sum": 10,
+    "loc": 79
+   },
+   "app/Services/v1/AuditService.php": {
+    "nom": 2,
+    "ccn_max": 4,
+    "ccn_sum": 5,
+    "loc": 80
+   },
+   "app/Services/v1/PostMatchClosureService.php": {
+    "nom": 2,
+    "ccn_max": 13,
+    "ccn_sum": 16,
+    "loc": 118
+   },
+   "app/Services/v1/BracketService.php": {
+    "nom": 5,
+    "ccn_max": 5,
+    "ccn_sum": 11,
+    "loc": 116
+   },
+   "app/Services/v1/SportsChronicleService.php": {
+    "nom": 6,
+    "ccn_max": 15,
+    "ccn_sum": 36,
+    "loc": 193
+   },
+   "app/Services/v1/FixtureGeneratorService.php": {
+    "nom": 2,
+    "ccn_max": 15,
+    "ccn_sum": 18,
+    "loc": 131
+   },
+   "app/Services/v1/ScoutingRatingService.php": {
+    "nom": 4,
+    "ccn_max": 8,
+    "ccn_sum": 20,
+    "loc": 125
+   },
+   "app/Services/v1/ScheduleService.php": {
+    "nom": 2,
+    "ccn_max": 15,
+    "ccn_sum": 24,
+    "loc": 137
+   },
+   "app/Services/v1/QrCarnetService.php": {
+    "nom": 4,
+    "ccn_max": 11,
+    "ccn_sum": 38,
+    "loc": 101
+   },
+   "app/Services/v1/RefereeAssignmentEngine.php": {
+    "nom": 4,
+    "ccn_max": 4,
+    "ccn_sum": 11,
+    "loc": 119
+   },
+   "app/Services/v1/NotificationDispatcherService.php": {
+    "nom": 4,
+    "ccn_max": 6,
+    "ccn_sum": 12,
+    "loc": 124
+   },
+   "app/Services/v1/StatisticsService.php": {
+    "nom": 1,
+    "ccn_max": 1,
+    "ccn_sum": 1,
+    "loc": 13
+   },
+   "app/Services/v1/TeamDirectorAssignmentService.php": {
+    "nom": 4,
+    "ccn_max": 8,
+    "ccn_sum": 16,
+    "loc": 70
+   },
+   "app/Services/v1/PlayerEligibilityService.php": {
+    "nom": 1,
+    "ccn_max": 8,
+    "ccn_sum": 8,
+    "loc": 37
+   },
+   "app/Http/Controllers/v1/AuditController.php": {
+    "nom": 1,
+    "ccn_max": 4,
+    "ccn_sum": 4,
+    "loc": 49
+   },
+   "app/Http/Controllers/v1/RefereeQrController.php": {
+    "nom": 2,
+    "ccn_max": 11,
+    "ccn_sum": 12,
+    "loc": 85
+   },
+   "app/Http/Controllers/v1/TeamController.php": {
+    "nom": 10,
+    "ccn_max": 9,
+    "ccn_sum": 34,
+    "loc": 201
+   },
+   "app/Http/Controllers/v1/TeamPortalController.php": {
+    "nom": 7,
+    "ccn_max": 13,
+    "ccn_sum": 25,
+    "loc": 148
+   },
+   "app/Http/Controllers/v1/MatchController.php": {
+    "nom": 14,
+    "ccn_max": 10,
+    "ccn_sum": 44,
+    "loc": 270
+   },
+   "app/Http/Controllers/v1/TournamentController.php": {
+    "nom": 9,
+    "ccn_max": 9,
+    "ccn_sum": 33,
+    "loc": 152
+   },
+   "app/Http/Controllers/v1/StandingsController.php": {
+    "nom": 2,
+    "ccn_max": 4,
+    "ccn_sum": 6,
+    "loc": 47
+   },
+   "app/Http/Controllers/v1/MatchDayController.php": {
+    "nom": 8,
+    "ccn_max": 7,
+    "ccn_sum": 24,
+    "loc": 284
+   },
+   "app/Http/Controllers/v1/RefereeController.php": {
+    "nom": 3,
+    "ccn_max": 8,
+    "ccn_sum": 13,
+    "loc": 91
+   },
+   "app/Http/Controllers/v1/BracketController.php": {
+    "nom": 3,
+    "ccn_max": 4,
+    "ccn_sum": 8,
+    "loc": 47
+   },
+   "app/Http/Controllers/v1/TournamentRuleController.php": {
+    "nom": 3,
+    "ccn_max": 4,
+    "ccn_sum": 6,
+    "loc": 48
+   },
+   "app/Http/Controllers/v1/WidgetController.php": {
+    "nom": 3,
+    "ccn_max": 1,
+    "ccn_sum": 3,
+    "loc": 64
+   },
+   "app/Http/Controllers/v1/FixtureGeneratorController.php": {
+    "nom": 3,
+    "ccn_max": 4,
+    "ccn_sum": 6,
+    "loc": 49
+   },
+   "app/Http/Controllers/v1/ScoutingController.php": {
+    "nom": 12,
+    "ccn_max": 11,
+    "ccn_sum": 44,
+    "loc": 223
+   },
+   "app/Http/Controllers/v1/AuthController.php": {
+    "nom": 5,
+    "ccn_max": 2,
+    "ccn_sum": 6,
+    "loc": 52
+   },
+   "app/Http/Controllers/v1/PlayerProfileController.php": {
+    "nom": 7,
+    "ccn_max": 8,
+    "ccn_sum": 17,
+    "loc": 105
+   },
+   "app/Http/Controllers/v1/MatchLineupController.php": {
+    "nom": 3,
+    "ccn_max": 10,
+    "ccn_sum": 18,
+    "loc": 120
+   },
+   "app/Http/Controllers/v1/AdminController.php": {
+    "nom": 1,
+    "ccn_max": 3,
+    "ccn_sum": 3,
+    "loc": 44
+   },
+   "app/Http/Controllers/v1/MatchMvpController.php": {
+    "nom": 4,
+    "ccn_max": 5,
+    "ccn_sum": 13,
+    "loc": 91
+   },
+   "app/Http/Controllers/v1/PostMatchController.php": {
+    "nom": 4,
+    "ccn_max": 4,
+    "ccn_sum": 8,
+    "loc": 111
+   },
+   "app/Http/Controllers/v1/StatisticsController.php": {
+    "nom": 1,
+    "ccn_max": 2,
+    "ccn_sum": 2,
+    "loc": 49
+   },
+   "app/Http/Controllers/v1/DashboardController.php": {
+    "nom": 1,
+    "ccn_max": 8,
+    "ccn_sum": 8,
+    "loc": 56
+   },
+   "app/Http/Controllers/v1/RefereeEvaluationController.php": {
+    "nom": 6,
+    "ccn_max": 8,
+    "ccn_sum": 25,
+    "loc": 133
+   },
+   "app/Http/Controllers/v1/PlayerController.php": {
+    "nom": 4,
+    "ccn_max": 14,
+    "ccn_sum": 38,
+    "loc": 236
+   },
+   "app/Http/Controllers/v1/VenueController.php": {
+    "nom": 7,
+    "ccn_max": 4,
+    "ccn_sum": 15,
+    "loc": 90
+   },
+   "app/Http/Controllers/v1/RefereePortalController.php": {
+    "nom": 1,
+    "ccn_max": 2,
+    "ccn_sum": 2,
+    "loc": 49
+   },
+   "app/Http/Controllers/v1/SuperAdminController.php": {
+    "nom": 10,
+    "ccn_max": 3,
+    "ccn_sum": 13,
+    "loc": 126
+   },
+   "app/Http/Controllers/v1/PublicController.php": {
+    "nom": 3,
+    "ccn_max": 7,
+    "ccn_sum": 10,
+    "loc": 132
+   },
+   "app/Http/Controllers/v1/DisciplinaryController.php": {
+    "nom": 2,
+    "ccn_max": 5,
+    "ccn_sum": 6,
+    "loc": 72
+   },
+   "app/Http/Controllers/v1/TeamInvitationController.php": {
+    "nom": 3,
+    "ccn_max": 5,
+    "ccn_sum": 10,
+    "loc": 97
+   },
+   "app/Http/Controllers/Controller.php": {
+    "nom": 2,
+    "ccn_max": 7,
+    "ccn_sum": 10,
+    "loc": 22
+   },
+   "app/Http/Middleware/EnsureUserIsActive.php": {
+    "nom": 1,
+    "ccn_max": 3,
+    "ccn_sum": 3,
+    "loc": 19
+   },
+   "app/Http/Middleware/CheckRole.php": {
+    "nom": 1,
+    "ccn_max": 2,
+    "ccn_sum": 2,
+    "loc": 13
+   },
+   "app/Http/Requests/v1/StoreMatchRequest.php": {
+    "nom": 3,
+    "ccn_max": 6,
+    "ccn_sum": 11,
+    "loc": 75
+   },
+   "app/Http/Requests/v1/UpdateScoreRequest.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 18
+   },
+   "app/Http/Requests/v1/StoreTournamentRequest.php": {
+    "nom": 2,
+    "ccn_max": 1,
+    "ccn_sum": 2,
+    "loc": 22
+   },
+   "app/helpers.php": {
+    "nom": 1,
+    "ccn_max": 1,
+    "ccn_sum": 1,
+    "loc": 9
+   },
+   "routes/web.php": {
+    "nom": 0,
+    "ccn_max": 0,
+    "ccn_sum": 0,
+    "loc": 160
+   },
+   "routes/console.php": {
+    "nom": 0,
+    "ccn_max": 0,
+    "ccn_sum": 0,
+    "loc": 27
+   },
+   "app/Models/v1/Sport.php": {
+    "nom": 0,
+    "ccn_max": 0,
+    "ccn_sum": 0,
+    "loc": 7
+   }
+  },
+  "classes": {
+   "MatchEventOccurred": {
+    "loc": "46",
+    "eloc": "32",
+    "nom": "4",
+    "wmc": "4",
+    "cbo": "3",
+    "ca": "1",
+    "ce": "3"
+   },
+   "MatchTimerUpdated": {
+    "loc": "32",
+    "eloc": "18",
+    "nom": "4",
+    "wmc": "4",
+    "cbo": "2",
+    "ca": "1",
+    "ce": "2"
+   },
+   "Controller": {
+    "loc": "27",
+    "eloc": "14",
+    "nom": "2",
+    "wmc": "8",
+    "cbo": "1",
+    "ca": "0",
+    "ce": "1"
+   },
+   "AdminController": {
+    "loc": "42",
+    "eloc": "32",
+    "nom": "1",
+    "wmc": "3",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "AuditController": {
+    "loc": "52",
+    "eloc": "39",
+    "nom": "1",
+    "wmc": "4",
+    "cbo": "3",
+    "ca": "0",
+    "ce": "3"
+   },
+   "AuthController": {
+    "loc": "53",
+    "eloc": "35",
+    "nom": "5",
+    "wmc": "6",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "BracketController": {
+    "loc": "46",
+    "eloc": "30",
+    "nom": "3",
+    "wmc": "8",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "DashboardController": {
+    "loc": "56",
+    "eloc": "44",
+    "nom": "1",
+    "wmc": "7",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "DisciplinaryController": {
+    "loc": "73",
+    "eloc": "59",
+    "nom": "2",
+    "wmc": "6",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "FixtureGeneratorController": {
+    "loc": "47",
+    "eloc": "31",
+    "nom": "3",
+    "wmc": "6",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "MatchController": {
+    "loc": "311",
+    "eloc": "236",
+    "nom": "14",
+    "wmc": "44",
+    "cbo": "14",
+    "ca": "0",
+    "ce": "14"
+   },
+   "MatchDayController": {
+    "loc": "325",
+    "eloc": "261",
+    "nom": "8",
+    "wmc": "22",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "MatchLineupController": {
+    "loc": "134",
+    "eloc": "102",
+    "nom": "3",
+    "wmc": "18",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "MatchMvpController": {
+    "loc": "108",
+    "eloc": "75",
+    "nom": "4",
+    "wmc": "13",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "PlayerController": {
+    "loc": "268",
+    "eloc": "218",
+    "nom": "4",
+    "wmc": "37",
+    "cbo": "8",
+    "ca": "0",
+    "ce": "8"
+   },
+   "PlayerProfileController": {
+    "loc": "118",
+    "eloc": "87",
+    "nom": "7",
+    "wmc": "17",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "PostMatchController": {
+    "loc": "121",
+    "eloc": "92",
+    "nom": "4",
+    "wmc": "8",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "PublicController": {
+    "loc": "149",
+    "eloc": "119",
+    "nom": "3",
+    "wmc": "10",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "RefereeController": {
+    "loc": "100",
+    "eloc": "77",
+    "nom": "3",
+    "wmc": "13",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "RefereeEvaluationController": {
+    "loc": "165",
+    "eloc": "111",
+    "nom": "6",
+    "wmc": "25",
+    "cbo": "10",
+    "ca": "0",
+    "ce": "10"
+   },
+   "RefereePortalController": {
+    "loc": "54",
+    "eloc": "39",
+    "nom": "1",
+    "wmc": "2",
+    "cbo": "3",
+    "ca": "0",
+    "ce": "3"
+   },
+   "RefereeQrController": {
+    "loc": "89",
+    "eloc": "66",
+    "nom": "2",
+    "wmc": "11",
+    "cbo": "7",
+    "ca": "0",
+    "ce": "7"
+   },
+   "ScoutingController": {
+    "loc": "294",
+    "eloc": "188",
+    "nom": "12",
+    "wmc": "42",
+    "cbo": "10",
+    "ca": "0",
+    "ce": "10"
+   },
+   "StandingsController": {
+    "loc": "48",
+    "eloc": "34",
+    "nom": "2",
+    "wmc": "6",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "StatisticsController": {
+    "loc": "50",
+    "eloc": "38",
+    "nom": "1",
+    "wmc": "2",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "SuperAdminController": {
+    "loc": "146",
+    "eloc": "99",
+    "nom": "10",
+    "wmc": "13",
+    "cbo": "11",
+    "ca": "0",
+    "ce": "11"
+   },
+   "TeamController": {
+    "loc": "232",
+    "eloc": "175",
+    "nom": "10",
+    "wmc": "34",
+    "cbo": "10",
+    "ca": "0",
+    "ce": "10"
+   },
+   "TeamInvitationController": {
+    "loc": "101",
+    "eloc": "79",
+    "nom": "3",
+    "wmc": "10",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "TeamPortalController": {
+    "loc": "174",
+    "eloc": "128",
+    "nom": "7",
+    "wmc": "25",
+    "cbo": "8",
+    "ca": "0",
+    "ce": "8"
+   },
+   "TournamentController": {
+    "loc": "171",
+    "eloc": "128",
+    "nom": "9",
+    "wmc": "33",
+    "cbo": "9",
+    "ca": "0",
+    "ce": "9"
+   },
+   "TournamentRuleController": {
+    "loc": "47",
+    "eloc": "34",
+    "nom": "3",
+    "wmc": "6",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "VenueController": {
+    "loc": "106",
+    "eloc": "73",
+    "nom": "7",
+    "wmc": "15",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "WidgetController": {
+    "loc": "73",
+    "eloc": "51",
+    "nom": "3",
+    "wmc": "3",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "CheckRole": {
+    "loc": "9",
+    "eloc": "4",
+    "nom": "1",
+    "wmc": "2",
+    "cbo": "3",
+    "ca": "0",
+    "ce": "3"
+   },
+   "EnsureUserIsActive": {
+    "loc": "15",
+    "eloc": "9",
+    "nom": "1",
+    "wmc": "3",
+    "cbo": "4",
+    "ca": "0",
+    "ce": "4"
+   },
+   "StoreMatchRequest": {
+    "loc": "77",
+    "eloc": "61",
+    "nom": "3",
+    "wmc": "11",
+    "cbo": "5",
+    "ca": "1",
+    "ce": "5"
+   },
+   "StoreTournamentRequest": {
+    "loc": "19",
+    "eloc": "13",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "1",
+    "ca": "2",
+    "ce": "1"
+   },
+   "UpdateScoreRequest": {
+    "loc": "16",
+    "eloc": "10",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "0",
+    "ca": "1",
+    "ce": "0"
+   },
+   "User": {
+    "loc": "122",
+    "eloc": "58",
+    "nom": "18",
+    "wmc": "19",
+    "cbo": "6",
+    "ca": "18",
+    "ce": "6"
+   },
+   "AuditLog": {
+    "loc": "16",
+    "eloc": "8",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "2",
+    "ca": "2",
+    "ce": "2"
+   },
+   "DisciplinarySanction": {
+    "loc": "48",
+    "eloc": "21",
+    "nom": "6",
+    "wmc": "7",
+    "cbo": "4",
+    "ca": "6",
+    "ce": "4"
+   },
+   "MatchEvent": {
+    "loc": "73",
+    "eloc": "41",
+    "nom": "8",
+    "wmc": "8",
+    "cbo": "4",
+    "ca": "8",
+    "ce": "4"
+   },
+   "MatchGame": {
+    "loc": "250",
+    "eloc": "141",
+    "nom": "28",
+    "wmc": "41",
+    "cbo": "16",
+    "ca": "37",
+    "ce": "16"
+   },
+   "MatchLineup": {
+    "loc": "48",
+    "eloc": "23",
+    "nom": "5",
+    "wmc": "5",
+    "cbo": "4",
+    "ca": "4",
+    "ce": "4"
+   },
+   "MatchMvpVote": {
+    "loc": "26",
+    "eloc": "9",
+    "nom": "3",
+    "wmc": "3",
+    "cbo": "4",
+    "ca": "3",
+    "ce": "4"
+   },
+   "MatchSignature": {
+    "loc": "35",
+    "eloc": "16",
+    "nom": "3",
+    "wmc": "3",
+    "cbo": "2",
+    "ca": "2",
+    "ce": "2"
+   },
+   "Player": {
+    "loc": "118",
+    "eloc": "73",
+    "nom": "19",
+    "wmc": "23",
+    "cbo": "15",
+    "ca": "23",
+    "ce": "15"
+   },
+   "PlayerMedicalRecord": {
+    "loc": "47",
+    "eloc": "22",
+    "nom": "4",
+    "wmc": "5",
+    "cbo": "2",
+    "ca": "1",
+    "ce": "2"
+   },
+   "PlayerProfile": {
+    "loc": "102",
+    "eloc": "58",
+    "nom": "8",
+    "wmc": "10",
+    "cbo": "3",
+    "ca": "1",
+    "ce": "3"
+   },
+   "PlayerRecruitmentRequest": {
+    "loc": "55",
+    "eloc": "24",
+    "nom": "7",
+    "wmc": "7",
+    "cbo": "4",
+    "ca": "3",
+    "ce": "4"
+   },
+   "Referee": {
+    "loc": "55",
+    "eloc": "28",
+    "nom": "7",
+    "wmc": "8",
+    "cbo": "6",
+    "ca": "9",
+    "ce": "6"
+   },
+   "RefereeConflictRecord": {
+    "loc": "20",
+    "eloc": "6",
+    "nom": "2",
+    "wmc": "2",
+    "cbo": "3",
+    "ca": "2",
+    "ce": "3"
+   },
+   "RefereeEvaluation": {
+    "loc": "46",
+    "eloc": "20",
+    "nom": "5",
+    "wmc": "5",
+    "cbo": "5",
+    "ca": "3",
+    "ce": "5"
+   },
+   "Sport": {
+    "loc": "4",
+    "eloc": "0",
+    "nom": "0",
+    "wmc": "0",
+    "cbo": "0",
+    "ca": "3",
+    "ce": "0"
+   },
+   "Standings": {
+    "loc": "56",
+    "eloc": "24",
+    "nom": "8",
+    "wmc": "8",
+    "cbo": "5",
+    "ca": "4",
+    "ce": "5"
+   },
+   "Team": {
+    "loc": "88",
+    "eloc": "51",
+    "nom": "15",
+    "wmc": "16",
+    "cbo": "12",
+    "ca": "26",
+    "ce": "12"
+   },
+   "TeamInvitation": {
+    "loc": "81",
+    "eloc": "44",
+    "nom": "10",
+    "wmc": "12",
+    "cbo": "4",
+    "ca": "3",
+    "ce": "4"
+   },
+   "Tournament": {
+    "loc": "83",
+    "eloc": "47",
+    "nom": "12",
+    "wmc": "13",
+    "cbo": "11",
+    "ca": "26",
+    "ce": "11"
+   },
+   "TournamentRule": {
+    "loc": "77",
+    "eloc": "50",
+    "nom": "4",
+    "wmc": "5",
+    "cbo": "2",
+    "ca": "6",
+    "ce": "2"
+   },
+   "Venue": {
+    "loc": "57",
+    "eloc": "27",
+    "nom": "4",
+    "wmc": "8",
+    "cbo": "4",
+    "ca": "7",
+    "ce": "4"
+   },
+   "AppServiceProvider": {
+    "loc": "22",
+    "eloc": "10",
+    "nom": "2",
+    "wmc": "3",
+    "cbo": "1",
+    "ca": "0",
+    "ce": "1"
+   },
+   "AuditService": {
+    "loc": "114",
+    "eloc": "71",
+    "nom": "2",
+    "wmc": "5",
+    "cbo": "2",
+    "ca": "0",
+    "ce": "2"
+   },
+   "BracketService": {
+    "loc": "163",
+    "eloc": "87",
+    "nom": "5",
+    "wmc": "9",
+    "cbo": "6",
+    "ca": "1",
+    "ce": "6"
+   },
+   "FixtureGeneratorService": {
+    "loc": "179",
+    "eloc": "118",
+    "nom": "2",
+    "wmc": "18",
+    "cbo": "6",
+    "ca": "1",
+    "ce": "6"
+   },
+   "MatchMvpService": {
+    "loc": "142",
+    "eloc": "91",
+    "nom": "3",
+    "wmc": "16",
+    "cbo": "6",
+    "ca": "2",
+    "ce": "6"
+   },
+   "NotificationDispatcherService": {
+    "loc": "164",
+    "eloc": "110",
+    "nom": "4",
+    "wmc": "11",
+    "cbo": "6",
+    "ca": "0",
+    "ce": "6"
+   },
+   "PlayerEligibilityService": {
+    "loc": "50",
+    "eloc": "29",
+    "nom": "1",
+    "wmc": "7",
+    "cbo": "2",
+    "ca": "2",
+    "ce": "2"
+   },
+   "PostMatchClosureService": {
+    "loc": "145",
+    "eloc": "103",
+    "nom": "2",
+    "wmc": "13",
+    "cbo": "8",
+    "ca": "1",
+    "ce": "8"
+   },
+   "QrCarnetService": {
+    "loc": "136",
+    "eloc": "91",
+    "nom": "4",
+    "wmc": "37",
+    "cbo": "1",
+    "ca": "2",
+    "ce": "1"
+   },
+   "RefereeAssignmentEngine": {
+    "loc": "154",
+    "eloc": "101",
+    "nom": "4",
+    "wmc": "10",
+    "cbo": "5",
+    "ca": "1",
+    "ce": "5"
+   },
+   "ScheduleService": {
+    "loc": "191",
+    "eloc": "125",
+    "nom": "2",
+    "wmc": "24",
+    "cbo": "5",
+    "ca": "0",
+    "ce": "5"
+   },
+   "ScoutingRatingService": {
+    "loc": "164",
+    "eloc": "112",
+    "nom": "4",
+    "wmc": "17",
+    "cbo": "4",
+    "ca": "2",
+    "ce": "4"
+   },
+   "SportsChronicleService": {
+    "loc": "245",
+    "eloc": "179",
+    "nom": "6",
+    "wmc": "33",
+    "cbo": "4",
+    "ca": "1",
+    "ce": "4"
+   },
+   "StandingService": {
+    "loc": "94",
+    "eloc": "61",
+    "nom": "6",
+    "wmc": "9",
+    "cbo": "6",
+    "ca": "2",
+    "ce": "6"
+   },
+   "StatisticsService": {
+    "loc": "11",
+    "eloc": "7",
+    "nom": "1",
+    "wmc": "1",
+    "cbo": "0",
+    "ca": "0",
+    "ce": "0"
+   },
+   "TeamDirectorAssignmentService": {
+    "loc": "84",
+    "eloc": "55",
+    "nom": "4",
+    "wmc": "15",
+    "cbo": "5",
+    "ca": "1",
+    "ce": "5"
+   },
+   "Reicon": {
+    "loc": "185",
+    "eloc": "75",
+    "nom": "7",
+    "wmc": "24",
+    "cbo": "1",
+    "ca": "1",
+    "ce": "1"
+   }
+  }
+ }
+}

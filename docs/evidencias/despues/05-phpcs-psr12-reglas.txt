@@ -1,0 +1,19 @@
+
+PHP CODE SNIFFER VIOLATION SOURCE SUMMARY
+----------------------------------------------------------------------
+    STANDARD  CATEGORY            SNIFF                          COUNT
+----------------------------------------------------------------------
+[ ] Generic   Files               Line length too long           164
+[x] PSR12     Operators           Operator spacing no space aft  67
+[x] PSR12     Operators           Operator spacing no space bef  53
+[x] Squiz     White space         Scope closing brace content b  5
+[x] PSR12     Traits              Use declaration multiple impo  3
+[ ] PSR12     Traits              Use declaration use after bra  1
+----------------------------------------------------------------------
+A TOTAL OF 293 SNIFF VIOLATIONS WERE FOUND IN 6 SOURCES
+----------------------------------------------------------------------
+PHPCBF CAN FIX THE 4 MARKED SOURCES AUTOMATICALLY (128 VIOLATIONS IN TOTAL)
+----------------------------------------------------------------------
+
+Time: 746ms; Memory: 12MB
+

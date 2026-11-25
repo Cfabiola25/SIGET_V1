@@ -1,0 +1,32 @@
+src/app/Http/Controllers/Controller.php:7                 NumberOfChildren        The class Controller has 30 children. Consider to rebalance this class hierarchy to keep number of children under 15.
+src/app/Http/Controllers/v1/MatchController.php:21        TooManyPublicMethods    The class MatchController has 13 public methods. Consider refactoring MatchController to keep number of public methods under 10.
+src/app/Http/Controllers/v1/MatchController.php:21        CouplingBetweenObjects  The class MatchController has a coupling between objects value of 14. Consider to reduce the number of dependencies under 13.
+src/app/Http/Controllers/v1/MatchController.php:248       CyclomaticComplexity    The method storeSchedule() has a Cyclomatic Complexity of 10. The configured cyclomatic complexity threshold is 10.
+src/app/Http/Controllers/v1/MatchLineupController.php:51  CyclomaticComplexity    The method store() has a Cyclomatic Complexity of 10. The configured cyclomatic complexity threshold is 10.
+src/app/Http/Controllers/v1/PlayerController.php:17       CyclomaticComplexity    The method index() has a Cyclomatic Complexity of 14. The configured cyclomatic complexity threshold is 10.
+src/app/Http/Controllers/v1/PlayerController.php:17       NPathComplexity         The method index() has an NPath complexity of 1152. The configured NPath complexity threshold is 200.
+src/app/Http/Controllers/v1/PlayerController.php:190      CyclomaticComplexity    The method store() has a Cyclomatic Complexity of 11. The configured cyclomatic complexity threshold is 10.
+src/app/Http/Controllers/v1/PlayerController.php:190      NPathComplexity         The method store() has an NPath complexity of 216. The configured NPath complexity threshold is 200.
+src/app/Http/Controllers/v1/PublicController.php:13       ExcessiveMethodLength   The method home() has 124 lines of code. Current threshold is set to 100. Avoid really long methods.
+src/app/Http/Controllers/v1/RefereeQrController.php:27    CyclomaticComplexity    The method verifyScan() has a Cyclomatic Complexity of 10. The configured cyclomatic complexity threshold is 10.
+src/app/Http/Controllers/v1/ScoutingController.php:16     TooManyPublicMethods    The class ScoutingController has 11 public methods. Consider refactoring ScoutingController to keep number of public methods under 10.
+src/app/Http/Controllers/v1/ScoutingController.php:144    CyclomaticComplexity    The method recruitmentRequests() has a Cyclomatic Complexity of 11. The configured cyclomatic complexity threshold is 10.
+src/app/Http/Controllers/v1/TeamPortalController.php:97   CyclomaticComplexity    The method importRoster() has a Cyclomatic Complexity of 13. The configured cyclomatic complexity threshold is 10.
+src/app/Http/Controllers/v1/TeamPortalController.php:97   NPathComplexity         The method importRoster() has an NPath complexity of 268. The configured NPath complexity threshold is 200.
+src/app/Models/v1/MatchGame.php:14                        TooManyPublicMethods    The class MatchGame has 19 public methods. Consider refactoring MatchGame to keep number of public methods under 10.
+src/app/Models/v1/MatchGame.php:14                        CouplingBetweenObjects  The class MatchGame has a coupling between objects value of 16. Consider to reduce the number of dependencies under 13.
+src/app/Models/v1/Player.php:14                           TooManyPublicMethods    The class Player has 15 public methods. Consider refactoring Player to keep number of public methods under 10.
+src/app/Models/v1/Player.php:14                           CouplingBetweenObjects  The class Player has a coupling between objects value of 15. Consider to reduce the number of dependencies under 13.
+src/app/Models/v1/Team.php:14                             TooManyPublicMethods    The class Team has 11 public methods. Consider refactoring Team to keep number of public methods under 10.
+src/app/Services/v1/FixtureGeneratorService.php:31        CyclomaticComplexity    The method preview() has a Cyclomatic Complexity of 15. The configured cyclomatic complexity threshold is 10.
+src/app/Services/v1/FixtureGeneratorService.php:31        NPathComplexity         The method preview() has an NPath complexity of 1728. The configured NPath complexity threshold is 200.
+src/app/Services/v1/FixtureGeneratorService.php:31        ExcessiveMethodLength   The method preview() has 124 lines of code. Current threshold is set to 100. Avoid really long methods.
+src/app/Services/v1/MatchMvpService.php:82                CyclomaticComplexity    The method crownOfficialMvp() has a Cyclomatic Complexity of 11. The configured cyclomatic complexity threshold is 10.
+src/app/Services/v1/MatchMvpService.php:82                NPathComplexity         The method crownOfficialMvp() has an NPath complexity of 312. The configured NPath complexity threshold is 200.
+src/app/Services/v1/PostMatchClosureService.php:30        CyclomaticComplexity    The method closeMatch() has a Cyclomatic Complexity of 12. The configured cyclomatic complexity threshold is 10.
+src/app/Services/v1/PostMatchClosureService.php:30        ExcessiveMethodLength   The method closeMatch() has 125 lines of code. Current threshold is set to 100. Avoid really long methods.
+src/app/Services/v1/QrCarnetService.php:45                CyclomaticComplexity    The method renderSvg() has a Cyclomatic Complexity of 11. The configured cyclomatic complexity threshold is 10.
+src/app/Services/v1/QrCarnetService.php:108               CyclomaticComplexity    The method addFinderPattern() has a Cyclomatic Complexity of 11. The configured cyclomatic complexity threshold is 10.
+src/app/Services/v1/ScheduleService.php:134               CyclomaticComplexity    The method validateMatchConstraints() has a Cyclomatic Complexity of 15. The configured cyclomatic complexity threshold is 10.
+src/app/Services/v1/SportsChronicleService.php:69         CyclomaticComplexity    The method generateAlgorithmicChronicle() has a Cyclomatic Complexity of 15. The configured cyclomatic complexity threshold is 10.
+src/app/Services/v1/SportsChronicleService.php:69         NPathComplexity         The method generateAlgorithmicChronicle() has an NPath complexity of 2560. The configured NPath complexity threshold is 200.

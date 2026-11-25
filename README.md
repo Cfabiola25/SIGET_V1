@@ -141,6 +141,25 @@ docker compose down
 
 ---
 
+## 📊 Calidad del Software (Guía Práctica N.º 11)
+
+Evaluación, métricas, refactorización y mantenimiento documentados en [`docs/`](docs/):
+
+| Documento | Contenido |
+|---|---|
+| [EVALUACION_SOFTWARE.md](docs/EVALUACION_SOFTWARE.md) | Proceso, herramientas, comandos y problemas identificados |
+| [METRICAS_SOFTWARE.md](docs/METRICAS_SOFTWARE.md) | Métricas antes/después, polimétrica y deuda técnica |
+| [REFACTORIZACION.md](docs/REFACTORIZACION.md) | Las cinco mejoras con código antes y después |
+| [PRUEBAS_SOFTWARE.md](docs/PRUEBAS_SOFTWARE.md) | Casos de prueba y evidencias de ejecución |
+| [MANTENIMIENTO.md](docs/MANTENIMIENTO.md) | Deuda pendiente y plan de mantenimiento |
+
+```bash
+bash scripts/analisis-calidad.sh despues   # análisis estático → docs/evidencias/despues/
+cd src && php artisan test                  # 107 pruebas automatizadas
+```
+
+---
+
 ## 📄 Licencia
 
 Este proyecto es propiedad del equipo de desarrollo de SIGET bajo licencia comercial / privada. Todos los derechos reservados © 2026.

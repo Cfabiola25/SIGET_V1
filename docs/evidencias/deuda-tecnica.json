@@ -1,0 +1,96 @@
+{
+ "antes": {
+  "items": {
+   "PSR-12 corregibles automáticamente": [
+    131,
+    1,
+    131
+   ],
+   "PSR-12 manuales (p. ej. longitud de línea)": [
+    167,
+    2,
+    334
+   ],
+   "PHPMD diseño (complejidad, tamaño, código sin uso)": [
+    43,
+    30,
+    1290
+   ],
+   "PHPMD cleancode/naming": [
+    173,
+    5,
+    865
+   ],
+   "Clones de código (PHPCPD)": [
+    4,
+    30,
+    120
+   ],
+   "Archivos fuera del estilo Pint": [
+    7,
+    2,
+    14
+   ],
+   "Vulnerabilidades npm": [
+    4,
+    15,
+    60
+   ],
+   "Vulnerabilidades en código propio": [
+    4,
+    60,
+    240
+   ]
+  },
+  "min": 3054,
+  "h": 50.9,
+  "ratio": 1.47
+ },
+ "despues": {
+  "items": {
+   "PSR-12 corregibles automáticamente": [
+    128,
+    1,
+    128
+   ],
+   "PSR-12 manuales (p. ej. longitud de línea)": [
+    165,
+    2,
+    330
+   ],
+   "PHPMD diseño (complejidad, tamaño, código sin uso)": [
+    32,
+    30,
+    960
+   ],
+   "PHPMD cleancode/naming": [
+    162,
+    5,
+    810
+   ],
+   "Clones de código (PHPCPD)": [
+    0,
+    30,
+    0
+   ],
+   "Archivos fuera del estilo Pint": [
+    0,
+    2,
+    0
+   ],
+   "Vulnerabilidades npm": [
+    0,
+    15,
+    0
+   ],
+   "Vulnerabilidades en código propio": [
+    0,
+    60,
+    0
+   ]
+  },
+  "min": 2228,
+  "h": 37.1,
+  "ratio": 1.08
+ }
+}
