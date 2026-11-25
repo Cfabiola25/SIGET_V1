@@ -5,9 +5,16 @@ on:
     branches: [ main, develop ]
   pull_request:
 
+permissions:
+  contents: read
+
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    defaults:
+      run:
+        working-directory: src
 
     steps:
       - name: Checkout
@@ -17,15 +24,25 @@ jobs:
         uses: shivammathur/setup-php@v2
         with:
           php-version: '8.5'
-          extensions: mbstring, xml, pdo_mysql, pdo_sqlite, bcmath, gd, intl, zip
+          extensions: mbstring, xml, pdo_mysql, pdo_sqlite, sqlite3, bcmath, gd, intl, zip
+          tools: composer:v2
           coverage: none
 
+      - name: Cache Composer dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.composer/cache/files
+          key: ${{ runner.os }}-composer-${{ hashFiles('src/composer.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-composer-
+
       - name: Install Composer dependencies
+        run: composer install --no-interaction --prefer-dist --no-progress
+
+      - name: Prepare environment
         run: |
-          cd src
-          composer install --no-interaction --prefer-dist --no-progress
+          cp .env.example .env
+          php artisan key:generate
 
       - name: Run tests
-        run: |
-          cd src
-          php artisan test
+        run: php artisan test
