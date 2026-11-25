@@ -20,7 +20,7 @@ class TeamDirectorAssignmentService
     public const GENERATED_PASSWORD_LENGTH = 12;
 
     /**
-     * @param  array{dt_mode?: ?string, existing_dt_id?: ?int, coach_name?: ?string, coach_email?: ?string, coach_phone?: ?string, coach_password?: ?string}  $data
+     * @param  array<string, mixed>  $data  dt_mode, existing_dt_id, coach_name, coach_email, coach_phone, coach_password
      * @return string Detalle para el mensaje de confirmación ('' si no se vinculó DT).
      */
     public function assign(Team $team, User $invitedBy, array $data): string
@@ -37,7 +37,8 @@ class TeamDirectorAssignmentService
         }
 
         if (! empty($data['coach_name']) || ! empty($data['coach_email'])) {
-            $this->invite($team, $invitedBy, $data['coach_name'] ?? 'Director Técnico', $data['coach_email'] ?? null, $data['coach_phone'] ?? null);
+            $name = $data['coach_name'] ?? 'Director Técnico';
+            $this->invite($team, $invitedBy, $name, $data['coach_email'] ?? null, $data['coach_phone'] ?? null);
         }
 
         return '';
@@ -67,7 +68,8 @@ class TeamDirectorAssignmentService
             }
             $detail = " Asignado al DT {$coach->name}.";
         } else {
-            $password = ($data['coach_password'] ?? null) ?: Str::password(self::GENERATED_PASSWORD_LENGTH, symbols: false);
+            $password = ($data['coach_password'] ?? null)
+                ?: Str::password(self::GENERATED_PASSWORD_LENGTH, symbols: false);
             $coach = User::create([
                 'name' => trim($data['coach_name']),
                 'email' => $email,

@@ -54,20 +54,25 @@ class MatchGame extends Model
      * Filtros reutilizables de los listados de partidos (público y administrativo):
      * búsqueda por torneo o equipos, modalidad, estado y rango de fechas.
      *
-     * @param  array{search?: ?string, sport_type?: ?string, status?: ?string, date_from?: ?string, date_to?: ?string}  $filters
+     * @param  array<string, ?string>  $filters  search, sport_type, status, date_from, date_to
      */
     public function scopeFilter(Builder $query, array $filters): Builder
     {
+        $byName = fn (string $search) => fn (Builder $related) => $related->where('name', 'like', "%{$search}%");
+
         return $query
-            ->when($filters['search'] ?? null, function (Builder $query, string $search): void {
-                $query->where(function (Builder $query) use ($search): void {
-                    $query->whereHas('tournament', fn (Builder $tournaments) => $tournaments->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('homeTeam', fn (Builder $teams) => $teams->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('awayTeam', fn (Builder $teams) => $teams->where('name', 'like', "%{$search}%"));
-                });
-            })
-            ->when($filters['sport_type'] ?? null, fn (Builder $query, string $sport) => $query->whereHas('tournament', fn (Builder $tournaments) => $tournaments->where('sport_type', $sport)))
-            ->when($filters['status'] ?? null, fn (Builder $query, string $status) => $status === 'live' ? $query->live() : $query->where('status', $status))
+            ->when($filters['search'] ?? null, fn (Builder $query, string $search) => $query->where(
+                fn (Builder $query) => $query->whereHas('tournament', $byName($search))
+                    ->orWhereHas('homeTeam', $byName($search))
+                    ->orWhereHas('awayTeam', $byName($search))
+            ))
+            ->when($filters['sport_type'] ?? null, fn (Builder $query, string $sport) => $query->whereHas(
+                'tournament',
+                fn (Builder $tournaments) => $tournaments->where('sport_type', $sport)
+            ))
+            ->when($filters['status'] ?? null, fn (Builder $query, string $status) => $status === 'live'
+                ? $query->live()
+                : $query->where('status', $status))
             ->when($filters['date_from'] ?? null, fn (Builder $query, string $date) => $query->whereDate('match_date', '>=', $date))
             ->when($filters['date_to'] ?? null, fn (Builder $query, string $date) => $query->whereDate('match_date', '<=', $date));
     }

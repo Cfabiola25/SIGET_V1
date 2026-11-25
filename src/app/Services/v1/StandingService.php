@@ -75,12 +75,11 @@ class StandingService
             return;
         }
 
-        $table->put($match->home_team_id, $this->addResult(
-            $table->get($match->home_team_id), (int) $match->home_score, (int) $match->away_score, $points,
-        ));
-        $table->put($match->away_team_id, $this->addResult(
-            $table->get($match->away_team_id), (int) $match->away_score, (int) $match->home_score, $points,
-        ));
+        $homeScore = (int) $match->home_score;
+        $awayScore = (int) $match->away_score;
+
+        $table->put($match->home_team_id, $this->addResult($table->get($match->home_team_id), $homeScore, $awayScore, $points));
+        $table->put($match->away_team_id, $this->addResult($table->get($match->away_team_id), $awayScore, $homeScore, $points));
     }
 
     private function addResult(array $row, int $scored, int $conceded, array $points): array

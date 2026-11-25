@@ -299,7 +299,9 @@ class ScoutingController extends Controller
         return match (true) {
             $user === null => collect(),
             $user->isSuperAdmin() => Team::orderBy('name')->get(),
-            $user->isAdmin() => Team::whereIn('tournament_id', $user->managedTournaments()->pluck('id'))->orderBy('name')->get(),
+            $user->isAdmin() => Team::whereIn('tournament_id', $user->managedTournaments()->pluck('id'))
+                ->orderBy('name')
+                ->get(),
             $user->isDT() => $user->managedTeams()->get(),
             default => collect(),
         };

@@ -73,9 +73,14 @@ class BracketService
      * Llaves de 8 equipos: 4 cuartos de final, 2 semifinales y 1 final.
      * Emparejamientos estándar por posición: 1-8, 4-5, 2-7 y 3-6.
      */
-    private function createQuarterfinalBracket(Tournament $tournament, Collection $teams, Carbon $startDate, int $daysBetweenStages): array
-    {
-        $final = $this->createKnockoutMatch($tournament, 'final', 'FINAL', $startDate->copy()->addDays($daysBetweenStages * 2));
+    private function createQuarterfinalBracket(
+        Tournament $tournament,
+        Collection $teams,
+        Carbon $startDate,
+        int $daysBetweenStages,
+    ): array {
+        $finalDate = $startDate->copy()->addDays($daysBetweenStages * 2);
+        $final = $this->createKnockoutMatch($tournament, 'final', 'FINAL', $finalDate);
         $semisDate = $startDate->copy()->addDays($daysBetweenStages);
         $sf1 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF1', $semisDate, [$final, 'home']);
         $sf2 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF2', $semisDate, [$final, 'away']);
@@ -97,11 +102,17 @@ class BracketService
     /**
      * Llaves de 4 equipos: 2 semifinales (1-4 y 2-3) y 1 final.
      */
-    private function createSemifinalBracket(Tournament $tournament, Collection $teams, Carbon $startDate, int $daysBetweenStages): array
-    {
-        $final = $this->createKnockoutMatch($tournament, 'final', 'FINAL', $startDate->copy()->addDays($daysBetweenStages));
+    private function createSemifinalBracket(
+        Tournament $tournament,
+        Collection $teams,
+        Carbon $startDate,
+        int $daysBetweenStages,
+    ): array {
+        $finalDate = $startDate->copy()->addDays($daysBetweenStages);
+        $final = $this->createKnockoutMatch($tournament, 'final', 'FINAL', $finalDate);
         $sf1 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF1', $startDate->copy(), [$final, 'home'], [$teams[0], $teams[3]]);
-        $sf2 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF2', $startDate->copy()->addHours(2), [$final, 'away'], [$teams[1], $teams[2]]);
+        $sf2Date = $startDate->copy()->addHours(2);
+        $sf2 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF2', $sf2Date, [$final, 'away'], [$teams[1], $teams[2]]);
 
         return [
             'semifinals' => collect([$sf1, $sf2]),
@@ -115,8 +126,14 @@ class BracketService
      * @param  array{0: MatchGame, 1: string}|null  $advancesTo  partido siguiente y casilla (home|away) del ganador
      * @param  array{0: Team, 1: Team}|null  $teams  local y visitante; null cuando aún no se conocen
      */
-    private function createKnockoutMatch(Tournament $tournament, string $stage, string $position, Carbon $date, ?array $advancesTo = null, ?array $teams = null): MatchGame
-    {
+    private function createKnockoutMatch(
+        Tournament $tournament,
+        string $stage,
+        string $position,
+        Carbon $date,
+        ?array $advancesTo = null,
+        ?array $teams = null,
+    ): MatchGame {
         return MatchGame::create([
             'tournament_id' => $tournament->id,
             'stage' => $stage,

@@ -143,7 +143,11 @@ class TeamController extends Controller
     {
         $user = $request->user();
         abort_unless($user->canRegisterTeams(), 403);
-        abort_if($user->isAdmin() && ! $user->hasManagedTournaments(), 403, 'No tienes torneos asignados para registrar equipos.');
+        abort_if(
+            $user->isAdmin() && ! $user->hasManagedTournaments(),
+            403,
+            'No tienes torneos asignados para registrar equipos.'
+        );
 
         $data = $request->validate([
             'tournament_id' => ['required', 'exists:tournaments,id'],
@@ -162,7 +166,11 @@ class TeamController extends Controller
         $tournament = Tournament::findOrFail($data['tournament_id']);
 
         // El super admin puede en todos los torneos; el admin solo en su respectivo torneo
-        abort_if($user->isAdmin() && $tournament->admin_id !== $user->id, 403, 'No tienes autorización para inscribir equipos en este torneo.');
+        abort_if(
+            $user->isAdmin() && $tournament->admin_id !== $user->id,
+            403,
+            'No tienes autorización para inscribir equipos en este torneo.'
+        );
 
         $team = Team::create([
             'tournament_id' => $tournament->id,
