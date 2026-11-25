@@ -1,0 +1,210 @@
+# Historial de commits de la Guía 11 (git log --stat), generado el 2026-11-25
+
+commit 117c378
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:51
+
+    docs(calidad): documentar evaluacion, metricas, refactorizacion, pruebas y mantenimiento (Guia 11)
+
+
+ README.md                                          |   19 +
+ docs/EVALUACION_SOFTWARE.md                        |  228 ++
+ docs/MANTENIMIENTO.md                              |  116 +
+ docs/METRICAS_SOFTWARE.md                          |  146 ++
+ docs/PRUEBAS_SOFTWARE.md                           |  197 ++
+ docs/REFACTORIZACION.md                            |  633 +++++
+ .../antes/09b-phpunit-sin-assets-vite.txt          |  163 ++
+ docs/evidencias/comparativo-metricas.json          | 2464 ++++++++++++++++++++
+ docs/evidencias/despues/01-cloc-por-archivo.csv    |   82 +
+ docs/evidencias/despues/01-cloc.txt                |    8 +
+ docs/evidencias/despues/02-lizard-advertencias.txt |   21 +
+ docs/evidencias/despues/02-lizard-metodos.csv      |  399 ++++
+ docs/evidencias/despues/02-lizard-resumen.txt      |    4 +
+ docs/evidencias/despues/03-phpcpd.txt              |    5 +
+ docs/evidencias/despues/04-phpmd-calidad.txt       |  162 ++
+ docs/evidencias/despues/04-phpmd-diseno.txt        |   32 +
+ docs/evidencias/despues/05-phpcs-psr12-reglas.txt  |   19 +
+ docs/evidencias/despues/05-phpcs-psr12.txt         |   58 +
+ docs/evidencias/despues/06-pint.txt                |    1 +
+ docs/evidencias/despues/07-pdepend-summary.xml     |  737 ++++++
+ docs/evidencias/despues/08-npm-audit.txt           |    1 +
+ docs/evidencias/despues/08-seguridad-patrones.txt  |   15 +
+ docs/evidencias/despues/09-phpunit-junit.xml       |  154 ++
+ docs/evidencias/despues/09-phpunit-testdox.txt     |  146 ++
+ .../despues/09b-phpunit-sin-assets-vite.txt        |  146 ++
+ docs/evidencias/deuda-tecnica.json                 |   96 +
+ docs/img/polimetrica-antes-despues.svg             |   64 +
+ 27 files changed, 6116 insertions(+)
+commit 1c5a109
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:40
+
+    ci: alinear la version de PHP del pipeline con Docker y composer.lock
+
+
+ .github/workflows/ci.yml | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+commit 864bfda
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:38
+
+    style(psr12): ajustar formato del codigo refactorizado a PSR-12
+
+
+ src/app/Http/Controllers/v1/ScoutingController.php |  4 ++-
+ src/app/Http/Controllers/v1/TeamController.php     | 12 ++++++--
+ src/app/Models/v1/MatchGame.php                    | 25 +++++++++-------
+ src/app/Services/v1/BracketService.php             | 35 ++++++++++++++++------
+ src/app/Services/v1/StandingService.php            | 11 ++++---
+ .../Services/v1/TeamDirectorAssignmentService.php  |  8 +++--
+ 6 files changed, 64 insertions(+), 31 deletions(-)
+commit c10287e
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:36
+
+    fix(deps): actualizar dependencias npm vulnerables (vite, shell-quote, source-map-js)
+
+
+ src/package-lock.json | 332 ++++++++++++++++++++++++++++----------------------
+ 1 file changed, 183 insertions(+), 149 deletions(-)
+commit 3b1d2be
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:36
+
+    test(ci): desacoplar la suite de pruebas del build de Vite
+
+
+ src/tests/TestCase.php | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+commit db4b9d4
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:36
+
+    style(pint): aplicar el estandar de codigo Laravel Pint en app y routes
+
+
+ src/app/Http/Controllers/v1/MatchDayController.php   | 3 ++-
+ src/app/Http/Controllers/v1/SuperAdminController.php | 7 ++++---
+ src/app/Http/Requests/v1/StoreMatchRequest.php       | 3 ++-
+ src/app/Services/v1/SportsChronicleService.php       | 2 --
+ src/routes/console.php                               | 7 ++++---
+ src/routes/web.php                                   | 1 -
+ 6 files changed, 12 insertions(+), 11 deletions(-)
+commit b6f2b7e
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:35
+
+    refactor(teams): extraer TeamDirectorAssignmentService y corregir vulnerabilidades del registro
+
+
+ src/app/Http/Controllers/Controller.php            | 27 +++++-
+ .../Controllers/v1/PlayerProfileController.php     |  4 +-
+ src/app/Http/Controllers/v1/TeamController.php     | 87 +++----------------
+ .../Services/v1/TeamDirectorAssignmentService.php  | 98 ++++++++++++++++++++++
+ src/resources/views/v1/teams/create.blade.php      |  4 +-
+ src/resources/views/v1/teams/index.blade.php       |  4 +-
+ src/resources/views/v1/tournaments/show.blade.php  |  4 +-
+ 7 files changed, 144 insertions(+), 84 deletions(-)
+commit c67f374
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:34
+
+    refactor(dry): eliminar los 4 bloques de codigo duplicado detectados por PHPCPD
+
+
+ src/app/Http/Controllers/v1/MatchController.php    |  37 +---
+ src/app/Http/Controllers/v1/MatchDayController.php |  73 ++++----
+ src/app/Http/Controllers/v1/ScoutingController.php |  67 +++----
+ src/app/Models/v1/MatchGame.php                    |  29 +++
+ src/app/Services/v1/BracketService.php             | 202 +++++++--------------
+ .../Calidad/MatchLiveFeedAndScoutingTest.php       |  90 +++++++++
+ 6 files changed, 246 insertions(+), 252 deletions(-)
+commit e3dec29
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:32
+
+    refactor(auth): centralizar verificacion de roles en el modelo User
+
+
+ src/app/Http/Controllers/v1/AuditController.php    |  2 +-
+ src/app/Http/Controllers/v1/MatchController.php    | 10 +++---
+ src/app/Http/Controllers/v1/PlayerController.php   |  8 ++---
+ src/app/Http/Controllers/v1/RefereeController.php  |  6 ++--
+ .../Http/Controllers/v1/StandingsController.php    |  2 +-
+ src/app/Http/Controllers/v1/TeamController.php     | 10 +++---
+ .../Http/Controllers/v1/TournamentController.php   |  2 +-
+ src/app/Http/Controllers/v1/VenueController.php    | 14 ++++----
+ src/app/Models/User.php                            | 36 ++++++++++++++++---
+ src/tests/Unit/UserRoleTest.php                    | 40 ++++++++++++++++++++++
+ 10 files changed, 98 insertions(+), 32 deletions(-)
+commit 00af358
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:31
+
+    refactor(cleanup): eliminar codigo muerto detectado por PHPMD
+
+
+ src/app/Http/Controllers/v1/AuditController.php         | 3 +--
+ src/app/Http/Controllers/v1/PlayerProfileController.php | 2 +-
+ src/app/Http/Controllers/v1/ScoutingController.php      | 2 +-
+ src/app/Http/Controllers/v1/StandingsController.php     | 2 +-
+ src/app/Services/v1/SportsChronicleService.php          | 1 -
+ 5 files changed, 4 insertions(+), 6 deletions(-)
+commit 54e7f99
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:31
+
+    fix(seeders): actualizar import de StandingService al namespace v1
+
+
+ src/app/Services/v1/StandingsService.php          | 11 -----------
+ src/database/seeders/TournamentCompleteSeeder.php |  2 +-
+ 2 files changed, 1 insertion(+), 12 deletions(-)
+commit 9be5fbc
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:30
+
+    refactor(standings): aplicar reglamento del torneo y extraer metodos en StandingService
+
+
+ src/app/Http/Controllers/v1/MatchController.php |   2 +-
+ src/app/Services/StandingService.php            |  74 ----------------
+ src/app/Services/v1/PostMatchClosureService.php |   1 -
+ src/app/Services/v1/StandingService.php         | 110 ++++++++++++++++++++++++
+ 4 files changed, 111 insertions(+), 76 deletions(-)
+commit a037744
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:29
+
+    test(calidad): agregar pruebas de regresion para posiciones, registro de equipos y acceso administrativo
+
+
+ docs/evidencias/antes/09-phpunit-junit.xml         | 212 +++++++++++++++++++++
+ docs/evidencias/antes/09-phpunit-testdox.txt       | 207 ++++++++++++++++++++
+ .../Feature/Calidad/StaffAuthorizationTest.php     |  79 ++++++++
+ .../Feature/Calidad/StandingRecalculationTest.php  | 129 +++++++++++++
+ .../Calidad/TeamRegistrationSecurityTest.php       | 116 +++++++++++
+ 5 files changed, 743 insertions(+)
+commit 002e25f
+Autor: Nelly Fabiola Cano Oviedo
+Fecha: 2026-11-25 17:29
+
+    chore(calidad): agregar script de analisis estatico y evidencias de la evaluacion inicial
+
+
+ docs/evidencias/antes/01-cloc-por-archivo.csv    |  82 +++
+ docs/evidencias/antes/01-cloc.txt                |   8 +
+ docs/evidencias/antes/02-lizard-advertencias.txt |  25 +
+ docs/evidencias/antes/02-lizard-metodos.csv      | 380 ++++++++++++
+ docs/evidencias/antes/02-lizard-resumen.txt      |   4 +
+ docs/evidencias/antes/03-phpcpd.txt              |  20 +
+ docs/evidencias/antes/04-phpmd-calidad.txt       | 173 ++++++
+ docs/evidencias/antes/04-phpmd-diseno.txt        |  43 ++
+ docs/evidencias/antes/05-phpcs-psr12-reglas.txt  |  22 +
+ docs/evidencias/antes/05-phpcs-psr12.txt         |  56 ++
+ docs/evidencias/antes/06-pint.txt                |   1 +
+ docs/evidencias/antes/07-pdepend-summary.xml     | 720 +++++++++++++++++++++++
+ docs/evidencias/antes/08-npm-audit.txt           |  32 +
+ docs/evidencias/antes/08-seguridad-patrones.txt  |  15 +
+ scripts/analisis-calidad.sh                      |  67 +++
+ 15 files changed, 1648 insertions(+)
