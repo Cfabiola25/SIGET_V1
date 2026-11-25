@@ -39,7 +39,7 @@ class StandingsController extends Controller
 
     public function adminIndex(): View|RedirectResponse
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');

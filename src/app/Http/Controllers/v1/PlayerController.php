@@ -17,7 +17,7 @@ class PlayerController extends Controller
     public function index(Request $request): View|StreamedResponse|RedirectResponse
     {
         $user = $request->user();
-        if ($user && in_array($user->role, ['captain', 'coach'], true)) {
+        if ($user?->isDT()) {
             $myTeam = $user->managedTeams()->first();
             if ($myTeam) {
                 return redirect()->route('dt.roster', $myTeam);
@@ -108,7 +108,7 @@ class PlayerController extends Controller
     public function exportCsv(Request $request): StreamedResponse
     {
         $user = $request->user();
-        abort_unless($user && in_array($user->role, ['super_admin', 'admin'], true), 403, 'Acción restringida a administradores.');
+        abort_unless($user?->isStaff(), 403, 'Acción restringida a administradores.');
         $search = $request->query('search');
         $teamId = $request->query('team_id');
         $position = $request->query('position');
@@ -192,7 +192,7 @@ class PlayerController extends Controller
         $user = $request->user();
         abort_if(! $user, 401);
 
-        if ($user->isPlayer() || ! in_array($user->role, ['super_admin', 'admin'], true)) {
+        if ($user->isPlayer() || ! $user->isStaff()) {
             abort(403, 'Los jugadores no tienen permisos para crear ni inscribir futbolistas.');
         }
 
@@ -200,7 +200,7 @@ class PlayerController extends Controller
             abort(403, 'No tienes torneos asignados para registrar jugadores.');
         }
 
-        if (in_array($user->role, ['captain', 'coach'], true)) {
+        if ($user->isDT()) {
             abort(403, 'Los Directores Técnicos deben registrar futbolistas a través de su portal oficial de plantilla.');
         }
 

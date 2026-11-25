@@ -93,7 +93,7 @@ class MatchController extends Controller
 
     public function adminIndex(Request $request): View|RedirectResponse
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
@@ -156,7 +156,7 @@ class MatchController extends Controller
 
     public function create(): View
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         $query = Tournament::with('teams')->whereIn('status', ['pending', 'active']);
         if (auth()->user()->isAdmin()) {
@@ -168,7 +168,7 @@ class MatchController extends Controller
 
     public function store(StoreMatchRequest $request): RedirectResponse
     {
-        abort_unless(in_array($request->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless($request->user()->isStaff(), 403);
         $tournament = Tournament::findOrFail($request->validated()['tournament_id']);
         abort_unless($request->user()->isSuperAdmin() || $tournament->admin_id === $request->user()->id, 403);
         $match = MatchGame::create($request->validated());
@@ -230,7 +230,7 @@ class MatchController extends Controller
 
     public function schedule(Request $request): View|RedirectResponse
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         $user = $request->user();
         if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
@@ -278,7 +278,7 @@ class MatchController extends Controller
 
     public function storeSchedule(Request $request): RedirectResponse
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if ($request->user() && $request->user()->isAdmin() && ! $request->user()->hasManagedTournaments()) {
             abort(403, 'No tienes torneos asignados para programar partidos.');

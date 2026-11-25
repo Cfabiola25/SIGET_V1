@@ -51,7 +51,7 @@ class TeamController extends Controller
 
     public function adminIndex(Request $request): View|RedirectResponse
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
@@ -114,7 +114,7 @@ class TeamController extends Controller
 
     public function create(Request $request): View|RedirectResponse
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin', 'captain'], true), 403);
+        abort_unless(auth()->user()?->canRegisterTeams(), 403);
 
         $user = auth()->user();
         if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
@@ -142,7 +142,7 @@ class TeamController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        abort_unless(in_array($request->user()->role, ['super_admin', 'admin', 'captain'], true), 403);
+        abort_unless($request->user()->canRegisterTeams(), 403);
 
         $user = $request->user();
         if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
@@ -174,7 +174,7 @@ class TeamController extends Controller
             'tournament_id' => $data['tournament_id'],
             'name' => $data['name'],
             'logo_path' => $data['logo_path'] ?? null,
-            'status' => in_array($user->role, ['super_admin', 'admin'], true) ? 'approved' : 'pending',
+            'status' => $user->isStaff() ? 'approved' : 'pending',
             'captain_id' => $data['captain_id'] ?? null,
         ]);
 
@@ -204,7 +204,7 @@ class TeamController extends Controller
                 ]);
                 $dtDetails = " Se creó la cuenta de DT para {$dtUser->name} (Email: {$dtUser->email} / Clave: {$rawPassword}).";
             } else {
-                if (! in_array($dtUser->role, ['super_admin', 'admin'], true)) {
+                if (! $dtUser->isStaff()) {
                     $dtUser->update(['role' => 'captain']);
                 }
                 $dtDetails = " Asignado al DT {$dtUser->name}.";

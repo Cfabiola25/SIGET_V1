@@ -20,6 +20,20 @@ use Illuminate\Notifications\Notifiable;
 #[Hidden(['password', 'remember_token'])]
 class User extends Authenticatable
 {
+    public const ROLE_SUPER_ADMIN = 'super_admin';
+
+    public const ROLE_ADMIN = 'admin';
+
+    public const ROLE_CAPTAIN = 'captain';
+
+    public const ROLE_COACH = 'coach';
+
+    /** Roles con acceso al backoffice administrativo. */
+    public const STAFF_ROLES = [self::ROLE_SUPER_ADMIN, self::ROLE_ADMIN];
+
+    /** Roles que actúan como Director Técnico de un equipo. */
+    public const DT_ROLES = [self::ROLE_CAPTAIN, self::ROLE_COACH];
+
     protected $attributes = ['is_active' => true];
 
     /** @use HasFactory<UserFactory> */
@@ -37,27 +51,39 @@ class User extends Authenticatable
 
     public function isSuperAdmin(): bool
     {
-        return $this->role === 'super_admin';
+        return $this->role === self::ROLE_SUPER_ADMIN;
     }
 
     public function isAdmin(): bool
     {
-        return $this->role === 'admin';
+        return $this->role === self::ROLE_ADMIN;
+    }
+
+    /** Personal administrativo: super administrador o administrador de torneo. */
+    public function isStaff(): bool
+    {
+        return in_array($this->role, self::STAFF_ROLES, true);
+    }
+
+    /** Puede inscribir equipos: personal administrativo o capitán. */
+    public function canRegisterTeams(): bool
+    {
+        return $this->isStaff() || $this->role === self::ROLE_CAPTAIN;
     }
 
     public function isCaptain(): bool
     {
-        return in_array($this->role, ['captain', 'coach'], true);
+        return $this->isDT();
     }
 
     public function isCoach(): bool
     {
-        return in_array($this->role, ['captain', 'coach'], true);
+        return $this->isDT();
     }
 
     public function isDT(): bool
     {
-        return in_array($this->role, ['captain', 'coach'], true);
+        return in_array($this->role, self::DT_ROLES, true);
     }
 
     public function hasManagedTournaments(): bool

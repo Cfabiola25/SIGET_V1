@@ -18,7 +18,7 @@ class TournamentController extends Controller
     public function index(Request $request): View|RedirectResponse
     {
         $user = request()->user();
-        abort_unless($user && in_array($user->role, ['super_admin', 'admin'], true), 403);
+        abort_unless($user?->isStaff(), 403);
 
         if ($user->isAdmin() && ! $user->hasManagedTournaments()) {
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador aún no tiene torneos asignados.');

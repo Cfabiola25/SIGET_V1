@@ -12,7 +12,7 @@ class VenueController extends Controller
 {
     public function index(): View|RedirectResponse
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
@@ -25,7 +25,7 @@ class VenueController extends Controller
 
     public function create(): View|RedirectResponse
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados para registrar sedes.');
@@ -36,7 +36,7 @@ class VenueController extends Controller
 
     public function store(Request $request): RedirectResponse
     {
-        abort_unless(in_array($request->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless($request->user()->isStaff(), 403);
 
         if ($request->user() && $request->user()->isAdmin() && ! $request->user()->hasManagedTournaments()) {
             abort(403, 'No tienes torneos asignados para registrar sedes.');
@@ -65,7 +65,7 @@ class VenueController extends Controller
 
     public function show(Venue $venue): View
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         return view('v1.venues.show', [
             'venue' => $venue->load(['matches.homeTeam', 'matches.awayTeam', 'matches.tournament']),
@@ -74,14 +74,14 @@ class VenueController extends Controller
 
     public function edit(Venue $venue): View
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         return view('v1.venues.edit', compact('venue'));
     }
 
     public function update(Request $request, Venue $venue): RedirectResponse
     {
-        abort_unless(in_array($request->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless($request->user()->isStaff(), 403);
 
         $validated = $request->validate([
             'name' => ['required', 'string', 'max:255'],
@@ -103,7 +103,7 @@ class VenueController extends Controller
 
     public function destroy(Venue $venue): RedirectResponse
     {
-        abort_unless(in_array(auth()->user()?->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if ($venue->matches()->exists()) {
             return back()->withErrors(['venue' => 'No se puede eliminar una sede que tiene partidos asignados.']);

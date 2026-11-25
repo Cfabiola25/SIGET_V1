@@ -13,7 +13,7 @@ class RefereeController extends Controller
 {
     public function index(Request $request)
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
@@ -63,7 +63,7 @@ class RefereeController extends Controller
 
     public function store(Request $request)
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         if (auth()->user()?->isAdmin() && ! auth()->user()->hasManagedTournaments()) {
             abort(403, 'No tienes torneos asignados para registrar árbitros.');
@@ -102,7 +102,7 @@ class RefereeController extends Controller
 
     public function destroy(Referee $referee)
     {
-        abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
+        abort_unless(auth()->user()?->isStaff(), 403);
 
         $referee->delete();
 
