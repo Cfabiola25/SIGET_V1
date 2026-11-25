@@ -3,16 +3,27 @@
 namespace App\Http\Controllers\v1;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use App\Models\v1\Player;
 use App\Models\v1\PlayerRecruitmentRequest;
 use App\Models\v1\Team;
 use App\Services\v1\ScoutingRatingService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 use Illuminate\View\View;
 
 class ScoutingController extends Controller
 {
+    /** Reglas de validación compartidas por el radar público y el administrativo. */
+    private const FILTER_RULES = [
+        'position' => ['nullable', 'string', 'in:goalkeeper,defender,midfielder,forward'],
+        'preferred_foot' => ['nullable', 'string', 'in:right,left,ambidextrous'],
+        'min_rating' => ['nullable', 'numeric', 'min:1', 'max:10'],
+        'search' => ['nullable', 'string', 'max:100'],
+        'sort_by' => ['nullable', 'string', 'in:rating_desc,rating_asc,mvp_desc,name_asc'],
+    ];
+
     public function __construct(
         protected ScoutingRatingService $scoutingService
     ) {}
@@ -22,13 +33,7 @@ class ScoutingController extends Controller
      */
     public function index(Request $request): View
     {
-        $filters = $request->validate([
-            'position' => ['nullable', 'string', 'in:goalkeeper,defender,midfielder,forward'],
-            'preferred_foot' => ['nullable', 'string', 'in:right,left,ambidextrous'],
-            'min_rating' => ['nullable', 'numeric', 'min:1', 'max:10'],
-            'search' => ['nullable', 'string', 'max:100'],
-            'sort_by' => ['nullable', 'string', 'in:rating_desc,rating_asc,mvp_desc,name_asc'],
-        ]);
+        $filters = $request->validate(self::FILTER_RULES);
 
         $freeAgents = $this->scoutingService->getFreeAgents($filters, 12);
 
@@ -46,28 +51,11 @@ class ScoutingController extends Controller
             return redirect()->route('admin.dashboard')->with('warning', 'Tu cuenta de Administrador no tiene torneos asignados.');
         }
 
-        $filters = $request->validate([
-            'position' => ['nullable', 'string', 'in:goalkeeper,defender,midfielder,forward'],
-            'preferred_foot' => ['nullable', 'string', 'in:right,left,ambidextrous'],
-            'min_rating' => ['nullable', 'numeric', 'min:1', 'max:10'],
-            'search' => ['nullable', 'string', 'max:100'],
-            'sort_by' => ['nullable', 'string', 'in:rating_desc,rating_asc,mvp_desc,name_asc'],
-        ]);
+        $filters = $request->validate(self::FILTER_RULES);
 
         $freeAgents = $this->scoutingService->getFreeAgents($filters, 12);
 
-        $user = auth()->user();
-        $availableTeams = collect();
-        if ($user) {
-            if ($user->isSuperAdmin()) {
-                $availableTeams = Team::orderBy('name')->get();
-            } elseif ($user->isAdmin()) {
-                $adminTournamentIds = $user->managedTournaments()->pluck('id');
-                $availableTeams = Team::whereIn('tournament_id', $adminTournamentIds)->orderBy('name')->get();
-            } elseif ($user->isCoach() || $user->isCaptain()) {
-                $availableTeams = $user->managedTeams()->get();
-            }
-        }
+        $availableTeams = $this->availableTeamsFor(auth()->user());
 
         return view('v1.scouting.index', [
             'freeAgents' => $freeAgents,
@@ -100,18 +88,7 @@ class ScoutingController extends Controller
         $player->load(['profile', 'team', 'events', 'sanctions']);
         $metrics = $this->scoutingService->getRadarMetrics($player);
 
-        $user = auth()->user();
-        $availableTeams = collect();
-        if ($user) {
-            if ($user->isSuperAdmin()) {
-                $availableTeams = Team::orderBy('name')->get();
-            } elseif ($user->isAdmin()) {
-                $adminTournamentIds = $user->managedTournaments()->pluck('id');
-                $availableTeams = Team::whereIn('tournament_id', $adminTournamentIds)->orderBy('name')->get();
-            } elseif ($user->isCoach() || $user->isCaptain()) {
-                $availableTeams = $user->managedTeams()->get();
-            }
-        }
+        $availableTeams = $this->availableTeamsFor(auth()->user());
 
         return view('v1.scouting.show', [
             'player' => $player,
@@ -312,5 +289,19 @@ class ScoutingController extends Controller
         $this->scoutingService->releasePlayer($player, $validated['scouting_notes'] ?? null);
 
         return back()->with('status', "El jugador {$player->name} ha sido transferido a la Agencia Libre del torneo.");
+    }
+
+    /**
+     * Equipos hacia los que el usuario autenticado puede reclutar jugadores.
+     */
+    private function availableTeamsFor(?User $user): Collection
+    {
+        return match (true) {
+            $user === null => collect(),
+            $user->isSuperAdmin() => Team::orderBy('name')->get(),
+            $user->isAdmin() => Team::whereIn('tournament_id', $user->managedTournaments()->pluck('id'))->orderBy('name')->get(),
+            $user->isDT() => $user->managedTeams()->get(),
+            default => collect(),
+        };
     }
 }

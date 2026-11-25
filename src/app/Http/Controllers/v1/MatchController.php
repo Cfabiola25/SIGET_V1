@@ -47,27 +47,7 @@ class MatchController extends Controller
             $query->where('tournament_id', $selectedTournamentId);
         }
 
-        $query
-            ->when($filters['search'] ?? null, function ($query, $search): void {
-                $query->where(function ($query) use ($search): void {
-                    $query->whereHas('tournament', fn ($tournaments) => $tournaments->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('homeTeam', fn ($teams) => $teams->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('awayTeam', fn ($teams) => $teams->where('name', 'like', "%{$search}%"));
-                });
-            })
-            ->when($filters['sport_type'] ?? null, fn ($query, $sport) => $query->whereHas('tournament', fn ($tournaments) => $tournaments->where('sport_type', $sport)))
-            ->when($filters['status'] ?? null, function ($query, $status): void {
-                if ($status === 'live') {
-                    $query->where(function ($q) {
-                        $q->where('is_timer_running', true)
-                            ->orWhere('status', 'live');
-                    });
-                } else {
-                    $query->where('status', $status);
-                }
-            })
-            ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('match_date', '>=', $date))
-            ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('match_date', '<=', $date));
+        $query->filter($filters);
 
         // Conteos para píldoras rápidas
         $baseCountQuery = MatchGame::query();
@@ -75,7 +55,7 @@ class MatchController extends Controller
             $baseCountQuery->where('tournament_id', $selectedTournamentId);
         }
         $totalMatchesCount = (clone $baseCountQuery)->count();
-        $liveMatchesCount = (clone $baseCountQuery)->where(fn ($q) => $q->where('is_timer_running', true)->orWhere('status', 'live'))->count();
+        $liveMatchesCount = (clone $baseCountQuery)->live()->count();
         $scheduledMatchesCount = (clone $baseCountQuery)->where('status', 'scheduled')->count();
         $playedMatchesCount = (clone $baseCountQuery)->where('status', 'played')->count();
 
@@ -113,18 +93,7 @@ class MatchController extends Controller
             $query->whereHas('tournament', fn ($tournaments) => $tournaments->where('admin_id', auth()->id()));
         }
 
-        $query
-            ->when($filters['search'] ?? null, function ($query, $search): void {
-                $query->where(function ($query) use ($search): void {
-                    $query->whereHas('tournament', fn ($tournaments) => $tournaments->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('homeTeam', fn ($teams) => $teams->where('name', 'like', "%{$search}%"))
-                        ->orWhereHas('awayTeam', fn ($teams) => $teams->where('name', 'like', "%{$search}%"));
-                });
-            })
-            ->when($filters['sport_type'] ?? null, fn ($query, $sport) => $query->whereHas('tournament', fn ($tournaments) => $tournaments->where('sport_type', $sport)))
-            ->when($filters['status'] ?? null, fn ($query, $status) => $query->where('status', $status))
-            ->when($filters['date_from'] ?? null, fn ($query, $date) => $query->whereDate('match_date', '>=', $date))
-            ->when($filters['date_to'] ?? null, fn ($query, $date) => $query->whereDate('match_date', '<=', $date));
+        $query->filter($filters);
 
         return view('v1.matches.index', [
             'matches' => $query->paginate(12)->withQueryString(),

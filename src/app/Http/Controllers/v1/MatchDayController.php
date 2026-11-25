@@ -172,28 +172,9 @@ class MatchDayController extends Controller
         ]);
 
         return response()->json([
-            'match_id' => $match->id,
+            ...$this->matchStatePayload($match),
             'home_team' => $match->homeTeam->name,
             'away_team' => $match->awayTeam->name,
-            'home_score' => $match->home_score,
-            'away_score' => $match->away_score,
-            'status' => $match->status,
-            'current_period' => $match->current_period,
-            'is_timer_running' => $match->is_timer_running,
-            'formatted_clock' => $match->formatted_clock,
-            'elapsed_seconds' => $match->getCurrentClockSeconds(),
-            'events' => $match->events->map(fn ($e) => [
-                'id' => $e->id,
-                'team_id' => $e->team_id,
-                'team_name' => $e->team->name,
-                'player_name' => $e->player?->name ?? 'N/A',
-                'sub_in_player_name' => $e->subInPlayer?->name,
-                'event_type' => $e->event_type,
-                'icon' => $e->icon,
-                'label' => $e->label,
-                'formatted_time' => $e->formatted_time,
-                'notes' => $e->notes,
-            ]),
         ]);
     }
 
@@ -212,28 +193,7 @@ class MatchDayController extends Controller
                 'events.team',
             ]);
 
-            $data = [
-                'match_id' => $match->id,
-                'home_score' => $match->home_score,
-                'away_score' => $match->away_score,
-                'status' => $match->status,
-                'current_period' => $match->current_period,
-                'is_timer_running' => $match->is_timer_running,
-                'formatted_clock' => $match->formatted_clock,
-                'elapsed_seconds' => $match->getCurrentClockSeconds(),
-                'events' => $match->events->map(fn ($e) => [
-                    'id' => $e->id,
-                    'team_id' => $e->team_id,
-                    'team_name' => $e->team->name,
-                    'player_name' => $e->player?->name ?? 'N/A',
-                    'sub_in_player_name' => $e->subInPlayer?->name,
-                    'event_type' => $e->event_type,
-                    'icon' => $e->icon,
-                    'label' => $e->label,
-                    'formatted_time' => $e->formatted_time,
-                    'notes' => $e->notes,
-                ]),
-            ];
+            $data = $this->matchStatePayload($match);
 
             echo "event: match_state\n";
             echo 'data: '.json_encode($data, JSON_UNESCAPED_UNICODE)."\n\n";
@@ -346,5 +306,34 @@ class MatchDayController extends Controller
             ),
             403
         );
+    }
+
+    /**
+     * Estado serializado del partido compartido por el feed JSON y el stream SSE.
+     */
+    private function matchStatePayload(MatchGame $match): array
+    {
+        return [
+            'match_id' => $match->id,
+            'home_score' => $match->home_score,
+            'away_score' => $match->away_score,
+            'status' => $match->status,
+            'current_period' => $match->current_period,
+            'is_timer_running' => $match->is_timer_running,
+            'formatted_clock' => $match->formatted_clock,
+            'elapsed_seconds' => $match->getCurrentClockSeconds(),
+            'events' => $match->events->map(fn ($e) => [
+                'id' => $e->id,
+                'team_id' => $e->team_id,
+                'team_name' => $e->team->name,
+                'player_name' => $e->player?->name ?? 'N/A',
+                'sub_in_player_name' => $e->subInPlayer?->name,
+                'event_type' => $e->event_type,
+                'icon' => $e->icon,
+                'label' => $e->label,
+                'formatted_time' => $e->formatted_time,
+                'notes' => $e->notes,
+            ]),
+        ];
     }
 }

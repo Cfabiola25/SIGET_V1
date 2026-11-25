@@ -3,6 +3,7 @@
 namespace App\Models\v1;
 
 use Database\Factories\MatchGameFactory;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\Factory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -48,6 +49,34 @@ class MatchGame extends Model
         'chronicle_body',
         'chronicle_generated_at',
     ];
+
+    /**
+     * Filtros reutilizables de los listados de partidos (público y administrativo):
+     * búsqueda por torneo o equipos, modalidad, estado y rango de fechas.
+     *
+     * @param  array{search?: ?string, sport_type?: ?string, status?: ?string, date_from?: ?string, date_to?: ?string}  $filters
+     */
+    public function scopeFilter(Builder $query, array $filters): Builder
+    {
+        return $query
+            ->when($filters['search'] ?? null, function (Builder $query, string $search): void {
+                $query->where(function (Builder $query) use ($search): void {
+                    $query->whereHas('tournament', fn (Builder $tournaments) => $tournaments->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('homeTeam', fn (Builder $teams) => $teams->where('name', 'like', "%{$search}%"))
+                        ->orWhereHas('awayTeam', fn (Builder $teams) => $teams->where('name', 'like', "%{$search}%"));
+                });
+            })
+            ->when($filters['sport_type'] ?? null, fn (Builder $query, string $sport) => $query->whereHas('tournament', fn (Builder $tournaments) => $tournaments->where('sport_type', $sport)))
+            ->when($filters['status'] ?? null, fn (Builder $query, string $status) => $status === 'live' ? $query->live() : $query->where('status', $status))
+            ->when($filters['date_from'] ?? null, fn (Builder $query, string $date) => $query->whereDate('match_date', '>=', $date))
+            ->when($filters['date_to'] ?? null, fn (Builder $query, string $date) => $query->whereDate('match_date', '<=', $date));
+    }
+
+    /** Partidos en curso: cronómetro activo o estado "live". */
+    public function scopeLive(Builder $query): Builder
+    {
+        return $query->where(fn (Builder $q) => $q->where('is_timer_running', true)->orWhere('status', 'live'));
+    }
 
     protected function casts(): array
     {

@@ -55,144 +55,9 @@ class BracketService
                 throw new \InvalidArgumentException('Se requieren al menos 4 equipos clasificados para generar llaves de eliminación directa.');
             }
 
-            $createdMatches = [];
-
-            if ($bracketSize >= 8) {
-                // Estructura de Cuartos de Final (8 equipos -> 4 QF, 2 SF, 1 Final)
-                $finalDate = $startDate->copy()->addDays($daysBetweenStages * 2);
-                $semisDate = $startDate->copy()->addDays($daysBetweenStages);
-                $quartersDate = $startDate->copy();
-
-                // 1. Gran Final
-                $final = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'final',
-                    'bracket_position' => 'FINAL',
-                    'match_date' => $finalDate,
-                    'status' => 'scheduled',
-                    'home_team_id' => null,
-                    'away_team_id' => null,
-                ]);
-
-                // 2. Semifinales
-                $sf1 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'semifinals',
-                    'bracket_position' => 'SF1',
-                    'match_date' => $semisDate,
-                    'status' => 'scheduled',
-                    'next_match_id' => $final->id,
-                    'next_match_slot' => 'home',
-                    'home_team_id' => null,
-                    'away_team_id' => null,
-                ]);
-
-                $sf2 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'semifinals',
-                    'bracket_position' => 'SF2',
-                    'match_date' => $semisDate,
-                    'status' => 'scheduled',
-                    'next_match_id' => $final->id,
-                    'next_match_slot' => 'away',
-                    'home_team_id' => null,
-                    'away_team_id' => null,
-                ]);
-
-                // 3. Cuartos de Final (Emparejamientos estándar: 1 vs 8, 4 vs 5, 2 vs 7, 3 vs 6)
-                $qf1 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'quarterfinals',
-                    'bracket_position' => 'QF1',
-                    'match_date' => $quartersDate,
-                    'status' => 'scheduled',
-                    'next_match_id' => $sf1->id,
-                    'next_match_slot' => 'home',
-                    'home_team_id' => $qualifiedTeams[0]->id, // 1º
-                    'away_team_id' => $qualifiedTeams[7]->id, // 8º
-                ]);
-
-                $qf2 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'quarterfinals',
-                    'bracket_position' => 'QF2',
-                    'match_date' => $quartersDate->copy()->addHours(2),
-                    'status' => 'scheduled',
-                    'next_match_id' => $sf1->id,
-                    'next_match_slot' => 'away',
-                    'home_team_id' => $qualifiedTeams[3]->id, // 4º
-                    'away_team_id' => $qualifiedTeams[4]->id, // 5º
-                ]);
-
-                $qf3 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'quarterfinals',
-                    'bracket_position' => 'QF3',
-                    'match_date' => $quartersDate->copy()->addDays(1),
-                    'status' => 'scheduled',
-                    'next_match_id' => $sf2->id,
-                    'next_match_slot' => 'home',
-                    'home_team_id' => $qualifiedTeams[1]->id, // 2º
-                    'away_team_id' => $qualifiedTeams[6]->id, // 7º
-                ]);
-
-                $qf4 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'quarterfinals',
-                    'bracket_position' => 'QF4',
-                    'match_date' => $quartersDate->copy()->addDays(1)->addHours(2),
-                    'status' => 'scheduled',
-                    'next_match_id' => $sf2->id,
-                    'next_match_slot' => 'away',
-                    'home_team_id' => $qualifiedTeams[2]->id, // 3º
-                    'away_team_id' => $qualifiedTeams[5]->id, // 6º
-                ]);
-
-                $createdMatches['quarterfinals'] = collect([$qf1, $qf2, $qf3, $qf4]);
-                $createdMatches['semifinals'] = collect([$sf1, $sf2]);
-                $createdMatches['final'] = collect([$final]);
-            } else {
-                // Estructura Semifinales (4 equipos -> 2 SF, 1 Final)
-                $finalDate = $startDate->copy()->addDays($daysBetweenStages);
-                $semisDate = $startDate->copy();
-
-                $final = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'final',
-                    'bracket_position' => 'FINAL',
-                    'match_date' => $finalDate,
-                    'status' => 'scheduled',
-                    'home_team_id' => null,
-                    'away_team_id' => null,
-                ]);
-
-                $sf1 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'semifinals',
-                    'bracket_position' => 'SF1',
-                    'match_date' => $semisDate,
-                    'status' => 'scheduled',
-                    'next_match_id' => $final->id,
-                    'next_match_slot' => 'home',
-                    'home_team_id' => $qualifiedTeams[0]->id, // 1º
-                    'away_team_id' => $qualifiedTeams[3]->id, // 4º
-                ]);
-
-                $sf2 = MatchGame::create([
-                    'tournament_id' => $tournament->id,
-                    'stage' => 'semifinals',
-                    'bracket_position' => 'SF2',
-                    'match_date' => $semisDate->copy()->addHours(2),
-                    'status' => 'scheduled',
-                    'next_match_id' => $final->id,
-                    'next_match_slot' => 'away',
-                    'home_team_id' => $qualifiedTeams[1]->id, // 2º
-                    'away_team_id' => $qualifiedTeams[2]->id, // 3º
-                ]);
-
-                $createdMatches['semifinals'] = collect([$sf1, $sf2]);
-                $createdMatches['final'] = collect([$final]);
-            }
+            $createdMatches = $bracketSize >= 8
+                ? $this->createQuarterfinalBracket($tournament, $qualifiedTeams, $startDate, $daysBetweenStages)
+                : $this->createSemifinalBracket($tournament, $qualifiedTeams, $startDate, $daysBetweenStages);
 
             $totalMatches = collect($createdMatches)->flatten()->count();
 
@@ -202,6 +67,67 @@ class BracketService
                 'stages' => $createdMatches,
             ];
         });
+    }
+
+    /**
+     * Llaves de 8 equipos: 4 cuartos de final, 2 semifinales y 1 final.
+     * Emparejamientos estándar por posición: 1-8, 4-5, 2-7 y 3-6.
+     */
+    private function createQuarterfinalBracket(Tournament $tournament, Collection $teams, Carbon $startDate, int $daysBetweenStages): array
+    {
+        $final = $this->createKnockoutMatch($tournament, 'final', 'FINAL', $startDate->copy()->addDays($daysBetweenStages * 2));
+        $semisDate = $startDate->copy()->addDays($daysBetweenStages);
+        $sf1 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF1', $semisDate, [$final, 'home']);
+        $sf2 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF2', $semisDate, [$final, 'away']);
+
+        $quarters = collect([
+            ['QF1', $startDate->copy(), [$sf1, 'home'], [$teams[0], $teams[7]]],
+            ['QF2', $startDate->copy()->addHours(2), [$sf1, 'away'], [$teams[3], $teams[4]]],
+            ['QF3', $startDate->copy()->addDays(1), [$sf2, 'home'], [$teams[1], $teams[6]]],
+            ['QF4', $startDate->copy()->addDays(1)->addHours(2), [$sf2, 'away'], [$teams[2], $teams[5]]],
+        ])->map(fn (array $qf) => $this->createKnockoutMatch($tournament, 'quarterfinals', ...$qf));
+
+        return [
+            'quarterfinals' => $quarters,
+            'semifinals' => collect([$sf1, $sf2]),
+            'final' => collect([$final]),
+        ];
+    }
+
+    /**
+     * Llaves de 4 equipos: 2 semifinales (1-4 y 2-3) y 1 final.
+     */
+    private function createSemifinalBracket(Tournament $tournament, Collection $teams, Carbon $startDate, int $daysBetweenStages): array
+    {
+        $final = $this->createKnockoutMatch($tournament, 'final', 'FINAL', $startDate->copy()->addDays($daysBetweenStages));
+        $sf1 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF1', $startDate->copy(), [$final, 'home'], [$teams[0], $teams[3]]);
+        $sf2 = $this->createKnockoutMatch($tournament, 'semifinals', 'SF2', $startDate->copy()->addHours(2), [$final, 'away'], [$teams[1], $teams[2]]);
+
+        return [
+            'semifinals' => collect([$sf1, $sf2]),
+            'final' => collect([$final]),
+        ];
+    }
+
+    /**
+     * Crea un partido de eliminación directa.
+     *
+     * @param  array{0: MatchGame, 1: string}|null  $advancesTo  partido siguiente y casilla (home|away) del ganador
+     * @param  array{0: Team, 1: Team}|null  $teams  local y visitante; null cuando aún no se conocen
+     */
+    private function createKnockoutMatch(Tournament $tournament, string $stage, string $position, Carbon $date, ?array $advancesTo = null, ?array $teams = null): MatchGame
+    {
+        return MatchGame::create([
+            'tournament_id' => $tournament->id,
+            'stage' => $stage,
+            'bracket_position' => $position,
+            'match_date' => $date,
+            'status' => 'scheduled',
+            'next_match_id' => $advancesTo[0]->id ?? null,
+            'next_match_slot' => $advancesTo[1] ?? null,
+            'home_team_id' => $teams[0]->id ?? null,
+            'away_team_id' => $teams[1]->id ?? null,
+        ]);
     }
 
     /**
