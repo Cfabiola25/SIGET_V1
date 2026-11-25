@@ -16,7 +16,7 @@ use App\Models\v1\Sport;
 use App\Models\v1\Team;
 use App\Models\v1\Tournament;
 use App\Models\v1\Venue;
-use App\Services\StandingService;
+use App\Services\v1\StandingService;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
