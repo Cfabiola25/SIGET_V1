@@ -1,0 +1,20 @@
+phpcpd 6.0.3 by Sebastian Bergmann.
+
+Found 4 clones with 63 duplicated lines in 4 files:
+
+  - src/app/Services/v1/BracketService.php:64-85 (21 lines)
+    src/app/Services/v1/BracketService.php:157-178
+
+  - src/app/Http/Controllers/v1/MatchDayController.php:178-196 (18 lines)
+    src/app/Http/Controllers/v1/MatchDayController.php:217-235
+
+  - src/app/Http/Controllers/v1/ScoutingController.php:59-73 (14 lines)
+    src/app/Http/Controllers/v1/ScoutingController.php:103-117
+
+  - src/app/Http/Controllers/v1/MatchController.php:50-60 (10 lines)
+    src/app/Http/Controllers/v1/MatchController.php:116-126
+
+0.74% duplicated lines out of 8533 total lines of code.
+Average size of duplication is 15 lines, largest clone has 21 of lines
+
+Time: 00:00.026, Memory: 8.00 MB

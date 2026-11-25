@@ -1,0 +1,15 @@
+## Salida sin escapar en Blade ({!! !!})
+resources/views/v1/public/matches/show.blade.php:345:                {!! nl2br(e($match->chronicle_body)) !!}
+resources/views/v1/players/carnet-qr.blade.php:41:                {!! $qrSvg !!}
+resources/views/components/reicon.blade.php:16:        {!! $svgContent !!}
+
+## SQL crudo (DB::raw / whereRaw / selectRaw / orderByRaw)
+app/Services/v1/MatchMvpService.php:58:            ->select('player_id', DB::raw('count(*) as votes_count'))
+app/Services/v1/MatchMvpService.php:100:            ->select('player_id', DB::raw('count(*) as total'))
+app/Services/v1/BracketService.php:42:                ->orderByRaw('(goals_for - goals_against) DESC')
+app/Http/Controllers/v1/WidgetController.php:25:            ->orderByRaw('(goals_for - goals_against) desc')
+app/Http/Controllers/v1/PublicController.php:116:                ->selectRaw('player_id, count(*) as goals')
+
+## Modelos sin protección de asignación masiva ($guarded = [])
+
+## Secretos codificados en el código
