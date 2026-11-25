@@ -71,7 +71,7 @@ class PlayerProfileController extends Controller
         );
 
         if ($request->filled('redirect_to')) {
-            return redirect($request->input('redirect_to'))
+            return $this->redirectToInternalOr($request->input('redirect_to'), route('players.cromo', $player))
                 ->with('status', "Ficha médica de {$player->name} actualizada exitosamente.");
         }
 
@@ -105,7 +105,7 @@ class PlayerProfileController extends Controller
         );
 
         if ($request->filled('redirect_to')) {
-            return redirect($request->input('redirect_to'))
+            return $this->redirectToInternalOr($request->input('redirect_to'), route('players.cromo', $player))
                 ->with('status', "Perfil deportivo de {$player->name} actualizado correctamente.");
         }
 

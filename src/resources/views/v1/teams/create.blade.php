@@ -115,8 +115,8 @@
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <div>
                             <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Contraseña de Acceso</label>
-                            <input type="text" name="coach_password" value="{{ old('coach_password', 'password') }}" placeholder="Mínimo 6 caracteres" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
-                            <span class="text-[10px] text-slate-500">Predeterminada: password</span>
+                            <input type="text" name="coach_password" value="{{ old('coach_password') }}" placeholder="Mínimo 8 caracteres" autocomplete="new-password" class="w-full px-3 py-2 text-xs bg-white border border-slate-300 rounded-lg focus:border-[#1e3a8a]">
+                            <span class="text-[10px] text-slate-500">Si se deja vacía se genera una clave aleatoria segura</span>
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold text-slate-700 uppercase tracking-wider mb-1">Teléfono / WhatsApp (Opcional)</label>

@@ -8,11 +8,10 @@ use App\Models\v1\DisciplinarySanction;
 use App\Models\v1\MatchGame;
 use App\Models\v1\Player;
 use App\Models\v1\Team;
-use App\Models\v1\TeamInvitation;
 use App\Models\v1\Tournament;
+use App\Services\v1\TeamDirectorAssignmentService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\View\View;
 
 class TeamController extends Controller
@@ -140,14 +139,11 @@ class TeamController extends Controller
         ]);
     }
 
-    public function store(Request $request): RedirectResponse
+    public function store(Request $request, TeamDirectorAssignmentService $directors): RedirectResponse
     {
-        abort_unless($request->user()->canRegisterTeams(), 403);
-
         $user = $request->user();
-        if ($user && $user->isAdmin() && ! $user->hasManagedTournaments()) {
-            abort(403, 'No tienes torneos asignados para registrar equipos.');
-        }
+        abort_unless($user->canRegisterTeams(), 403);
+        abort_if($user->isAdmin() && ! $user->hasManagedTournaments(), 403, 'No tienes torneos asignados para registrar equipos.');
 
         $data = $request->validate([
             'tournament_id' => ['required', 'exists:tournaments,id'],
@@ -159,86 +155,27 @@ class TeamController extends Controller
             'coach_name' => ['nullable', 'string', 'max:255'],
             'coach_email' => ['nullable', 'email', 'max:255'],
             'coach_phone' => ['nullable', 'string', 'max:30'],
-            'coach_password' => ['nullable', 'string', 'min:4', 'max:100'],
-            'redirect_to' => ['nullable', 'string'],
+            'coach_password' => ['nullable', 'string', 'min:8', 'max:100'],
+            'redirect_to' => ['nullable', 'string', 'max:2048'],
         ]);
 
         $tournament = Tournament::findOrFail($data['tournament_id']);
-        
+
         // El super admin puede en todos los torneos; el admin solo en su respectivo torneo
-        if ($user->isAdmin()) {
-            abort_unless($tournament->admin_id === $user->id, 403, 'No tienes autorización para inscribir equipos en este torneo.');
-        }
+        abort_if($user->isAdmin() && $tournament->admin_id !== $user->id, 403, 'No tienes autorización para inscribir equipos en este torneo.');
 
         $team = Team::create([
-            'tournament_id' => $data['tournament_id'],
+            'tournament_id' => $tournament->id,
             'name' => $data['name'],
             'logo_path' => $data['logo_path'] ?? null,
             'status' => $user->isStaff() ? 'approved' : 'pending',
             'captain_id' => $data['captain_id'] ?? null,
         ]);
 
-        $dtDetails = '';
-        $dtUser = null;
+        $dtDetails = $directors->assign($team, $user, $data);
 
-        // Asignación o creación del Director Técnico directamente
-        if (($data['dt_mode'] ?? 'new') === 'existing' && ! empty($data['existing_dt_id'])) {
-            $dtUser = User::find($data['existing_dt_id']);
-            if ($dtUser) {
-                $team->captain_id = $dtUser->id;
-                $team->save();
-                $dtDetails = " Asignado al DT {$dtUser->name}.";
-            }
-        } elseif (($data['dt_mode'] ?? null) === 'new' && ! empty($data['coach_name']) && ! empty($data['coach_email'])) {
-            $coachEmail = strtolower(trim($data['coach_email']));
-            $dtUser = User::where('email', $coachEmail)->first();
-            $rawPassword = ! empty($data['coach_password']) ? $data['coach_password'] : 'password';
-
-            if (! $dtUser) {
-                $dtUser = User::create([
-                    'name' => trim($data['coach_name']),
-                    'email' => $coachEmail,
-                    'password' => Hash::make($rawPassword),
-                    'role' => 'captain',
-                    'is_active' => true,
-                ]);
-                $dtDetails = " Se creó la cuenta de DT para {$dtUser->name} (Email: {$dtUser->email} / Clave: {$rawPassword}).";
-            } else {
-                if (! $dtUser->isStaff()) {
-                    $dtUser->update(['role' => 'captain']);
-                }
-                $dtDetails = " Asignado al DT {$dtUser->name}.";
-            }
-
-            $team->captain_id = $dtUser->id;
-            $team->save();
-
-            // Guardar invitación oficial compartible por WhatsApp
-            TeamInvitation::createForTeam(
-                team: $team,
-                invitedBy: $user,
-                recipientName: $dtUser->name,
-                recipientEmail: $dtUser->email,
-                recipientPhone: $data['coach_phone'] ?? null,
-            );
-        } elseif (! empty($data['coach_name']) || ! empty($data['coach_email'])) {
-            // Guardar invitación oficial compartible por WhatsApp sin vincular capitán aún
-            TeamInvitation::createForTeam(
-                team: $team,
-                invitedBy: $user,
-                recipientName: $data['coach_name'] ?? 'Director Técnico',
-                recipientEmail: $data['coach_email'] ?? null,
-                recipientPhone: $data['coach_phone'] ?? null,
-            );
-        }
-
-        $successMsg = "Equipo '{$team->name}' inscrito exitosamente en {$tournament->name}.{$dtDetails}";
-
-        if (! empty($data['redirect_to'])) {
-            return redirect($data['redirect_to'])->with('status', $successMsg);
-        }
-
-        return redirect()->route('teams.show', $team)->with('status', $successMsg);
+        return $this->redirectToInternalOr($data['redirect_to'] ?? null, route('teams.show', $team))
+            ->with('status', "Equipo '{$team->name}' inscrito exitosamente en {$tournament->name}.{$dtDetails}");
     }
 
     public function show(Team $team): View
