@@ -4,6 +4,7 @@ namespace App\Http\Requests\v1;
 
 use App\Models\v1\MatchGame;
 use App\Models\v1\Team;
+use App\Models\v1\Tournament;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Carbon;
 use Illuminate\Validation\Validator;
@@ -24,7 +25,7 @@ class StoreMatchRequest extends FormRequest
         if ($user->isAdmin()) {
             $tournamentId = (int) $this->input('tournament_id');
 
-            return \App\Models\v1\Tournament::where('id', $tournamentId)->where('admin_id', $user->id)->exists();
+            return Tournament::where('id', $tournamentId)->where('admin_id', $user->id)->exists();
         }
 
         return false;

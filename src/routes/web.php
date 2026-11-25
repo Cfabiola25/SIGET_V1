@@ -67,7 +67,6 @@ Route::get('/matches/{match}/contingency-sheet', [MatchController::class, 'conti
 // Streaming en Tiempo Real (Server-Sent Events / SSE)
 Route::get('/matches/{match}/stream', [MatchDayController::class, 'stream'])->name('matches.stream')->whereNumber('match');
 
-
 Route::middleware('guest')->group(function (): void {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
     Route::post('/login', [AuthController::class, 'authenticate'])->name('login.authenticate');

@@ -7,6 +7,7 @@ use App\Http\Requests\v1\StoreTournamentRequest;
 use App\Models\User;
 use App\Models\v1\Sport;
 use App\Models\v1\Tournament;
+use App\Models\v1\TournamentRule;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -99,8 +100,8 @@ class SuperAdminController extends Controller
         ]));
 
         // Inicializar reglas oficiales para la modalidad seleccionada
-        $ruleData = \App\Models\v1\TournamentRule::rulesForModality($tournament->sport_type, $tournament->id);
-        \App\Models\v1\TournamentRule::firstOrCreate(['tournament_id' => $tournament->id], $ruleData);
+        $ruleData = TournamentRule::rulesForModality($tournament->sport_type, $tournament->id);
+        TournamentRule::firstOrCreate(['tournament_id' => $tournament->id], $ruleData);
 
         return redirect()->route('super-admin.dashboard')->with('status', 'Torneo creado correctamente.');
     }
@@ -116,7 +117,7 @@ class SuperAdminController extends Controller
             ],
         ])->validate();
 
-        $adminId = !empty($data['admin_id']) ? $data['admin_id'] : null;
+        $adminId = ! empty($data['admin_id']) ? $data['admin_id'] : null;
         $tournament->update(['admin_id' => $adminId]);
 
         $tournament->refresh()->load('admin');

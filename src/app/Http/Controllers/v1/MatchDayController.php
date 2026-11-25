@@ -11,6 +11,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class MatchDayController extends Controller
 {
@@ -182,7 +183,7 @@ class MatchDayController extends Controller
      * Transmisión en Tiempo Real mediante Server-Sent Events (SSE).
      * Alternativa nativa de alto rendimiento sin sobrecarga de WebSockets externos.
      */
-    public function stream(MatchGame $match): \Symfony\Component\HttpFoundation\StreamedResponse
+    public function stream(MatchGame $match): StreamedResponse
     {
         return response()->stream(function () use ($match): void {
             $match->load([

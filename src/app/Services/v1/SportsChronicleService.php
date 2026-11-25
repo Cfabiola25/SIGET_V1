@@ -62,7 +62,6 @@ class SportsChronicleService
         return $this->generateAlgorithmicChronicle($match, $style);
     }
 
-
     /**
      * Motor narrativo algorítmico de alta fidelidad periodística.
      * Analiza el drama táctico, goles, tarjetas, remontadas y MVP.
@@ -251,5 +250,4 @@ class SportsChronicleService
 
         return "{$persona} Redacta una crónica periodística deportiva en español a partir del siguiente reporte de partido: ".json_encode($payload, JSON_UNESCAPED_UNICODE).'. Devuelve un JSON con {"title": "...", "body": "..."}. La crónica debe estructurarse en 4 párrafos que narren el contexto del escenario, los momentos clave y goles, la tensión/disciplina y el impacto del resultado en la tabla de posiciones.';
     }
-
 }
