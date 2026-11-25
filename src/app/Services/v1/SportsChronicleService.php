@@ -103,7 +103,6 @@ class SportsChronicleService
         } elseif ($diff >= 3) {
             $title = "¡Cátedra y Contundencia! {$winner} arrolla a {$loser} ({$homeScore}-{$awayScore}) con una exhibición ofensiva";
         } elseif ($lateGoal) {
-            $scorer = $lateGoal->player?->name ?? 'el artillero';
             $title = "¡Agonía y Gloria en el minuto {$lateGoal->minute}! {$winner} se impone {$homeScore}-{$awayScore} ante {$loser}";
         } else {
             $title = "Golpe de Autoridad: {$winner} se lleva un vibrante triunfo ({$homeScore}-{$awayScore}) frente a {$loser}";

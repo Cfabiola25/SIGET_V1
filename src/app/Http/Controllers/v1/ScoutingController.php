@@ -164,7 +164,7 @@ class ScoutingController extends Controller
     /**
      * Muestra las solicitudes de fichaje recibidas y enviadas.
      */
-    public function recruitmentRequests(Request $request): View|RedirectResponse
+    public function recruitmentRequests(): View|RedirectResponse
     {
         abort_unless(auth()->check(), 403);
         $user = auth()->user();

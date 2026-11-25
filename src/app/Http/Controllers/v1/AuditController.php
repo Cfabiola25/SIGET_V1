@@ -6,11 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\v1\AuditLog;
 use App\Models\v1\MatchEvent;
 use App\Models\v1\MatchGame;
-use Illuminate\Http\Request;
 
 class AuditController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
 

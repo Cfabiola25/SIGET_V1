@@ -61,7 +61,7 @@ class PlayerProfileController extends Controller
             'waiver_signed' => ['required', 'boolean'],
         ]);
 
-        $medical = $player->medicalRecord()->updateOrCreate(
+        $player->medicalRecord()->updateOrCreate(
             ['player_id' => $player->id],
             [
                 ...$validated,

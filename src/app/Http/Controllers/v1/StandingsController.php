@@ -37,7 +37,7 @@ class StandingsController extends Controller
         ]);
     }
 
-    public function adminIndex(Request $request): View|RedirectResponse
+    public function adminIndex(): View|RedirectResponse
     {
         abort_unless(auth()->check() && in_array(auth()->user()->role, ['super_admin', 'admin'], true), 403);
 
